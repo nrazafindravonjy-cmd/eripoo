@@ -193,9 +193,21 @@ Pour chaque enregistrement reçu :
 
 ## 5. Ordre des opérations
 
-- **Cycle** : (1) push des éléments modifiés, (2) pull jusqu'à
-  `head_version`, (3) résolution des conflits et nouveau push, (4) envoi des
-  médias, (5) mise à jour de l'indicateur d'état. Un seul cycle à la fois.
+- **Cycle** (implémenté, `lib/sync/engine/sync_engine.dart`) : (1) **pull**
+  jusqu'à `head_version`, (2) push des éléments modifiés, (3) si le push a
+  rencontré des conflits, nouveau pull puis push de leur résolution, (4)
+  envoi des médias (Phase 4), (5) mise à jour de l'indicateur d'état. Un
+  seul cycle à la fois. *Changement par rapport à la v2 (push d'abord)* :
+  tirer d'abord permet de reconnaître l'écho d'un envoi dont la réponse a
+  été perdue **avant** qu'un nouvel envoi n'écrase `pushed_change_id` ;
+  sinon une modification faite entre-temps aurait produit une copie de
+  conflit inutile (défaut trouvé en écrivant les tests).
+- **Enregistrement illisible** (autre clé, données altérées) ou **format
+  plus récent** que l'app : non appliqué, laissé intact sur le serveur,
+  signalé dans les journaux techniques (sans contenu). Limite actuelle : le
+  curseur avance au-delà ; ces enregistrements seront relus par une
+  resynchronisation complète après mise à jour de l'app ou récupération de
+  la clé (à implémenter en Phase 5).
 - **Ordre d'envoi** : par rang de type (projet → sections → hypothèses →
   expériences → résultats → preuves → décisions → …) puis date de
   modification, pour que les parents précèdent généralement les enfants.
