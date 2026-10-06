@@ -125,4 +125,8 @@ abstract interface class SyncRemote {
   Future<PullPage> pull(String deviceId, int since, {int limit = 200});
   Future<void> setRecoveryWrap(RecoveryWrap wrap);
   Future<RecoveryWrap?> getRecoveryWrap();
+
+  /// Removes another device of the account (lost or stolen phone). Needs
+  /// a recent sign-in ([ReauthenticationRequired] otherwise).
+  Future<void> revokeDevice(String deviceId);
 }

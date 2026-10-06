@@ -9,18 +9,27 @@ import 'sync_remote.dart';
 
 /// [SyncRemote] over Supabase RPC.
 ///
-/// ⚠️ NOT VERIFIED against a running Supabase (no development project yet).
-/// The server side is tested in SQL; the JSON mapping here is unit-tested.
+/// Checked against a running Supabase by the contract tests
+/// (test/contract/, CI job "Supabase local").
 class SupabaseSyncRemote implements SyncRemote {
   SupabaseSyncRemote(this._client);
 
   final SupabaseClient _client;
 
+  static const _invalidInput = {'22023', '23514', '23502', '22P02'};
+
   Future<Object?> _rpc(String name, Map<String, Object?> params) async {
     try {
       return await _client.rpc<Object?>(name, params: params);
     } on PostgrestException catch (e) {
-      throw mapRemoteError(e.message);
+      // 42501: the anonymous role may not call the function (no session).
+      if (e.code == '42501') throw const NotAuthenticated();
+      final failure = mapRemoteError(e.message);
+      // Input refused by a check or a cast: permanent, never retried.
+      if (failure is RemoteUnavailable && _invalidInput.contains(e.code)) {
+        throw const RemoteRejected();
+      }
+      throw failure;
     } on Exception {
       throw const RemoteUnavailable();
     }
@@ -67,6 +76,10 @@ class SupabaseSyncRemote implements SyncRemote {
     'p_kdf_params': wrap.params.toJson(),
     'p_wrapped': base64.encode(wrap.wrapped),
   });
+
+  @override
+  Future<void> revokeDevice(String deviceId) =>
+      _rpc('revoke_device', {'p_device_id': deviceId});
 
   @override
   Future<RecoveryWrap?> getRecoveryWrap() async {

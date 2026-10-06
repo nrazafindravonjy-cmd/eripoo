@@ -45,6 +45,11 @@ class FakeSyncServer {
   FakeSyncRemote clientFor(String ownerId, {String session = 'session-1'}) =>
       FakeSyncRemote(this, ownerId, session);
 
+  /// A client without any session.
+  FakeSyncRemote anonymous() => FakeSyncRemote(this, '', '');
+
+  final _wrapFetches = <String, int>{}; // owner → fetches (no clock: no reset)
+
   int headOf(String owner) => _heads[owner] ?? 0;
 
   Map<String, RemoteRecord> recordsOf(String owner) =>
@@ -55,6 +60,8 @@ class FakeSyncServer {
     final session = _deviceSessions[owner]?[deviceId];
     if (session != null) _revokedSessions.add(session);
   }
+
+  bool isSessionRevoked(String session) => _revokedSessions.contains(session);
 
   String? deviceStatus(String owner, String deviceId) =>
       _devices[owner]?[deviceId];
@@ -82,7 +89,17 @@ class FakeSyncRemote implements SyncRemote {
 
   void _online() {
     if (server.offline) throw const RemoteUnavailable();
+    if (session.isEmpty) throw const NotAuthenticated();
     server._requireSession(session);
+  }
+
+  @override
+  Future<void> revokeDevice(String deviceId) async {
+    _online();
+    if (server._devices[ownerId]?[deviceId] case final status?
+        when status != 'revoked') {
+      server.revoke(ownerId, deviceId);
+    }
   }
 
   @override
@@ -176,12 +193,19 @@ class FakeSyncRemote implements SyncRemote {
   @override
   Future<void> setRecoveryWrap(RecoveryWrap wrap) async {
     _online();
+    if (wrap.params.opsLimit < 2 || wrap.params.memLimit < 32 << 20) {
+      throw const RemoteRejected();
+    }
+    if (wrap.salt.length != 16) throw const RemoteRejected();
     server._wraps[ownerId] = wrap;
   }
 
   @override
   Future<RecoveryWrap?> getRecoveryWrap() async {
     _online();
+    final fetches = server._wrapFetches[ownerId] ?? 0;
+    if (fetches >= 5) throw const RateLimited();
+    server._wrapFetches[ownerId] = fetches + 1;
     return server._wraps[ownerId];
   }
 }
