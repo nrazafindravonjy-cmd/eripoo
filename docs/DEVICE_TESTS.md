@@ -89,6 +89,28 @@ mesure d'Eripoo sur téléphone.
 Défauts trouvés et corrigés grâce à ces émulateurs : voir
 DEVELOPMENT_PLAN, section « Validation Phase 2 ».
 
+## 2bis. Parcours « Ma quête » sur émulateurs (Phase 3)
+
+Test `journey offline` de `integration_test/foundations_test.dart` : base
+chiffrée réelle, pack de contenu lu dans l'APK, toute connexion réseau
+interdite ; bienvenue → diagnostic (2 étapes) → projet nommé → première
+étape du parcours → redémarrage (base refermée puis rouverte). CI run 23
+(commit 7c97b55), **réussi sur les deux émulateurs**.
+
+| Mesure | Android 8.0 (API 26), 1,5 Go réels | Android 14 (API 34), 2,5 Go réels |
+|---|---|---|
+| Lecture et vérification du pack de contenu | 16 ms | 15 ms |
+| Calcul du plan (planificateur) | 9 ms | 7 ms |
+| « Terminer l'étape » → écran suivant affiché (3 étapes) | 411 / 320 / 286 ms | 474 / 581 / 405 ms |
+| Redémarrage → Accueil affiché, parcours repris | 351 ms | 691 ms |
+
+Défaut trouvé et corrigé : sur Android 8, le premier passage (run 22)
+vérifiait l'Accueil avant que la base chiffrée (isolat de fond) ait mis à
+jour l'écran ; le test attend désormais l'écran (au plus 10 s). Pas de
+défaut de l'application : sur Android 14, le même parcours passait déjà.
+Comme au §2, ces temps sont **indicatifs** (émulateur x86_64) ; sur
+appareils A et B : **NON VÉRIFIÉ**.
+
 ## 3. Appareils de référence
 
 | Cat. | Appareil | Android | RAM | Résultats |

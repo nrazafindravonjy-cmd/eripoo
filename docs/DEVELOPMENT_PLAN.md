@@ -167,7 +167,7 @@ développement) sont **reportés à la fin**, ils ne sont pas faits.
 | Missions | ✅ auto | proposée → acceptée → remise → accomplie, abandon confirmé, reprise ; complétion par règle de contenu facultative |
 | Écrans | ✅ auto | bienvenue (langue, mg présélectionné), Accueil (prochaine action, missions en cours), Ma quête (liste, détail), étape générique, mission ; autres onglets : « Pas encore disponible » |
 | Contenu | 🟡 brouillon | diagnostic (8 écrans), 3 quêtes (problème, clients, solution), 2 missions de terrain ; **aucun texte relu par une personne** (voir D14) |
-| Parcours de bout en bout hors ligne | ✅ auto ; ⏳ émulateur | test de widget avec les vrais écrans et le vrai contenu : bienvenue → diagnostic → projet nommé → quête 1 avec mission → quête 2 débloquée → redémarrage, avec interdiction de toute connexion réseau. Même parcours ajouté au test d'intégration Android (base chiffrée réelle) : **résultat à lire dans la CI** |
+| Parcours de bout en bout hors ligne | ✅ auto + émulateur | test de widget avec les vrais écrans et le vrai contenu : bienvenue → diagnostic → projet nommé → quête 1 avec mission → quête 2 débloquée → redémarrage, avec interdiction de toute connexion réseau. Sur émulateurs Android 8 et 14 (base chiffrée réelle, pack lu dans l'APK) : bienvenue → diagnostic → première étape → redémarrage, **réussi sur les deux** (CI run 23, commit 7c97b55). Mesures : DEVICE_TESTS §2bis |
 | Appareils A et B | ❌ NON VÉRIFIÉ | reporté à la fin (décision du porteur) |
 
 Décisions appliquées ou précisées pendant la Phase 3 :
