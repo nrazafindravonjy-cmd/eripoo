@@ -127,9 +127,11 @@ contextuel des champs (visible), puis les libellés lus.
 
 ## 6. Traductions malagasy
 
-Toutes les chaînes d'interface malagasy de cette phase sont des
-**propositions à relire** par un locuteur natif (décision D13), sauf le nom
-et le slogan. Leur statut est suivi dans `lib/l10n/mg_review_status.json` ;
+Aucune traduction actuelle n'est définitive. Trois statuts (détail dans
+[DEVELOPMENT_PLAN P9](DEVELOPMENT_PLAN.md#p9--d13--relecture-native-du-malagasy-)) :
+**validé** (nom et slogan, fournis par le porteur), **proposition à relire
+par un locuteur natif** (toutes les autres chaînes malagasy, mois, jours,
+« ora »), **proposition à valider par le porteur** (textes fr et en). Leur statut est suivi dans `lib/l10n/mg_review_status.json` ;
 un test oblige à y déclarer chaque nouvelle clé. Points d'attention pour la
 relecture : « Ny diako » pour « Ma quête », « Momba ahy » pour « Profil »,
 les noms de mois et de jours, « ora » dans les durées, et le format
