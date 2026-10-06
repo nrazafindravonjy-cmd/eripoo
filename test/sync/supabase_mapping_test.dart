@@ -93,6 +93,26 @@ void main() {
     expect(page.records.single.payload, isNull);
   });
 
+  test('PostgreSQL base64 with line breaks every 76 characters', () {
+    // encode(bytea, 'base64') in PostgreSQL wraps lines (MIME), found by
+    // the contract tests on a real Supabase.
+    final bytes = Uint8List.fromList(List.generate(200, (i) => i));
+    final wrapped = base64
+        .encode(bytes)
+        .replaceAllMapped(RegExp('.{76}'), (m) => '${m[0]}\n');
+    expect(wrapped, contains('\n'));
+    final record = decodeRecord({
+      'id': 'i',
+      'version': 1,
+      'change_id': 'c',
+      'device_id': 'd',
+      'deleted': false,
+      'umk_version': 1,
+      'payload': wrapped,
+    });
+    expect(record.payload, bytes);
+  });
+
   test('server error codes', () {
     expect(mapRemoteError('device_revoked'), isA<DeviceRevoked>());
     expect(mapRemoteError('ERROR: device_unknown'), isA<DeviceUnknown>());

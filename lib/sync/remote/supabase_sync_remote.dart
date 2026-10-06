@@ -89,9 +89,9 @@ class SupabaseSyncRemote implements SyncRemote {
     return RecoveryWrap(
       wrapId: json['wrap_id']! as String,
       umkVersion: json['umk_version']! as int,
-      salt: base64.decode(json['salt']! as String),
+      salt: decodeServerBase64(json['salt']! as String),
       params: KdfParams.fromJson(json['kdf_params']! as Map<String, Object?>),
-      wrapped: base64.decode(json['wrapped']! as String),
+      wrapped: decodeServerBase64(json['wrapped']! as String),
     );
   }
 }
@@ -115,6 +115,11 @@ SyncRemoteFailure mapRemoteError(String message) {
   return const RemoteUnavailable();
 }
 
+/// PostgreSQL's `encode(bytea, 'base64')` inserts a line break every 76
+/// characters (MIME style); Dart's decoder refuses them.
+Uint8List decodeServerBase64(String value) =>
+    base64.decode(value.replaceAll(RegExp(r'\s'), ''));
+
 Map<String, Object?> encodePut(RemotePut put) => {
   'id': put.id,
   'change_id': put.changeId,
@@ -133,9 +138,7 @@ RemoteRecord decodeRecord(Map<String, Object?> json, {String? id}) {
     deviceId: json['device_id']! as String,
     deleted: json['deleted']! as bool,
     umkVersion: (json['umk_version']! as num).toInt(),
-    payload: payload == null
-        ? null
-        : Uint8List.fromList(base64.decode(payload)),
+    payload: payload == null ? null : decodeServerBase64(payload),
   );
 }
 
