@@ -1,0 +1,6 @@
+tags:
+  screenshots:
+    # Visual review captures, not run by default (fonts and pixels differ
+    # between machines). Generate with:
+    #   flutter test --tags screenshots --run-skipped --update-goldens
+    skip: "Captures de revue visuelle : voir docs/DESIGN_SYSTEM.md"

@@ -1,7 +1,3 @@
-import 'package:flutter/widgets.dart';
+import 'bootstrap.dart';
 
-import 'app/app.dart';
-
-void main() {
-  runApp(const EripooApp());
-}
+void main() => bootstrap();

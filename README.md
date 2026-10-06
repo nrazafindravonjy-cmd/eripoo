@@ -6,12 +6,13 @@ Application Android (Flutter) d'accompagnement à la construction de projets
 entrepreneuriaux, pensée pour Madagascar, offline-first, en malagasy,
 français et anglais.
 
-**État : Phase 0 — architecture et fondations.** Aucune fonctionnalité
-produit n'est encore implémentée.
+**État : Phase 1 — design system implémenté, en attente de validation.**
+Aucune fonctionnalité produit n'est encore implémentée.
 
 ## Documentation
 
 - [Architecture technique](docs/ARCHITECTURE.md)
+- [Design system](docs/DESIGN_SYSTEM.md)
 - [Architecture produit (quêtes, missions, hypothèses, contenu)](docs/PRODUCT_ARCHITECTURE.md)
 - [Modèle de données](docs/DATA_MODEL.md)
 - [Offline et synchronisation](docs/OFFLINE_SYNC.md)

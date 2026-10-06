@@ -110,9 +110,7 @@ go_router, Drift (SQLite), Supabase.**
 
 ### 4.3 Thème et design tokens
 
-Phase 1 : tokens (couleur, typo, espacement, rayon, mouvement) via
-`ThemeExtension`, clair/sombre ; aucune couleur littérale dans les widgets
-(vérifié en CI).
+Implémenté en Phase 1 : voir [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
 
 ## 5. Langues : malagasy natif, fr et en
 
@@ -419,14 +417,14 @@ pas une décision.
 ## 16. Dépendances
 
 Résolution vérifiée dans un projet de test le 2026-10-06 (Flutter 3.47.6).
-**Installées aujourd'hui : uniquement `flutter_localizations` et `intl`.**
+**Installées : `flutter_localizations`, `intl` (Phase 0), `flutter_riverpod`, `go_router` (Phase 1).** `mocktail` n'a pas encore été nécessaire et n'est pas installé.
 
 | Paquet | Version | Phase | Justification |
 |---|---|---|---|
 | `flutter_localizations` (SDK) | — | 0 ✅ | Localisations du framework, requis par gen-l10n. |
 | `intl` | 0.20.3 | 0 ✅ | Messages ARB de l'interface et pluriels (règle `mg` présente). **Pas** utilisé pour le contenu ni pour formater les dates `mg`. |
-| `flutter_riverpod` | 3.4.3 | 1 | Imposé ; injection testable, flux réactifs. |
-| `go_router` | 18.0.2 | 1 | Imposé ; shell à onglets, routes par identifiant de contenu. |
+| `flutter_riverpod` | 3.4.3 | 1 ✅ | Imposé ; injection testable, flux réactifs. |
+| `go_router` | 18.0.2 | 1 ✅ | Imposé ; shell à onglets, routes par identifiant de contenu. |
 | `mocktail` (dev) | 1.0.5 | 1 | Doublures de test sans génération de code. |
 | `drift` + `drift_dev` (dev) | 2.35.1 | 2 | Base relationnelle typée, migrations testables, requêtes réactives. |
 | `drift_flutter` | 0.3.1 | 2 | Base ouverte en isolat. |

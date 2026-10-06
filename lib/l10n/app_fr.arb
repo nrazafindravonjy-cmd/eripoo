@@ -7,5 +7,142 @@
   "slogan": "Mihary ho an'ny ho avy.",
   "@slogan": {
     "description": "Slogan officiel, en malagasy dans toutes les langues. Ne pas traduire."
+  },
+  "navHome": "Accueil",
+  "@navHome": {
+    "description": "Onglet principal : accueil."
+  },
+  "navQuest": "Ma quête",
+  "@navQuest": {
+    "description": "Onglet du parcours « Ma quête »."
+  },
+  "navProject": "Projet",
+  "@navProject": {
+    "description": "Onglet du projet de l'utilisateur."
+  },
+  "navTools": "Outils",
+  "@navTools": {
+    "description": "Onglet des outils."
+  },
+  "navProfile": "Profil",
+  "@navProfile": {
+    "description": "Onglet du profil."
+  },
+  "stateLoading": "Un instant…",
+  "@stateLoading": {
+    "description": "Texte affiché pendant un chargement."
+  },
+  "stateErrorTitle": "Un problème est survenu",
+  "@stateErrorTitle": {
+    "description": "Titre d'un état d'erreur."
+  },
+  "stateErrorBody": "Tes données sont en sécurité sur ce téléphone.",
+  "@stateErrorBody": {
+    "description": "Message rassurant sous une erreur."
+  },
+  "stateOffline": "Hors ligne. Ton travail est enregistré sur ce téléphone.",
+  "@stateOffline": {
+    "description": "Bandeau hors ligne : jamais alarmant."
+  },
+  "stateNotYetTitle": "Pas encore disponible",
+  "@stateNotYetTitle": {
+    "description": "Section d'onglet non encore développée (version de développement)."
+  },
+  "stateNotYetBody": "Cette partie sera construite dans une prochaine étape.",
+  "@stateNotYetBody": {
+    "description": "Explication honnête d'une section non encore développée."
+  },
+  "actionRetry": "Réessayer",
+  "@actionRetry": {
+    "description": "Bouton pour réessayer."
+  },
+  "actionCancel": "Annuler",
+  "@actionCancel": {
+    "description": "Bouton d'annulation."
+  },
+  "actionConfirm": "Confirmer",
+  "@actionConfirm": {
+    "description": "Bouton de confirmation."
+  },
+  "actionClose": "Fermer",
+  "@actionClose": {
+    "description": "Bouton de fermeture."
+  },
+  "fieldOptional": "facultatif",
+  "@fieldOptional": {
+    "description": "Mention ajoutée au libellé d'un champ facultatif."
+  },
+  "helpMenu": "Besoin d'aide ?",
+  "@helpMenu": {
+    "description": "Bouton qui ouvre les options d'aide anti-blocage."
+  },
+  "helpDontKnow": "Je ne sais pas",
+  "@helpDontKnow": {
+    "description": "Option d'aide : l'utilisateur ne connaît pas la réponse."
+  },
+  "helpDontUnderstand": "Je ne comprends pas",
+  "@helpDontUnderstand": {
+    "description": "Option d'aide : demande une formulation plus simple."
+  },
+  "helpShowExample": "Voir un exemple",
+  "@helpShowExample": {
+    "description": "Option d'aide : afficher un exemple."
+  },
+  "helpAskHelp": "M'aider",
+  "@helpAskHelp": {
+    "description": "Option d'aide : indices progressifs."
+  },
+  "helpSkipForNow": "Passer pour l'instant",
+  "@helpSkipForNow": {
+    "description": "Option d'aide : passer temporairement."
+  },
+  "helpComeBackLater": "Revenir plus tard",
+  "@helpComeBackLater": {
+    "description": "Option d'aide : revenir plus tard."
+  },
+  "progressValue": "{done} sur {total}",
+  "@progressValue": {
+    "description": "Lecture d'écran d'une progression, ex. « 4 sur 12 ».",
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "stepTrackValue": "Étape {current} sur {total} : {name}",
+  "@stepTrackValue": {
+    "description": "Lecture d'écran d'une suite d'étapes.",
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "badgeEarned": "Badge obtenu : {name}",
+  "@badgeEarned": {
+    "description": "Lecture d'écran d'un badge obtenu.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "badgeLocked": "Badge à obtenir : {name}",
+  "@badgeLocked": {
+    "description": "Lecture d'écran d'un badge pas encore obtenu.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -12,7 +12,7 @@ que selon la Definition of Done du cahier des charges (§56).
 
 | Élément | État |
 |---|---|
-| Documents d'architecture (6 fichiers dans `docs/`) | ✅ v1 et v2 validées dans leur orientation ; **v3 (clarification sécurité) à valider** |
+| Documents d'architecture (6 fichiers dans `docs/`) | ✅ validés (GO Phase 1 donné) |
 | Projet Flutter Android (Flutter 3.47.6, minSdk 24) | ✅ créé — identifiant `mg.eripoo.eripoo` **provisoire** (D6) |
 | Lints stricts | ✅ `flutter analyze` : 0 problème |
 | i18n de l'interface mg/fr/en + repli français des composants Flutter pour `mg` | ✅ testé (4 tests) |
@@ -43,6 +43,25 @@ que selon la Definition of Done du cahier des charges (§56).
   - mises en cohérence : `DATA_MODEL` (enveloppe, `security_events`,
     statut des appareils), `OFFLINE_SYNC`, `ARCHITECTURE` (risques R14–R18),
     renvois entre documents.
+
+## Phase 1 — Design system (implémentée, à valider)
+
+Détail : [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
+
+| Élément | État |
+|---|---|
+| Tokens (couleurs clair/sombre, typographie, espacements, rayons, mise en page, mouvement) | ✅ contraste WCAG AA testé sur chaque paire |
+| Thème Material complet construit depuis les tokens | ✅ |
+| Composants : boutons, cartes, champs, progression, suite d'étapes, badges, dialogues, feuilles, états chargement/erreur/message/hors ligne, aide anti-blocage | ✅ |
+| Mise en page adaptative (barre / rail selon la largeur), colonne de lecture | ✅ y compris tablette en paysage (Android 16) |
+| go_router (5 onglets) + Riverpod + réglages (thème, langue, animations réduites) | ✅ — réglages **en mémoire seulement** jusqu'à la Phase 2 |
+| Logger expurgé (aucune valeur texte libre possible), gestion des erreurs non capturées | ✅ testé avec données sentinelles |
+| `EripooFormatter` mg/fr/en (ariary, dates, durées) | ✅ — noms malagasy à relire |
+| Chaînes d'interface mg/fr/en | ✅ — malagasy **à relire** (statut suivi) |
+| Inventaire des chaînes Material visibles | ✅ DESIGN_SYSTEM §5 |
+| Tests : 92 (unitaires, widgets, matrice 12 variantes × 2 tailles de texte, accessibilité, architecture, traductions) | ✅ tous verts |
+| Test sur appareil de référence | ❌ non fait (pas d'appareil, D11) |
+| Build Android local | ❌ non exécuté (pas de SDK Android) — CI seulement |
 
 ## Phases suivantes
 
@@ -102,12 +121,9 @@ règles) posés en Phase 2.
 
 ## Portes
 
-### Phase 1 — **GO recommandé**
+### Phase 1 — GO donné, implémentée
 
-Aucune décision ouverte ne la bloque : la Phase 1 ne touche ni aux clés, ni
-à la sync, ni à Supabase, ni au contenu. Sans D11 et D13, les tests sur
-appareil réel et la relecture malagasy des libellés resteront signalés comme
-« non vérifiés ».
+En attente de votre validation (voir la section Phase 1 ci-dessus).
 
 ### Phase 2 — conditions
 

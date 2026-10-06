@@ -1,30 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../design_system/design_system.dart';
+import '../features/settings/domain/app_settings.dart';
+import '../features/settings/presentation/app_settings_controller.dart';
 import '../l10n/generated/app_localizations.dart';
 import '../l10n/mg_fallback_localizations.dart';
+import 'router/app_router.dart';
 
-/// Root widget.
-///
-/// Phase 0 bootstrap only: theme tokens (Phase 1), go_router navigation and
-/// the Riverpod ProviderScope (Phase 1/2) are not wired yet. See
-/// docs/DEVELOPMENT_PLAN.md.
-class EripooApp extends StatelessWidget {
-  const EripooApp({super.key, this.locale});
-
-  /// Forced locale (tests, future language setting). Null follows the device.
-  final Locale? locale;
+/// Root widget: theme (light/dark), languages, reduced motion and router.
+class EripooApp extends ConsumerWidget {
+  const EripooApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final settings = ref.watch(appSettingsProvider);
+    final language = settings.language;
+
+    return MaterialApp.router(
+      routerConfig: ref.watch(routerProvider),
       onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-      locale: locale,
+      locale: language == null ? null : Locale(language.name),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [
         AppLocalizations.delegate,
         ...frameworkLocalizationsDelegates,
       ],
-      // Unsupported device locales resolve to French, then the first match.
+      // Until the onboarding language choice exists (Phase 2), an
+      // unsupported device language falls back to French.
       localeResolutionCallback: (deviceLocale, supported) {
         for (final candidate in supported) {
           if (candidate.languageCode == deviceLocale?.languageCode) {
@@ -33,33 +36,22 @@ class EripooApp extends StatelessWidget {
         }
         return const Locale('fr');
       },
-      themeMode: ThemeMode.system,
-      theme: ThemeData(),
-      darkTheme: ThemeData(brightness: Brightness.dark),
-      home: const _BootstrapPlaceholder(),
-    );
-  }
-}
-
-/// Temporary Phase 0 home: shows only the app identity. It is not a product
-/// screen and will be replaced by the router in a later phase.
-class _BootstrapPlaceholder extends StatelessWidget {
-  const _BootstrapPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final textTheme = Theme.of(context).textTheme;
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(l10n.appTitle, style: textTheme.headlineMedium),
-            Text(l10n.slogan, style: textTheme.bodyLarge),
-          ],
-        ),
-      ),
+      themeMode: switch (settings.theme) {
+        ThemePreference.system => ThemeMode.system,
+        ThemePreference.light => ThemeMode.light,
+        ThemePreference.dark => ThemeMode.dark,
+      },
+      theme: EripooTheme.light(),
+      darkTheme: EripooTheme.dark(),
+      // The Eripoo "reduce animations" setting is applied through
+      // MediaQuery so that every widget has a single source of truth.
+      builder: (context, child) {
+        if (!settings.reducedMotion) return child!;
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(disableAnimations: true),
+          child: child!,
+        );
+      },
     );
   }
 }
