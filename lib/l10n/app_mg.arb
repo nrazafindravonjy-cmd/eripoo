@@ -39,5 +39,11 @@
   "lockForgotPinReason": "Hamafiso fa ianao tokoa mba hanesorana ny hidy",
   "lockForgotPinUnavailable": "Tsy misy hidy efijery ity finday ity. Mba hidirana indray, midira amin'ny kaontinao miaraka amin'ny kaody famerenanao.",
   "lockDeleteDigit": "Hamafa isa iray",
-  "lockPinProgress": "Isa {count} voasoratra"
+  "lockPinProgress": "Isa {count} voasoratra",
+  "startupErrorTitle": "Tsy afaka sokafana amin'ity finday ity ny angon-drakitrao",
+  "startupErrorKeysLost": "Tsy hita intsony ny fanalahidy miaro ny angon-drakitrao amin'ity finday ity. Raha manana kaonty ianao, midira indray miaraka amin'ny kaody famerenanao mba hahitana indray izay voatahiry.",
+  "startupErrorGeneric": "Akatony dia sokafy indray ny fampiharana. Raha mbola misy ny olana, mijanona voaaro amin'ity finday ity ny angon-drakitrao.",
+  "startupReset": "Hanomboka indray amin'ity finday ity",
+  "startupResetConfirmTitle": "Hofafana ve ny angon-drakitra ato amin'ity finday ity?",
+  "startupResetConfirmBody": "Ho very izay tsy voatahiry tao amin'ny kaontinao. Azo averina amin'ny kaody famerenana izay voatahiry."
 }

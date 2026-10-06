@@ -213,6 +213,17 @@ Android Keystore : clé AES-256-GCM non exportable (StrongBox si présent)
   sqlite3mc refuse les clés sur les bases en mémoire : les tests métier
   utilisent donc une base en mémoire non chiffrée, le chiffrement étant
   testé séparément sur fichier.
+- `pragma temp_store = memory` : les tables temporaires et les tris
+  restent en mémoire. Le chiffrement des fichiers temporaires par
+  sqlite3mc n'a pas été vérifié ; aucun n'est donc écrit (précaution).
+- Au démarrage (`lib/app/startup/app_services.dart`) : clés chargées ou
+  créées, base ouverte et **interrogée immédiatement** pour qu'une
+  mauvaise clé échoue au lancement, pas au milieu du travail. Base présente
+  mais clés absentes → `LocalKeysLost` : **aucune recréation silencieuse** ;
+  un écran simple l'explique et propose de recommencer sur ce téléphone
+  **après confirmation explicite** (efface la base et les clés locales ; ce
+  qui était synchronisé reste récupérable avec le code de récupération).
+  Toute autre erreur : écran sans action destructive.
 - Médias locaux : chiffrés dès l'enregistrement (§4.7).
 
 ### 4.6 Chiffrement des données synchronisées — format v1

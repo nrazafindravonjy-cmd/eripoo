@@ -40,6 +40,12 @@
     "lockForgotPinReason": "needs_review",
     "lockForgotPinUnavailable": "needs_review",
     "lockDeleteDigit": "needs_review",
-    "lockPinProgress": "needs_review"
+    "lockPinProgress": "needs_review",
+    "startupErrorTitle": "needs_review",
+    "startupErrorKeysLost": "needs_review",
+    "startupErrorGeneric": "needs_review",
+    "startupReset": "needs_review",
+    "startupResetConfirmTitle": "needs_review",
+    "startupResetConfirmBody": "needs_review"
   }
 }

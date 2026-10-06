@@ -28,16 +28,30 @@ void applyDatabaseKey(CommonDatabase db, Uint8List key) {
   } on SqliteException {
     throw const DatabaseKeyMismatch();
   }
+  // Temporary tables and sort spills stay in memory: whether sqlite3mc
+  // encrypts temporary files is not verified, so none are written.
+  db.execute('pragma temp_store = memory');
   db.execute('pragma journal_mode = wal');
   db.execute('pragma foreign_keys = on');
 }
 
-/// Opens the app database file (in the app's private storage), encrypted
-/// with [key], on a background isolate.
-QueryExecutor openAppDatabaseExecutor(Uint8List key) {
+/// Opens the database file at [path] (app private storage), encrypted with
+/// [key], on a background isolate. [tempDirectory] overrides the platform
+/// temporary directory (tests, where no platform plugin exists).
+QueryExecutor openAppDatabaseExecutor(
+  String path,
+  Uint8List key, {
+  String? tempDirectory,
+}) {
   final keyCopy = Uint8List.fromList(key);
   return driftDatabase(
     name: 'eripoo',
-    native: DriftNativeOptions(setup: (db) => applyDatabaseKey(db, keyCopy)),
+    native: DriftNativeOptions(
+      databasePath: () async => path,
+      tempDirectoryPath: tempDirectory == null
+          ? null
+          : () async => tempDirectory,
+      setup: (db) => applyDatabaseKey(db, keyCopy),
+    ),
   );
 }

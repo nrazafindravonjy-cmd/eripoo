@@ -198,5 +198,29 @@
         "type": "String"
       }
     }
+  },
+  "startupErrorTitle": "Impossible d'ouvrir tes données sur ce téléphone",
+  "@startupErrorTitle": {
+    "description": "Titre de l'écran affiché quand la base locale ne peut pas être ouverte."
+  },
+  "startupErrorKeysLost": "La clé qui protège tes données sur ce téléphone a disparu. Si tu as un compte, reconnecte-toi avec ton code de récupération pour retrouver ce qui était sauvegardé.",
+  "@startupErrorKeysLost": {
+    "description": "Explication quand les clés locales sont perdues."
+  },
+  "startupErrorGeneric": "Ferme puis rouvre l'application. Si le problème continue, tes données restent protégées sur ce téléphone.",
+  "@startupErrorGeneric": {
+    "description": "Explication d'une erreur de démarrage inattendue."
+  },
+  "startupReset": "Recommencer sur ce téléphone",
+  "@startupReset": {
+    "description": "Bouton pour effacer les données illisibles et repartir de zéro."
+  },
+  "startupResetConfirmTitle": "Effacer les données de ce téléphone ?",
+  "@startupResetConfirmTitle": {
+    "description": "Titre de confirmation avant effacement."
+  },
+  "startupResetConfirmBody": "Ce qui n'était pas sauvegardé dans ton compte sera perdu. Ce qui était sauvegardé pourra être retrouvé avec ton code de récupération.",
+  "@startupResetConfirmBody": {
+    "description": "Conséquence de l'effacement, dite simplement."
   }
 }

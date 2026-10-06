@@ -39,5 +39,11 @@
   "lockForgotPinReason": "Confirm it's you to turn off the lock",
   "lockForgotPinUnavailable": "This phone has no screen lock. To get back in, sign in to your account again with your recovery code.",
   "lockDeleteDigit": "Delete a digit",
-  "lockPinProgress": "{count} digits entered"
+  "lockPinProgress": "{count} digits entered",
+  "startupErrorTitle": "Your data cannot be opened on this phone",
+  "startupErrorKeysLost": "The key protecting your data on this phone is gone. If you have an account, sign in again with your recovery code to get back what was saved.",
+  "startupErrorGeneric": "Close and reopen the app. If the problem continues, your data stays protected on this phone.",
+  "startupReset": "Start again on this phone",
+  "startupResetConfirmTitle": "Erase the data on this phone?",
+  "startupResetConfirmBody": "Anything not saved to your account will be lost. What was saved can be recovered with your recovery code."
 }
