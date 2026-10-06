@@ -82,6 +82,16 @@ jobs:
             target: default
     steps:
       - uses: actions/checkout@v4
+      # The emulator's data partition needs several GB; the runner's disk
+      # is mostly taken by preinstalled toolchains Eripoo does not use.
+      - name: Free disk space
+        run: |
+          df -h /
+          sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup \
+            /usr/local/share/boost /opt/hostedtoolcache/CodeQL \
+            /usr/local/lib/node_modules /usr/share/swift
+          sudo docker image prune --all --force >/dev/null || true
+          df -h /
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
@@ -107,6 +117,7 @@ jobs:
           arch: x86_64
           target: ${{ matrix.target }}
           ram-size: ${{ matrix.ram }}
+          disk-size: 4096M
           disable-animations: true
           emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
           script: tool/ci_emulator_run.sh
