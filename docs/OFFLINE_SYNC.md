@@ -113,7 +113,8 @@ create index on sync_records (owner_id, version);
 
 devices (
   owner_id uuid references auth.users on delete cascade,
-  id uuid, created_at timestamptz, last_seen_at timestamptz,
+  id uuid, label text, status text check (status in ('pending','active','revoked')),
+  created_at timestamptz, last_seen_at timestamptz,
   app_version text, revoked_at timestamptz,
   primary key (owner_id, id)
 );
@@ -268,7 +269,7 @@ l'historique).
 |---|---|
 | Transitoire (pas de réseau, timeout, 5xx, 429) | réessai |
 | Authentification (401) | rafraîchir la session ; sinon sync suspendue et invitation à se reconnecter, données locales intactes |
-| Appareil révoqué | effacement local des données et des clés (SECURITY §4.10) |
+| Appareil révoqué | effacement local des données et des clés (SECURITY §6.8) |
 | Permanente (400, taille, quota) | élément conservé localement, signalé, rapport d'erreur sans contenu |
 | `schema_version` inconnu (app trop ancienne) | enveloppe conservée telle quelle, non écrasée ; invitation à mettre à jour |
 
@@ -289,12 +290,12 @@ plafonnée (10 Mo proposé) et quota par utilisateur.
 
 - **Invité → compte** : tout est déjà écrit localement et marqué « à
   envoyer » ; à l'inscription, l'UMK existante est enveloppée par la RK
-  (SECURITY §4.6), `sync_heads` est créé, puis push normal. **Rien n'est
+  (SECURITY §4.8 et §5), `sync_heads` est créé, puis push normal. **Rien n'est
   supprimé localement.**
 - **Connexion à un compte qui contient déjà un projet** ⚠️ : les deux jeux de
   données sont conservés côte à côte (deux projets) ; l'utilisateur choisit
   le projet actif. Jamais de fusion automatique.
-- **Nouvel appareil** : déverrouillage (QR ou RK), puis pull complet ; rien
+- **Nouvel appareil** : déverrouillage (double QR, SECURITY §6, ou code de récupération, SECURITY §5), puis pull complet ; rien
   n'est déchiffré avant.
 - **Déconnexion** : si des éléments ne sont pas envoyés, avertissement
   explicite ; ensuite effacement des données locales (téléphones partagés).
@@ -302,7 +303,7 @@ plafonnée (10 Mo proposé) et quota par utilisateur.
 ## 11. Contenu pédagogique
 
 Séparé de la sync utilisateur : manifeste distant, téléchargement des packs
-modifiés, vérification de signature (SECURITY §13), installation atomique,
+modifiés, vérification de signature (SECURITY §15), installation atomique,
 ancienne version conservée en cas d'échec.
 
 ## 12. Pourquoi une synchronisation interne plutôt qu'une solution spécialisée

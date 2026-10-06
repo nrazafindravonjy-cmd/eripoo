@@ -11,7 +11,7 @@ Deux modèles distincts, reliés par le protocole de sync
   classiques.
 
 ⚠️ Cette séparation découle du choix du chiffrement de bout en bout
-([SECURITY §4](SECURITY.md#4-gestion-des-clés--cycle-de-vie-complet)). Si ce choix était
+([SECURITY §4](SECURITY.md#4-schéma-cryptographique-de-bout-en-bout)). Si ce choix était
 refusé, le modèle serveur deviendrait un miroir typé du modèle local (avec
 RLS par table) — changement lourd une fois des données en production.
 
@@ -69,15 +69,24 @@ user_keys (                        -- UMK enveloppée par la clé de récupérat
   user_id        uuid references auth.users on delete cascade,
   wrap_id        uuid not null,
   umk_version    smallint not null,
-  wrap_format    smallint not null,  -- 1 = Argon2id + XChaCha20-Poly1305 (SECURITY §4.6)
+  wrap_format    smallint not null,  -- 1 = Argon2id + XChaCha20-Poly1305 (SECURITY §4.8)
   kdf_salt       bytea not null,
   kdf_params     jsonb not null,     -- opslimit, memlimit
-  wrapped_umk    bytea not null,     -- nonce || chiffré || tag
+  wrapped_umk    bytea not null,     -- 0x01 || nonce || chiffré || tag (SECURITY §4.8)
   created_at     timestamptz not null default now(),
   primary key (user_id, wrap_id)
 )
--- RLS : select pour user_id = auth.uid(). Création / remplacement
--- uniquement via RPC exigeant une réauthentification récente.
+-- RLS : aucune lecture directe ; lecture via RPC get_recovery_wrap (limitée
+-- et notifiée, SECURITY §5.6). Création / remplacement via RPC exigeant une
+-- réauthentification récente. Aucun vérificateur, hachage ou indice du code
+-- de récupération n'est stocké.
+
+security_events (                  -- métadonnées seulement, pour limites et alertes
+  owner_id uuid references auth.users on delete cascade,
+  kind text check (kind in ('recovery_wrap_fetched','recovery_wrap_replaced',
+                            'device_added','device_revoked')),
+  at timestamptz not null default now()
+)                                  -- rétention 90 jours
 
 consents (
   id            uuid primary key,
@@ -88,8 +97,11 @@ consents (
   recorded_at   timestamptz not null default now()
 )                                 -- append-only ; RLS propriétaire
 
-devices (owner_id, id, created_at, last_seen_at, app_version, revoked_at)
-                                  -- détail : OFFLINE_SYNC §3.2 ; pas de modèle d'appareil
+devices (owner_id, id, label, status ('pending','active','revoked'), created_at,
+         last_seen_at, app_version, revoked_at)
+                                  -- détail : OFFLINE_SYNC §3.2 ; libellé choisi par
+                                  -- l'utilisateur, pas de modèle d'appareil ;
+                                  -- 5 appareils actifs max (SECURITY §6.8)
 
 jurisdiction_policies (           -- valeurs à fournir par validation juridique
   code text primary key, min_age int, parental_consent_under int,
@@ -153,7 +165,7 @@ audit_log (id bigserial, actor uuid, action text, target text, at timestamptz)
 
 Aucun rôle n'a de politique sur `sync_records`, `user_keys`, `consents`,
 `profiles` (hors soi-même) ni sur le bucket `user-media`. Voir
-[SECURITY §5](SECURITY.md#5-pourquoi-un-administrateur-ne-peut-pas-déchiffrer).
+[SECURITY §8](SECURITY.md#8-pourquoi-un-administrateur-ne-peut-pas-déchiffrer).
 
 ### 2.6 Analytics
 
@@ -229,7 +241,7 @@ la sync peut amener des états intermédiaires) : critère verrouillé avant
 
 Les fichiers sont stockés dans le répertoire privé de l'application,
 chiffrés avec la sous-clé médias de l'UMK
-([SECURITY §4.5](SECURITY.md#45-médias-photos-audio)).
+([SECURITY §4.7](SECURITY.md#47-médias--format-v1)).
 
 ### 3.6 Contenu (local seulement)
 

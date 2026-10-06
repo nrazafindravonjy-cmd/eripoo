@@ -45,7 +45,7 @@ Principes structurants :
    réseau ; elle observe Drift.
 2. **Les données privées sont chiffrées de bout en bout sur l'appareil**
    avant tout envoi ; le serveur ne détient aucune clé utilisable
-   ([SECURITY §4–5](SECURITY.md#4-gestion-des-clés--cycle-de-vie-complet)).
+   ([SECURITY §4–8](SECURITY.md#4-schéma-cryptographique-de-bout-en-bout)).
 3. **Le parcours est piloté par du contenu**, entièrement séparé du code
    d'interface (§6).
 4. **Pas d'IA au cœur** : progression, déblocages et adaptation sont
@@ -246,7 +246,7 @@ Détail : [OFFLINE_SYNC.md](OFFLINE_SYNC.md).
 
 ## 9. Authentification (résumé)
 
-Détail : [SECURITY §3 et §7](SECURITY.md#3-trois-secrets-distincts).
+Détail : [SECURITY §3, §7 et §10](SECURITY.md#3-trois-secrets-distincts).
 Invité 100 % local ; e-mail/mot de passe, Google, téléphone ; Facebook prévu
 et désactivé ; plusieurs méthodes liées à un compte. **L'authentification
 donne accès au chiffré, pas aux données** : le déchiffrement exige un
@@ -430,10 +430,10 @@ Résolution vérifiée dans un projet de test le 2026-10-06 (Flutter 3.47.6).
 | `mocktail` (dev) | 1.0.5 | 1 | Doublures de test sans génération de code. |
 | `drift` + `drift_dev` (dev) | 2.35.1 | 2 | Base relationnelle typée, migrations testables, requêtes réactives. |
 | `drift_flutter` | 0.3.1 | 2 | Base ouverte en isolat. |
-| `sqlite3` (transitif) | 3.5.2 | 2 | Chiffrement de la base via l'option de hook `source: sqlite3mc`. Ne **pas** ajouter `sqlcipher_flutter_libs` / `sqlite3_flutter_libs` (fin de vie, `+eol`). |
+| `sqlite3` (transitif) | 3.5.2 | 2 | Chiffrement de la base via l'option de hook `source: sqlite3mc` (SQLite3MultipleCiphers 2.5.0, licence MIT vérifiée — SECURITY §18.2). Ne **pas** ajouter `sqlcipher_flutter_libs` / `sqlite3_flutter_libs` (fin de vie, `+eol`). |
 | `build_runner` (dev) | 2.16.1 | 2 | Génération Drift. |
 | `uuid` | 4.6.0 | 2 | UUID v7 (identifiants) et v4 (`change_id`, `device_id`). |
-| `sodium` | 4.1.1+2 | 2 | **libsodium 1.0.22** : AEAD XChaCha20-Poly1305, KDF, Argon2id, sceaux X25519, signatures Ed25519, aléa. Compile libsodium à la construction (hooks). Remplace `cryptography` retenu en v1 (SECURITY §4.0). `sodium_libs` est abandonné au profit de `sodium`. |
+| `sodium` | 4.1.1+2 | 2 | **libsodium 1.0.22** : AEAD XChaCha20-Poly1305, KDF, Argon2id, sceaux X25519, signatures Ed25519, aléa. Compile libsodium à la construction (hooks). Remplace `cryptography` retenu en v1. Analyse de maintenance, licence et remplacement : SECURITY §18.1. `sodium_libs` est abandonné au profit de `sodium`. |
 | `flutter_secure_storage` | 11.2.0 | 2 | UMK, clé de base et session protégées par Android Keystore (option AES-GCM). |
 | `supabase_flutter` | 2.18.0 | 2 | Imposé ; Auth (dont liaison d'identités), RPC, Storage. |
 | `connectivity_plus` | 7.3.2 | 5 | Signal de changement de réseau (jamais une preuve de connexion). |
@@ -462,6 +462,9 @@ appareils), `flutter_local_notifications`, `workmanager`, génération PDF,
 | R10 | Contenu incompatible avec la progression existante | progression cassée | identifiants stables, packs versionnés, migrations de progression |
 | R11 | Téléphone partagé | lecture du projet par un tiers | base chiffrée, verrou applicatif optionnel |
 | R12 | Binding Dart `sodium` maintenu par une seule personne | correctifs lents | interface `CryptoService` étroite ; libsodium lui-même est la référence ; alternative documentée : Tink via canal natif Android |
-| R13 | Argon2id gourmand en mémoire sur 1 Go | échec de récupération | paramètres mesurés sur appareil de référence ; aléa de 128 bits de la RK suffisant même avec des paramètres modestes |
-| R14 | Licence de SQLite3MultipleCiphers non vérifiée | blocage juridique de distribution | vérification avant Phase 2 ; repli : SQLCipher (option `source: sqlcipher` du même hook) |
+| R13 | Argon2id gourmand en mémoire sur 1 Go | échec de récupération | paramètres mesurés sur appareil de référence ; les 116 bits d'aléa du code de récupération suffisent même avec des paramètres modestes (planchers : 2 passes, 32 Mio) |
+| R14 | Licence de SQLite3MultipleCiphers | — | **vérifiée : MIT**, composants permissifs (dont une mention BSD pour SHA-2) ; compatible Play Store ; reste à revérifier l'étiquette exacte livrée (2.5.0) avant Phase 2 (SECURITY §18.2) ; repli : SQLCipher |
 | R15 | Implémentation de l'assemblage cryptographique (mauvaise donnée associée, mauvaise clé) | fuite ou perte | revue de code dédiée, vecteurs de test, revue cryptographique externe avant production |
+| R16 | Appareil autorisé compromis avant que la rotation de clé existe | exposition durable de l'UMK | révocation immédiate ; rotation implémentée avant le lancement public (D17) |
+| R17 | Utilisateurs qui ne conservent pas leur code (36 chiffres) | pertes de données | fiche de secours papier, lecture audio des chiffres, confirmation, rappels, second appareil encouragé ; mesurer en test utilisateur ; option séquestre B si nécessaire |
+| R18 | Binaires natifs téléchargés au build (sqlite3mc) | chaîne d'approvisionnement | empreintes SHA-256 figées dans le paquet ; miroir interne possible (`url_pattern`) |

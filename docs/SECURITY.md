@@ -2,19 +2,31 @@
 
 Principe : **le projet appartient à l'utilisateur.** Le contenu privé d'un
 projet n'est accessible à **personne** chez Eripoo — administrateurs
-Supabase et personnel Eripoo compris — et cela doit être garanti par la
+Supabase et personnel Eripoo compris — et cela est garanti par la
 cryptographie, pas seulement par des règles internes.
 
-Statut : conception (revue Phase 0, v2). Seul élément implémenté :
+Statut : conception (revue Phase 0, v3). Seul élément implémenté :
 désactivation de la sauvegarde Android et du transfert d'appareil pour les
 données de l'app (`allowBackup="false"` + `data_extraction_rules.xml`).
+Les valeurs marquées « à mesurer » seront fixées en Phase 2 sur appareil de
+référence, sans changer le schéma.
 
 ⚠️ Ce document n'est pas un avis juridique. Madagascar dispose d'une loi
 sur la protection des données personnelles (loi n° 2014-038, autorité de
-contrôle : CMIL — voir [ARCHITECTURE §14](ARCHITECTURE.md#14-région-dhébergement-supabase)
-pour les sources). Son application concrète à Eripoo (mineurs, transferts
-hors de Madagascar, déclarations) doit être analysée par un juriste ; aucune
-règle n'en est déduite ici.
+contrôle : CMIL — sources dans
+[ARCHITECTURE §14](ARCHITECTURE.md#14-région-dhébergement-supabase)). Son
+application à Eripoo doit être analysée par un juriste.
+
+Sommaire : [1. Catégories de données](#1-trois-catégories-de-données) ·
+[2. Modèle de menace](#2-modèle-de-menace) ·
+[3. Trois secrets](#3-trois-secrets-distincts) ·
+[4. Schéma cryptographique](#4-schéma-cryptographique-de-bout-en-bout) ·
+[5. Code de récupération](#5-code-de-récupération) ·
+[6. Transfert vers un nouvel appareil](#6-transfert-vers-un-nouvel-appareil-double-qr-hors-ligne) ·
+[7. Scénarios de compte](#7-scénarios-de-compte) ·
+[8. Pourquoi un administrateur ne peut pas déchiffrer](#8-pourquoi-un-administrateur-ne-peut-pas-déchiffrer) ·
+[9–17. Autres mesures](#9-décision-d1d2--niveau-de-garantie) ·
+[18. Dépendances cryptographiques](#18-dépendances-cryptographiques)
 
 ---
 
@@ -22,449 +34,609 @@ règle n'en est déduite ici.
 
 | | **Données privées du projet** | **Métadonnées techniques** | **Analytics** |
 |---|---|---|---|
-| Contenu | tout ce que l'utilisateur produit : réponses, projet et ses sections, historique, hypothèses, expériences, résultats, preuves, décisions, observations, interviews (y compris sur des tiers), photos, audio, transcriptions, finances, documents, profil détaillé (nom affiché, année de naissance), progression, badges | identifiants de compte (e-mail, téléphone ou identité Google), `user_id`, appareils (id aléatoire, dates, version d'app), métadonnées de sync (id aléatoires, numéros de version, indicateur de suppression, taille arrondie, horodatages serveur), dates de création des enveloppes de clé, profil minimal (langue, juridiction, tranche d'âge, statut de consentement parental), consentements, journaux d'infrastructure de la plateforme (IP, horodatage de requête) | événements de produit sans identifiant, propriétés énumérées (identifiants de **contenu public** uniquement), jour, version, langue, cohorte d'installation |
-| Protection | **chiffrées de bout en bout sur l'appareil** avant tout envoi ; base locale chiffrée | RLS (chacun ne voit que les siennes) ; minimisées par conception | anonymes, agrégées, opt-in |
-| Accès du personnel Eripoo | **impossible techniquement** (§5) | **uniquement si nécessaire** (incident, demande de l'utilisateur), réservé au rôle `ops` (2 personnes max, MFA), justifié et journalisé ; jamais exposées dans le back-office | agrégats seulement dans le back-office ; cellules < 10 masquées |
+| Contenu | tout ce que l'utilisateur produit : réponses, projet, historique, hypothèses, expériences, résultats, preuves, décisions, observations, interviews (y compris sur des tiers), photos, audio, transcriptions, finances, documents, profil détaillé, progression, badges | identifiants de compte (e-mail, téléphone, identité Google), `user_id`, appareils (id aléatoire, libellé choisi, dates, version d'app), métadonnées de sync (id aléatoires, versions, indicateur de suppression, taille arrondie, horodatages serveur), paramètres et dates des enveloppes de clé, profil minimal (langue, juridiction, tranche d'âge, statut de consentement parental), consentements, journaux d'infrastructure (IP, horodatage) | événements sans identifiant, propriétés énumérées (identifiants du **contenu public** uniquement), jour, version, langue, cohorte |
+| Protection | **chiffrées de bout en bout sur l'appareil** avant tout envoi ; base locale chiffrée | RLS ; minimisées par conception | anonymes, agrégées, opt-in |
+| Accès du personnel | **impossible techniquement** (§8) | **uniquement si nécessaire** (incident, demande de l'utilisateur), rôle `ops` (2 personnes max, MFA), justifié et journalisé ; jamais dans le back-office | agrégats seulement ; cellules < 10 masquées |
 | Rétention | jusqu'à suppression par l'utilisateur | durée de vie du compte (+ sauvegardes de la plateforme) | brut 90 jours, puis agrégats |
 
-Minimisation des métadonnées : le type d'entité, le projet de rattachement,
-les dates métier et les relations entre éléments sont **dans le chiffré** ;
-les tailles sont arrondies par remplissage (§4.4) ; aucun identifiant n'est
-dérivé de données personnelles.
+## 2. Modèle de menace
 
-## 2. Modèle de menaces
+### 2.1 Contre quoi les données privées sont protégées
 
-| Menace | Mesure principale |
-|---|---|
-| Autre utilisateur tente de lire mes données | RLS + RPC vérifiant `auth.uid()` + chiffrement |
-| **Administrateur Supabase / personnel Eripoo** | chiffrement de bout en bout ; le serveur ne détient aucune clé utilisable (§5) |
-| Fuite ou vol de la base ou des sauvegardes Supabase | uniquement du chiffré + enveloppes nécessitant le code de récupération |
-| Vol de session / prise de contrôle du compte (SIM swap, mot de passe volé) | donne accès au chiffré seulement ; déverrouiller exige un appareil existant ou le code de récupération |
-| Téléphone perdu, volé ou **partagé en famille** | base chiffrée, clés dans Android Keystore, verrou applicatif optionnel, révocation à distance (§4.10) |
-| Copie du stockage du téléphone (sauvegarde, extraction) | clés non exportables du Keystore ; sauvegarde Android désactivée (fait) |
-| Contenu pédagogique falsifié (ex. « envoie ton code de récupération à… ») | packs de contenu **signés** hors ligne, vérifiés par l'app (§13) ; le code de récupération n'est jamais saisi ailleurs que dans l'écran système dédié |
-| Réseau hostile | HTTPS uniquement, trafic en clair interdit |
-| Journaux / rapports de crash qui fuient | logger expurgé, messages d'exception non transmis (§9) |
-| Mise à jour malveillante de l'app | revue de code, CI de release, signature protégée — **limite résiduelle reconnue** (§5.3) |
+| Menace | Résultat | Comment | Limite |
+|---|---|---|---|
+| **Administrateur Supabase** (accès total à la base, au Storage, aux journaux) | ✅ protégé | il n'obtient que du chiffré et une enveloppe protégée par un code de 116 bits (§4, §5) | voit les métadonnées (§1) |
+| **Personnel Eripoo** | ✅ protégé | idem ; aucun outil interne n'expose de données utilisateur | idem |
+| **Fuite de la base ou des sauvegardes** | ✅ protégé | idem ; aucune clé utilisable n'est stockée côté serveur | métadonnées exposées |
+| **Brute-force du code de récupération** | ✅ protégé | 116 bits d'aléa + Argon2id : recherche exhaustive irréalisable (§5.5) ; aucun vérificateur côté serveur | — |
+| **Interception réseau** | ✅ protégé | TLS + contenu déjà chiffré de bout en bout ; transfert de clé entre appareils hors réseau | un observateur voit qu'un téléphone parle à Supabase et le volume échangé |
+| **Téléphone perdu** | ⚠️ partiel | base chiffrée, clés dans le Keystore (copie du stockage inutilisable), révocation à distance (§6.9) | si le téléphone n'a pas de verrouillage d'écran **et** que le verrou Eripoo n'est pas activé, la personne qui le trouve peut ouvrir l'app |
+| **Téléphone volé** | ⚠️ partiel | idem ; le voleur ne reçoit plus aucune donnée nouvelle après révocation | mêmes limites ; un téléphone *rooté* peut affaiblir le Keystore logiciel des appareils sans composant sécurisé |
+| **Appareil secondaire compromis** (logiciel espion sur la tablette autorisée) | ❌ non protégé pour ce qu'il voit | révocation pour couper son accès au serveur | un appareil autorisé détient la clé de données : tant que la rotation de clé (§4.10) n'a pas eu lieu, cette clé reste exposée |
+| **Version malveillante de l'application** | ❌ non protégé | revue de code, releases construites par la CI, clé de signature protégée, `pubspec.lock` commité | l'app voit les données déchiffrées ; aucune cryptographie ne protège contre le code qui les affiche |
+
+### 2.2 Ce que l'architecture NE peut PAS protéger
+
+- Un téléphone **déverrouillé et sans verrou Eripoo** entre de mauvaises mains.
+- Un téléphone infecté (logiciel espion, service d'accessibilité malveillant,
+  capture d'écran à distance).
+- Une version malveillante d'Eripoo, ou une dépendance compromise intégrée
+  à une release.
+- L'utilisateur qui **communique son code de récupération** (contrainte,
+  arnaque, photo partagée).
+- Ce que l'utilisateur **exporte et partage** (PDF envoyé par WhatsApp…).
+- Le texte ou l'audio envoyé **avec son accord** à l'IA ou à la
+  transcription (§13).
+- Les **métadonnées** (§1) : qui a un compte, quand il synchronise, combien
+  de données.
+- La **perte** : si tous les appareils et le code sont perdus, les données
+  en ligne sont irrécupérables (c'est la contrepartie de la garantie).
 
 ## 3. Trois secrets distincts
 
-Ils ne doivent jamais être confondus, ni dérivés l'un de l'autre.
+Jamais confondus, jamais dérivés l'un de l'autre.
 
-| | **Authentification du compte** | **Clé de données (UMK)** | **Clé de récupération (RK)** |
+| | **Authentification du compte** | **Clé de données (UMK)** | **Code de récupération (RK)** |
 |---|---|---|---|
-| Rôle | prouver au serveur « je suis ce compte » ⇒ accès aux enveloppes chiffrées de ce compte (RLS) | chiffrer et déchiffrer tout le contenu privé | permettre de retrouver l'UMK quand aucun appareil n'est disponible |
-| Nature | mot de passe, compte Google ou numéro de téléphone (OTP), gérés par Supabase Auth ; session = jetons | 256 bits aléatoires, une par utilisateur, versionnée (`umk_version`) | 128 bits aléatoires, montrés une fois à l'utilisateur sous forme de code |
-| Où elle vit | Supabase Auth (serveur) ; jetons de session sur l'appareil (stockage sécurisé) | sur chaque appareil autorisé, protégée par le Keystore ; sur le serveur **uniquement enveloppée par la RK** | **chez l'utilisateur uniquement** (papier, photo du QR…) ; jamais stockée par Eripoo ni sur l'appareil |
-| Si elle est perdue | récupérable (réinitialisation, autre méthode liée) | récupérable depuis un autre appareil ou via la RK | régénérable tant qu'un appareil autorisé existe |
-| Si elle est volée | l'attaquant obtient du **chiffré inutilisable** | compromission des données → révoquer, rotation (§4.14) | l'attaquant doit aussi accéder au compte ; régénérer immédiatement |
+| Rôle | prouver au serveur « je suis ce compte » ⇒ accès au **chiffré** de ce compte | chiffrer et déchiffrer tout le contenu privé | retrouver l'UMK quand aucun appareil autorisé n'est disponible |
+| Nature | mot de passe, compte Google ou numéro de téléphone (OTP), gérés par Supabase Auth | 256 bits aléatoires, une par utilisateur | 35 chiffres aléatoires (116 bits) + 1 chiffre de contrôle |
+| Où il vit | Supabase Auth ; jetons de session sur l'appareil (stockage sécurisé) | appareils autorisés (Keystore) ; serveur **seulement enveloppée par la RK** | **chez l'utilisateur uniquement** (papier) |
+| Perdu | récupérable (réinitialisation, autre méthode liée) | récupérable via un appareil ou la RK | régénérable tant qu'un appareil autorisé existe |
+| Volé | l'attaquant obtient du chiffré inutilisable | compromission ⇒ révocation + rotation | inutile sans accès au compte ; régénérer aussitôt |
 
-**Pourquoi la clé de données n'est pas dérivée du mot de passe :** une
-réinitialisation de mot de passe (cas fréquent) détruirait les données ; les
-comptes Google et téléphone n'ont pas de mot de passe ; un mot de passe
-faible affaiblirait le chiffrement ; et le serveur d'authentification verrait
-passer le secret qui protège les données.
+La clé de données n'est **pas** dérivée du mot de passe : une
+réinitialisation détruirait les données, les comptes Google et téléphone
+n'ont pas de mot de passe, un mot de passe faible affaiblirait le
+chiffrement, et le serveur d'authentification verrait passer ce secret.
 
-Secrets auxiliaires, propres à chaque appareil : la **clé du Keystore**
-(non exportable), la **clé de base locale** (DBK) et, ponctuellement, une
-**paire de clés éphémère** de transfert entre appareils.
+## 4. Schéma cryptographique de bout en bout
 
-## 4. Gestion des clés : cycle de vie complet
+### 4.1 Vue d'ensemble
 
-### 4.0 Bibliothèques et primitives — aucune cryptographie maison
+```
+                     ┌──────────── APPAREIL ────────────────────────────────┐
+ CSPRNG ─► UMK (32 o) ┤                                                      │
+                     │  Keystore (AES-GCM non exportable)                   │
+                     │     └─ protège ─► stockage sécurisé : UMK, DBK       │
+                     │                                                      │
+                     │  UMK ─kdf(1,"ERPREC01")─► K_rec ─► enveloppes d'enregistrements ─┐
+                     │  UMK ─kdf(2,"ERPMED01")─► K_med ─► fichiers médias ──────────────┤
+ CSPRNG ─► DBK (32 o) ─► base SQLite chiffrée (sqlite3mc)                     │          │
+                     └──────────────────────────────────────────────────────┘          │
+                                                                                       ▼
+ Utilisateur : RK (35 chiffres) ─Argon2id(sel)─► KEK ─► UMK enveloppée ─►  SERVEUR : chiffré
+                                                                            + UMK enveloppée
+```
+
+### 4.2 Primitives et bibliothèques — aucune cryptographie maison
 
 | Usage | Construction | Bibliothèque |
 |---|---|---|
-| Aléa | `randombytes_buf` (CSPRNG du système) | **libsodium** 1.0.22 via `sodium` 4.1.1+2 (Dart FFI) |
-| Chiffrement authentifié (enregistrements, médias, enveloppes de clé) | `crypto_aead_xchacha20poly1305_ietf` (nonce aléatoire de 192 bits) | libsodium |
-| Sous-clés dérivées de l'UMK | `crypto_kdf_derive_from_key` | libsodium |
-| Dérivation de la clé d'enveloppe depuis la RK | `crypto_pwhash` (Argon2id) | libsodium (variante « sumo ») |
-| Transfert de clé entre appareils | `crypto_box_seal` (X25519 + XSalsa20-Poly1305) | libsodium |
-| Vérification de signature des packs de contenu | `crypto_sign_verify_detached` (Ed25519) | libsodium |
-| Remplissage (masquer les tailles) | `sodium_pad` / `sodium_unpad` | libsodium |
-| Protection des clés sur l'appareil | clé AES-GCM non exportable d'Android Keystore (StrongBox si disponible) | `flutter_secure_storage` 11.2.0 (code Android vérifié : valeurs chiffrées en AES-GCM par une clé elle-même protégée par le Keystore) |
-| Chiffrement de la base locale | SQLite3MultipleCiphers (chiffrement de page) | `sqlite3` 3.5.2, option de hook `source: sqlite3mc` |
-| Transport | TLS du système | Android / Supabase |
+| Aléa (clés, sels, nonces) | `randombytes_buf` | libsodium 1.0.22 via `sodium` 4.1.1+2 |
+| Chiffres aléatoires uniformes (RK) | `randombytes_uniform(10)` (sans biais modulo) | libsodium |
+| Chiffrement authentifié | `crypto_aead_xchacha20poly1305_ietf` (nonce aléatoire de 192 bits) | libsodium |
+| Sous-clés | `crypto_kdf_derive_from_key` | libsodium |
+| Code → clé | `crypto_pwhash`, `crypto_pwhash_ALG_ARGON2ID13` | libsodium (variante « sumo ») |
+| Transfert de clé | `crypto_box_keypair`, `crypto_box_seal` / `crypto_box_seal_open` (X25519 + XSalsa20-Poly1305) | libsodium |
+| Empreinte affichée (code de vérification) | `crypto_generichash` (BLAKE2b) | libsodium |
+| Signature des packs de contenu | `crypto_sign_verify_detached` (Ed25519) | libsodium |
+| Remplissage | `sodium_pad` / `sodium_unpad` | libsodium |
+| Clés en mémoire | `SecureKey` (`sodium_malloc` + `sodium_memzero` à la libération) | `sodium` |
+| Protection au repos sur l'appareil | clé AES-GCM non exportable d'Android Keystore (StrongBox si disponible) | `flutter_secure_storage` 11.2.0 |
+| Chiffrement de la base | schéma ChaCha20-Poly1305 de SQLite3MultipleCiphers | `sqlite3` (hook `source: sqlite3mc`) |
+| Transport | TLS | Android / Supabase |
 
-Règles :
+Le seul code propre à Eripoo est l'**assemblage** : quelle clé chiffre
+quoi, avec quelles données associées, dans quel format. Il est revu, couvert
+par des vecteurs de test, et soumis à une revue cryptographique externe
+avant la production. Le chiffre de contrôle de Damm (§5.2) n'est pas de la
+cryptographie : c'est un code de détection d'erreurs de saisie.
 
-- **Aucune primitive, aucun mode, aucun format de flux écrit par Eripoo.**
-  Seules les constructions de haut niveau documentées de libsodium sont
-  utilisées, telles quelles. Le seul code Eripoo est l'assemblage
-  (quelle clé chiffre quoi, avec quelles données associées), revu et testé.
-- Pourquoi libsodium plutôt que `cryptography` (retenu en v1) : une seule
-  bibliothèque C largement auditée et déployée, des API difficiles à mal
-  utiliser, et **XChaCha20-Poly1305**, rapide en logiciel sur les processeurs
-  ARMv7 d'entrée de gamme dépourvus d'accélération AES, avec des nonces
-  aléatoires sans risque de collision. Le paquet Dart `sodium` compile
-  libsodium à la construction (hooks) ; `sodium_libs` est abandonné au profit
-  de `sodium` (vérifié sur pub.dev).
-- Les opérations coûteuses (Argon2id, chiffrement de médias) s'exécutent dans
-  un isolat (`Sodium.runIsolated`).
-- Une revue cryptographique externe de l'assemblage est prévue avant la
-  production (Phase 10).
+### 4.3 Génération exacte des clés
 
-### 4.1 Génération de la clé de données
+Au **premier lancement**, avant tout compte :
 
-- Au **premier lancement**, avant même tout compte : `UMK =
-  randombytes_buf(32)`, `umk_version = 1`. L'invité bénéficie donc dès le
-  départ d'une base chiffrée, et l'inscription n'a qu'à envelopper une clé
-  existante.
-- Au même moment : `DBK = randombytes_buf(32)` (clé de base, propre à
-  l'appareil) et `device_id` (UUID aléatoire).
-- Sous-clés (calculées à l'ouverture, jamais stockées) :
-  `K_rec = kdf(UMK, id=1, ctx="ERPREC01")` pour les enregistrements,
-  `K_med = kdf(UMK, id=2, ctx="ERPMED01")` pour les médias.
+| Valeur | Génération | Usage |
+|---|---|---|
+| `UMK` | `randombytes_buf(32)` | clé de données ; `umk_version = 1` |
+| `DBK` | `randombytes_buf(32)` | clé de la base locale, propre à l'appareil |
+| `device_id` | UUID v4 aléatoire | identité de l'appareil |
 
-### 4.2 Stockage local et Android Keystore
+Sous-clés, recalculées à chaque ouverture et jamais stockées :
+
+```
+K_rec = crypto_kdf_derive_from_key(32, subkey_id = 1, ctx = "ERPREC01", UMK)
+K_med = crypto_kdf_derive_from_key(32, subkey_id = 2, ctx = "ERPMED01", UMK)
+```
+
+L'invité bénéficie donc dès le départ d'une base chiffrée ; l'inscription
+n'a qu'à envelopper une UMK existante (§5.3).
+
+### 4.4 Stockage local et Android Keystore
 
 ```
 Android Keystore : clé AES-256-GCM non exportable (StrongBox si présent)
-        │ protège
-        ▼
-flutter_secure_storage (fichier privé de l'app, exclu des sauvegardes)
-        ├── UMK + umk_version
-        └── DBK
+   └─ protège la clé de stockage de flutter_secure_storage
+         └─ chiffre (AES-GCM) les entrées :
+              "eripoo.umk"  = 0x01 || umk_version (2 o) || UMK (32 o)
+              "eripoo.dbk"  = 0x01 || DBK (32 o)
+              "eripoo.session" = session Supabase (jetons)
 ```
 
-- Les clés du Keystore ne quittent jamais le composant sécurisé du
-  téléphone (TEE ou StrongBox selon le matériel ; sur certains appareils
-  anciens, le Keystore peut n'être que logiciel — limite connue).
-- Une copie du stockage (sauvegarde, extraction par câble) est inutilisable
-  sans le Keystore du même appareil.
-- Le Keystore ne protège pas contre quelqu'un qui **utilise le téléphone
-  déverrouillé** et ouvre l'app : d'où le **verrou applicatif optionnel**
-  (PIN ou biométrie) qui lie l'accès à la clé à une authentification
-  (`setUserAuthenticationRequired`, option prise en charge par
-  `flutter_secure_storage`). Recommandé pour les téléphones partagés.
-- L'UMK n'est en mémoire qu'app ouverte ; elle est effacée de la mémoire
-  quand l'app passe en arrière-plan au-delà d'un délai (si verrou activé).
+- Configuration : `AndroidOptions(keyCipherAlgorithm: AES_GCM_NoPadding)`
+  (algorithme de clé AES du Keystore ; vérifié dans le code Android de
+  `flutter_secure_storage` 11.2.0). Fichier exclu des sauvegardes et du
+  transfert d'appareil (fait).
+- Une copie du stockage (câble, sauvegarde) est inutilisable sans le
+  Keystore du même téléphone. Sur certains appareils anciens, le Keystore
+  n'est que logiciel : protection plus faible face à un téléphone *rooté*.
+- **Verrou Eripoo optionnel** (PIN ou biométrie) : il lie l'accès à ces
+  entrées à une authentification de l'utilisateur
+  (`setUserAuthenticationRequired`, pris en charge par la bibliothèque).
+  Recommandé pour les téléphones partagés. Sans lui, quiconque utilise le
+  téléphone déverrouillé peut ouvrir l'app.
+- En mémoire, UMK et sous-clés sont des `SecureKey` ; elles sont libérées
+  quand l'app reste en arrière-plan au-delà d'un délai (si le verrou est
+  actif).
 
-### 4.3 Chiffrement des données locales
+### 4.5 Chiffrement des données locales
 
-- Toute la base Drift est chiffrée par SQLite3MultipleCiphers avec la DBK
-  (clé brute aléatoire de 256 bits, pas de mot de passe). Le paramétrage
-  exact (algorithme de page, itérations de dérivation inutiles pour une clé
-  aléatoire) sera fixé en Phase 2 d'après la documentation de sqlite3mc et
-  mesuré sur appareil de référence. Licence de sqlite3mc à vérifier.
-- Médias locaux : chiffrés dès l'enregistrement avec `K_med` (§4.5).
-- Fichiers temporaires (export, partage) : supprimés après usage.
+- Toute la base Drift est chiffrée par SQLite3MultipleCiphers (schéma par
+  défaut **ChaCha20-Poly1305**, adapté aux processeurs sans accélération
+  AES) avec la DBK.
+- Le schéma dérive la clé de page par PBKDF2 (64 007 itérations par
+  défaut, paramètre `kdf_iter` réglable — vérifié dans le code source). La
+  DBK étant aléatoire, ces itérations n'apportent pas de sécurité ; leur
+  nombre sera réduit après mesure du temps d'ouverture (Phase 2), sans
+  descendre sous la valeur documentée comme sûre pour une clé aléatoire.
+- Médias locaux : chiffrés dès l'enregistrement (§4.7).
 
-### 4.4 Chiffrement des données synchronisées
+### 4.6 Chiffrement des données synchronisées — format v1
 
-Le chiffrement a lieu **au moment de l'envoi**, pas à l'écriture locale. Une
-enveloppe par enregistrement :
+Chiffrement **au moment de l'envoi**. Une enveloppe par enregistrement :
 
 ```
-enveloppe = format(1 octet = 1) || umk_version (2 octets) || nonce (24 octets)
-            || XChaCha20-Poly1305(K_rec, nonce, clair, AD)
-AD        = "eripoo/rec/1" || owner_id || record_id || umk_version
-clair     = sodium_pad( JSON { type, schema_version, data, deleted_at }, 256 )
+octet 0        format         = 0x01
+octets 1–2     umk_version    (entier non signé, gros-boutiste)
+octets 3–26    nonce          24 octets aléatoires
+octets 27–…    chiffré || tag (16 o)  = XChaCha20-Poly1305(K_rec, nonce, clair, AD)
+
+AD    = "eripoo:rec:v1" || 0x00 || owner_id (16 o) || record_id (16 o) || umk_version (2 o)
+clair = sodium_pad( UTF-8( JSON { "t": type, "s": schema_version,
+                                  "d": données, "x": deleted_at } ), 256 )
 ```
 
-- Les **données associées (AD)** lient le chiffré à son propriétaire et à son
-  identifiant : un chiffré déplacé vers un autre enregistrement ou un autre
-  compte est rejeté au déchiffrement.
-- Le remplissage par blocs de 256 octets masque la longueur exacte des
-  textes.
-- Le serveur ne reçoit jamais `type`, `schema_version` en clair, ni
-  `project_id`, ni dates métier.
+- Les **données associées** (champs de taille fixe) lient le chiffré à son
+  compte et à son identifiant : un chiffré déplacé ou rejoué ailleurs est
+  rejeté au déchiffrement.
+- Le remplissage par blocs de 256 octets masque la longueur des textes.
+- Le serveur ne voit ni le type, ni la version de schéma, ni le projet, ni
+  les dates métier.
 
-### 4.5 Médias (photos, audio)
+### 4.7 Médias — format v1
 
-- Fichier chiffré **en une seule opération** :
-  `XChaCha20-Poly1305(K_med, nonce, fichier, AD = "eripoo/med/1" || owner_id || media_id)`.
-- Pour rester en mémoire bornée sans inventer de format de flux, la taille
-  d'un média est plafonnée (proposition : 10 Mo — photos redimensionnées,
-  audio mono ~32 kbit/s ≈ 20 min). Une interview plus longue est enregistrée
-  en plusieurs parties.
+```
+octet 0  format = 0x01 ; octets 1–2 umk_version ; octets 3–26 nonce ;
+reste    XChaCha20-Poly1305(K_med, nonce, fichier, AD)
+AD     = "eripoo:med:v1" || 0x00 || owner_id || media_id || umk_version
+```
 
-### 4.6 Mécanisme de récupération
+Chiffrement en une seule opération ; taille plafonnée à 10 Mo (D15) pour
+rester en mémoire bornée sans format de flux maison.
 
-Création, à l'inscription (ou plus tard depuis Profil) :
+### 4.8 Copie serveur de la clé de données — format v1
 
-1. `RK = randombytes_buf(16)`.
-2. Affichage : 26 caractères en base 32 de Crockford (sans caractères
-   ambigus) + 2 caractères de contrôle de saisie, groupés par 4
-   (`K7Q2-9MXA-…`), et un QR imprimable. L'encodage n'est pas de la
-   cryptographie ; il sert à recopier sans erreur.
-3. Confirmation par ressaisie de 2 groupes tirés au hasard.
-4. `KEK = crypto_pwhash(RK, sel aléatoire de 16 octets, Argon2id, paramètres
-   « interactive » à mesurer sur appareil de référence)`. La RK étant
-   aléatoire (128 bits), la force vient de l'aléa ; Argon2id ajoute un coût
-   par essai.
-5. `enveloppe_RK = XChaCha20-Poly1305(KEK, nonce, UMK, AD = "eripoo/wrap/1"
-   || owner_id || wrap_id || umk_version)` → table `user_keys`.
-6. Vérification immédiate : l'app relit l'enveloppe depuis le serveur et la
-   déchiffre avant d'annoncer « code de récupération actif ».
+Seule copie de l'UMK hors des appareils : la table `user_keys`.
 
-Le code n'est jamais stocké sur l'appareil ni envoyé au serveur. Il n'est
-saisi que dans l'écran de déverrouillage de l'app (jamais dans un écran de
-contenu).
+```
+KEK         = crypto_pwhash(32, RK_chiffres, sel, opslimit, memlimit, ARGON2ID13)
+wrapped_umk = 0x01 || nonce (24 o) || XChaCha20-Poly1305(KEK, nonce, UMK, AD)
+AD          = "eripoo:wrap:v1" || 0x00 || owner_id || wrap_id || umk_version
+```
 
-### 4.7 Changement de mot de passe
-
-- **Aucun effet sur le chiffrement**, par construction (§3) : changer ou
-  réinitialiser le mot de passe (par e-mail) ne touche ni l'UMK ni la RK.
-- Après un changement, l'app propose « Déconnecter les autres appareils »
-  (`signOut(scope: others)`, présent dans `gotrue` 2.27.2).
-- Comptes Google / téléphone : pas de mot de passe Eripoo ; même principe.
-
-### 4.8 Changement de téléphone
-
-**Cas 1 — l'ancien téléphone est disponible (recommandé) : transfert par
-double QR, sans passer par le serveur.**
-
-1. Le nouveau téléphone : installation, connexion au compte, choix
-   « Récupérer depuis mon ancien téléphone ». Il génère une paire éphémère
-   (`crypto_box_keypair`) et affiche un QR contenant sa clé publique.
-2. L'ancien téléphone (app déverrouillée) : « Ajouter un appareil » → scanne
-   le QR → l'utilisateur confirme → calcule `crypto_box_seal(UMK ||
-   umk_version, clé_publique)` et l'affiche en QR (≈ 100 octets).
-3. Le nouveau téléphone scanne ce QR, ouvre l'enveloppe avec sa clé privée
-   éphémère, stocke l'UMK dans son Keystore, efface la clé éphémère, puis
-   télécharge et déchiffre les données.
-
-Le serveur ne voit rien de ce transfert. Le sens (nouveau → ancien, puis
-ancien → nouveau) garantit que l'ancien téléphone chiffre pour la clé qu'il
-a lue physiquement.
-
-**Cas 2 — l'ancien téléphone n'est pas disponible :** connexion, puis saisie
-du code de récupération (§4.6, en sens inverse).
-
-Dans les deux cas, le nouvel appareil est enregistré (`devices`). Les
-données non synchronisées restées sur l'ancien téléphone ne sont transférées
-que si celui-ci se synchronise.
-
-### 4.9 Plusieurs appareils
-
-- Chaque appareil autorisé (ex. téléphone + tablette) détient sa propre
-  copie de l'UMK protégée par **son** Keystore ; ajout par §4.8.
-- Plafond proposé : 5 appareils actifs.
-- Liste visible dans Profil (« Téléphone ajouté le … ») avec révocation.
-
-### 4.10 Perte (ou vol) du téléphone
-
-1. Sur un autre appareil autorisé ou un nouveau (récupéré par RK) :
-   « J'ai perdu un appareil » → l'appareil est marqué `revoked_at` et toutes
-   les autres sessions sont fermées (`signOut(scope: others)`).
-2. Les RPC de sync refusent tout appareil révoqué. Si le téléphone perdu se
-   reconnecte un jour, l'app reçoit `device_revoked` et **efface ses
-   données et ses clés locales**.
-3. Ce qui reste exposé, honnêtement : les données déjà présentes sur le
-   téléphone perdu, protégées par le verrouillage d'écran du téléphone, le
-   Keystore, la base chiffrée et le verrou applicatif s'il était activé.
-   Les modifications jamais synchronisées depuis ce téléphone sont perdues.
-4. Si une compromission de l'UMK est suspectée : rotation (§4.14).
-
-### 4.11 Perte du code de récupération
-
-- **Un appareil autorisé existe encore :** « Créer un nouveau code » →
-  réauthentification récente exigée (`reauthenticate()` de Supabase, ou
-  nouvelle connexion) + verrou applicatif s'il est actif → nouvelle RK,
-  nouvelle enveloppe vérifiée, **l'ancienne enveloppe est supprimée
-  immédiatement** (un ancien code retrouvé par un tiers ne doit plus rien
-  ouvrir) → e-mail/SMS de notification « ton code de récupération a
-  changé ».
-- **Aucun appareil et aucun code :** les données en ligne sont
-  **définitivement illisibles**, y compris pour Eripoo. L'utilisateur peut
-  toujours accéder à son compte (§4.12) et choisir « Recommencer » : nouvelle
-  UMK, ancien chiffré supprimé après confirmation explicite. C'est le prix
-  de la garantie « personne d'autre ne peut lire » (décision D2).
-- Prévention : rappel doux tant que le code n'est pas confirmé ;
-  encouragement à ajouter un second appareil ; option de séquestre B
-  (§6) si la perte s'avère fréquente.
-
-### 4.12 Récupération du compte (authentification)
-
-| Situation | Accès au compte | Accès aux données |
+| Paramètre | Valeur prévue | Justification |
 |---|---|---|
-| Mot de passe oublié | réinitialisation par e-mail | inchangé (appareil ou RK) |
-| Numéro de téléphone / SIM perdus | via une autre méthode liée (e-mail, Google) — d'où l'invitation à lier 2 méthodes | inchangé |
-| Toutes les méthodes perdues | procédure manuelle d'identification par le support, limitée à l'accès au compte | le support **ne peut pas** rendre les données : il faut un appareil ou la RK |
+| Algorithme | Argon2id v1.3 | standard (RFC 9106), résistant aux GPU/ASIC |
+| Entrée | les 35 chiffres aléatoires en ASCII, sans séparateurs ni chiffre de contrôle | normalisation unique |
+| `opslimit` | 3 | à mesurer ; plancher 2 |
+| `memlimit` | 64 Mio | supportable sur 1 Go de RAM ; plancher 32 Mio |
+| Parallélisme | 1 (fixé par libsodium) | — |
+| Sel | 16 octets aléatoires (`crypto_pwhash_SALTBYTES`), **nouveau à chaque enveloppe**, stocké en clair | empêche tout précalcul commun à plusieurs comptes ; n'est pas un secret |
+| Durée cible | < 3 s sur appareil de référence | n'intervient qu'à la création, à la vérification et à la récupération |
 
-Conséquence utile : une prise de contrôle du compte par ingénierie sociale
-(y compris auprès du support) n'expose pas le contenu des projets.
+Les paramètres sont stockés avec l'enveloppe (`kdf_params`), ce qui permet
+de les faire évoluer pour les nouvelles enveloppes sans casser les
+anciennes. Le serveur ne stocke **aucun** vérificateur, hachage ou indice
+du code.
 
-### 4.13 Suppression du compte
+### 4.9 Versionnement des formats
 
-1. Depuis l'app, avec réauthentification récente ; avertissement si des
-   données ne sont pas synchronisées ; proposition d'export préalable.
-2. Edge Function `delete-account` (clé `service_role` côté serveur
-   uniquement) : suppression des objets `user-media/{uid}/*`, puis de
-   l'utilisateur Auth (cascade : `sync_records`, `user_keys`, `devices`,
-   `profiles`, `consents`, `sync_heads`), trace minimale dans
-   `deletion_requests`.
-3. Sur l'appareil : effacement de la base, des médias, de l'UMK et de la DBK
-   (Keystore) après confirmation du serveur.
-4. **Effacement cryptographique** : les sauvegardes de la plateforme
-   peuvent conserver du chiffré et des enveloppes pendant leur durée de
-   rétention (à documenter selon le plan Supabase retenu) ; elles restent
-   illisibles sans un appareil ou la RK, qui n'existent plus.
+| Format | Octet de version | Évolution |
+|---|---|---|
+| Enveloppe d'enregistrement | `0x01` | une nouvelle version est lue en parallèle ; réécriture au format courant à la modification suivante |
+| Média | `0x01` | idem |
+| Enveloppe de clé (`user_keys`) | `0x01` + `wrap_format` | nouvelle enveloppe créée au prochain renouvellement du code |
+| Entrée du stockage sécurisé | `0x01` | migration locale au démarrage |
+| QR de transfert | préfixes `ERPT1` / `ERPT2` | une app refuse une version inconnue avec un message clair |
 
-### 4.14 Rotation de l'UMK (prévue dans le format, implémentée plus tard)
+### 4.10 Rotation de l'UMK
 
-`umk_version` figure dans chaque enveloppe dès le départ. Une rotation
-(compromission suspectée) : nouvelle UMK, nouvelle RK, rechiffrement
-progressif de tous les enregistrements, distribution aux appareils restants
-par §4.8, suppression des anciennes enveloppes. Non nécessaire au MVP.
+`umk_version` figure dans chaque format dès la v1. Rotation : nouvelle UMK,
+nouveau code de récupération, rechiffrement progressif des enregistrements
+et médias, distribution aux appareils restants (§6), suppression des
+anciennes enveloppes. **Recommandé : implémentée avant le lancement public
+(Phase 10)**, car c'est la seule réponse à un appareil autorisé compromis
+(D17).
 
-## 5. Pourquoi un administrateur ne peut pas déchiffrer
+## 5. Code de récupération
 
-### 5.1 Inventaire de ce que le serveur détient
+### 5.1 Rôle exact
+
+Le code ne sert **qu'à une chose** : déchiffrer la copie serveur de l'UMK
+quand aucun appareil autorisé n'est disponible. Il ne permet pas de se
+connecter (il faut aussi l'accès au compte), et l'accès au compte ne permet
+pas de déchiffrer (il faut aussi le code ou un appareil).
+
+### 5.2 Format pour l'utilisateur
+
+```
+ 1      2      3      4      5      6      7      8      9
+4829   1730   6654   0912   3388   7015   2246   9581   0637
+```
+
+- **36 chiffres en 9 groupes de 4** : 35 chiffres aléatoires
+  (`randombytes_uniform(10)`) + 1 chiffre de contrôle **de Damm** (détecte
+  toute erreur sur un chiffre et toute inversion de deux chiffres voisins).
+- **Pourquoi des chiffres** : connus de tous, lisibles à voix haute en
+  malagasy, français et anglais, sans confusion entre lettres (l'alphabet
+  malagasy n'utilise pas c, q, u, w, x), familiers (numéros de téléphone,
+  codes de mobile money). Contrepartie : plus long qu'un code alphanumérique
+  (26 caractères pour 128 bits) à sécurité comparable.
+- **Entropie** : 35 × log₂(10) ≈ **116 bits**, au-dessus du niveau de
+  sécurité de 112 bits généralement recommandé pour une protection à long
+  terme.
+
+### 5.3 Création, affichage et sauvegarde
+
+1. Proposée après l'inscription (ou plus tard depuis Profil), avec une
+   explication en une phrase : « Ce code est la seule clé de secours de ton
+   projet. Eripoo ne peut pas le retrouver. »
+2. **Affichage** : grands chiffres à chasse fixe, groupes numérotés,
+   bouton « Écouter » qui lit les chiffres avec des enregistrements audio
+   (0–9) fournis par le contenu (pas de synthèse vocale, peu fiable en
+   malagasy), écran protégé contre les captures (`FLAG_SECURE`).
+3. **Sauvegarde, par ordre de préférence** :
+   - **recopier à la main sur la « fiche de secours Eripoo »** (modèle
+     imprimable ou à recopier sur papier) et la ranger chez soi ;
+   - imprimer la fiche (PDF généré sur l'appareil, contenant aussi un QR du
+     code) ;
+   - confier une copie sous enveloppe à une personne de confiance ;
+   - photo de la fiche : **déconseillée** (les galeries photo sont souvent
+     sauvegardées dans le cloud et les téléphones partagés) ; si
+     l'utilisateur le fait, l'app explique le risque.
+   - L'app **déconseille explicitement** l'envoi par SMS, WhatsApp ou e-mail
+     à soi-même.
+4. **Confirmation** : ressaisie de 2 groupes tirés au hasard (ex. groupes 3
+   et 7) ; puis vérification complète (§5.4) avant d'afficher « Code de
+   secours actif ».
+5. **Rappels** : à 7 jours, 30 jours, puis tous les 6 mois : « As-tu
+   toujours ta fiche de secours ? » avec vérification facultative.
+
+### 5.4 Vérification de validité du code
+
+| Étape | Où | Ce qu'elle établit |
+|---|---|---|
+| 1. Format : 36 chiffres | appareil | saisie complète |
+| 2. Chiffre de contrôle de Damm | appareil, instantané | erreur de frappe probable ⇒ message « un chiffre semble faux » sans calcul coûteux |
+| 3. Argon2id puis déchiffrement authentifié de `wrapped_umk` | appareil | **preuve que le code est le bon** : le tag Poly1305 n'est valide qu'avec la bonne KEK |
+
+Le serveur ne participe pas à la vérification et ne reçoit jamais le code.
+L'appareil conserve une copie locale de l'enveloppe pour les vérifications
+périodiques sans réseau.
+
+### 5.5 Résistance au brute-force hors ligne
+
+- **Constat honnête** : tout système où le serveur garde une copie de la
+  clé protégée par un code permet, en théorie, de tester un code candidat
+  (le tag d'authentification confirme ou non). La protection ne peut donc
+  venir que de l'**impossibilité pratique** de tester assez de codes. C'est
+  pourquoi le serveur ne détient rien d'autre : ni hachage du code, ni
+  chiffre de contrôle, ni indice, ni partie du code.
+- **Ordre de grandeur**, avec une hypothèse très favorable à l'attaquant de
+  10¹⁰ évaluations Argon2id (64 Mio) par seconde : il faut en moyenne
+  2¹¹⁵ ≈ 4 × 10³⁴ essais, soit environ **10¹⁷ années**. Même sans Argon2id,
+  à 10¹⁵ essais par seconde, il faudrait environ 10¹² années.
+- Argon2id est donc une **défense en profondeur**, pas la protection
+  principale : c'est l'aléa du code qui protège.
+- **Pourquoi pas un code court ou un PIN** : un PIN de 6 chiffres (20 bits)
+  serait épuisé en quelques secondes hors ligne. Le protéger exigerait un
+  limiteur de tentatives matériel côté serveur (enclave sécurisée, module
+  matériel), exploité par Eripoo — ce qui contredit l'objectif de ne pas
+  faire confiance à l'opérateur. Décision : **pas de récupération par PIN**.
+
+### 5.6 Limitation des tentatives
+
+La limitation ne peut pas arrêter une attaque hors ligne (couverte par
+§5.5) ; elle limite les attaques en ligne et alerte l'utilisateur.
+
+| Où | Règle |
+|---|---|
+| Téléchargement de l'enveloppe (RPC `get_recovery_wrap`) | session authentifiée exigée ; 5 appels par heure, 20 par jour et par compte ; chaque appel est journalisé (métadonnée) et déclenche une notification « Une récupération a été demandée sur ton compte » (e-mail ou SMS, et sur les appareils autorisés) |
+| Saisie dans l'app | après 5 échecs, délais croissants (30 s, 1 min, 5 min, 15 min) ; le coût d'Argon2id (≈ 1–3 s) ralentit déjà chaque essai |
+| Connexion au compte | limites de débit et CAPTCHA de Supabase Auth |
+| Remplacement de l'enveloppe (RPC `set_recovery_wrap`) | réauthentification récente exigée (mécanisme exact de Supabase à confirmer en Phase 2) ; notification à l'utilisateur |
+
+## 6. Transfert vers un nouvel appareil (double QR hors ligne)
+
+### 6.1 Principe
+
+L'UMK passe de l'ancien appareil (**A**, déjà autorisé) au nouvel appareil
+(**N**) par deux QR codes, téléphones côte à côte. **Rien ne passe par le
+réseau.** Seules des constructions libsodium sont utilisées :
+`crypto_box_keypair`, `crypto_box_seal`, `crypto_box_seal_open`,
+`crypto_generichash`. C'est le même modèle que la liaison d'appareils par QR
+des messageries chiffrées : le canal optique (l'utilisateur tient les deux
+téléphones) est le canal authentifié.
+
+### 6.2 Prérequis
+
+- N est installé et **connecté au même compte** (sinon A refuse).
+- A est autorisé, l'app est déverrouillée, et l'utilisateur confirme son
+  identité localement : verrouillage du téléphone (PIN, schéma, empreinte)
+  s'il existe, sinon verrou Eripoo s'il est activé.
+- Moins de 5 appareils actifs (§6.8).
+
+### 6.3 Déroulé
+
+```
+ N (nouveau)                                      A (ancien, autorisé)
+ ───────────                                      ────────────────────
+ 1. (pk_N, sk_N) = crypto_box_keypair()   [RAM seulement]
+    tid = randombytes_buf(16)
+    V   = 6 chiffres issus de generichash("eripoo:xfer:v1" || tid || pk_N)
+    affiche QR1 + code V
+                         ── QR1 (optique) ──►    2. scanne QR1 (écran « Ajouter un appareil »)
+                                                    vérifie version, compte, limite
+                                                 3. demande : « Tape le code affiché sur
+                                                    ton nouvel appareil » → doit égaler V
+                                                    + « Ajouter « Tablette » ? »
+                                                 4. P = 0x01 || owner_id || umk_version
+                                                        || UMK || tid || device_id_A
+                                                    C = crypto_box_seal(P, pk_N)
+                                                    affiche QR2 (2 min max, FLAG_SECURE)
+                         ◄── QR2 (optique) ──
+ 5. P = crypto_box_seal_open(C, pk_N, sk_N)
+    vérifie : version, owner_id = compte connecté, tid = le sien
+ 6. affiche « Clé reçue de « Téléphone » » → confirmation
+ 7. stocke l'UMK (Keystore), efface sk_N, P
+ 8. vérifie la clé : déchiffre les derniers enregistrements du compte
+ 9. s'enregistre (RPC register_device) ; les autres appareils et l'e-mail
+    du compte reçoivent « Nouvel appareil ajouté »
+```
+
+Formats :
+
+```
+QR1 = "ERPT1:" || base64url( 0x01 || tid (16) || pk_N (32) || device_id_N (16)
+                             || compte_indice (8) || libellé UTF-8 (≤ 24) )
+      compte_indice = generichash(owner_id, 8 octets)  -- évite d'exposer l'id
+
+QR2 = "ERPT2:" || base64url( C )      -- P = 83 octets, C = 83 + 48 = 131 octets
+```
+
+### 6.4 Comment les appareils s'authentifient
+
+| Sens | Mécanisme |
+|---|---|
+| A s'assure de parler à **N** | A lit QR1 **directement sur l'écran de N** ; l'utilisateur tape sur A le code V affiché par N ; l'indice de compte doit correspondre |
+| N s'assure de recevoir **la bonne clé** de **A** | N lit QR2 directement sur l'écran de A ; le contenu contient `tid` (connu seulement de qui a vu QR1) et `owner_id` ; N vérifie enfin que la clé déchiffre bien les données existantes du compte |
+| Le serveur | n'intervient pas dans l'échange ; il enregistre seulement l'appareil |
+
+### 6.5 Protection pendant le transfert et interposition
+
+| Tentative | Résultat |
+|---|---|
+| Photographier QR1 | n'apporte que `pk_N` et `tid` (publics) |
+| Photographier QR2 | inutile : seul `sk_N`, qui n'a jamais quitté la RAM de N, ouvre `C` |
+| Capturer l'écran de A à distance (partage d'écran, capture) | bloqué par `FLAG_SECURE` sur les écrans de transfert et du code |
+| Faire scanner à A un QR1 envoyé par un tiers (hameçonnage : « scanne ce code ») | le scan n'est possible que depuis l'écran « Ajouter un appareil » après confirmation d'identité ; avertissement explicite (« ne scanne que ton propre téléphone, que tu tiens en main ») ; le tiers devrait en plus voir QR2, protégé par `FLAG_SECURE` |
+| Présenter physiquement un faux QR1 à A au bon moment | l'utilisateur doit taper le code de **son** appareil ; un attaquant présent, préparé, qui aurait vu ce code, pourrait en théorie fabriquer une clé correspondante — **risque résiduel accepté**, qui suppose une présence physique au moment exact |
+| Présenter physiquement un faux QR2 à N | N rejette tout contenu dont `tid` ne correspond pas (il faut avoir vu QR1) et toute clé qui ne déchiffre pas les données du compte |
+
+### 6.6 Expiration
+
+Indépendante de l'horloge du téléphone (souvent fausse) :
+
+- `sk_N` n'existe qu'en RAM ; elle est détruite après 5 minutes
+  d'affichage, à l'annulation, au succès, ou si l'app passe en arrière-plan
+  plus de 30 s ou est fermée. Après cela, QR2 devient inexploitable pour
+  toujours.
+- A n'affiche QR2 que 2 minutes et n'en garde aucune copie.
+
+### 6.7 Interruption
+
+| Moment | Effet | Reprise |
+|---|---|---|
+| Avant le scan de QR2 | aucun changement | recommencer |
+| N fermé après le scan, avant stockage | `sk_N` perdue | recommencer avec un nouveau QR1 |
+| UMK stockée, appareil pas encore enregistré | N termine l'enregistrement et la sync au prochain lancement (opérations idempotentes) | automatique |
+| A a annoncé N mais N n'a jamais fini | l'enregistrement en attente expire après 24 h et ne compte pas dans la limite | automatique |
+
+### 6.8 Ajout, révocation, limite
+
+- **Ajout** : par double QR (§6.3) ou par code de récupération (§7).
+  Chaque ajout est notifié aux autres appareils et par e-mail/SMS.
+- **Limite** : 5 appareils actifs (réglable côté serveur) ; au-delà, il
+  faut d'abord en révoquer un.
+- **Révocation** depuis tout appareil autorisé (confirmation d'identité +
+  réauthentification) : `revoked_at` posé, sessions fermées
+  (`signOut(scope: others)` — les autres appareils légitimes devront se
+  reconnecter, sans perte), sync refusée pour l'appareil révoqué, qui efface
+  ses données et ses clés à sa prochaine connexion.
+
+### 6.9 Appareil perdu ou volé
+
+1. Depuis un autre appareil autorisé, ou un nouvel appareil récupéré par le
+   code : « J'ai perdu un appareil » ⇒ révocation (§6.8).
+2. Le voleur n'obtient plus aucune donnée nouvelle.
+3. Les données déjà présentes sur l'appareil restent protégées par son
+   verrouillage d'écran, le Keystore, la base chiffrée et le verrou Eripoo
+   s'il était actif — pas au-delà (§2.2).
+4. Si une compromission de l'UMK est suspectée (téléphone non verrouillé,
+   *rooté*) : rotation (§4.10).
+5. Les modifications jamais synchronisées depuis cet appareil sont perdues.
+
+## 7. Scénarios de compte
+
+| Scénario | Accès au compte | Accès aux données |
+|---|---|---|
+| **Changement de mot de passe** | via Supabase Auth ; option « Déconnecter les autres appareils » | **aucun effet** : UMK et code inchangés |
+| **Mot de passe oublié** | réinitialisation par e-mail | aucun effet ; un appareil ou le code reste nécessaire sur un nouvel appareil |
+| **Authentification Google** | jeton d'identité du SDK Google natif ⇒ `signInWithIdToken` ; pas de mot de passe Eripoo | aucun effet ; Google ne voit aucune clé. Compte Google compromis ⇒ l'attaquant obtient une session, donc du chiffré, et peut demander l'enveloppe (limitée, notifiée) — inutile sans le code |
+| **Authentification téléphone** | OTP par SMS ; changement de numéro via la mise à jour du téléphone du compte (OTP sur le nouveau numéro) | aucun effet. *SIM swap* ⇒ session seulement ; d'où l'invitation à lier une seconde méthode (`linkIdentity`) |
+| **Récupération du compte** (toutes les méthodes perdues) | procédure manuelle d'identification par le support, limitée à l'accès au compte | le support **ne peut pas** rendre les données : il faut un appareil ou le code |
+| **Suppression du compte** | depuis l'app, réauthentification récente, proposition d'export ; Edge Function `delete-account` (suppression des médias, puis de l'utilisateur Auth et en cascade de `sync_records`, `user_keys`, `devices`, `profiles`, `consents`, `sync_heads`) | effacement local de la base, des médias, de l'UMK et de la DBK après confirmation serveur. Les sauvegardes de la plateforme peuvent garder du chiffré pendant leur rétention : illisible sans appareil ni code, qui n'existent plus |
+| **Perte de tous les appareils, code conservé** | connexion sur un nouvel appareil | saisie du code (§5.4) ⇒ UMK ⇒ enregistrement de l'appareil ⇒ téléchargement complet |
+| **Perte de tous les appareils et du code** | compte accessible | **données en ligne définitivement illisibles**, pour tout le monde. Option « Recommencer » : nouvelle UMK, ancien chiffré supprimé après confirmation explicite |
+| **Perte du code, un appareil restant** | — | « Créer un nouveau code » : confirmation d'identité + réauthentification ⇒ nouveau code, nouveau sel, nouvelle enveloppe vérifiée ⇒ **ancienne enveloppe supprimée immédiatement** (un ancien code retrouvé n'ouvre plus rien) ⇒ notification |
+
+## 8. Pourquoi un administrateur ne peut pas déchiffrer
 
 | Élément sur le serveur | Ce qu'il faudrait pour le lire | Où cela se trouve |
 |---|---|---|
-| `sync_records.payload` | `K_rec` ← UMK | uniquement sur les appareils de l'utilisateur |
+| `sync_records.payload` | `K_rec` ← UMK | appareils de l'utilisateur |
 | `user-media` | `K_med` ← UMK | idem |
-| `user_keys` (UMK enveloppée) | RK (128 bits aléatoires + Argon2id) | uniquement chez l'utilisateur |
-| Session / jetons, accès `service_role` | — | donnent accès au chiffré, rien de plus |
-| Code des Edge Functions | — | ne reçoivent jamais de clé ni de contenu (sauf §11, sur consentement) |
-| Transfert entre appareils | — | ne passe pas par le serveur (QR) |
+| `user_keys.wrapped_umk` | le code de récupération (116 bits) | chez l'utilisateur |
+| Sel et paramètres Argon2id | — (publics par conception) | — |
+| Sessions, clé `service_role` | — | donnent accès au chiffré, rien de plus |
+| Edge Functions | — | ne reçoivent jamais de clé ni de contenu (sauf §13, sur consentement) |
+| Transfert entre appareils | — | ne passe pas par le serveur |
 
-Un administrateur Supabase avec tous les droits obtient donc des blobs
-chiffrés, des enveloppes de clé et des métadonnées (§1).
+Couches complémentaires : RLS sans aucune politique pour le personnel sur
+les tables privées (tests pgTAP : 0 ligne lisible par chaque rôle) ;
+back-office sans écran utilisateur ni clé `service_role` ; tableau de bord
+Supabase limité à 2 personnes avec MFA et audit.
 
-### 5.2 Couches complémentaires
-
-1. RLS : aucune politique n'accorde au personnel l'accès à `sync_records`,
-   `user_keys`, `devices`, `consents`, aux `profiles` d'autrui ni au bucket
-   `user-media`. Tests pgTAP : un compte ayant chaque rôle du personnel lit
-   0 ligne.
-2. Back-office sans aucun écran de consultation d'utilisateur ou de projet ;
-   il ne reçoit jamais la clé `service_role`.
-3. `service_role` uniquement dans les secrets des Edge Functions.
-4. Tableau de bord Supabase : 2 personnes max, MFA, journal d'audit.
-
-### 5.3 Limites résiduelles (dites honnêtement)
-
-- **Version malveillante de l'application** : elle pourrait lire les données
-  au moment où elles sont déchiffrées sur l'appareil. Mesures : revue de
-  code obligatoire, releases construites par la CI, clé de signature
-  protégée, `pubspec.lock` commité ; builds reproductibles à étudier.
-- **IA / transcription sur consentement** : le texte ou l'audio envoyé
-  transite en clair par le proxy Eripoo et le fournisseur (§11).
-- **Métadonnées** (§1) : visibles du serveur, minimisées.
-- **Appareil compromis** (logiciel espion, téléphone déverrouillé prêté) :
-  hors de portée d'une application.
-
-## 6. Décision D1/D2 : niveau de garantie
+## 9. Décision D1/D2 : niveau de garantie
 
 | Option | Garantie « le personnel ne peut pas lire » | Risque de perte |
 |---|---|---|
 | **A. E2EE + code de récupération + transfert QR** (recommandée) | technique, forte | réel si appareils et code sont tous perdus |
-| B. A + séquestre à double contrôle (UMK aussi enveloppée par une clé de séquestre conservée hors ligne, scindée entre 2 personnes, utilisée seulement à la demande vérifiée de l'utilisateur) | affaiblie : une collusion interne permettrait la lecture ; à annoncer clairement | faible |
-| C. Pas d'E2EE, RLS seule | organisationnelle seulement — **ne satisfait pas l'exigence** | nul |
+| B. A + séquestre à double contrôle (UMK aussi enveloppée par une clé conservée hors ligne, scindée entre 2 personnes, utilisée seulement à la demande vérifiée de l'utilisateur) | affaiblie : une collusion interne permettrait la lecture ; à annoncer | faible |
+| C. Pas d'E2EE, RLS seule | organisationnelle — **ne satisfait pas l'exigence** | nul |
 
-B s'ajoute plus tard **sans migration** (une enveloppe de plus de la même
-UMK) : commencer par A ne ferme aucune porte.
+B s'ajoute plus tard sans migration (une enveloppe de plus de la même UMK).
 
-## 7. Authentification
+## 10. Authentification
 
 - **Invité local** : aucun compte, aucune requête réseau.
-- **Méthodes MVP** : e-mail + mot de passe (confirmation d'e-mail), Google
-  (SDK natif → `signInWithIdToken`), téléphone (OTP SMS — fournisseur à
-  choisir et tester, risque R4). **Facebook** : présent dans l'énumération
-  des fournisseurs, désactivé par configuration.
-- **Plusieurs méthodes sur un compte** : `linkIdentity`,
-  `linkIdentityWithIdToken`, `unlinkIdentity` (vérifiés dans
-  `supabase_flutter` 2.18.0 / `gotrue` 2.27.2) ; liaison manuelle à activer
-  dans la configuration Auth.
-- **Session** : flux PKCE ; stockée via un `LocalStorage` adossé à
-  `flutter_secure_storage` — **pas** dans SharedPreferences, qui est le
-  comportement par défaut de `supabase_flutter` (vérifié dans le code
-  source).
-- Limitation de débit et CAPTCHA sur inscription et envoi d'OTP.
-- Opérations sensibles (nouveau code de récupération, suppression de
-  compte, révocation d'appareil) : réauthentification récente exigée.
+- **MVP** : e-mail + mot de passe (confirmation d'e-mail), Google (SDK natif
+  → `signInWithIdToken`), téléphone (OTP SMS, fournisseur à tester — R4).
+  **Facebook** prévu dans l'énumération des fournisseurs, désactivé.
+- **Plusieurs méthodes** : `linkIdentity`, `linkIdentityWithIdToken`,
+  `unlinkIdentity` (vérifiés dans `supabase_flutter` 2.18.0 / `gotrue`
+  2.27.2) ; liaison manuelle à activer dans la configuration Auth.
+- **Session** : flux PKCE ; stockée dans `flutter_secure_storage`, **pas**
+  dans SharedPreferences (comportement par défaut de `supabase_flutter`,
+  vérifié dans le code source).
+- Limitation de débit et CAPTCHA sur inscription et OTP.
 
-## 8. Isolation des administrateurs (organisation)
+## 11. Journaux, erreurs, stockage local
 
-Rôles du personnel (`staff_roles`) : `content_editor`, `translator`,
-`content_publisher`, `analyst`, `ops`. Le back-office gère contenu,
-traductions, quêtes, missions, badges, outils, ressources, informations
-administratives, statistiques agrégées et santé technique. Les métadonnées
-techniques (§1) ne sont consultées par `ops` qu'en cas de nécessité,
-directement en base, avec justification consignée dans `audit_log`.
-
-## 9. Journaux, erreurs, stockage local
-
-- **Logger expurgé** : codes d'événement, identifiants techniques, durées.
+- Logger expurgé : codes d'événement, identifiants techniques, durées.
   Interdits : textes saisis, noms, e-mails, téléphones, jetons, clés, codes
-  de récupération, chemins de médias, payloads. Test automatique par
-  « données sentinelles » qui ne doivent apparaître dans aucune sortie.
-- **Rapports d'erreur** : type d'exception + pile + version ; **le message
-  d'exception n'est pas transmis** (il peut contenir une saisie). Envoi via
-  l'Edge Function d'analytics, sans identifiant. Pas de SDK de crash tiers au
-  départ (D8).
-- `print` interdit par lint (en place).
-- Sauvegarde Android et transfert d'appareil désactivés (fait).
+  de récupération, chemins de médias, contenus de QR, payloads. Test par
+  « données sentinelles ».
+- Rapports d'erreur : type + pile + version, **sans le message
+  d'exception**.
+- `print` interdit par lint (en place). Sauvegarde Android désactivée
+  (fait).
 
-## 10. Analytics anonymisés
+## 12. Analytics anonymisés
 
-- Consentement **opt-in** proposé à l'onboarding, modifiable (D7) ;
-  désactivé par défaut pour les mineurs.
-- Aucun identifiant (ni utilisateur, ni appareil, ni publicitaire). Chaque
-  événement : nom, propriétés énumérées, version, langue, **jour**, semaine
-  d'installation, tranche d'ancienneté.
-- Liste blanche d'événements et de propriétés dans le code, revalidée par
-  l'Edge Function. Exemples : `onboarding_completed`,
-  `diagnostic_profile{profile}`, `step_completed{quest_id, step_id}`,
-  `help_used{level}`, `mission_completed{mission_template_id}`,
-  `hypothesis_status_changed{from,to}`, `tool_opened{tool_id}`,
-  `sync_failed{error_code}`, `app_start{cold_ms_bucket}`. Seuls des
-  identifiants du **contenu public** apparaissent.
-- Envoi par lot quotidien. L'Edge Function ne stocke pas l'IP ; la
-  plateforme peut journaliser les IP de requête (à vérifier et à mentionner
-  dans la politique de confidentialité).
-- On mesure des entonnoirs agrégés par cohorte, pas des parcours
-  individuels.
+Opt-in (D7), désactivés par défaut pour les mineurs ; aucun identifiant ;
+liste blanche d'événements et de propriétés (identifiants du contenu public
+uniquement) revalidée par l'Edge Function ; envoi quotidien par lot ;
+l'IP n'est pas stockée par l'Edge Function (la plateforme peut la
+journaliser — à vérifier et à mentionner) ; brut 90 jours puis agrégats.
 
-## 11. IA et services externes
+## 13. IA et services externes
 
-- Implémentation « désactivée » par défaut ; fournisseur remplaçable derrière
-  une Edge Function proxy (clé fournisseur côté serveur).
-- Envoi de texte ou d'audio privé **uniquement après consentement explicite
-  pour cet usage précis**, en montrant ce qui part ; le proxy ne journalise
-  ni ne stocke ; contrat fournisseur excluant l'entraînement (à vérifier au
-  choix du fournisseur). Le texte de consentement dit clairement que ce
-  contenu sort, ponctuellement, de la protection de bout en bout.
+Désactivés par défaut ; fournisseur remplaçable derrière une Edge Function
+proxy ; envoi de contenu privé **uniquement après consentement explicite
+pour cet usage**, en montrant ce qui part, avec mention claire que ce contenu
+sort ponctuellement de la protection de bout en bout ; aucun stockage par le
+proxy ; contrat fournisseur excluant l'entraînement (à vérifier).
 
-## 12. Mineurs
+## 14. Mineurs
 
-- Déclaration d'âge à l'onboarding (année de naissance chiffrée ; seule la
-  tranche `under_min / minor / adult` est connue du serveur).
-- Règles lues depuis `jurisdiction_policies` (âge minimum, seuil de
-  consentement parental, `legal_validated`) ; **aucune valeur dans le
-  code** ; release bloquée tant que `legal_validated = false`.
-- Parcours identique ; analytics et IA désactivés par défaut.
-- Flux de consentement parental conçu après analyse juridique (D12).
+Déclaration d'âge (année de naissance chiffrée ; seule la tranche est
+connue du serveur) ; règles lues depuis `jurisdiction_policies`, **aucune
+valeur dans le code**, release bloquée tant que `legal_validated = false` ;
+parcours identique ; analytics et IA désactivés par défaut ; consentement
+parental conçu après analyse juridique (D12).
 
-## 13. Intégrité du contenu pédagogique
+## 15. Intégrité du contenu pédagogique
 
-- Chaque pack de contenu est signé (Ed25519) par une clé de publication
-  conservée **hors ligne** ; la clé publique est intégrée à l'app ; un pack
-  dont la signature est invalide est refusé.
-- Ainsi, même une compromission de Supabase ne permet pas de pousser du
-  contenu trompeur (par exemple un faux message demandant le code de
-  récupération).
-- Le contenu est de la donnée : le langage de règles n'exécute aucun code.
+Packs signés Ed25519 par une clé de publication conservée **hors ligne** ;
+clé publique intégrée à l'app ; pack à signature invalide refusé. Même une
+compromission de Supabase ne permet pas de pousser du contenu trompeur
+(ex. demander le code de récupération). Le langage de règles n'exécute
+aucun code. Le code de récupération n'est saisi que dans l'écran système
+dédié, jamais dans un écran de contenu.
 
-## 14. Droits de l'utilisateur
+## 16. Droits de l'utilisateur
 
-- **Export** sur l'appareil (JSON + médias, et dossier PDF), sans serveur.
-- **Suppression** d'un élément (corbeille 30 jours puis purge) ou du compte
-  (§4.13).
-- **Consentements** versionnés et révocables.
-- Politique de confidentialité fr/mg/en, à valider juridiquement.
+Export sur l'appareil (JSON + médias, dossier PDF) ; suppression d'un
+élément (corbeille 30 jours puis purge) ou du compte (§7) ; consentements
+versionnés et révocables ; politique de confidentialité fr/mg/en à valider
+juridiquement.
 
-## 15. Validation et durcissement
+## 17. Validation et durcissement
 
-- Client : validation de domaine avant écriture.
-- Serveur : contraintes Postgres, RPC validant taille, versions, appareil,
-  quotas et débit ; Edge Functions validant chaque entrée.
-- Secrets : URL Supabase et clé `anon` (publique par conception) via
-  `--dart-define-from-file` (fichier non commité) ; aucune clé privée dans
-  l'app.
-- Android : trafic en clair interdit explicitement, release obfusquée, pas
-  de WebView exécutant du contenu distant, permissions au moment de l'usage.
+Validation de domaine côté client ; contraintes Postgres et RPC validant
+taille, versions, appareil, quotas et débit ; URL Supabase et clé `anon`
+(publique par conception) via `--dart-define-from-file` non commité ; aucune
+clé privée dans l'app ; trafic en clair interdit ; release obfusquée ;
+permissions au moment de l'usage ; `FLAG_SECURE` sur les écrans du code de
+récupération et du transfert.
+
+## 18. Dépendances cryptographiques
+
+Vérifications faites le 2026-10-06 (pub.dev, code source des paquets dans
+le cache pub, dépôt public de SQLite3MultipleCiphers).
+
+### 18.1 `sodium` (liaison Dart) et libsodium
+
+| Point | Constat |
+|---|---|
+| Version retenue | `sodium` **4.1.1+2** (publiée le 2026-09-29), embarquant **libsodium 1.0.22**. Utiliser la variante « sumo » pour Argon2id. `sodium_libs` est abandonné au profit de `sodium` 4.x. |
+| Maintenance | liaison maintenue principalement par une personne (dépôt `libsodium_dart_bindings`), publications régulières ; libsodium : projet de référence, largement déployé et audité |
+| Dépendances natives | l'archive source de libsodium est **incluse dans le paquet** avec sa signature minisign, vérifiée par l'outil du mainteneur au moment où il l'intègre (pas à chaque build) ; l'intégrité du paquet lui-même est garantie par l'empreinte de `pubspec.lock` ; un *build hook* compile libsodium avec le NDK Android (autotools) à la construction de l'app. Vérification de la signature minisign à ajouter dans notre CI (Phase 2) |
+| Compatibilité Android | architectures `armv7-a`, `arm64` (`armv8-a+crypto`), `x86_64`, `i686` ; API minimale = celle de l'app (24) ; pages de 16 Ko prises en charge (`max-page-size=16384`, exigence Play récente) |
+| Licences | `sodium` : BSD 3-Clause ; libsodium : ISC — permissives, compatibles avec une distribution gratuite sur Play ; mentions à inclure dans l'écran des licences |
+| Risques | dépendance à un mainteneur principal ; build natif plus long et nécessitant le NDK en CI (déjà requis pour Android) ; compilation sous Windows plus délicate (documentée par le paquet) |
+| Remplacement | les formats stockés n'utilisent que des standards (XChaCha20-Poly1305 IETF, Argon2id v1.3, BLAKE2b, Ed25519) : ils restent lisibles par une autre implémentation (ex. paquet `cryptography`, ou bibliothèque native via canal Android). `crypto_box_seal` n'est utilisé que pendant un transfert, sans donnée stockée : remplaçable sans migration. Toute la cryptographie passe par une interface `CryptoService` étroite |
+
+### 18.2 SQLite3MultipleCiphers (via le paquet `sqlite3`)
+
+| Point | Constat |
+|---|---|
+| Version retenue | **SQLite3 Multiple Ciphers 2.5.0** avec **SQLite 3.53.4**, fournis par `sqlite3` 3.5.2 (version imposée par `drift` 2.35.1 ; `sqlite3` 3.7.0 existe). Dernière version amont : 2.5.1 (août 2026) |
+| Maintenance | sqlite3mc : mainteneur principal unique (Ulrich Telle), actif depuis 2020, publications fréquentes ; `sqlite3` (Dart) : mainteneur de `drift`, très lié à notre pile |
+| Dépendances natives | **binaires précompilés** par les mainteneurs de `sqlite3` (GitHub Actions, depuis les sources amont), téléchargés à la construction depuis les releases GitHub et **vérifiés par empreintes SHA-256 figées dans le paquet** ; option `url_pattern` pour servir ces binaires depuis un dépôt interne |
+| Compatibilité Android | binaires `arm`, `arm64`, `ia32`, `x64` pour Android (empreintes vérifiées dans le paquet) |
+| Chiffrement | schéma par défaut ChaCha20-Poly1305 ; dérivation PBKDF2 réglable (`kdf_iter`) |
+| **Licence** | **MIT — vérifiée** (fichier `LICENSE` et déclaration SPDX `PackageLicenseDeclared: MIT` du dépôt). Composants inclus examinés : SQLite (domaine public), implémentations ChaCha20-Poly1305, MD5, SHA-1, miniz (domaine public / Unlicense), fastpbkdf2 (CC0), Rijndael (MIT, d'après un original du domaine public), Ascon (MIT), autres composants sous CC0, Apache 2.0 ou ISC, **SHA-2 d'Olivier Gay sous licence BSD (mention de copyright à reproduire dans les distributions binaires)** |
+| Verdict licence | **compatible avec une distribution gratuite sur le Play Store.** Obligations : afficher les mentions MIT, BSD (SHA-2) et ISC dans l'écran des licences de l'app (enregistrement via `LicenseRegistry` pour les bibliothèques natives) |
+| Reste à faire avant la Phase 2 | la vérification a porté sur la branche principale (2.5.1) : **revérifier l'étiquette exacte 2.5.0 livrée** et faire valider la liste des mentions (case à cocher de la porte de Phase 2) |
+| Risques | mainteneur principal unique ; binaires précompilés téléchargés au build (chaîne d'approvisionnement — atténuée par les empreintes figées) |
+| Remplacement | 1) **SQLCipher Community Edition** par le même mécanisme (`source: sqlcipher`) : licence de type BSD avec mention ; sur Android il embarque OpenSSL (APK plus lourd, licence à vérifier à ce moment) ; 2) pas de chiffrement de base + chiffrement applicatif des champs avec libsodium : plus de code et de fuites de structure, **non recommandé** |
+
+### 18.3 `flutter_secure_storage`
+
+Version 11.2.0 (2026-09-16), BSD 3-Clause ; code Android vérifié (clé
+AES-GCM du Keystore, StrongBox optionnel, authentification utilisateur
+optionnelle). Remplacement possible : petit canal natif Kotlin utilisant
+directement le Keystore (sans changer le format des données stockées par
+Eripoo, qui est versionné).
