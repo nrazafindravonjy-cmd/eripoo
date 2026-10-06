@@ -390,3 +390,26 @@ Côté serveur : 46 assertions SQL (appareils, sync, confidentialité,
 récupération) passent sur PostgreSQL 16 local avec une doublure partielle
 de `auth` ; **pas encore exécutées sur la pile Supabase locale** (Docker et
 CLI Supabase indisponibles dans l'environnement de développement).
+
+### 13.3 Trois serveurs de test et leurs différences
+
+| Aspect | PostgreSQL 16 + `auth` simulé (`run_local.sh --stub`) | Faux serveur Dart (`test/helpers/fake_sync_server.dart`) | Supabase local réel (CI) |
+|---|---|---|---|
+| Ce qui est testé | les fonctions SQL et la RLS, directement | le client (moteur, conflits, fautes réseau) | tout : Auth (GoTrue), PostgREST, rôles, SQL, et le client réel par HTTP |
+| Authentification | tables `auth.users` et `auth.sessions` minimales ; jetons simulés en posant les *claims* à la main (`sub`, `amr`, `session_id`) | chaînes `owner` / `session` sans jeton | vrais comptes (inscription e-mail + mot de passe), vrais JWT |
+| Transport | SQL | appels Dart sur objets en mémoire, **sans JSON** | HTTP + JSON ; octets en base64 |
+| Base64 | — | — | **retours à la ligne tous les 76 caractères** (PostgreSQL) — bug client trouvé ainsi et corrigé |
+| Sans session | `not_authenticated` | `NotAuthenticated` | refus PostgREST `42501` (le rôle anonyme n'a pas le droit d'exécuter) → `NotAuthenticated` |
+| Entrée invalide | erreurs SQL | `RemoteRejected` | codes `22023` / `23514` → `RemoteRejected` |
+| Réauthentification récente (`amr`) | testée, y compris « trop ancienne » | non modélisée (toujours acceptée) | format réel vérifié juste après connexion ; le cas « plus de 10 min » n'est testé qu'en SQL simulé |
+| Limite de récupération de l'enveloppe | réelle (5/h, 20/jour, par l'heure du serveur) | compteur simple sans horloge (5) | réelle |
+| Révocation d'une session | ligne `auth.sessions` supprimée | ensemble de sessions révoquées | session réellement supprimée : son rafraîchissement **échoue** (vérifié) |
+| Concurrence, verrous | réels | aucun (mono-fil) | réels |
+| Pas couvert | Auth, PostgREST, JSON | SQL réel, JSON | Google, téléphone, e-mails réels, région, latence réseau Madagascar |
+
+Règle : un comportement du faux serveur n'est considéré comme fidèle que
+s'il est couvert par la suite de contrat (`test/contract/`) passée sur
+Supabase. Le projet Supabase **de développement en ligne** n'est pas encore
+créé (compte du porteur nécessaire) : la même suite y sera lancée avec
+`ERIPOO_TEST_SUPABASE_ALLOW_REMOTE=dev`.
+
