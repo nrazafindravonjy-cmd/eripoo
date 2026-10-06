@@ -392,13 +392,28 @@ contre Supabase local en CI ; fonctions de résolution testées unitairement.
 | 10 | ✅ testé (invité → compte, puis 2ᵉ téléphone avec le code) — sur petit volume, pas 3 mois de données |
 | 11 | ✅ testé : section reçue avant son projet, conservée sans être affichée, rattachée à l'arrivée du projet |
 | 12 | ✅ testé : enregistrement laissé intact ; **limite** : le curseur avance, une resynchronisation complète après mise à jour reste à faire (Phase 5) |
-| 13 | 🟡 partiel : le moteur s'arrête et signale `DeviceRevoked` ; **l'effacement local n'est pas branché** (pas encore de déclencheur de sync) |
-| 14 | 🟡 partiel : 500 éléments en lots testés (~1,3 s sur machine de développement) ; 5 000 éléments, isolat et appareil 1 Go **NON VÉRIFIÉS** |
+| 13 | ✅ testé (validation Phase 2) : synchronisation refusée, **effacement local réel** (base, WAL, clés, identifiant, session, verrou), redémarrage vide avec nouvel identifiant, ancienne session refusée partout et incapable de se rafraîchir (vérifié sur Supabase local), retour au compte seulement avec le code — `test/sync/revocation_test.dart`, contrat RPC, SQL `15_sessions_test.sql`. **Pas fait** : écran « Mes appareils », message à l'utilisateur après effacement, déclencheur automatique |
+| 14 | ✅ testé avec **5 000 éléments** (`test/sync/volume_test.dart`, base chiffrée réelle sur fichier, coupure à l'envoi, réponse perdue, coupure à la réception) ; mesures §13.2. **Non vérifié** : 5 000 éléments sur téléphone 1 Go et absence de gel d'interface sur appareil (le moteur tourne sur l'isolat principal par petites étapes ; la base est sur un isolat séparé) |
 
-Côté serveur : 46 assertions SQL (appareils, sync, confidentialité,
-récupération) passent sur PostgreSQL 16 local avec une doublure partielle
-de `auth` ; **pas encore exécutées sur la pile Supabase locale** (Docker et
-CLI Supabase indisponibles dans l'environnement de développement).
+Côté serveur : **60 assertions SQL** (appareils, sessions, sync,
+confidentialité, récupération) passent sur PostgreSQL 16 avec `auth`
+simulé **et sur la pile Supabase locale** (CI). Correction : les rapports
+précédents annonçaient 46 assertions, c'était une erreur de comptage
+(il y en avait 52 avant l'ajout des 8 assertions de sessions).
+
+### 13.2 Mesures — 5 000 éléments (machine de CI GitHub, pas un téléphone)
+
+| Mesure | Valeur |
+|---|---|
+| Écriture locale (une transaction par élément, base chiffrée) | 12,7 s (2,54 ms/élément) ; 15,9 s sur la machine de développement |
+| Taille de la base après écriture (après *checkpoint*) | 1 528 Kio ; 1 356 Kio chez le receveur |
+| Envoi, avec 1 coupure avant le serveur et 1 réponse perdue | 14,2 s, 3 cycles, **100 lots de 50, aucun lot renvoyé** |
+| Réception sur un 2ᵉ appareil, coupée après 10 pages | 6,3 s au total, reprise sans perte |
+| Doublons / pertes | aucun : 5 000 enregistrements, version de tête = 5 000, contenus identiques |
+| Mémoire du processus de test | +49 Mio pendant le test ; pic 256 Mio (processus de test entier) |
+
+Le chiffrement des 5 000 enveloppes ne prend que ~1,4 s : l'essentiel du
+temps est l'aller-retour vers la base (isolat séparé).
 
 ### 13.3 Trois serveurs de test et leurs différences
 
