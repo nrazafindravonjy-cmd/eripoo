@@ -120,10 +120,14 @@ void main() {
       r'^(?:sealed |final |abstract )*class (\w+)[^{]*(?:implements Exception|extends \w*(?:Failure|Exception))[^{]*\{',
       multiLine: true,
     );
+    // Content packs hold only authored text, never user input: their
+    // format errors name the faulty path for authors (lib/content).
+    const allowed = {'lib/content/json_reader.dart: ContentFormatException'};
     final offenders = <String>[];
     for (final f in dartFiles('lib')) {
       final source = f.readAsStringSync();
       for (final match in classHeader.allMatches(source)) {
+        if (allowed.contains('${rel(f)}: ${match.group(1)}')) continue;
         final rest = source.substring(match.end);
         final end = rest.indexOf(RegExp(r'^}', multiLine: true));
         final body = end < 0 ? rest : rest.substring(0, end);
