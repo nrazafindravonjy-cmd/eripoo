@@ -5,7 +5,10 @@ observations, les interviews, les hypothèses, les expériences, les documents
 et les réglages fonctionnent sans réseau ; la synchronisation est
 automatique, idempotente et **ne perd jamais de données silencieusement**.
 
-Statut : conception (revue Phase 0, v2). Rien n'est implémenté.
+Statut : conception v2 ; **socle implémenté en Phase 2** (moteur, RPC,
+conflits, migration invité → compte), testé contre un faux serveur et en
+SQL sur PostgreSQL local. **Jamais exécuté contre un vrai projet
+Supabase.** Couverture des scénarios : §13.1.
 
 ## 0. Ce qui a changé depuis la v1 (simplification)
 
@@ -360,3 +363,26 @@ contre Supabase local en CI ; fonctions de résolution testées unitairement.
 | 12 | `schema_version` futur reçu | enveloppe conservée, non écrasée |
 | 13 | Appareil révoqué qui se reconnecte | refus, effacement local |
 | 14 | 5 000 éléments sur appareil 1 Go | sync sans gel de l'interface (isolat) |
+
+### 13.1 Couverture en Phase 2 (`test/sync/sync_engine_test.dart`, `test/features/account/`)
+
+| # | État |
+|---|---|
+| 1–2 | ✅ testé (faux serveur) |
+| 3 | ✅ testé (la version de l'appareil qui résout est gardée, l'autre devient une copie de conflit synchronisée) |
+| 4 | ✅ testé |
+| 5 | ✅ testé, y compris réponse perdue rejouée telle quelle |
+| 6 | ✅ testé |
+| 7 | ✅ testé (moteur recréé à chaque point d'arrêt) |
+| 8 | ✅ testé (idempotence par `change_id`) |
+| 9 | ✅ testé |
+| 10 | ✅ testé (invité → compte, puis 2ᵉ téléphone avec le code) — sur petit volume, pas 3 mois de données |
+| 11 | ✅ testé : section reçue avant son projet, conservée sans être affichée, rattachée à l'arrivée du projet |
+| 12 | ✅ testé : enregistrement laissé intact ; **limite** : le curseur avance, une resynchronisation complète après mise à jour reste à faire (Phase 5) |
+| 13 | 🟡 partiel : le moteur s'arrête et signale `DeviceRevoked` ; **l'effacement local n'est pas branché** (pas encore de déclencheur de sync) |
+| 14 | 🟡 partiel : 500 éléments en lots testés (~1,3 s sur machine de développement) ; 5 000 éléments, isolat et appareil 1 Go **NON VÉRIFIÉS** |
+
+Côté serveur : 46 assertions SQL (appareils, sync, confidentialité,
+récupération) passent sur PostgreSQL 16 local avec une doublure partielle
+de `auth` ; **pas encore exécutées sur la pile Supabase locale** (Docker et
+CLI Supabase indisponibles dans l'environnement de développement).

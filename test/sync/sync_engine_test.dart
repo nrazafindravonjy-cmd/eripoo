@@ -317,6 +317,39 @@ void main() {
   );
 
   test(
+    '11. a section received before its project is kept, then attached',
+    () async {
+      final reader = Device(crypto, server, umk, pullPageSize: 1);
+      addTearDown(reader.close);
+      final p = await a.projects.create('Projet');
+      await a.projects.saveSection(
+        projectId: p.id,
+        sectionKey: 'vision',
+        fields: {'statement': 'Vision'},
+        trackedFields: {'statement'},
+      );
+      await a.sync();
+      // The project gets a newer server version than its section.
+      await a.projects.rename(p.id, 'Projet renommé');
+      await a.sync();
+
+      server.failPullAfter(1);
+      expect((await reader.sync()).complete, isFalse);
+      // Only the section arrived: stored, but no project is shown.
+      expect(await reader.projects.section(p.id, 'vision'), isNotNull);
+      expect(await reader.projects.watchActive().first, isEmpty);
+
+      expect((await reader.sync()).complete, isTrue);
+      final projects = await reader.projects.watchActive().first;
+      expect(projects.single.title, 'Projet renommé');
+      expect(
+        (await reader.projects.section(p.id, 'vision'))!.fields['statement'],
+        'Vision',
+      );
+    },
+  );
+
+  test(
     '12. records written by a newer app version are left untouched',
     () async {
       await a.sync(); // registers A

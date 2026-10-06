@@ -63,6 +63,53 @@ Détail : [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
 | Test sur appareil de référence | ❌ non fait (pas d'appareil, D11) |
 | Build Android | ❌ jamais exécuté : pas de SDK Android ici, et la CI ne tourne que sur pull request ou `main` |
 
+## Phase 2 — Socle sécurité, données et synchronisation (EN COURS, implémentation terminée, non acceptée)
+
+Les 11 étapes dans l'ordre imposé. « Testé » veut dire testé
+automatiquement **sur la machine de développement** (aucun téléphone,
+aucun vrai projet Supabase).
+
+| # | Étape | État | Détail |
+|---|---|---|---|
+| 1 | Stockage local | ✅ testé | Drift, base dans le stockage privé de l'app ; ouverte au démarrage |
+| 2 | Chiffrement local | ✅ testé | SQLite3MultipleCiphers 2.5.0, ChaCha20-Poly1305, clé brute `raw:` ; fichier sans en-tête SQLite ni texte clair ; mauvaise clé refusée ; fichiers temporaires en mémoire (SECURITY §4.5) |
+| 3 | Gestion des clés | ✅ testé | libsodium ; UMK et DBK aléatoires dans le Keystore (`resetOnError: false`) ; enveloppes v1 ; code de récupération 36 chiffres (Damm) + Argon2id ; clés perdues → écran simple, aucune recréation silencieuse |
+| 4 | Verrou applicatif | ✅ testé | facultatif, PIN (Argon2id, vérificateur seulement) + biométrie + délai ; attentes croissantes, pas d'effacement ; PIN oublié → authentification du téléphone. Le PIN ne protège ni ne dérive aucune clé (D4) |
+| 5 | Modèle de données local | ✅ testé | profil, faits, projets, sections, historique, progression, copies de conflit, `sync_meta` ; marquage atomique ; identifiants déterministes. **Schéma v1 non figé** |
+| 6 | Authentification | 🟡 code + tests unitaires | e-mail / mot de passe via Supabase ; session dans le Keystore. **Jamais exécutée contre un serveur.** Google et téléphone : non faits |
+| 7 | Supabase de développement | 🟡 partiel | `env/example.json` (valeurs factices), `env/*.json` ignorés par Git, test d'absence de secrets. **Projet cloud de développement non créé** ; `supabase/config.toml` non généré ; variantes d'app dev/prod non créées |
+| 8 | Modèle serveur minimal | 🟡 testé partiellement | 1 migration : appareils, enregistrements chiffrés, têtes de sync, enveloppe de récupération ; RLS ; fonctions RPC. 46 assertions SQL vertes sur PostgreSQL 16 avec `auth` simulé ; **pas sur la pile Supabase** (Docker indisponible) ; aucun schéma de production |
+| 9 | Synchronisation | ✅ testé (faux serveur) | pull puis push, idempotente, 3 familles de conflits, aucune horloge utilisée. Déclencheurs (réseau, WorkManager) **non faits** |
+| 10 | Migration invité → compte | ✅ testé (faux serveur) | nouveau compte (code affiché une fois), compte existant (code demandé), refus d'un autre compte |
+| 11 | Tests de reprise, interruption, réseau, conflits | ✅ 12 scénarios sur 14, 2 partiels | OFFLINE_SYNC §13.1 |
+
+Tests : **229 automatiques, tous verts** + 46 assertions SQL.
+
+**Non fait ou NON VÉRIFIÉ en Phase 2** (à ne pas considérer comme livré) :
+
+- build Android (jamais exécuté) et donc : Keystore réel, biométrie réelle,
+  `FlutterFragmentActivity`, binaires natifs sqlite3mc et libsodium dans
+  l'APK ;
+- tout appel à un vrai Supabase (authentification, RPC, RLS sur la pile
+  Supabase, format `amr` de la réauthentification) ;
+- mesures sur appareil : Argon2id (3 × 64 Mio), ouverture de la base,
+  sync de 5 000 éléments ;
+- connexion Google et téléphone ; transfert double QR (Phase 5) ;
+  suppression de compte (Edge Function) ;
+- déclencheurs de sync, effacement local après révocation, purge de la
+  corbeille après 30 jours, écran des copies de conflit, resynchronisation
+  complète des enregistrements illisibles ;
+- les services ouverts au démarrage ne sont encore utilisés par aucun
+  écran ; les réglages (thème, langue) restent en mémoire ;
+- mentions de licences natives dans l'app ; vérification minisign de
+  libsodium en CI ;
+- toutes les chaînes malagasy ajoutées sont « à relire ».
+
+**Conditions d'acceptation de la Phase 2** (restent ouvertes) : build
+Android réel, tests et mesures sur appareils A et B (P7), projet Supabase
+de développement + tests sur la pile Supabase (P4), avis juridique mineurs
+avant l'onboarding des mineurs (P6), relecture malagasy (P9).
+
 ## Phases suivantes
 
 Ordre du cahier des charges conservé, avec deux ajustements déjà présentés :
@@ -104,8 +151,8 @@ règles) posés en Phase 2.
 
 | # | Décision | Recommandation | Bloque |
 |---|---|---|---|
-| **D2** | Accepter que « tous appareils + code perdus ⇒ copie en ligne illisible » (option A) | accepter, avec fiche de secours et rappels ; séquestre B ajoutable plus tard sans migration | Phase 2 |
-| **D4** | Verrou Eripoo (PIN/biométrie) : optionnel ou obligatoire | optionnel, proposé à l'onboarding, fortement suggéré si le téléphone n'a pas de verrouillage d'écran | Phase 2 |
+| ~~D2~~ | **Décidée le 2026-10-06 : récupération sans séquestre** (voir Portes) | — | — |
+| ~~D4~~ | **Décidée le 2026-10-06 : verrou facultatif**, chiffrement toujours actif (voir Portes) | — | — |
 | **D5** | Contenu en YAML dans le dépôt jusqu'à la Phase 6 | oui | Phase 3 |
 | **D6** | Identifiant Android définitif (domaine possédé) | à fixer avant la création de l'app dans la Play Console | publication |
 | **D7** | Analytics opt-in, sans identifiant, auto-hébergés | oui | Phase 2 (onboarding) |
