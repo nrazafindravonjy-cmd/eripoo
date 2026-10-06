@@ -1,0 +1,11 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Eripoo",
+  "@appTitle": {
+    "description": "Nom de l'application. Ne pas traduire."
+  },
+  "slogan": "Mihary ho an'ny ho avy.",
+  "@slogan": {
+    "description": "Slogan officiel, en malagasy dans toutes les langues. Ne pas traduire."
+  }
+}
