@@ -7,7 +7,8 @@ on:
 
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: true
+  # A new push waits for the running checks (an APK build is never cut).
+  cancel-in-progress: false
 
 env:
   FLUTTER_VERSION: "3.47.6"
