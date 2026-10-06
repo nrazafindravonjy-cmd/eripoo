@@ -71,10 +71,6 @@ void main() {
 
   Future<void> finish(WidgetTester tester) async {
     await tapText(tester, "Terminer l'étape");
-    // The snackbar would otherwise cover the bottom of the next screen.
-    ScaffoldMessenger.of(tester.element(find.byType(Scaffold).first))
-        .removeCurrentSnackBar(reason: SnackBarClosedReason.remove);
-    await tester.pumpAndSettle();
   }
 
   Future<void> type(WidgetTester tester, String text) async {
@@ -139,6 +135,8 @@ void main() {
     // ---- quest 1, step 1 (learn): four screens
     await tapText(tester, 'Commencer');
     expect(find.text("Pourquoi partir d'un problème ?"), findsWidgets);
+    // The "step finished" message of the previous step is gone.
+    expect(find.byType(SnackBar), findsNothing);
     for (var i = 0; i < 3; i++) {
       await next(tester);
     }

@@ -37,6 +37,11 @@ class _StepScreenState extends ConsumerState<StepScreen> {
   @override
   void initState() {
     super.initState();
+    // A message about the previous step ("Étape terminée") must not cover
+    // this step's buttons (it rises above the keyboard on small phones).
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    });
     _load();
   }
 

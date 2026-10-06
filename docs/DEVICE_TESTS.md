@@ -108,7 +108,12 @@ Défaut trouvé et corrigé : sur Android 8, le premier passage (run 22)
 vérifiait l'Accueil avant que la base chiffrée (isolat de fond) ait mis à
 jour l'écran ; le test attend désormais l'écran (au plus 10 s). Pas de
 défaut de l'application : sur Android 14, le même parcours passait déjà.
-Comme au §2, ces temps sont **indicatifs** (émulateur x86_64) ; sur
+Deuxième défaut, **de l'application** (run 24, Android 8, intermittent) :
+le message « Étape terminée » de l'étape précédente restait affiché sur
+l'étape suivante ; clavier ouvert sur un écran de 320 × 640, il remontait
+au-dessus du bouton « Suivant » et interceptait l'appui. Corrigé : le
+message est retiré à l'ouverture d'une étape (vérifié par le test de
+widget du parcours). Comme au §2, ces temps sont **indicatifs** (émulateur x86_64) ; sur
 appareils A et B : **NON VÉRIFIÉ**.
 
 ## 3. Appareils de référence

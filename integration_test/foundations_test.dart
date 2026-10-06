@@ -478,6 +478,8 @@ void main() {
     await tapText('Un revenu en plus');
     await tapText('Suivant');
     await tester.enterText(find.byType(TextField), 'Projet fictif');
+    // Close the keyboard, as a user would, before moving on.
+    FocusManager.instance.primaryFocus?.unfocus();
     await tester.pumpAndSettle();
     await tapText('Suivant');
     await tapText("Terminer l'étape");
