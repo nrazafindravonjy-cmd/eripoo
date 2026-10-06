@@ -1,5 +1,7 @@
 import 'package:drift/drift.dart';
 
+import 'tables.dart';
+
 part 'app_database.g.dart';
 
 /// Small local key/value store for technical state (sync cursor, device
@@ -16,7 +18,19 @@ class LocalKeyValues extends Table {
 ///
 /// Schema version 1 is **not frozen** until the first release with real
 /// users: development databases are disposable.
-@DriftDatabase(tables: [LocalKeyValues])
+@DriftDatabase(
+  tables: [
+    LocalKeyValues,
+    UserProfiles,
+    Facts,
+    Projects,
+    ProjectSections,
+    ProjectRevisions,
+    StepProgressEntries,
+    ConflictCopies,
+    SyncMetaEntries,
+  ],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.executor);
 

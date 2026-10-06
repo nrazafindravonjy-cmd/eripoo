@@ -17,6 +17,23 @@ RLS par table) — changement lourd une fois des données en production.
 
 ---
 
+## 0. État d'implémentation (Phase 2)
+
+Implémenté dans `lib/data/local/tables.dart` (schéma v1, **non figé**
+avant les premières données réelles) : `user_profiles`, `facts`,
+`projects`, `project_sections`, `project_revisions`,
+`step_progress_entries`, `conflict_copies`, `sync_meta_entries`,
+`local_key_values`. Les autres tables du §3 (hypothèses, expériences,
+observations, interviews, médias, finances…) arrivent avec leurs
+fonctionnalités (Phases 3 à 7).
+
+**Identifiants déterministes (UUID v5)** pour les éléments qui existent au
+plus une fois par clé : profil (`profile`), fait (`fact:<clé>`), section
+(`section:<projet>:<section>`), progression (`step:<étape>`). Deux appareils
+qui créent la même chose hors ligne produisent le même identifiant : la
+synchronisation traite alors un conflit sur un seul élément au lieu de
+créer un doublon. Les autres éléments utilisent des UUID v7.
+
 ## 1. Conventions communes
 
 ### 1.1 Colonnes de toute entité synchronisable (local)
