@@ -29,11 +29,23 @@ class FakeSyncServer {
     _pullPages = 0;
   }
 
+  int _failPushAfterCalls = -1;
+  int _pushCallsSinceArmed = 0;
+
+  /// The next [calls] pushes succeed, then one push fails before being
+  /// applied (connection lost on the way up).
+  void failPushAfter(int calls) {
+    _failPushAfterCalls = calls;
+    _pushCallsSinceArmed = 0;
+  }
+
   int pushCalls = 0;
 
   /// A client signed in as [ownerId] with the auth session [session].
   FakeSyncRemote clientFor(String ownerId, {String session = 'session-1'}) =>
       FakeSyncRemote(this, ownerId, session);
+
+  int headOf(String owner) => _heads[owner] ?? 0;
 
   Map<String, RemoteRecord> recordsOf(String owner) =>
       _records[owner] ?? const {};
@@ -93,6 +105,11 @@ class FakeSyncRemote implements SyncRemote {
   @override
   Future<List<PushResult>> push(String deviceId, List<RemotePut> puts) async {
     _online();
+    if (server._failPushAfterCalls >= 0 &&
+        server._pushCallsSinceArmed++ >= server._failPushAfterCalls) {
+      server._failPushAfterCalls = -1;
+      throw const RemoteUnavailable();
+    }
     server.pushCalls++;
     server._requireDevice(ownerId, deviceId);
     server._bind(ownerId, deviceId, session);
