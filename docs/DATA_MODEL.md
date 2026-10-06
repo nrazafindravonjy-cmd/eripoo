@@ -11,7 +11,7 @@ Deux modèles distincts, reliés par le protocole de sync
   classiques.
 
 ⚠️ Cette séparation découle du choix du chiffrement de bout en bout
-([SECURITY §4](SECURITY.md#4-chiffrement-de-bout-en-bout)). Si ce choix était
+([SECURITY §4](SECURITY.md#4-gestion-des-clés--cycle-de-vie-complet)). Si ce choix était
 refusé, le modèle serveur deviendrait un miroir typé du modèle local (avec
 RLS par table) — changement lourd une fois des données en production.
 
@@ -24,16 +24,16 @@ RLS par table) — changement lourd une fois des données en production.
 | Colonne | Type | Rôle |
 |---|---|---|
 | `id` | TEXT (UUID v7) | Généré sur l'appareil ; identique local/serveur. |
-| `owner_id` | TEXT | `local:<uuid>` pour un invité, puis `auth.uid()` après inscription. |
-| `project_id` | TEXT nullable | Rattachement projet (index). |
-| `created_at` | INTEGER (ms UTC) | Création locale. |
-| `updated_at` | INTEGER (ms UTC) | Dernière modification locale (affichage). |
-| `deleted_at` | INTEGER nullable | Suppression logique (tombstone). |
-| `version` | INTEGER | Incrément local à chaque écriture. |
-| `field_clocks` | TEXT (JSON) | HLC par champ modifiable : `{"statement": "1739...:0003:dev7"}`. |
-| `synced_clocks` | TEXT (JSON) nullable | Horloges au dernier état confirmé par le serveur (base de la fusion). |
-| `server_version` | INTEGER nullable | Dernière `server_version` connue. |
-| `sync_status` | INTEGER (enum) | `pending`, `synced`, `conflict`, `local_only`. |
+| `project_id` | TEXT nullable | Rattachement projet (index), quand pertinent. |
+| `created_at` | INTEGER (ms UTC) | Création locale (affichage). |
+| `updated_at` | INTEGER (ms UTC) | Dernière modification locale (affichage uniquement, jamais utilisée pour ordonner). |
+| `deleted_at` | INTEGER nullable | Suppression logique (corbeille). |
+
+L'état de synchronisation (version de base, modification en attente,
+erreurs) n'est **pas** dans les tables métier : il est centralisé dans
+`sync_meta` (§3.7, détail dans [OFFLINE_SYNC §3](OFFLINE_SYNC.md#3-tables)).
+Le propriétaire n'est pas stocké par ligne : une base locale appartient à un
+seul utilisateur (invité puis compte).
 
 Montants : `INTEGER` en ariary. Dates métier : `INTEGER` ms UTC. Énumérations :
 `TEXT` contrôlé par le code (Drift `textEnum`). Texte libre : `TEXT`.
@@ -65,16 +65,19 @@ profiles (
 -- RLS : select/update où id = auth.uid(). Pas de date de naissance côté
 -- serveur (elle reste chiffrée dans le profil synchronisé).
 
-user_keys (
+user_keys (                        -- UMK enveloppée par la clé de récupération
   user_id        uuid references auth.users on delete cascade,
-  key_version    int not null,
-  wrapped_dek    bytea not null,     -- DEK chiffrée par la clé de récupération
-  wrap_algorithm text not null,      -- ex. 'argon2id+aes-256-gcm'
-  kdf_params     jsonb not null,     -- sel, coûts
+  wrap_id        uuid not null,
+  umk_version    smallint not null,
+  wrap_format    smallint not null,  -- 1 = Argon2id + XChaCha20-Poly1305 (SECURITY §4.6)
+  kdf_salt       bytea not null,
+  kdf_params     jsonb not null,     -- opslimit, memlimit
+  wrapped_umk    bytea not null,     -- nonce || chiffré || tag
   created_at     timestamptz not null default now(),
-  primary key (user_id, key_version)
+  primary key (user_id, wrap_id)
 )
--- RLS : select/insert pour user_id = auth.uid(). Aucun update/delete client.
+-- RLS : select pour user_id = auth.uid(). Création / remplacement
+-- uniquement via RPC exigeant une réauthentification récente.
 
 consents (
   id            uuid primary key,
@@ -85,10 +88,8 @@ consents (
   recorded_at   timestamptz not null default now()
 )                                 -- append-only ; RLS propriétaire
 
-devices (
-  id uuid primary key, user_id uuid references auth.users on delete cascade,
-  created_at timestamptz, last_seen_at timestamptz, app_version text
-)                                 -- révocation et diagnostic sync ; pas de modèle d'appareil
+devices (owner_id, id, created_at, last_seen_at, app_version, revoked_at)
+                                  -- détail : OFFLINE_SYNC §3.2 ; pas de modèle d'appareil
 
 jurisdiction_policies (           -- valeurs à fournir par validation juridique
   code text primary key, min_age int, parental_consent_under int,
@@ -100,35 +101,19 @@ deletion_requests (user_id, requested_at, completed_at)   -- trace minimale
 
 ### 2.2 Données privées synchronisées (chiffrées)
 
-```sql
-create sequence sync_server_version_seq;
+Tables `sync_heads` (compteur de versions par utilisateur) et
+`sync_records` (une enveloppe chiffrée par élément, clé primaire
+`(owner_id, id)`, `version`, `change_id`, `device_id`, `deleted`,
+`umk_version`, `payload`, `payload_size`) : définition SQL complète dans
+[OFFLINE_SYNC §3.2](OFFLINE_SYNC.md#32-serveur-postgres).
 
-sync_records (
-  id               uuid primary key,          -- = id local de l'entité
-  owner_id         uuid not null references auth.users on delete cascade,
-  server_version   bigint not null,           -- nextval à chaque écriture
-  deleted          boolean not null default false,
-  key_version      int not null,
-  schema_version   int not null,              -- format du payload
-  payload          bytea,                     -- nonce || ciphertext || tag ; null si purgé
-  payload_size     int not null,
-  device_id        uuid,
-  server_updated_at timestamptz not null default now()
-);
-create index on sync_records (owner_id, server_version);
-
-sync_applied_ops (
-  owner_id uuid, op_id uuid, result jsonb, applied_at timestamptz,
-  primary key (owner_id, op_id)
-)                                -- idempotence ; purge après 30 jours
-```
-
-- Le **type d'entité, le projet, les dates métier et tout le contenu sont
-  dans le payload chiffré**. Métadonnées visibles par le serveur : id,
-  propriétaire, versions, taille, suppression, date serveur.
-- RLS : `select` si `owner_id = auth.uid()`. **Aucun** `insert/update/delete`
-  direct : écritures via `sync_push` (`security definer`, vérifie
-  `auth.uid()`), lecture via `sync_pull`.
+- Le **type d'entité, la version de schéma, le projet, les dates métier et
+  tout le contenu sont dans l'enveloppe chiffrée**. Métadonnées visibles
+  par le serveur : id aléatoires, propriétaire, version, `change_id`,
+  appareil, suppression, taille arrondie, date serveur.
+- RLS : `select` si `owner_id = auth.uid()`. **Aucune** écriture directe :
+  uniquement via `sync_push` (`security definer`, vérifie `auth.uid()` et
+  l'appareil), lecture via `sync_pull`.
 
 ### 2.3 Médias
 
@@ -144,7 +129,7 @@ chiffrée de `sync_records`.
 content_releases (
   id uuid primary key, pack_id text, version int, status text
     check (status in ('draft','published','retired')),
-  min_app_version text, sha256 text, storage_path text,
+  min_app_version text, sha256 text, signature bytea, storage_path text,
   published_at timestamptz, published_by uuid
 )
 -- lecture : status = 'published' pour tous (anon compris).
@@ -168,7 +153,7 @@ audit_log (id bigserial, actor uuid, action text, target text, at timestamptz)
 
 Aucun rôle n'a de politique sur `sync_records`, `user_keys`, `consents`,
 `profiles` (hors soi-même) ni sur le bucket `user-media`. Voir
-[SECURITY §5](SECURITY.md#5-isolation-des-administrateurs).
+[SECURITY §5](SECURITY.md#5-pourquoi-un-administrateur-ne-peut-pas-déchiffrer).
 
 ### 2.6 Analytics
 
@@ -240,16 +225,17 @@ la sync peut amener des états intermédiaires) : critère verrouillé avant
 
 | Table | Colonnes principales |
 |---|---|
-| `media` | `kind` (`photo`,`audio`,`file`), `mime`, `size_bytes`, `sha256`, `duration_ms?`, `local_path` (local seulement), `file_key_wrapped` (clé de fichier chiffrée par la DEK), `upload_status` (`pending`,`uploading`,`uploaded`,`failed`), `remote_path?` |
+| `media` | `kind` (`photo`,`audio`,`file`), `mime`, `size_bytes` (≤ 10 Mo proposé), `sha256`, `duration_ms?`, `local_path` (local seulement), `upload_status` (`pending`,`uploading`,`uploaded`,`failed`), `remote_path?` |
 
-Les fichiers sont stockés dans le répertoire privé de l'application, chiffrés
-avec une clé par fichier.
+Les fichiers sont stockés dans le répertoire privé de l'application,
+chiffrés avec la sous-clé médias de l'UMK
+([SECURITY §4.5](SECURITY.md#45-médias-photos-audio)).
 
 ### 3.6 Contenu (local seulement)
 
 | Table | Rôle |
 |---|---|
-| `content_packs` | `pack_id`, `version`, `sha256`, `installed_at`, `is_active` |
+| `content_packs` | `pack_id`, `version`, `sha256`, `signature_verified_at`, `installed_at`, `is_active` |
 | `content_nodes` | `pack_id`, `node_id`, `node_type`, `parent_id`, `order`, `json` — index par type et parent |
 | `content_assets` | audio/images de contenu téléchargés à la demande, avec taille et dernier accès (éviction LRU) |
 
@@ -257,17 +243,20 @@ avec une clé par fichier.
 
 | Table | Colonnes |
 |---|---|
-| `outbox` | `op_id` (UUID), `entity_type`, `entity_id`, `op` (`upsert`,`delete`), `enqueued_at`, `attempts`, `next_attempt_at`, `last_error_code?`, `in_flight` |
-| `sync_state` | `cursor_server_version`, `last_pull_at`, `last_push_at`, `last_error_code?` |
-| `sync_conflicts` | `entity_type`, `entity_id`, `losing_payload_json`, `field_keys`, `detected_at`, `resolved_at?`, `resolution` |
-| `media_upload_queue` | `media_id`, `attempts`, `next_attempt_at`, `bytes_sent` |
+| `sync_meta` (local seulement) | `entity_type`, `entity_id`, `base_version?`, `change_id?`, `pushed_change_id?`, `last_error?`, `attempts`, `next_attempt_at?` |
+| `sync_state` (local seulement) | clé/valeur : `cursor`, `device_id`, `last_push_at`, `last_pull_at`, `device_revoked` |
+| `conflict_copies` (**synchronisée**, append-only) | `entity_type`, `entity_id`, `payload_json`, `from_device_id`, `resolved_at?`, `resolution?` |
+
+L'envoi des fichiers médias est suivi par les colonnes `upload_*` de
+`media`. Détail du protocole : [OFFLINE_SYNC.md](OFFLINE_SYNC.md).
 
 ## 4. Évolution des schémas
 
 - **Local** : migrations Drift numérotées, schémas exportés
   (`drift_dev schema dump`) et testés (`schema generate` + tests de migration
   pour chaque version publiée).
-- **Payloads** : `schema_version` dans chaque enveloppe ; le client sait lire
+- **Payloads** : `schema_version` dans chaque enveloppe (dans la partie
+  chiffrée) ; le client sait lire
   N et N-1 et réécrit au format courant lors de la prochaine modification. Un
   client plus ancien qui reçoit un `schema_version` inconnu conserve le
   payload brut sans l'écraser et demande une mise à jour.

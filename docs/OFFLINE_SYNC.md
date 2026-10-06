@@ -1,247 +1,349 @@
 # Eripoo — Offline-first et synchronisation
 
-Objectif : l'application fonctionne entièrement sans réseau pour le parcours,
-le projet, les missions, la progression, les observations, les interviews, les
-hypothèses, les expériences, les documents et les réglages ; la
-synchronisation est automatique, idempotente et **ne perd jamais de données
-silencieusement**.
+Objectif : tout le parcours, le projet, les missions, la progression, les
+observations, les interviews, les hypothèses, les expériences, les documents
+et les réglages fonctionnent sans réseau ; la synchronisation est
+automatique, idempotente et **ne perd jamais de données silencieusement**.
 
-Statut : conception. Rien de ce document n'est encore implémenté (Phase 2
-pour le socle local et l'outbox, Phase 5 pour le moteur complet).
+Statut : conception (revue Phase 0, v2). Rien n'est implémenté.
+
+## 0. Ce qui a changé depuis la v1 (simplification)
+
+Le besoin réel d'Eripoo : **un utilisateur, un à trois appareils, rarement
+utilisés en même temps, quelques milliers d'enregistrements.** Les
+modifications concurrentes du même élément sur deux appareils seront rares.
+La v1 était dimensionnée pour plus. Supprimé :
+
+| v1 | v2 | Pourquoi |
+|---|---|---|
+| Horloges logiques hybrides par champ, fusion automatique à 3 voies par champ | **aucune horloge** ; conflit au niveau de l'enregistrement, l'autre version est conservée comme copie | la fusion par champ apporte peu pour des conflits rares, et coûte en complexité et en bugs possibles |
+| Table d'outbox + table serveur d'opérations appliquées | **un indicateur « modifié » par enregistrement** (`change_id`) dans une table `sync_meta` ; idempotence via le dernier `change_id` stocké sur l'enregistrement serveur | moins de tables, même garantie |
+| Séquence globale + verrou consultatif | **compteur par utilisateur** (`sync_heads`) verrouillé par ligne | plus simple à comprendre et à tester |
+| Chiffrement des médias par segments | chiffrement en une opération, taille plafonnée | pas de format de flux maison |
+| Transfert de clé relayé par le serveur | double QR hors ligne | le serveur ne voit rien |
+
+Compromis assumé : si deux appareils modifient **des champs différents** du
+même élément hors ligne, il n'y a pas de fusion automatique ; une version est
+retenue et l'autre est conservée en copie, consultable.
 
 ---
 
 ## 1. Principes
 
-1. **Drift est la source de vérité de l'UI.** Le réseau ne bloque jamais une
-   action utilisateur.
-2. **Toute écriture produit une opération d'outbox dans la même
-   transaction** que la donnée (repositories uniquement).
-3. **Le serveur ne fusionne pas** (il ne peut pas lire les payloads chiffrés)
-   ; il fait du *compare-and-swap* et garantit l'ordre. La fusion est faite
-   côté client, de façon déterministe.
-4. **Idempotence partout** : chaque opération a un `op_id` ; la rejouer
-   produit le même résultat.
-5. **Aucune perte silencieuse** : toute valeur écartée par une fusion est
-   conservée dans `sync_conflicts` et consultable par l'utilisateur.
+1. **Drift est la source de vérité de l'interface.** Le réseau ne bloque
+   jamais une action.
+2. **Chaque écriture marque l'élément « à envoyer » dans la même
+   transaction** (repositories uniquement).
+3. **Le serveur ne lit pas et ne fusionne pas** (contenu chiffré) : il
+   compare des versions et ordonne les écritures. La résolution est faite par
+   l'appareil, de manière déterministe.
+4. **Idempotence** : renvoyer la même modification produit le même état.
+5. **Aucune perte silencieuse** : toute version écartée devient une copie de
+   conflit, elle-même synchronisée.
 
-## 2. Horloges : HLC par champ
+## 2. Identifiants et versions
 
-Les téléphones d'entrée de gamme ont souvent une date système fausse. Les
-horodatages bruts ne sont donc pas fiables pour ordonner les écritures.
+| Nom | Généré par | Forme | Rôle |
+|---|---|---|---|
+| `id` | appareil, à la création | UUID v7 | identité de l'élément, identique partout |
+| `owner_id` | Supabase Auth | UUID | propriétaire (RLS) |
+| `device_id` | appareil, au premier lancement | UUID v4 | appareil d'origine, révocation |
+| `change_id` | appareil, **à chaque écriture locale** | UUID v4 | identifie une modification ; clé d'idempotence |
+| `version` | serveur | entier, **compteur par utilisateur**, strictement croissant et sans trou | ordre des écritures ; curseur de lecture |
+| `base_version` | appareil | entier ou null | dernière `version` serveur connue de l'élément ; null = jamais envoyé |
 
-- Chaque appareil maintient une **horloge logique hybride** (HLC) :
-  `(millis physiques, compteur, device_id)`, comparée lexicographiquement.
-  À chaque écriture locale : `hlc = max(hlc, maintenant) + tick`. À chaque
-  réception : `hlc = max(hlc, hlc_reçue) + tick`.
-- Chaque champ modifiable d'une entité porte sa HLC (`field_clocks`).
-- Garde-fou contre une horloge très en avance : une HLC distante dont la
-  partie physique dépasse de plus de 24 h le `server_updated_at` de
-  l'enregistrement est ramenée à cette date pour la comparaison, et
-  l'anomalie est journalisée (sans contenu).
-- Implémentation maison (~80 lignes, testée) : aucun paquet nécessaire.
+Aucune horloge d'appareil n'intervient dans l'ordre ou la résolution
+(les téléphones ont souvent une date fausse). `updated_at` ne sert qu'à
+l'affichage.
 
-## 3. Protocole
+## 3. Tables
 
-### 3.1 Push
+### 3.1 Locales (Drift, base chiffrée)
 
-```
-client ──► rpc sync_push(ops[])     (≤ 50 ops ou ≤ 256 Ko par lot)
-op = { op_id, id, expected_server_version | null, deleted,
-       key_version, schema_version, payload (chiffré) }
-```
-
-Côté serveur, dans **une transaction** :
-
-1. `pg_advisory_xact_lock(hash(auth.uid()))` — sérialise les écritures d'un
-   même utilisateur.
-2. Pour chaque op :
-   - si `(owner, op_id)` existe dans `sync_applied_ops` ⇒ renvoyer le
-     résultat enregistré (rejeu idempotent) ;
-   - si l'enregistrement existe et appartient à un autre propriétaire ⇒
-     `rejected` ;
-   - si `server_version ≠ expected_server_version` ⇒ `conflict` + version
-     courante (payload chiffré) ;
-   - sinon upsert avec `server_version = nextval(seq)` ⇒ `applied`.
-3. Validation serveur : taille maximale du payload, `schema_version` et
-   `key_version` connus, quota par utilisateur, débit.
-
-Pourquoi le verrou : avec une séquence globale, une transaction qui prend
-la valeur 101 peut être validée avant une autre qui a pris 100 ; un client
-qui aurait déjà lu 101 sauterait 100. En sérialisant par utilisateur (et
-chaque utilisateur ne tire que ses propres lignes), le curseur
-`server_version` est **sans trou** pour chaque utilisateur.
-
-### 3.2 Pull
+Les tables métier ([DATA_MODEL §3](DATA_MODEL.md#3-modèle-local-drift--sqlite))
+ne portent que `id`, `created_at`, `updated_at`, `deleted_at`. L'état de
+sync est centralisé :
 
 ```
-client ──► rpc sync_pull(since_server_version, limit=200)
-       ◄── lignes owner = auth.uid() avec server_version > since, triées
+sync_meta (                         -- une ligne par élément synchronisable
+  entity_type     TEXT,             -- 'hypothesis', 'observation', ...
+  entity_id       TEXT,             -- = id de l'élément
+  base_version    INTEGER NULL,
+  change_id       TEXT NULL,        -- non null = modification à envoyer
+  pushed_change_id TEXT NULL,       -- dernier change_id envoyé (détection d'écho)
+  last_error      TEXT NULL,        -- code d'erreur, jamais de contenu
+  attempts        INTEGER DEFAULT 0,
+  next_attempt_at INTEGER NULL,
+  PRIMARY KEY (entity_type, entity_id)
+)  -- index partiel sur change_id IS NOT NULL
+
+sync_state (key TEXT PRIMARY KEY, value TEXT)
+  -- 'cursor' (dernière version reçue), 'device_id', 'last_push_at',
+  -- 'last_pull_at', 'device_revoked'
+
+conflict_copies (                   -- entité synchronisée, append-only
+  id, entity_type, entity_id, payload_json, from_device_id,
+  created_at, resolved_at NULL, resolution NULL)
+
+media (..., upload_status, upload_attempts, remote_path)   -- fichiers
 ```
 
-Le client applique chaque page **dans une transaction Drift qui met aussi à
-jour le curseur** : une interruption n'avance jamais le curseur sans les
-données.
+### 3.2 Serveur (Postgres)
 
-### 3.3 Ordre d'un cycle
+```sql
+sync_heads (
+  owner_id     uuid primary key references auth.users on delete cascade,
+  last_version bigint not null default 0
+);
 
-1. Pousser l'outbox (lots), traiter les résultats.
-2. Tirer jusqu'à épuisement.
-3. Pour chaque `conflict` du push : fusionner (§4) puis réenfiler.
-4. Envoyer les médias en attente (§6).
-5. Mettre à jour `sync_state` et l'indicateur d'état dans l'UI.
+sync_records (
+  owner_id     uuid not null references auth.users on delete cascade,
+  id           uuid not null,
+  version      bigint not null,      -- valeur de sync_heads au moment de l'écriture
+  change_id    uuid not null,        -- dernière modification appliquée
+  device_id    uuid not null,
+  deleted      boolean not null default false,
+  umk_version  smallint not null,
+  payload      bytea,                -- enveloppe chiffrée ; null après purge
+  payload_size int not null,         -- taille remplie (arrondie)
+  updated_at   timestamptz not null default now(),
+  primary key (owner_id, id)
+);
+create index on sync_records (owner_id, version);
 
-Un seul cycle à la fois (verrou en mémoire + drapeau `in_flight` persistant).
+devices (
+  owner_id uuid references auth.users on delete cascade,
+  id uuid, created_at timestamptz, last_seen_at timestamptz,
+  app_version text, revoked_at timestamptz,
+  primary key (owner_id, id)
+);
+```
 
-## 4. Résolution des conflits
+RLS : lecture de ses propres lignes uniquement ; **aucune écriture directe**
+sur `sync_records` / `sync_heads` : uniquement par les deux RPC ci-dessous.
+Clé primaire `(owner_id, id)` : les données de deux comptes ne peuvent
+jamais se toucher.
 
-Le cas typique : un téléphone et une tablette (ou un téléphone réinstallé)
-modifient le même élément hors ligne.
+## 4. Opérations
 
-### 4.1 Stratégie par famille d'entités
+Une seule opération d'écriture : **`put`** (création, modification,
+suppression logique, restauration et purge sont toutes des `put` d'une
+enveloppe).
 
-| Famille | Entités | Stratégie |
+```
+sync_push(device_id, puts[])   -- ≤ 50 éléments ou ≤ 256 Ko
+  put = { id, change_id, base_version | null, deleted, umk_version,
+          payload | null, payload_size }
+  → results[] = { id, status: applied | conflict | rejected,
+                  version, current? }
+
+sync_pull(device_id, since_version, limit = 200)
+  → { records[], head_version }
+```
+
+### 4.1 `sync_push` côté serveur (une transaction)
+
+1. Vérifier que `device_id` appartient à `auth.uid()` et n'est pas révoqué ;
+   sinon `device_revoked` pour tout le lot.
+2. `select … from sync_heads where owner_id = auth.uid() for update`
+   (création à la volée) : **verrou qui sérialise les écritures d'un même
+   utilisateur**.
+3. Pour chaque `put`, dans l'ordre reçu :
+   - ligne existante avec `change_id` identique ⇒ `applied` avec sa
+     `version` actuelle (**rejeu idempotent**) ;
+   - ligne existante et `version ≠ base_version`, ou ligne existante alors
+     que `base_version` est null ⇒ `conflict` + `current` (enveloppe
+     chiffrée actuelle) ;
+   - sinon : `last_version += 1`, upsert avec `version = last_version` ⇒
+     `applied`.
+4. Validation : taille maximale, `umk_version` connue, quotas, débit.
+
+Pourquoi le compteur par utilisateur : chaque écriture d'un utilisateur
+prend la valeur suivante **pendant qu'elle tient le verrou**, et le verrou
+n'est relâché qu'à la validation de la transaction. Un lecteur ne peut donc
+jamais voir la version N+1 sans la version N : le curseur `since_version`
+ne saute aucune écriture.
+
+### 4.2 Côté client, après la réponse
+
+- `applied` : **seulement si** `sync_meta.change_id` est toujours égal au
+  `change_id` envoyé (l'utilisateur a pu modifier l'élément pendant
+  l'envoi), mettre `change_id = null` ; dans tous les cas
+  `base_version = version`.
+- `conflict` : résolution (§6).
+- `rejected` : `last_error` renseigné, élément conservé localement, visible
+  dans « Problèmes de synchronisation ».
+
+### 4.3 `sync_pull` côté client
+
+Pour chaque page, **dans une seule transaction Drift** : déchiffrer,
+appliquer chaque enregistrement (§6), puis avancer `cursor`. Une
+interruption ne fait jamais avancer le curseur sans les données.
+
+Pour chaque enregistrement reçu :
+
+- `version ≤ base_version` locale ⇒ ignorer (déjà connu) ;
+- l'élément local n'a pas de modification en attente ⇒ remplacer ;
+- l'élément local a une modification en attente :
+  - si `record.change_id == pushed_change_id` ⇒ c'est l'écho de notre propre
+    envoi (cas d'une coupure après application serveur) ⇒ simple mise à
+    jour de `base_version` ;
+  - sinon ⇒ conflit (§6).
+
+## 5. Ordre des opérations
+
+- **Cycle** : (1) push des éléments modifiés, (2) pull jusqu'à
+  `head_version`, (3) résolution des conflits et nouveau push, (4) envoi des
+  médias, (5) mise à jour de l'indicateur d'état. Un seul cycle à la fois.
+- **Ordre d'envoi** : par rang de type (projet → sections → hypothèses →
+  expériences → résultats → preuves → décisions → …) puis date de
+  modification, pour que les parents précèdent généralement les enfants.
+- **Ordre d'application** : strictement par `version` croissante.
+- **Références entre éléments** : pas de contrainte de clé étrangère SQL
+  entre tables synchronisées (un enfant peut arriver avant son parent depuis
+  un autre appareil). Le domaine tolère un orphelin temporaire (masqué
+  jusqu'à l'arrivée du parent) ; une vérification d'orphelins persistants
+  tourne après chaque sync complète.
+
+## 6. Détection et résolution des conflits
+
+**Détection** : uniquement par versions — `base_version` ≠ `version`
+serveur au push, ou modification locale en attente face à une version reçue
+au pull. Jamais par date.
+
+**Résolution**, selon la famille de l'élément (déclarée par type) :
+
+| Famille | Types | Règle |
 |---|---|---|
-| **Éditables** | `projects`, `project_sections`, `hypotheses` (brouillon), `experiments` (avant verrouillage), `observations`, `interviews`, `competitors`, `finance_items`, `price_scenarios`, `user_profile`, `answers` | Fusion **à trois voies par champ** (§4.2). |
-| **Append-only** | `project_revisions`, `decisions`, `evidences`, `results`, `conclusions`, `badges_earned`, `consents_local` | Pas de conflit possible : identifiants uniques, jamais modifiées ; seules les suppressions logiques sont autorisées. |
-| **Monotones** | `step_progress`, `mission_instances`, `tool_unlocks`, `facts` d'origine `rule` | Fusion par treillis : le statut le plus avancé gagne (`locked < available < in_progress < completed`), `started_at = min`, `completed_at = max`, ensembles unis. `abandoned` / `deferred` ne l'emportent que s'ils sont plus récents (HLC). |
-| **Champs verrouillés** | `experiments.success_criterion` après `criterion_locked_at`, hypothèses testées | Immuables : une divergence crée un conflit visible, jamais d'écrasement. |
+| **Éditables** | projet, sections, hypothèses en brouillon, expériences avant démarrage, observations, interviews, concurrents, éléments financiers, scénarios de prix, profil, réponses | **la version de l'appareil qui résout est conservée** et repart avec `base_version = version distante` ; **la version distante est enregistrée dans `conflict_copies`** (synchronisée) |
+| **Append-only** | historique du projet, décisions, preuves, résultats, conclusions, badges, consentements, copies de conflit | jamais modifiés ⇒ pas de conflit possible (identifiants uniques) |
+| **Progression** | progression d'étape, missions, outils débloqués | fusion par état le plus avancé (`locked < available < in_progress < completed`), dates de début = min, de fin = max ; si un texte libre (ex. réflexion de mission) diffère, la version distante va aussi en copie de conflit |
+| **Verrouillés** | critère de réussite d'une expérience démarrée, hypothèse testée | immuables par règle de domaine ; toute divergence ⇒ copie de conflit, jamais d'écrasement |
 
-### 4.2 Fusion à trois voies par champ
+Pourquoi « l'appareil qui résout gagne » : c'est déterministe, sans
+horloge, et l'utilisateur voit toujours sa dernière saisie sur l'appareil
+qu'il tient ; l'autre version n'est jamais perdue. Les deux appareils
+convergent : le second reçoit la version retenue **et** la copie.
 
-Pour chaque champ `f`, avec `B` = horloge au dernier état synchronisé
-(`synced_clocks`), `L` = local, `R` = distant :
+**Interface** : badge discret « une autre version existe » sur l'élément ;
+écran « Versions » avec « Garder celle-ci » / « Copier ce passage ».
+Résoudre marque la copie `resolved_at` (elle reste consultable dans
+l'historique).
 
-| Cas | Résultat |
+## 7. Suppression, corbeille, restauration
+
+- **Supprimer** = `put` avec `deleted_at` renseigné et **contenu
+  conservé** dans l'enveloppe : l'élément passe dans la corbeille sur tous
+  les appareils.
+- **Restaurer** (corbeille, 30 jours) = `put` avec `deleted_at = null`.
+- **Purger** (après 30 jours, ou « Vider la corbeille ») = `put` avec
+  `deleted = true` et `payload = null` ; la ligne serveur (quelques octets)
+  reste comme pierre tombale pour les appareils hors ligne.
+- **Suppression d'un projet** : chaque élément du projet reçoit sa propre
+  suppression logique (même corbeille, restauration groupée).
+- **Suppression concurrente d'une modification** : la suppression
+  l'emporte, mais **le contenu conservé dans la corbeille est la version
+  modifiée** ; l'utilisateur est informé (« supprimé sur un autre appareil —
+  tes dernières modifications sont dans la corbeille »).
+- **Restauration concurrente d'une purge** : la version locale complète
+  gagne (règle des éditables) ⇒ l'élément revit, rien n'est perdu.
+- **Aucune suppression physique locale** d'un élément tant que sa purge n'a
+  pas été confirmée par le serveur.
+
+## 8. Reprise après interruption
+
+| Interruption | Pourquoi c'est sûr |
 |---|---|
-| seul `L[f] > B[f]` | valeur locale |
-| seul `R[f] > B[f]` | valeur distante |
-| les deux ont changé, valeurs identiques | aucune action |
-| les deux ont changé, valeurs différentes | la HLC la plus grande gagne ; **la valeur perdante est enregistrée dans `sync_conflicts`** et signalée (« Une autre version de ce texte existe — voir ») |
+| Coupure réseau pendant un push, réponse non reçue | `change_id` toujours non null ⇒ renvoi ; le serveur reconnaît le `change_id` ⇒ `applied` sans doublon |
+| Coupure après application serveur, puis nouvelle modification locale avant renvoi | le pull renvoie notre propre version ; `pushed_change_id` la reconnaît comme écho ⇒ pas de faux conflit |
+| Coupure pendant un pull | page appliquée et curseur avancés dans la même transaction, ou rien |
+| Fermeture de l'app / batterie vide pendant la sync | aucun état « en cours » à réparer : au redémarrage, les éléments marqués sont renvoyés |
+| Crash pendant une résolution de conflit | transaction Drift annulée ⇒ la résolution est refaite au cycle suivant |
+| Coupure pendant l'envoi d'un média | le fichier est renvoyé en entier (≤ 10 Mo) au même chemin, en écrasement |
 
-Le résultat fusionné reçoit de nouvelles horloges et repart en push avec
-`expected_server_version` = version distante. La fusion est une fonction
-pure (`merge(base, local, remote) → (merged, conflicts)`), testée de façon
-exhaustive, y compris par tests de propriétés (commutativité des cas sans
-conflit, idempotence).
+**Réessais** : backoff exponentiel avec gigue par élément (5 s, 15 s,
+1 min, 5 min, 15 min, plafond 1 h).
 
-### 4.3 Suppressions
-
-- Suppression = tombstone (`deleted_at` + HLC de suppression) ; jamais de
-  suppression physique tant que le serveur ne l'a pas confirmée.
-- Suppression concurrente d'une modification :
-  - si la modification est **postérieure** (HLC) à la suppression ⇒
-    l'élément est restauré (l'utilisateur a agi après) ;
-  - sinon la suppression l'emporte et la version modifiée est placée dans
-    « Éléments récupérables » (30 jours) ;
-  - dans les deux cas, rien n'est perdu sans trace.
-- Suppression d'un projet : cascade logique sur ses entités (chacune reçoit
-  sa tombstone, ce qui garde la sync simple).
-- Côté serveur, les tombstones sont conservées (payload vidé) ; elles pèsent
-  quelques dizaines d'octets.
-
-### 4.4 Interface des conflits
-
-Badge discret sur l'élément concerné ; écran « Versions » listant la valeur
-actuelle et la ou les valeurs alternatives, avec « Garder celle-ci » ou
-« Copier dans le texte ». Aucune boîte de dialogue bloquante pendant la
-sync.
-
-## 5. Déclenchement, réessais, erreurs
+| Classe d'erreur | Traitement |
+|---|---|
+| Transitoire (pas de réseau, timeout, 5xx, 429) | réessai |
+| Authentification (401) | rafraîchir la session ; sinon sync suspendue et invitation à se reconnecter, données locales intactes |
+| Appareil révoqué | effacement local des données et des clés (SECURITY §4.10) |
+| Permanente (400, taille, quota) | élément conservé localement, signalé, rapport d'erreur sans contenu |
+| `schema_version` inconnu (app trop ancienne) | enveloppe conservée telle quelle, non écrasée ; invitation à mettre à jour |
 
 **Déclencheurs** : démarrage, retour au premier plan, changement de
-connectivité (`connectivity_plus` sert seulement de signal ; une requête
-légère confirme la joignabilité), après écriture locale (anti-rebond 5 s),
-toutes les 5 min au premier plan, et en arrière-plan via WorkManager
-(contrainte « réseau disponible », Phase 5).
+connectivité (signal seulement, confirmé par une requête légère), 5 s après
+une écriture, toutes les 5 min au premier plan, WorkManager en arrière-plan
+(réseau disponible).
 
-**Réessais** : backoff exponentiel avec gigue (5 s, 15 s, 1 min, 5 min,
-15 min, plafond 1 h), par opération (`attempts`, `next_attempt_at`).
+## 9. Médias
 
-| Classe d'erreur | Exemples | Traitement |
+Stockés localement chiffrés dès la capture (fonctionne hors ligne). L'entité
+`media` se synchronise comme les autres ; le fichier part ensuite vers
+`user-media/{uid}/{media_id}`, par défaut **en Wi-Fi uniquement**
+(réglable). Sur un autre appareil, il est téléchargé à l'ouverture. Taille
+plafonnée (10 Mo proposé) et quota par utilisateur.
+
+## 10. Invité, compte et appareils
+
+- **Invité → compte** : tout est déjà écrit localement et marqué « à
+  envoyer » ; à l'inscription, l'UMK existante est enveloppée par la RK
+  (SECURITY §4.6), `sync_heads` est créé, puis push normal. **Rien n'est
+  supprimé localement.**
+- **Connexion à un compte qui contient déjà un projet** ⚠️ : les deux jeux de
+  données sont conservés côte à côte (deux projets) ; l'utilisateur choisit
+  le projet actif. Jamais de fusion automatique.
+- **Nouvel appareil** : déverrouillage (QR ou RK), puis pull complet ; rien
+  n'est déchiffré avant.
+- **Déconnexion** : si des éléments ne sont pas envoyés, avertissement
+  explicite ; ensuite effacement des données locales (téléphones partagés).
+
+## 11. Contenu pédagogique
+
+Séparé de la sync utilisateur : manifeste distant, téléchargement des packs
+modifiés, vérification de signature (SECURITY §13), installation atomique,
+ancienne version conservée en cas d'échec.
+
+## 12. Pourquoi une synchronisation interne plutôt qu'une solution spécialisée
+
+Solutions examinées : PowerSync, ElectricSQL et équivalents (réplication
+Postgres ↔ SQLite).
+
+| Critère | Solution spécialisée | Interne (ce document) |
 |---|---|---|
-| Transitoire | pas de réseau, timeout, 5xx, 429 | réessai avec backoff |
-| Authentification | 401 / jeton expiré | rafraîchir la session puis réessayer ; si impossible, sync suspendue + invitation à se reconnecter ; données locales intactes |
-| Permanente | 400 validation, payload trop gros, quota | opération marquée en échec, **donnée conservée localement**, visible dans « Problèmes de synchronisation », rapport d'erreur sans contenu |
-| Version future | `schema_version` inconnu reçu | payload conservé brut, non écrasé, invitation à mettre à jour |
+| Ce qu'elle apporte | réplication de **tables relationnelles lisibles par le serveur**, règles de partage côté serveur, sous-ensembles par utilisateur | stockage d'enveloppes opaques |
+| Compatibilité avec le chiffrement de bout en bout | le serveur ne peut plus lire les colonnes : il ne resterait qu'**une** table de blobs à répliquer ; l'essentiel de la valeur disparaît | conçue pour |
+| Résolution de conflits | en général côté serveur ou en « dernier écrit gagne » sur colonnes en clair — impossible ici | côté client, adaptée aux familles d'Eripoo |
+| Infrastructure | un service supplémentaire (hébergé ou auto-hébergé) qui voit passer les données et métadonnées, avec coût et exploitation | 2 RPC SQL + 3 tables dans le Postgres existant |
+| Dépendance | format et cycle de vie d'un tiers | protocole portable vers n'importe quel Postgres |
+| Volume réel d'Eripoo | conçues pour des données partagées et volumineuses | 1 utilisateur, 1–3 appareils, quelques milliers d'éléments |
+| Risque principal | intégration, coûts, pérennité | **les bugs sont les nôtres** → protocole minimal + tests de faute (§13) |
 
-**Reprise après fermeture** : au démarrage, toutes les opérations
-`in_flight` repassent `pending` ; le rejeu est sûr grâce à `op_id`.
+Conclusion : avec le chiffrement de bout en bout, une solution spécialisée
+ajouterait un service sans apporter son atout principal. **Si le
+chiffrement de bout en bout était abandonné (option C), PowerSync
+redeviendrait le premier choix à réévaluer.**
 
-## 6. Médias (photos, audio)
-
-- Capture et stockage locaux immédiats (fonctionne offline), fichier chiffré
-  par une clé propre, par segments de 64 Ko (mémoire constante, même sur
-  1 Go de RAM).
-- L'entité `media` (métadonnées) se synchronise comme les autres ; le
-  fichier part ensuite via `media_upload_queue`, par défaut **en Wi-Fi
-  uniquement** (réglable), chemin déterministe `user-media/{uid}/{media_id}`
-  (upsert idempotent).
-- Sur un autre appareil, le média apparaît « pas encore téléchargé » et
-  n'est récupéré qu'à l'ouverture (ou en Wi-Fi).
-- Quota par utilisateur et durée maximale d'enregistrement (valeurs à
-  définir, risque de coût R9).
-
-## 7. Invité, compte et appareils
-
-### 7.1 Invité → compte
-
-1. Hors compte, tout est écrit localement avec `owner_id = local:<uuid>` ;
-   l'outbox s'accumule (statut `local_only`, pas d'envoi).
-2. À l'inscription : génération de la clé de chiffrement si absente, envoi
-   de la clé enveloppée (`user_keys`), puis **dans une transaction locale**
-   réattribution `owner_id → auth.uid()` et passage de l'outbox en `pending`.
-3. Push normal. Aucune donnée locale n'est supprimée.
-4. ⚠️ Si l'utilisateur se connecte à un **compte existant** qui contient
-   déjà un projet : les deux jeux de données sont conservés (deux projets
-   distincts), l'utilisateur choisit ensuite lequel est actif. Jamais de
-   fusion automatique de deux projets.
-
-### 7.2 Nouvel appareil
-
-Connexion ⇒ récupération de la clé enveloppée ⇒ déverrouillage par code de
-récupération **ou** transfert par QR depuis un appareil déjà connecté ⇒ pull
-complet. Tant que la clé n'est pas déverrouillée, rien n'est déchiffré ni
-écrit.
-
-### 7.3 Déconnexion
-
-Si l'outbox n'est pas vide : avertissement explicite (« X éléments ne sont
-pas encore sauvegardés ») avec possibilité d'attendre la sync. Les données
-locales sont ensuite effacées de l'appareil (appareils partagés), après
-confirmation.
-
-## 8. Contenu pédagogique
-
-Distinct de la sync utilisateur : manifeste distant comparé au local,
-téléchargement des packs modifiés, vérification `sha256`, installation
-atomique, ancienne version conservée en cas d'échec
-([PRODUCT_ARCHITECTURE §6.3](PRODUCT_ARCHITECTURE.md#63-mise-à-jour-du-contenu-sur-lappareil)).
-
-## 9. Indicateur d'état
-
-États visibles (icône discrète + texte accessible) : « Enregistré sur
-l'appareil », « Synchronisation… », « Tout est sauvegardé », « Hors ligne —
-tes données sont en sécurité sur l'appareil », « Action requise ». Jamais de
-message alarmant pour un simple mode hors ligne.
-
-## 10. Plan de tests de la sync
+## 13. Plan de tests
 
 Faux serveur en mémoire implémentant la même interface que le client RPC
-(doublure de test explicitement documentée), avec injection de fautes ; puis
-les mêmes scénarios contre Supabase local en CI.
+(doublure de test documentée), avec injection de fautes ; mêmes scénarios
+contre Supabase local en CI ; fonctions de résolution testées unitairement.
 
 | # | Scénario | Attendu |
 |---|---|---|
-| 1 | Utilisateur offline pendant N jours, 500 écritures | tout fonctionne ; outbox cohérente |
-| 2 | Retour online | outbox vidée, curseur à jour, état « sauvegardé » |
-| 3 | Conflit (2 appareils, même champ) | HLC la plus grande gagne, perdante dans `sync_conflicts` |
-| 3b | Conflit sur champs différents | fusion sans conflit |
-| 4 | Suppression locale vs modification distante | règles §4.3, aucune perte |
-| 5 | Coupure réseau au milieu d'un push / d'un pull | rejeu idempotent, curseur jamais en avance |
-| 6 | Fermeture de l'app pendant la sync | reprise propre au démarrage |
-| 7 | Réponse dupliquée / rejeu d'un lot | aucun doublon |
-| 8 | Horloge de l'appareil fausse (± 2 ans) | ordre correct, garde-fou §2 |
-| 9 | Invité → compte avec 3 mois de données | tout migré, rien supprimé |
-| 10 | `schema_version` futur reçu | payload conservé, non écrasé |
-| 11 | Appareil lent (1 Go RAM) avec 5 000 enregistrements | sync complète sans gel de l'UI (isolat) |
+| 1 | Hors ligne plusieurs jours, 500 écritures | tout fonctionne ; tout est marqué « à envoyer » |
+| 2 | Retour en ligne | tout est envoyé, curseur à jour, état « sauvegardé » |
+| 3 | Conflit sur un éditable (2 appareils) | version locale gardée, version distante en copie, convergence des 2 appareils |
+| 4 | Suppression locale vs modification distante | corbeille contenant la version modifiée, aucune perte |
+| 5 | Coupure pendant un push (avant / après application serveur) | aucun doublon, aucun faux conflit |
+| 6 | Coupure pendant un pull | curseur jamais en avance sur les données |
+| 7 | Fermeture de l'app pendant la sync | reprise propre |
+| 8 | Lot rejoué deux fois | état identique |
+| 9 | Date de l'appareil fausse (± 2 ans) | aucun effet (pas d'horloge utilisée) |
+| 10 | Invité → compte avec 3 mois de données | tout envoyé, rien supprimé |
+| 11 | Enfant reçu avant son parent | orphelin masqué puis rattaché |
+| 12 | `schema_version` futur reçu | enveloppe conservée, non écrasée |
+| 13 | Appareil révoqué qui se reconnecte | refus, effacement local |
+| 14 | 5 000 éléments sur appareil 1 Go | sync sans gel de l'interface (isolat) |

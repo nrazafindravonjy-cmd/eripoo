@@ -44,7 +44,7 @@ Tous ces moteurs sont du **Dart pur dans `lib/content/` et
 
 Séquence : installation → onboarding (langue, promesse, confidentialité en
 une phrase) → diagnostic → début de parcours → proposition de sauvegarde →
-création de compte (facultative, voir [SECURITY §3](SECURITY.md#3-authentification)).
+création de compte (facultative, voir [SECURITY §7](SECURITY.md#7-authentification)).
 
 - Le diagnostic est **lui-même du contenu** (un pack `diagnostic`) : des
   questions courtes, une par écran, majoritairement à choix avec icônes,
@@ -226,7 +226,8 @@ Une mission est un **gabarit de contenu** instancié pour un projet.
 
 ```
 content/*.yaml (git, revue) ─► tool/content_validate ─► tool/content_build
-     ─► pack JSON + manifeste (version, sha256, min_app_version)
+     ─► pack JSON + manifeste (version, sha256, min_app_version, types de blocs)
+     ─► signature Ed25519 hors ligne (SECURITY §13)
      ─► APK (pack de base) et Supabase Storage `content/` (mises à jour)
 ```
 
@@ -330,7 +331,7 @@ Phase 0.**
   détecter des incohérences, traduire un brouillon. Avant chaque usage :
   « une règle ou un contenu suffit-il ? ». Envoi de texte privé uniquement
   après consentement explicite par usage (voir
-  [SECURITY §8](SECURITY.md#8-ia-et-services-externes)).
+  [SECURITY §8](SECURITY.md#11-ia-et-services-externes)).
 
 ## 10. Finance (principes)
 

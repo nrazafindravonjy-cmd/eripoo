@@ -6,80 +6,112 @@ que selon la Definition of Done du cahier des charges (§56).
 
 ---
 
-## Phase 0 — Architecture et fondations (en cours de validation)
+## Phase 0 — Architecture et fondations
 
 ### Réalisé
 
 | Élément | État |
 |---|---|
-| Documents d'architecture (6 fichiers dans `docs/`) | ✅ rédigés, à valider |
-| Projet Flutter Android (`mg.eripoo.eripoo`, Flutter 3.47.6, minSdk 24) | ✅ créé |
-| Lints stricts (`strict-casts`, `strict-inference`, `strict-raw-types`, `avoid_print`…) | ✅ `flutter analyze` : 0 problème |
-| i18n fr/mg/en (gen-l10n, ARB, repli français des chaînes framework pour `mg`) | ✅ testé (4 tests) |
-| Sauvegarde Android désactivée (`allowBackup=false` + `data_extraction_rules.xml`) | ✅ écrit — **non vérifié par un build Android** (pas de SDK Android dans l'environnement de développement) ; vérifié par la CI au premier passage |
+| Documents d'architecture (6 fichiers dans `docs/`) | ✅ v1 rédigée, orientation validée ; **v2 (revue ciblée) à valider** |
+| Projet Flutter Android (Flutter 3.47.6, minSdk 24) | ✅ créé — identifiant `mg.eripoo.eripoo` **provisoire** (D6) |
+| Lints stricts | ✅ `flutter analyze` : 0 problème |
+| i18n de l'interface mg/fr/en (gen-l10n) + repli français des composants Flutter pour `mg` | ✅ testé (4 tests) |
+| Sauvegarde Android et transfert d'appareil désactivés | ✅ écrit — **non vérifié par un build Android** (pas de SDK Android dans l'environnement de développement) |
 | CI GitHub Actions (format, analyze, test, build APK debug) | ✅ écrite — **pas encore exécutée** |
-| Résolution de l'ensemble des dépendances cibles (projet de test séparé) | ✅ compatibles, versions listées dans ARCHITECTURE §12 |
+| Résolution de l'ensemble des dépendances cibles (projet de test séparé, dont `sodium` 4.1.1+2) | ✅ compatibles |
 
-### Volontairement non fait en Phase 0
+### Revue ciblée v2 (documentaire, aucun code ajouté)
 
-- Thème / design tokens, navigation go_router, Riverpod : Phase 1.
-- Base Drift, Supabase, sync, chiffrement : Phases 2 et 5 (dépendent des
-  décisions D1–D4 ci-dessous).
-- Aucun écran produit. L'unique écran actuel affiche le nom et le slogan ;
-  c'est un point d'amorçage, pas une fonctionnalité.
+- **Clés et chiffrement** : trois secrets distincts (authentification, clé
+  de données UMK, clé de récupération RK) ; cycle de vie complet (génération,
+  Keystore, données locales, données synchronisées, récupération, mot de
+  passe, changement de téléphone, plusieurs appareils, perte du téléphone,
+  perte du code, récupération du compte, suppression) ; bibliothèque unique
+  **libsodium** au lieu de `cryptography` ; transfert entre appareils par
+  double QR sans serveur ; packs de contenu signés.
+- **Synchronisation simplifiée** : plus d'horloges logiques, plus de fusion
+  par champ, plus de table d'outbox ni de table d'opérations serveur ;
+  compteur de versions par utilisateur ; copies de conflit synchronisées ;
+  justification du développement interne.
+- **Malagasy** : système de localisation du contenu propre à Eripoo (sans
+  `intl`), malagasy présélectionné, stratégie de localisation complète des
+  composants Flutter.
+- **Vie privée** : trois catégories (données privées / métadonnées
+  techniques / analytics).
+- **Séparation contenu / interface** confirmée et bornée.
+- **Région Supabase** : analyse comparative et protocole de mesure, sans
+  choix arbitraire.
+- **Identifiant Android** : documenté comme provisoire.
+- `DATA_MODEL.md` et `PRODUCT_ARCHITECTURE.md` mis en cohérence (tables de
+  sync, enveloppes de clé, signature des packs, liens).
 
 ## Phases suivantes
 
-L'ordre du cahier des charges est conservé, avec **deux ajustements
-proposés** ⚠️ :
+Ordre du cahier des charges conservé, avec deux ajustements ⚠️ :
 
-1. **Le socle de sync (colonnes de sync, HLC, outbox, codec chiffré) est
-   construit en Phase 2**, en même temps que la base locale, et non en
-   Phase 5. Raison : chaque entité créée avant aurait sinon à être migrée, et
-   la migration invité → compte (Phase 2) en dépend. La Phase 5 garde le
-   moteur réseau complet et les tests de faute intensifs.
-2. **Le moteur de règles et le format de contenu sont posés en Phase 2**
-   (le diagnostic est du contenu), puis enrichis en Phase 3.
+1. **Le socle de sync (table `sync_meta`, marquage à l'écriture,
+   enveloppes chiffrées) est construit en Phase 2** avec la base locale, car
+   la migration invité → compte en dépend ; la Phase 5 garde le moteur
+   réseau complet et les tests de faute.
+2. **Le format de contenu, sa signature et l'évaluateur de règles sont
+   posés en Phase 2** (le diagnostic est du contenu), enrichis en Phase 3.
 
 | Phase | Contenu | Critères de sortie |
 |---|---|---|
-| **1 — Design system** | tokens (couleur, typo, espacement, rayon, mouvement) clair/sombre via `ThemeExtension`, composants (boutons, cartes, champs, progression, badges, navigation adaptative, modales, états loading/error/offline, bloc « aide » anti-blocage), `AdaptiveScaffold` téléphone/tablette, go_router (shell 5 onglets vides honnêtes), Riverpod, logger expurgé, formateur date/montant `mg` | tests de widget clair/sombre × 2 tailles × 3 langues, `meetsGuideline` (contraste, cibles tactiles), aucune couleur littérale hors tokens (vérif. CI), test sur appareil de référence |
-| **2 — Onboarding + diagnostic + socle données** | Drift chiffré, colonnes de sync, HLC, outbox, gestion de clés (DEK locale), format de contenu + évaluateur de règles + validateur CLI, pack `diagnostic`, profil invité local, création du projet, Supabase (projet, migrations, RLS, `user_keys`, `profiles`, `consents`), comptes e-mail/Google/téléphone, code de récupération, migration invité → compte | onboarding + diagnostic complets offline ; migration testée sans perte ; tests pgTAP RLS ; tests d'intégration onboarding/compte |
-| **3 — Ma quête** | planificateur, exécuteur d'étapes, missions, progression, anti-blocage, statuts `fast_tracked/deferred/postponed`, premières quêtes réelles (contenu relu) | tests unitaires planificateur et règles, parcours de bout en bout offline |
-| **4 — Projet** | sections, historique, observations (photo/audio offline), interviews, hypothèses → décisions (machine d'états), preuves, médias chiffrés | machine d'états testée exhaustivement, médias offline |
-| **5 — Offline + sync** | RPC `sync_push/pull`, moteur, fusion, conflits UI, médias, WorkManager, transfert QR entre appareils | les 11 scénarios d'OFFLINE_SYNC §10 passent contre faux serveur **et** Supabase local |
-| **6 — Outils** | déblocage progressif, guide d'interview, analyse concurrentielle, etc. | — |
+| **1 — Design system** | tokens clair/sombre, composants (boutons, cartes, champs, progression, badges, navigation adaptative, modales, états loading/error/offline, bloc d'aide anti-blocage), `AdaptiveScaffold`, go_router (shell 5 onglets, sans faux contenu), Riverpod, logger expurgé, `EripooFormatter` (mg/fr/en), **inventaire des chaînes Material visibles** | tests de widget clair/sombre × 2 tailles × 3 langues, `meetsGuideline`, aucune couleur ni chaîne littérale hors tokens/ARB (CI), test sur appareil de référence |
+| **2 — Onboarding + diagnostic + socle données** | Drift chiffré (sqlite3mc), `sync_meta`, `CryptoService` libsodium, UMK/DBK + Keystore, format de contenu + `ContentLocalizer` + évaluateur de règles + validateur + signature, pack `diagnostic`, choix de langue (mg présélectionné), profil invité, création du projet, Supabase (migrations, RLS, `user_keys`, `devices`, `profiles`, `consents`), comptes e-mail/Google/téléphone, code de récupération, migration invité → compte | onboarding + diagnostic complets hors ligne ; migration sans perte ; vecteurs de test crypto ; tests pgTAP RLS ; tests d'intégration onboarding/compte |
+| **3 — Ma quête** | planificateur, exécuteur d'étapes générique, missions, progression, anti-blocage, premières quêtes réelles relues | parcours de bout en bout hors ligne ; règles testées |
+| **4 — Projet** | sections, historique, observations, interviews, hypothèses → décisions, preuves, médias chiffrés | machine d'états testée exhaustivement |
+| **5 — Offline + sync** | RPC, moteur, conflits (UI), corbeille, médias, WorkManager, transfert QR, révocation d'appareil | les 14 scénarios d'OFFLINE_SYNC §13 passent (faux serveur **et** Supabase local) |
+| **6 — Outils** | déblocage progressif | — |
 | **7 — Finance, business model, documents** | calculateurs, canvas de synthèse, dossier, export PDF | calculs testés aux limites |
-| **8 — Formalisation Madagascar** | contenu réglementaire **sourcé** et daté, préparation de documents, renvoi vers les vraies démarches | 100 % des informations avec source + date de vérification |
-| **9 — Voix + IA limitée** | transcription optionnelle, proxy IA, consentements par usage | désactivable, aucune donnée envoyée sans consentement |
-| **10 — Production** | budgets de performance mesurés, audit sécurité, accessibilité, validation juridique, back-office web | checklist de release complète |
+| **8 — Formalisation Madagascar** | contenu réglementaire sourcé et daté | 100 % des informations avec source et date |
+| **9 — Voix + IA limitée** | transcription optionnelle, proxy IA, consentements | désactivable, rien n'est envoyé sans consentement |
+| **10 — Production** | budgets de performance mesurés, localisation Material/Cupertino `mg` complète, revue cryptographique externe, audit sécurité, accessibilité, validation juridique, back-office | checklist de release complète |
 
-Le back-office web (contenu, traductions, statistiques agrégées) est
-planifié après la Phase 6 ; d'ici là le contenu vit en YAML dans le dépôt
-(D5).
+## Décisions
 
-## Décisions à valider
+### Validées (sous réserve de votre confirmation de la v2)
 
-Classées par coût de changement ultérieur.
+| # | Décision |
+|---|---|
+| V1 | Stack Flutter / Riverpod / go_router / Drift / Supabase |
+| V2 | Offline-first, base locale source de vérité |
+| V3 | Principe : aucun membre du personnel (administrateur Supabase ou Eripoo) ne peut déchiffrer le contenu privé ⇒ chiffrement de bout en bout |
+| V4 | Contenu, missions, règles et traductions séparés du code d'interface |
+| V5 | Malagasy langue native ; système de localisation du contenu propre à Eripoo |
 
-| # | Décision | Recommandation | Alternative | Pourquoi c'est structurant |
+### Nécessitant encore votre accord
+
+| # | Décision | Recommandation | Alternative | Coût de changement ultérieur |
 |---|---|---|---|---|
-| **D1** | Chiffrement de bout en bout des données privées | **Oui, option A** (code de récupération), séquestre B ajoutable plus tard | C : RLS seule (ne garantit pas l'exigence « admins ne peuvent pas lire ») | Détermine le modèle serveur, la fusion côté client, l'UX de récupération ; quasi irréversible après lancement |
-| **D2** | Acceptation produit du risque de perte (code de récupération perdu + appareils perdus ⇒ copie cloud illisible) | accepter, avec UX de récupération soignée et transfert QR | option B (séquestre) dès le MVP | Impacte la confiance des utilisateurs et le support |
-| **D3** | Moteur de sync maison (table d'enveloppes chiffrées + 2 RPC) | **Oui** | PowerSync (pertinent surtout sans E2EE) | Protocole et schéma serveur |
-| **D4** | Base locale chiffrée (SQLite3MultipleCiphers) + verrou applicatif optionnel | **Oui** pour le chiffrement ; verrou optionnel | base non chiffrée (plus rapide, moins sûr sur téléphone partagé) | Format du fichier de base ; licence sqlite3mc à vérifier |
-| **D5** | Contenu rédigé en YAML dans le dépôt jusqu'à la Phase 6, back-office ensuite | **Oui** | back-office dès la Phase 3 | Rythme de production du contenu, besoin de rédacteurs non techniques |
-| **D6** | Identifiant d'application Android `mg.eripoo.eripoo` | à confirmer : **définitif une fois publié sur Play** ; idéalement basé sur un domaine que vous possédez | `app.eripoo`, autre | Irréversible après publication |
-| **D7** | Analytics opt-in, sans aucun identifiant, auto-hébergé dans Supabase | **Oui** | opt-out ; outil tiers (Firebase, PostHog…) | Qualité des métriques vs confidentialité (public mineur) |
-| **D8** | Rapports de crash maison (sans message d'exception) | **Oui** au départ | Sentry (meilleur outillage, tiers) | Visibilité des bugs en production |
-| **D9** | Région d'hébergement Supabase | à choisir (contraintes juridiques + latence depuis Madagascar à mesurer) | — | Migration de région coûteuse |
-| **D10** | Fournisseur SMS pour l'OTP téléphone | à choisir après test de délivrabilité et de coût vers les opérateurs malgaches | reporter le téléphone après e-mail/Google | Coût récurrent, fiabilité de connexion |
-| **D11** | Appareils de référence pour la performance | ex. Android 7–10, 1–2 Go RAM, 32 bits ; idéalement 2 vrais appareils achetés localement | émulateurs seuls | Validité des budgets de performance |
-| **D12** | Analyse juridique (mineurs, données personnelles, mentions réglementaires) | avant la Phase 10, idéalement avant la Phase 2 pour le flux de consentement parental | — | Le flux d'onboarding des mineurs en dépend |
-| **D13** | Relecture malagasy (contenu + chaînes framework + formats de date) | désigner un ou plusieurs relecteurs natifs | traduction machine non relue (refusée par l'architecture) | Qualité pour la cible principale |
+| **D1** | Modèle de récupération | **A** : code de récupération + transfert QR, sans séquestre | B : + séquestre à double contrôle (garantie affaiblie, à annoncer) | faible : B s'ajoute sans migration |
+| **D2** | Accepter que « tous appareils + code perdus ⇒ copie en ligne illisible » | accepter, avec UX de récupération soignée | B dès le MVP | — (décision produit) |
+| **D3** | Synchronisation interne simplifiée (v2) | **oui** | PowerSync (pertinent seulement sans E2EE) | élevé après lancement |
+| **D4** | Base locale chiffrée (sqlite3mc) ; verrou applicatif **optionnel** | oui ; proposer le verrou à l'onboarding sans l'imposer | verrou obligatoire ; base non chiffrée | moyen |
+| **D5** | Contenu en YAML dans le dépôt jusqu'à la Phase 6, back-office ensuite | oui | back-office dès la Phase 3 | faible |
+| **D6** | Identifiant Android définitif | basé sur un domaine que vous possédez, à fixer **avant la création de l'app dans la Play Console** | — | **irréversible** après création Play |
+| **D7** | Analytics opt-in, sans identifiant, auto-hébergés | oui | opt-out ; outil tiers | moyen |
+| **D8** | Rapports de crash maison (sans message d'exception) | oui au départ | Sentry | faible |
+| **D9** | Région Supabase | décider après mesures et avis juridique (ARCHITECTURE §14) ; présélection Paris / Francfort, Mumbai témoin | — | élevé |
+| **D10** | Fournisseur SMS (OTP) | après test de délivrabilité et de coût vers les opérateurs malgaches | téléphone après e-mail/Google | moyen |
+| **D11** | Appareils de référence | 2 vrais appareils achetés localement (Android 7–10, 1–2 Go, 32 bits) | émulateurs seuls | — |
+| **D12** | Analyse juridique (mineurs, loi 2014-038, transferts hors de Madagascar, mentions) | avant la Phase 2 pour l'onboarding des mineurs ; complète avant production | — | élevé si tardive |
+| **D13** | Relecteurs natifs malagasy (contenu, interface, composants Flutter, formats de date) | désigner dès la Phase 1 | — | — |
+| **D14** | Langue de rédaction du contenu | co-rédaction malagasy + français par des auteurs natifs ; anglais traduit et relu | rédaction en français puis traduction | moyen |
+| **D15** | Plafond par média (chiffrement en une opération) | 10 Mo (photos réduites ; audio ≈ 20 min, interviews en plusieurs parties) | plus haut avec un format de flux libsodium (`secretstream`) | faible |
+| **D16** | Bibliothèque cryptographique | libsodium via `sodium` 4.1.1+2 | Tink via canal natif Android | moyen |
 
-## Prochaine phase recommandée
+## Recommandation pour la Phase 1
 
-**Phase 1 — Design system**, qui ne dépend d'aucune des décisions D1–D4 et
-peut démarrer dès validation de ce document. Les décisions D1–D4, D6 et D12
-sont en revanche nécessaires **avant la Phase 2**.
+**GO pour la Phase 1 (design system), dès validation de cette v2.**
+
+- La Phase 1 ne touche ni aux clés, ni à la sync, ni à Supabase, ni au
+  contenu : **aucune des décisions D1–D16 ne la bloque**.
+- D11 (appareils de référence) et D13 (relecteur malagasy) **l'améliorent**
+  sans la bloquer : sans eux, les tests sur appareil réel et la relecture
+  des libellés malagasy du design system resteront signalés comme « non
+  vérifiés ».
+- **NO-GO pour la Phase 2** tant que D1, D2, D3, D4, D12 (au moins le volet
+  mineurs) et la vérification de licence de sqlite3mc ne sont pas tranchés.
+  D6 et D9 doivent l'être avant toute mise en ligne publique.
