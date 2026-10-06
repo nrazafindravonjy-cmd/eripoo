@@ -122,7 +122,7 @@ chiffrement, et le serveur d'authentification verrait passer ce secret.
 | Signature des packs de contenu | `crypto_sign_verify_detached` (Ed25519) | libsodium |
 | Remplissage | `sodium_pad` / `sodium_unpad` | libsodium |
 | Clés en mémoire | `SecureKey` (`sodium_malloc` + `sodium_memzero` à la libération) | `sodium` |
-| Protection au repos sur l'appareil | clé AES-GCM non exportable d'Android Keystore (StrongBox si disponible) | `flutter_secure_storage` 11.2.0 |
+| Protection au repos sur l'appareil | clé RSA-OAEP non exportable d'Android Keystore qui enveloppe la clé AES-GCM du stockage | `flutter_secure_storage` 11.2.0 |
 | Chiffrement de la base | schéma ChaCha20-Poly1305 de SQLite3MultipleCiphers | `sqlite3` (hook `source: sqlite3mc`) |
 | Transport | TLS | Android / Supabase |
 
@@ -164,8 +164,16 @@ Android Keystore : clé AES-256-GCM non exportable (StrongBox si présent)
 ```
 
 - Configuration (implémentée, `lib/security/secure_key_store.dart`) :
-  `AndroidOptions(keyCipherAlgorithm: AES_GCM_NoPadding,
-  storageCipherAlgorithm: AES_GCM_NoPadding, resetOnError: false)`.
+  `AndroidOptions(keyCipherAlgorithm: RSA_ECB_OAEPwithSHA_256andMGF1Padding,
+  storageCipherAlgorithm: AES_GCM_NoPadding, resetOnError: false)` —
+  la configuration par défaut recommandée par la bibliothèque.
+  **Corrigé en validation Phase 2** : la configuration précédente
+  (`keyCipherAlgorithm: AES_GCM_NoPadding`) est le mode *biométrique* de la
+  bibliothèque. Au premier lancement, elle passe par `BiometricPrompt` :
+  **plantage sur Android 7–8** (API < 28, constaté sur l'émulateur CI
+  Android 8) et demande d'authentification à chaque ouverture sur les
+  téléphones verrouillés. Aucune donnée n'existait encore (pas de
+  migration nécessaire). Une règle d'architecture interdit d'y revenir.
   ⚠️ **`resetOnError` vaut `true` par défaut dans la bibliothèque** : à la
   moindre erreur de déchiffrement, elle efface toutes les valeurs stockées,
   ce qui détruirait silencieusement les clés. Il est désactivé ; une erreur
@@ -755,7 +763,8 @@ le cache pub, dépôt public de SQLite3MultipleCiphers).
 ### 18.3 `flutter_secure_storage`
 
 Version 11.2.0 (2026-09-16), BSD 3-Clause ; code Android vérifié (clé
-AES-GCM du Keystore, StrongBox optionnel, authentification utilisateur
-optionnelle). Remplacement possible : petit canal natif Kotlin utilisant
+RSA-OAEP du Keystore enveloppant une clé AES-GCM ; le mode « clé AES du
+Keystore » est réservé à l'authentification biométrique et ne fonctionne
+pas avant Android 9 — voir §4.4). Remplacement possible : petit canal natif Kotlin utilisant
 directement le Keystore (sans changer le format des données stockées par
 Eripoo, qui est versionné).

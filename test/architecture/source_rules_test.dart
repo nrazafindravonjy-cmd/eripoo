@@ -161,4 +161,17 @@ void main() {
     }
     expect(offenders, isEmpty);
   });
+
+  test('secure storage never uses the biometric key cipher', () {
+    // Crashes on Android 7-8 and prompts for authentication at start on
+    // locked phones (docs/SECURITY.md §4.4); found on the CI emulator.
+    final source = File('lib/security/secure_key_store.dart')
+        .readAsStringSync();
+    expect(
+      source,
+      contains('KeyCipherAlgorithm.RSA_ECB_OAEPwithSHA_256andMGF1Padding'),
+    );
+    expect(source, isNot(contains('KeyCipherAlgorithm.AES_GCM_NoPadding')));
+    expect(source, isNot(contains('AndroidOptions.biometric')));
+  });
 }

@@ -22,8 +22,15 @@ class KeystoreSecureKeyStore implements SecureKeyStore {
   KeystoreSecureKeyStore()
     : _storage = const FlutterSecureStorage(
         aOptions: AndroidOptions(
-          // AES-GCM key generated inside the Android Keystore.
-          keyCipherAlgorithm: KeyCipherAlgorithm.AES_GCM_NoPadding,
+          // Default ciphers on purpose: an RSA-OAEP key generated in the
+          // Android Keystore wraps the AES-GCM storage key, with no user
+          // authentication. The AES_GCM_NoPadding *key* cipher is the
+          // plugin's biometric mode: on first launch it migrates through
+          // BiometricPrompt, which crashes on Android 7-8 (API < 28, seen
+          // on the CI emulator) and would ask for authentication on
+          // phones with a screen lock. The Eripoo lock is separate (D4).
+          keyCipherAlgorithm:
+              KeyCipherAlgorithm.RSA_ECB_OAEPwithSHA_256andMGF1Padding,
           storageCipherAlgorithm: StorageCipherAlgorithm.AES_GCM_NoPadding,
           // The library default (true) deletes *all* stored values on a
           // decryption error, which would silently destroy the keys.
