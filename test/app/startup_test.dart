@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:eripoo/app/startup/app_services.dart';
+import 'package:eripoo/app/startup/local_data_eraser.dart';
 import 'package:eripoo/app/startup/startup_failure_app.dart';
 import 'package:eripoo/security/key_manager.dart';
 import 'package:flutter/material.dart';
@@ -93,7 +94,7 @@ void main() {
 
       await AppServices.resetLocalData(store, file: file);
       expect(file.existsSync(), isFalse);
-      expect(store.values, isEmpty);
+      expect(store.values.keys, [LocalDataEraser.reasonEntry]);
 
       final fresh = await AppServices.start(store, file: file);
       addTearDown(fresh.database.close);

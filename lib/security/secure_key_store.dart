@@ -11,6 +11,10 @@ abstract interface class SecureKeyStore {
   Future<String?> read(String name);
   Future<void> write(String name, String value);
   Future<void> delete(String name);
+
+  /// Removes every Eripoo entry (keys, session, lock settings): used only
+  /// when this device's local data is erased.
+  Future<void> deleteAll();
 }
 
 /// Android Keystore-backed store (docs/SECURITY.md §4.4).
@@ -49,4 +53,7 @@ class KeystoreSecureKeyStore implements SecureKeyStore {
 
   @override
   Future<void> delete(String name) => _storage.delete(key: name);
+
+  @override
+  Future<void> deleteAll() => _storage.deleteAll();
 }

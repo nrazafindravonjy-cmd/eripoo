@@ -44,7 +44,7 @@ class Device {
 
   SyncEngine engine() => SyncEngine(
     db: db,
-    remote: server.clientFor(owner),
+    remote: server.clientFor(owner, session: deviceId),
     crypto: crypto,
     logger: AppLogger(sinks: [logs]),
     clock: clock.call,
@@ -366,7 +366,7 @@ void main() {
         ownerId: owner,
         recordId: id,
       );
-      await server.clientFor(owner).push(a.deviceId, [
+      await server.clientFor(owner, session: a.deviceId).push(a.deviceId, [
         RemotePut(
           id: id,
           changeId: Ids.random(),

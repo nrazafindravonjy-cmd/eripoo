@@ -7,6 +7,7 @@ import '../../data/local/encrypted_database.dart';
 import '../../security/crypto_service.dart';
 import '../../security/key_manager.dart';
 import '../../security/secure_key_store.dart';
+import 'local_data_eraser.dart';
 
 /// Long-lived services opened at start-up: keys, then the encrypted local
 /// database. Everything works offline; no network call happens here.
@@ -60,15 +61,12 @@ class AppServices {
     );
   }
 
-  /// Erases the local database and keys (unreadable data, user's explicit
-  /// choice). Synced data stays recoverable with the recovery code.
+  /// Erases the local database, keys and session (unreadable data, user's
+  /// explicit choice). Synced data stays recoverable with the recovery code.
   static Future<void> resetLocalData(SecureKeyStore store, {File? file}) async {
-    file ??= await databaseFile();
-    for (final path in [file.path, '${file.path}-wal', '${file.path}-shm']) {
-      final f = File(path);
-      if (f.existsSync()) f.deleteSync();
-    }
-    final crypto = await CryptoService.init();
-    await KeyManager(crypto, store).wipe();
+    await LocalDataEraser(
+      store: store,
+      databaseFile: file ?? await databaseFile(),
+    ).eraseAll(reason: ErasureReason.userReset);
   }
 }

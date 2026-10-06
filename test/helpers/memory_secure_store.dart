@@ -12,4 +12,7 @@ class MemorySecureKeyStore implements SecureKeyStore {
 
   @override
   Future<void> delete(String name) async => values.remove(name);
+
+  @override
+  Future<void> deleteAll() async => values.clear();
 }

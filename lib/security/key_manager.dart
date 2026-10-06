@@ -300,6 +300,9 @@ class _NoStore implements SecureKeyStore {
 
   @override
   Future<void> delete(String name) => throw UnsupportedError('isolate');
+
+  @override
+  Future<void> deleteAll() => throw UnsupportedError('isolate');
 }
 
 // Isolate entry points: top-level so that the closures sent to the isolate

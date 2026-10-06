@@ -29,6 +29,8 @@ alter default privileges in schema public
 create schema auth;
 grant usage on schema auth to anon, authenticated, service_role;
 create table auth.users (id uuid primary key, email text);
+-- Subset of Supabase's auth.sessions (one row per sign-in).
+create table auth.sessions (id uuid primary key, user_id uuid not null);
 
 create function auth.jwt() returns jsonb language sql stable as $$
   select coalesce(nullif(current_setting('request.jwt.claims', true), ''), '{}')::jsonb

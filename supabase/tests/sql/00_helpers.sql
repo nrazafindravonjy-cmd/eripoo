@@ -31,11 +31,13 @@ $$;
 
 -- Acts as user p_uid for the rest of the transaction, with a JWT "amr"
 -- entry authenticated p_auth_age ago.
-create or replace function tests.login(p_uid uuid, p_auth_age interval default interval '1 minute')
+drop function if exists tests.login(uuid, interval);
+create or replace function tests.login(p_uid uuid, p_auth_age interval default interval '1 minute',
+  p_session uuid default null)
 returns void language plpgsql as $$
 begin
   perform set_config('request.jwt.claims', jsonb_build_object(
-    'sub', p_uid, 'role', 'authenticated',
+    'sub', p_uid, 'role', 'authenticated', 'session_id', p_session,
     'amr', jsonb_build_array(jsonb_build_object(
       'method', 'password',
       'timestamp', extract(epoch from now() - p_auth_age)::bigint)))::text, true);

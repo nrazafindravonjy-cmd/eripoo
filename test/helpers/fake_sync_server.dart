@@ -12,6 +12,10 @@ class FakeSyncServer {
   final _heads = <String, int>{};
   final _devices = <String, Map<String, String>>{}; // owner → device → status
   final _wraps = <String, RecoveryWrap>{};
+  // Like the SQL: each device remembers the auth session it last used; a
+  // revoked device's session is refused everywhere afterwards.
+  final _deviceSessions = <String, Map<String, String>>{};
+  final _revokedSessions = <String>{};
 
   /// Fault injection.
   bool offline = false;
@@ -27,13 +31,28 @@ class FakeSyncServer {
 
   int pushCalls = 0;
 
-  FakeSyncRemote clientFor(String ownerId) => FakeSyncRemote(this, ownerId);
+  /// A client signed in as [ownerId] with the auth session [session].
+  FakeSyncRemote clientFor(String ownerId, {String session = 'session-1'}) =>
+      FakeSyncRemote(this, ownerId, session);
 
   Map<String, RemoteRecord> recordsOf(String owner) =>
       _records[owner] ?? const {};
 
-  void revoke(String owner, String deviceId) =>
-      (_devices[owner] ??= {})[deviceId] = 'revoked';
+  void revoke(String owner, String deviceId) {
+    (_devices[owner] ??= {})[deviceId] = 'revoked';
+    final session = _deviceSessions[owner]?[deviceId];
+    if (session != null) _revokedSessions.add(session);
+  }
+
+  String? deviceStatus(String owner, String deviceId) =>
+      _devices[owner]?[deviceId];
+
+  void _requireSession(String session) {
+    if (_revokedSessions.contains(session)) throw const DeviceRevoked();
+  }
+
+  void _bind(String owner, String deviceId, String session) =>
+      (_deviceSessions[owner] ??= {})[deviceId] = session;
 
   void _requireDevice(String owner, String deviceId) {
     final status = _devices[owner]?[deviceId];
@@ -43,13 +62,15 @@ class FakeSyncServer {
 }
 
 class FakeSyncRemote implements SyncRemote {
-  FakeSyncRemote(this.server, this.ownerId);
+  FakeSyncRemote(this.server, this.ownerId, this.session);
 
   final FakeSyncServer server;
   final String ownerId;
+  final String session;
 
   void _online() {
     if (server.offline) throw const RemoteUnavailable();
+    server._requireSession(session);
   }
 
   @override
@@ -66,6 +87,7 @@ class FakeSyncRemote implements SyncRemote {
       throw const DeviceLimitReached();
     }
     devices[deviceId] = 'active';
+    server._bind(ownerId, deviceId, session);
   }
 
   @override
@@ -73,6 +95,7 @@ class FakeSyncRemote implements SyncRemote {
     _online();
     server.pushCalls++;
     server._requireDevice(ownerId, deviceId);
+    server._bind(ownerId, deviceId, session);
     if (puts.length > 50) throw const RemoteRejected();
     final records = server._records[ownerId] ??= {};
     var head = server._heads[ownerId] ?? 0;
@@ -117,6 +140,7 @@ class FakeSyncRemote implements SyncRemote {
   Future<PullPage> pull(String deviceId, int since, {int limit = 200}) async {
     _online();
     server._requireDevice(ownerId, deviceId);
+    server._bind(ownerId, deviceId, session);
     if (server._failPullAfterPages >= 0 &&
         server._pullPages >= server._failPullAfterPages) {
       server._failPullAfterPages = -1;
