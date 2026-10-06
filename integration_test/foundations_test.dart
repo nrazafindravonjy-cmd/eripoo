@@ -439,7 +439,17 @@ void main() {
       return container;
     }
 
+    // The encrypted database answers on a background isolate: a screen
+    // can update after pumpAndSettle returns. Wait (at most 10 s) for it.
+    Future<void> waitFor(Finder finder) async {
+      final w = Stopwatch()..start();
+      while (finder.evaluate().isEmpty && w.elapsed.inSeconds < 10) {
+        await tester.pump(const Duration(milliseconds: 50));
+      }
+    }
+
     Future<void> tapText(String text) async {
+      await waitFor(find.text(text));
       final finder = find.text(text).last;
       await tester.ensureVisible(finder);
       await tester.pumpAndSettle();
@@ -471,12 +481,14 @@ void main() {
     await tester.pumpAndSettle();
     await tapText('Suivant');
     await tapText("Terminer l'étape");
+    await waitFor(find.widgetWithText(AppBar, 'Projet fictif'));
     expect(find.widgetWithText(AppBar, 'Projet fictif'), findsOneWidget);
     await tapText('Commencer'); // first journey step
     for (var i = 0; i < 3; i++) {
       await tapText('Suivant');
     }
     await tapText("Terminer l'étape");
+    await waitFor(find.text('Le problème que tu vois'));
     expect(find.text('Le problème que tu vois'), findsOneWidget);
 
     // Restart: the database is closed and reopened (keys from the
@@ -490,7 +502,9 @@ void main() {
     services = await AppServices.start(store);
     container = await launch();
     measure('journey_restart_to_home_ms', watch.elapsedMilliseconds);
+    await waitFor(find.widgetWithText(AppBar, 'Projet fictif'));
     expect(find.widgetWithText(AppBar, 'Projet fictif'), findsOneWidget);
+    await waitFor(find.text('Le problème que tu vois'));
     expect(find.text('Le problème que tu vois'), findsOneWidget);
     expect(find.text('Bienvenue sur Eripoo'), findsNothing);
     await tester.pumpWidget(const SizedBox());
