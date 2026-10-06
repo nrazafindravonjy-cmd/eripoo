@@ -22,8 +22,9 @@ class ProgressRepository {
   Future<void> setStatus(
     String questId,
     String stepId,
-    StepStatus status,
-  ) async {
+    StepStatus status, {
+    DateTime? deferredUntil,
+  }) async {
     final id = Ids.forKey('step:$stepId');
     final now = _clock().millisecondsSinceEpoch;
     await _db.transaction(() async {
@@ -47,6 +48,11 @@ class ProgressRepository {
               status: status.name,
               startedAt: Value(startedAt),
               completedAt: Value(completedAt),
+              deferredUntil: Value(
+                status == StepStatus.deferred
+                    ? deferredUntil?.millisecondsSinceEpoch
+                    : null,
+              ),
               createdAt: existing?.createdAt ?? now,
               updatedAt: now,
             ),
@@ -66,6 +72,25 @@ class ProgressRepository {
       status: StepStatus.values.byName(row.status),
       startedAt: _time(row.startedAt),
       completedAt: _time(row.completedAt),
+      deferredUntil: _time(row.deferredUntil),
     );
+  }
+
+  /// Every stored step, by step id (planner input).
+  Future<Map<String, StepProgress>> all() async {
+    final rows = await (_db.select(
+      _db.stepProgressEntries,
+    )..where((t) => t.deletedAt.isNull())).get();
+    return {
+      for (final row in rows)
+        row.stepId: StepProgress(
+          questId: row.questId,
+          stepId: row.stepId,
+          status: StepStatus.values.byName(row.status),
+          startedAt: _time(row.startedAt),
+          completedAt: _time(row.completedAt),
+          deferredUntil: _time(row.deferredUntil),
+        ),
+    };
   }
 }

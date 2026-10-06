@@ -16,8 +16,8 @@ class LocalKeyValues extends Table {
 
 /// The local database: source of truth of the app (docs/DATA_MODEL.md §3).
 ///
-/// Schema version 1 is **not frozen** until the first release with real
-/// users: development databases are disposable.
+/// Not frozen until the first release with real users, but every change
+/// still comes with a migration (development databases keep working).
 @DriftDatabase(
   tables: [
     LocalKeyValues,
@@ -27,6 +27,8 @@ class LocalKeyValues extends Table {
     ProjectSections,
     ProjectRevisions,
     StepProgressEntries,
+    Answers,
+    MissionInstances,
     ConflictCopies,
     SyncMetaEntries,
   ],
@@ -35,7 +37,22 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.executor);
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
+
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+    onUpgrade: (m, from, to) async {
+      if (from < 2) {
+        // Phase 3: answers, missions, deferred steps.
+        await m.createTable(answers);
+        await m.createTable(missionInstances);
+        await m.addColumn(
+          stepProgressEntries,
+          stepProgressEntries.deferredUntil,
+        );
+      }
+    },
+  );
 
   Future<String?> readValue(String key) async {
     final row = await (select(

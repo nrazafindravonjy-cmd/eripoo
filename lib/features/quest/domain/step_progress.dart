@@ -9,6 +9,7 @@ class StepProgress {
     required this.status,
     this.startedAt,
     this.completedAt,
+    this.deferredUntil,
   });
 
   final String questId;
@@ -16,4 +17,5 @@ class StepProgress {
   final StepStatus status;
   final DateTime? startedAt;
   final DateTime? completedAt;
+  final DateTime? deferredUntil;
 }

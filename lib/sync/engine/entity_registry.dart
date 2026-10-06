@@ -15,6 +15,8 @@ class EntityRegistry {
         EntityTypes.projectSection: _db.projectSections,
         EntityTypes.projectRevision: _db.projectRevisions,
         EntityTypes.stepProgress: _db.stepProgressEntries,
+        EntityTypes.answer: _db.answers,
+        EntityTypes.missionInstance: _db.missionInstances,
         EntityTypes.conflictCopy: _db.conflictCopies,
       };
 

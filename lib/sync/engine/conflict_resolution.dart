@@ -67,6 +67,10 @@ MergeOutcome resolveConflict({
           'status': status.name,
           'startedAt': _minInt(local['startedAt'], remote['startedAt']),
           'completedAt': _maxInt(local['completedAt'], remote['completedAt']),
+          // The return date belongs to the side whose status won.
+          'deferredUntil': status == localStatus
+              ? local['deferredUntil']
+              : remote['deferredUntil'],
           'updatedAt': _maxInt(local['updatedAt'], remote['updatedAt']),
         },
       );

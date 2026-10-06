@@ -8,6 +8,8 @@ abstract final class EntityTypes {
   static const projectRevision = 'project_revision';
   static const stepProgress = 'step_progress';
   static const conflictCopy = 'conflict_copy';
+  static const answer = 'answer';
+  static const missionInstance = 'mission_instance';
 
   static const all = [
     profile,
@@ -16,6 +18,8 @@ abstract final class EntityTypes {
     projectSection,
     projectRevision,
     stepProgress,
+    answer,
+    missionInstance,
     conflictCopy,
   ];
 }

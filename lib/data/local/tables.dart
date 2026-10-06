@@ -91,6 +91,53 @@ class StepProgressEntries extends Table {
   TextColumn get status => text()();
   IntColumn get startedAt => integer().nullable()();
   IntColumn get completedAt => integer().nullable()();
+
+  /// "Skip for now": when the step comes back (schema v2).
+  IntColumn get deferredUntil => integer().nullable()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// Answer to one question block of a step (schema v2). One per block:
+/// deterministic id, so two devices answering the same question meet.
+@DataClassName('AnswerRow')
+class Answers extends Table {
+  TextColumn get id => text()();
+  TextColumn get questId => text()();
+  TextColumn get stepId => text()();
+  TextColumn get blockId => text()();
+
+  /// `text`, `choice`, `multi_choice`, `number`, `money`, `unknown`.
+  TextColumn get answerType => text()();
+  TextColumn get valueJson => text().nullable()();
+
+  /// Highest help level used (0 none, 1–2 rephrasing, 3 example, 4 hints).
+  IntColumn get helpUsed => integer().withDefault(const Constant(0))();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// A mission accepted from the content (schema v2).
+@DataClassName('MissionInstanceRow')
+class MissionInstances extends Table {
+  TextColumn get id => text()();
+  TextColumn get templateId => text()();
+  TextColumn get status => text()();
+  IntColumn get acceptedAt => integer().nullable()();
+  IntColumn get submittedAt => integer().nullable()();
+  IntColumn get completedAt => integer().nullable()();
+  IntColumn get abandonedAt => integer().nullable()();
+
+  /// The user's account of what they did (private, encrypted when synced).
+  TextColumn get reflection => text().nullable()();
   IntColumn get createdAt => integer()();
   IntColumn get updatedAt => integer()();
   IntColumn get deletedAt => integer().nullable()();
