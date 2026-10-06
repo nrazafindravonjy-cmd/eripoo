@@ -210,6 +210,11 @@ class _Context implements RuleContext {
   );
 }
 
+/// Evaluates [rule] against the stored state (step completion conditions,
+/// mission completion conditions).
+bool evaluateRule(Rule rule, PlannerInput input) =>
+    rule.evaluate(_Context(input));
+
 /// Pure and deterministic: the same input always gives the same plan
 /// (docs/PRODUCT_ARCHITECTURE.md §3.3).
 JourneyPlan plan(PlannerInput input) {

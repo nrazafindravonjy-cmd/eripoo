@@ -19,6 +19,9 @@ abstract interface class RuleContext {
   DateTime get now;
 }
 
+/// Value a fact takes when the user answered "I don't know" to a choice.
+const unknownFactValue = 'unknown';
+
 /// Entities a `count` rule may count, with the fields it may filter on.
 /// Counting never reads text.
 const countableEntities = <String, Set<String>>{

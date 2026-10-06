@@ -71,7 +71,7 @@ ValidationReport validatePack(ContentPack pack) {
       final block = step.block(output.fromBlock);
       if (block is! QuestionBlock) continue; // reported below
       factValues[target.key] = block.answer.kind == AnswerKind.choice
-          ? {for (final o in block.answer.options) o.value}
+          ? {for (final o in block.answer.options) o.value, unknownFactValue}
           : null;
     }
   }
