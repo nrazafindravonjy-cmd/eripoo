@@ -20,6 +20,7 @@ dependencies:
   local_auth: ^3.0.2
   sodium: ^4.1.1+2
   sqlite3: ^3.7.0
+  supabase_flutter: ^2.18.0
   uuid: ^4.6.0
 
 dev_dependencies:
