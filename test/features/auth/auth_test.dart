@@ -7,7 +7,7 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide AuthUser;
 void main() {
   group('rules', () {
     test('e-mail format', () {
-      expect(AuthRules.validateEmail('  hery@example.mg '), 'hery@example.mg');
+      expect(AuthRules.validateEmail('  hery@example.com '), 'hery@example.com');
       expect(
         () => AuthRules.validateEmail('hery'),
         throwsA(isA<InvalidEmail>()),

@@ -99,4 +99,66 @@ void main() {
             .where((p) => p.isNotEmpty);
     expect(tracked.every((p) => p == 'env/example.json'), isTrue);
   });
+
+  test('no analytics, crash-reporting or AI SDK in the dependencies', () {
+    // Private data must never leave through a third-party SDK
+    // (docs/SECURITY.md). Analytics are a later, opt-in, self-hosted
+    // decision (D7, D8); no project data is sent to an AI model.
+    final lock = File('pubspec.lock').readAsStringSync();
+    final forbidden = RegExp(
+      r'^  (firebase_\w+|sentry\w*|\w*crashlytics\w*|amplitude\w*|mixpanel\w*|'
+      r'segment\w*|posthog\w*|datadog\w*|bugsnag\w*|appcenter\w*|'
+      r'google_generative_ai|openai\w*|dart_openai|langchain\w*|'
+      r'anthropic\w*|firebase_vertexai|google_mlkit\w*):',
+      multiLine: true,
+    );
+    expect(forbidden.allMatches(lock).map((m) => m.group(1)).toList(), isEmpty);
+  });
+
+  test('exceptions carry no text (no user input in error messages)', () {
+    final classHeader = RegExp(
+      r'^(?:sealed |final |abstract )*class (\w+)[^{]*(?:implements Exception|extends \w*(?:Failure|Exception))[^{]*\{',
+      multiLine: true,
+    );
+    final offenders = <String>[];
+    for (final f in dartFiles('lib')) {
+      final source = f.readAsStringSync();
+      for (final match in classHeader.allMatches(source)) {
+        final rest = source.substring(match.end);
+        final end = rest.indexOf(RegExp(r'^}', multiLine: true));
+        final body = end < 0 ? rest : rest.substring(0, end);
+        if (RegExp(r'final (String|Object|dynamic)\??\s').hasMatch(body) ||
+            body.contains('String get message')) {
+          offenders.add('${rel(f)}: ${match.group(1)}');
+        }
+      }
+    }
+    expect(offenders, isEmpty);
+  });
+
+  test('test data is fictitious (no real e-mail address or phone number)', () {
+    final dirs = ['test', 'integration_test', 'supabase/tests'];
+    final email = RegExp(r'[\w.+-]+@([\w-]+\.)+[a-z]{2,}');
+    final allowedDomains = RegExp(r'@(?:[\w-]+\.)*example\.(com|invalid|org)$');
+    // Malagasy mobile numbers: +261 3x … or 03x xx xxx xx.
+    final phone = RegExp(
+      r'(\+261[\s.]?3\d|\b03[234789])[\s.]?\d{2}[\s.]?\d{3}[\s.]?\d{2}\b',
+    );
+    final offenders = <String>[];
+    for (final dir in dirs) {
+      for (final f in Directory(
+        dir,
+      ).listSync(recursive: true).whereType<File>()) {
+        if (!(f.path.endsWith('.dart') || f.path.endsWith('.sql'))) continue;
+        final content = f.readAsStringSync();
+        for (final m in email.allMatches(content)) {
+          if (!allowedDomains.hasMatch(m.group(0)!)) {
+            offenders.add('${f.path}: ${m.group(0)}');
+          }
+        }
+        if (phone.hasMatch(content)) offenders.add('${f.path}: phone number');
+      }
+    }
+    expect(offenders, isEmpty);
+  });
 }

@@ -1,0 +1,380 @@
+// Phase 2 foundations on a real Android system (emulator in CI, or a
+// reference phone). Prints `MEASURE <name> <value>` lines, copied into
+// docs/DEVELOPMENT_PLAN.md (Phase 2 validation).
+//
+//   flutter test integration_test/foundations_test.dart -d <device>
+//
+// Fictitious data only. Erases Eripoo's own local data on the device.
+import 'dart:async';
+import 'dart:io';
+import 'dart:isolate';
+
+import 'package:eripoo/app/app.dart';
+import 'package:eripoo/app/di/core_providers.dart';
+import 'package:eripoo/app/startup/app_services.dart';
+import 'package:eripoo/core/i18n/app_language.dart';
+import 'package:eripoo/core/logging/app_logger.dart';
+import 'package:eripoo/features/app_lock/data/app_lock_adapters.dart';
+import 'package:eripoo/features/app_lock/domain/app_lock_service.dart';
+import 'package:eripoo/features/app_lock/presentation/app_lock_controller.dart';
+import 'package:eripoo/features/app_lock/presentation/lock_screen.dart';
+import 'package:eripoo/features/project/data/project_repository.dart';
+import 'package:eripoo/features/settings/presentation/app_settings_controller.dart';
+import 'package:eripoo/security/crypto_service.dart';
+import 'package:eripoo/security/key_manager.dart';
+import 'package:eripoo/security/secure_key_store.dart';
+import 'package:eripoo/sync/engine/sync_engine.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:integration_test/integration_test.dart';
+
+import '../test/helpers/fake_sync_server.dart';
+import '../test/helpers/memory_secure_store.dart';
+
+void measure(String name, Object value) => debugPrint('MEASURE $name $value');
+
+int median(List<int> values) => (List.of(values)..sort())[values.length ~/ 2];
+
+Future<void> eraseEverything(SecureKeyStore store) async {
+  await store.deleteAll();
+  final file = await AppServices.databaseFile();
+  for (final suffix in ['', '-wal', '-shm']) {
+    final f = File('${file.path}$suffix');
+    if (f.existsSync()) f.deleteSync();
+  }
+}
+
+/// Runs [work] while a 4 ms timer measures how late the UI isolate's event
+/// loop runs: the worst delay is the longest freeze a user could see.
+Future<(T, int)> withLoopLatency<T>(Future<T> Function() work) async {
+  var worst = 0;
+  var last = DateTime.now();
+  final timer = Timer.periodic(const Duration(milliseconds: 4), (_) {
+    final now = DateTime.now();
+    final late = now.difference(last).inMilliseconds - 4;
+    if (late > worst) worst = late;
+    last = now;
+  });
+  try {
+    final result = await work();
+    return (result, worst);
+  } finally {
+    timer.cancel();
+  }
+}
+
+void main() {
+  IntegrationTestWidgetsFlutterBinding.ensureInitialized();
+  final store = KeystoreSecureKeyStore();
+  const owner = '0192f2a0-7c1e-7b3a-9c2d-1f2e3d4c5b6a';
+
+  setUpAll(() async {
+    await eraseEverything(store);
+    measure(
+      'android_sdk',
+      Platform.operatingSystemVersion.replaceAll(' ', '_'),
+    );
+    measure('cpu_count', Platform.numberOfProcessors);
+  });
+  tearDownAll(() => eraseEverything(store));
+
+  testWidgets('storage, keys, restart, key errors, deleted data', (_) async {
+    final watch = Stopwatch()..start();
+    var services = await AppServices.start(store);
+    measure('first_start_keys_and_db_ms', watch.elapsedMilliseconds);
+    await services.database.writeValue('probe', 'gardé');
+    final deviceId = services.keys.deviceId;
+    await services.database.close();
+
+    final opens = <int>[];
+    for (var i = 0; i < 5; i++) {
+      watch
+        ..reset()
+        ..start();
+      services = await AppServices.start(store);
+      opens.add(watch.elapsedMilliseconds);
+      expect(await services.database.readValue('probe'), 'gardé');
+      expect(services.keys.deviceId, deviceId);
+      await services.database.close();
+    }
+    measure('restart_keys_and_db_open_median_ms', median(opens));
+    measure('restart_keys_and_db_open_all_ms', opens.join(','));
+
+    final file = await AppServices.databaseFile();
+    final header = String.fromCharCodes(file.readAsBytesSync().take(15));
+    expect(header, isNot('SQLite format 3'), reason: 'encrypted on disk');
+
+    // Wrong database key: start fails, the file is untouched.
+    final dbk = (await store.read('eripoo.dbk'))!;
+    final other = MemorySecureKeyStore();
+    await KeyManager(
+      await CryptoService.init(),
+      other,
+    ).loadOrCreate(databaseExists: false);
+    await store.write('eripoo.dbk', other.values['eripoo.dbk']!);
+    final before = file.lengthSync();
+    Object? error;
+    try {
+      await AppServices.start(store);
+    } on Object catch (e) {
+      error = e;
+    }
+    expect(error, isNotNull);
+    measure('wrong_db_key_error', error.runtimeType);
+    expect(file.lengthSync(), before);
+    await store.write('eripoo.dbk', dbk);
+    services = await AppServices.start(store);
+    expect(await services.database.readValue('probe'), 'gardé');
+    await services.database.close();
+
+    // Keys gone, database still there: explicit failure, no silent reset.
+    final umk = (await store.read('eripoo.umk'))!;
+    await store.delete('eripoo.umk');
+    await expectLater(AppServices.start(store), throwsA(isA<LocalKeysLost>()));
+    await store.write('eripoo.umk', umk);
+
+    // Local database deleted, keys kept: a new empty database opens.
+    for (final suffix in ['', '-wal', '-shm']) {
+      final f = File('${file.path}$suffix');
+      if (f.existsSync()) f.deleteSync();
+    }
+    services = await AppServices.start(store);
+    expect(await services.database.readValue('probe'), isNull);
+    expect(services.keys.deviceId, deviceId);
+    await services.database.close();
+
+    // User reset: everything erased, next start is a first start.
+    await AppServices.resetLocalData(store);
+    services = await AppServices.start(store);
+    expect(services.keys.deviceId, isNot(deviceId));
+    await services.database.close();
+  });
+
+  testWidgets('Argon2id cost, memory and UI freeze', (_) async {
+    final crypto = await CryptoService.init();
+    final salt = crypto.randomBytes(16);
+    final grid = [
+      const KdfParams(opsLimit: 2, memLimit: 32 << 20),
+      const KdfParams(opsLimit: 2, memLimit: 64 << 20),
+      const KdfParams(opsLimit: 3, memLimit: 64 << 20),
+      const KdfParams(opsLimit: 4, memLimit: 64 << 20),
+    ];
+    for (final p in grid) {
+      final name = 'argon2id_${p.opsLimit}x${p.memLimit >> 20}MiB';
+      final runs = <int>[];
+      var worstFreeze = 0;
+      final rssBefore = ProcessInfo.currentRss;
+      for (var i = 0; i < 3; i++) {
+        final watch = Stopwatch()..start();
+        final (_, freeze) = await withLoopLatency(
+          () => Isolate.run(() async {
+            final c = await CryptoService.init();
+            c
+                .deriveKeyFromSecret(
+                  '12345678901234567890123456789012345',
+                  salt,
+                  p,
+                )
+                .dispose();
+          }),
+        );
+        runs.add(watch.elapsedMilliseconds);
+        if (freeze > worstFreeze) worstFreeze = freeze;
+      }
+      measure('${name}_runs_ms', runs.join(','));
+      measure('${name}_ui_worst_delay_ms', worstFreeze);
+      measure(
+        '${name}_rss_delta_mib',
+        (ProcessInfo.currentRss - rssBefore) >> 20,
+      );
+    }
+    measure('max_rss_mib_after_argon2', ProcessInfo.maxRss >> 20);
+
+    // Same derivation on the UI isolate, to show why it must not be done
+    // there (freeze = full duration).
+    final (_, onUi) = await withLoopLatency(() async {
+      crypto
+          .deriveKeyFromSecret(
+            '12345678901234567890123456789012345',
+            salt,
+            KdfParams.recoveryDefault,
+          )
+          .dispose();
+    });
+    measure('argon2id_3x64MiB_on_ui_isolate_freeze_ms', onUi);
+  });
+
+  testWidgets('recovery code: creation, unlock, repeated wrong attempts', (
+    _,
+  ) async {
+    await eraseEverything(store);
+    final services = await AppServices.start(store);
+    final km = services.keyManager;
+    final watch = Stopwatch()..start();
+    final code = km.generateRecoveryCode();
+    final wrap = await km.createRecoveryWrapInBackground(
+      keys: services.keys,
+      ownerId: owner,
+      code: code,
+    );
+    measure('recovery_wrap_create_ms', watch.elapsedMilliseconds);
+    watch
+      ..reset()
+      ..start();
+    (await km.openRecoveryWrapInBackground(
+      wrap: wrap,
+      ownerId: owner,
+      typedCode: code,
+    )).dispose();
+    measure('recovery_wrap_open_ms', watch.elapsedMilliseconds);
+
+    // A wrong (but well-formed) code costs a full derivation every time.
+    final wrong = km.generateRecoveryCode();
+    final attempts = <int>[];
+    for (var i = 0; i < 5; i++) {
+      watch
+        ..reset()
+        ..start();
+      await expectLater(
+        km.openRecoveryWrapInBackground(
+          wrap: wrap,
+          ownerId: owner,
+          typedCode: wrong,
+        ),
+        throwsA(isA<WrongRecoveryCode>()),
+      );
+      attempts.add(watch.elapsedMilliseconds);
+    }
+    measure('recovery_wrong_code_attempts_ms', attempts.join(','));
+    await services.database.close();
+  });
+
+  testWidgets('sync: 1 000 items, offline, network cut, no loss', (_) async {
+    await eraseEverything(store);
+    final services = await AppServices.start(store);
+    final server = FakeSyncServer();
+    final projects = ProjectRepository(services.database);
+    final watch = Stopwatch()..start();
+    for (var i = 0; i < 1000; i++) {
+      await projects.create('Projet $i');
+    }
+    measure('local_write_1000_ms', watch.elapsedMilliseconds);
+
+    final key = DataKeys(services.crypto, services.keys.dataKey).records;
+    final session = SyncSession(
+      ownerId: owner,
+      deviceId: services.keys.deviceId,
+      recordKey: key,
+      umkVersion: 1,
+    );
+    SyncEngine engine() => SyncEngine(
+      db: services.database,
+      remote: server.clientFor(owner, session: services.keys.deviceId),
+      crypto: services.crypto,
+      logger: AppLogger(sinks: const []),
+    );
+
+    server.offline = true;
+    expect((await engine().runCycle(session)).complete, isFalse);
+    expect(await projects.watchActive().first, hasLength(1000));
+    server.offline = false;
+
+    watch
+      ..reset()
+      ..start();
+    server.failPushAfter(8);
+    final (first, freeze) = await withLoopLatency(
+      () => engine().runCycle(session),
+    );
+    expect(first.complete, isFalse);
+    expect((await engine().runCycle(session)).complete, isTrue);
+    measure('sync_push_1000_with_cut_ms', watch.elapsedMilliseconds);
+    measure('sync_ui_worst_delay_ms', freeze);
+    expect(server.recordsOf(owner), hasLength(1000));
+    expect(server.headOf(owner), 1000);
+    measure('max_rss_mib_after_sync', ProcessInfo.maxRss >> 20);
+    key.dispose();
+    await services.database.close();
+  });
+
+  testWidgets('app lock: PIN, wrong PIN, background, restart, biometrics', (
+    tester,
+  ) async {
+    await eraseEverything(store);
+    final services = await AppServices.start(store);
+    final authenticator = LocalAuthDeviceAuthenticator();
+    measure('biometrics_available', await authenticator.canUseBiometrics());
+    measure('device_screen_lock', await authenticator.isDeviceSecured());
+    final service = AppLockService(
+      store: SecureAppLockStore(store),
+      hasher: const Argon2PinHasher(),
+      authenticator: authenticator,
+    );
+    final watch = Stopwatch()..start();
+    await service.enable('2580');
+    measure('pin_enable_ms', watch.elapsedMilliseconds);
+    await service.setTimeout(Duration.zero);
+
+    Future<ProviderContainer> launch() async {
+      final container = ProviderContainer(
+        overrides: [
+          secureKeyStoreProvider.overrideWithValue(store),
+          appServicesProvider.overrideWithValue(services),
+          appLockServiceProvider.overrideWithValue(service),
+        ],
+      );
+      container.read(appSettingsProvider.notifier).setLanguage(AppLanguage.fr);
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: const EripooApp(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      return container;
+    }
+
+    Future<void> typePin(String pin) async {
+      for (final digit in pin.split('')) {
+        await tester.tap(
+          find.descendant(
+            of: find.byType(LockScreen),
+            matching: find.text(digit),
+          ),
+        );
+        await tester.pump();
+      }
+      final w = Stopwatch()..start();
+      await tester.tap(find.bySemanticsLabel('Confirmer'));
+      await tester.pumpAndSettle();
+      measure('pin_check_ui_ms', w.elapsedMilliseconds);
+    }
+
+    var container = await launch();
+    expect(find.byType(LockScreen), findsOneWidget);
+    await typePin('1111');
+    expect(find.text("Ce n'est pas le bon code."), findsOneWidget);
+    await typePin('2580');
+    expect(find.byType(LockScreen), findsNothing);
+
+    final controller = container.read(appLockControllerProvider.notifier);
+    controller.onBackgrounded(DateTime.now());
+    await controller.onResumed(DateTime.now());
+    await tester.pumpAndSettle();
+    expect(find.byType(LockScreen), findsOneWidget, reason: 'relocked');
+    await typePin('2580');
+    expect(find.byType(LockScreen), findsNothing);
+
+    // Restart: a new app instance with the same stored settings is locked.
+    await tester.pumpWidget(const SizedBox());
+    container.dispose();
+    container = await launch();
+    expect(find.byType(LockScreen), findsOneWidget);
+    await typePin('2580');
+    expect(find.byType(LockScreen), findsNothing);
+    await tester.pumpWidget(const SizedBox());
+    container.dispose();
+    await services.database.close();
+  });
+}

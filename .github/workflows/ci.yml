@@ -61,6 +61,58 @@ jobs:
           path: build/app/outputs/flutter-apk/app-debug.apk
           retention-days: 14
 
+  # Phase 2 foundations on Android emulators (not a substitute for the
+  # reference phones A and B: emulator timings are only indicative).
+  # A recent Android with 2 GB and an old one with 1 GB of RAM.
+  android-emulator:
+    name: Android emulator (API ${{ matrix.api }}, ${{ matrix.ram }})
+    runs-on: ubuntu-latest
+    needs: android-build
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - api: 34
+            ram: 2048M
+            target: google_apis
+          - api: 26
+            ram: 1024M
+            target: default
+    steps:
+      - uses: actions/checkout@v4
+      - name: Enable KVM
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - run: flutter pub get
+      - run: dart run build_runner build
+      - name: Release APK for start-up measurements (x86_64, AOT)
+        run: flutter build apk --release --target-platform android-x64
+      - name: Foundations on the emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: ${{ matrix.api }}
+          arch: x86_64
+          target: ${{ matrix.target }}
+          ram-size: ${{ matrix.ram }}
+          disable-animations: true
+          emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -no-snapshot
+          script: tool/ci_emulator_run.sh
+      - name: Measurements
+        if: always()
+        run: grep -h MEASURE cold_start.txt foundations.txt || true
+
   # SQL tests on plain PostgreSQL with a minimal auth stub (partial).
   database-stub:
     name: Database tests (PostgreSQL + auth stub)
