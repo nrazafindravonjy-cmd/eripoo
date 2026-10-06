@@ -215,8 +215,9 @@ Android Keystore : clé AES-256-GCM non exportable (StrongBox si présent)
   (`pragma key = 'raw:<64 hex>'`, vérifié dans le code source) : la
   dérivation PBKDF2 du schéma est **contournée**, car la clé est déjà
   aléatoire ; l'ouverture est plus rapide sur les téléphones d'entrée de
-  gamme et ce paramètre n'a plus à être mesuré. Le temps d'ouverture reste
-  à mesurer sur appareil (P7, NON VÉRIFIÉ).
+  gamme et ce paramètre n'a plus à être mesuré. Ouverture mesurée sur
+  émulateur : 11–27 ms au redémarrage (clés + base). Sur appareil :
+  NON VÉRIFIÉ (P7).
 - Une mauvaise clé est détectée à l'ouverture (`DatabaseKeyMismatch`).
   sqlite3mc refuse les clés sur les bases en mémoire : les tests métier
   utilisent donc une base en mémoire non chiffrée, le chiffrement étant
@@ -286,6 +287,24 @@ AD          = "eripoo:wrap:v1" || 0x00 || owner_id || wrap_id || umk_version
 | Parallélisme | 1 (fixé par libsodium) | — |
 | Sel | 16 octets aléatoires (`crypto_pwhash_SALTBYTES`), **nouveau à chaque enveloppe**, stocké en clair | empêche tout précalcul commun à plusieurs comptes ; n'est pas un secret |
 | Durée cible | < 3 s sur appareil de référence | n'intervient qu'à la création, à la vérification et à la récupération |
+
+**Mesures (validation Phase 2, émulateurs CI x86_64 — indicatives,
+`docs/DEVICE_TESTS.md`)** : 3 × 64 Mio = 124–430 ms selon le run (2 × 32 Mio
+: 44–131 ms ; 4 × 64 Mio : 163–283 ms), coût identique à chaque essai (5
+mauvais codes : ~190–480 ms chacun), sur isolat de fond, interface jamais
+bloquée plus de 51 ms, aucun échec mémoire sur l'émulateur « 1 Go » (qui
+avait en réalité 1,5 Go).
+
+**Décision provisoire** : on garde **3 passes / 64 Mio** pour le code de
+récupération et **2 passes / 32 Mio** pour le vérificateur du PIN. Raison :
+les émulateurs sont loin de la cible de 3 s, ce qui laisse une marge pour
+un processeur ARM d'entrée de gamme, plusieurs fois plus lent (estimation
+**NON VÉRIFIÉE**). **Rien n'est figé** : paramètres définitifs après mesure
+sur les appareils A et B, avec cette règle fixée à l'avance :
+
+- 3 × 64 Mio dépasse 3 s ou échoue faute de mémoire sur A → 2 × 64 Mio ;
+- 2 × 64 Mio dépasse aussi 3 s ou échoue → plancher 2 × 32 Mio ;
+- 3 × 64 Mio reste sous 1 s sur A → on peut monter à 4 × 64 Mio.
 
 Les paramètres sont stockés avec l'enveloppe (`kdf_params`), ce qui permet
 de les faire évoluer pour les nouvelles enveloppes sans casser les

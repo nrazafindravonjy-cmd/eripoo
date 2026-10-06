@@ -63,52 +63,91 @@ Détail : [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
 | Test sur appareil de référence | ❌ non fait (pas d'appareil, D11) |
 | Build Android | ❌ jamais exécuté : pas de SDK Android ici, et la CI ne tourne que sur pull request ou `main` |
 
-## Phase 2 — Socle sécurité, données et synchronisation (EN COURS, implémentation terminée, non acceptée)
+## Phase 2 — Socle sécurité, données et synchronisation (EN VALIDATION, non acceptée)
 
-Les 11 étapes dans l'ordre imposé. « Testé » veut dire testé
-automatiquement **sur la machine de développement** (aucun téléphone,
-aucun vrai projet Supabase).
+Les 11 étapes dans l'ordre imposé, puis une validation réelle demandée le
+2026-10-06 (CI, Android, Supabase). Légende : **auto** = test automatique
+(machine de développement ou CI) ; **émulateur** = émulateur Android de la
+CI (pas un téléphone) ; **Supabase local** = vraie pile Supabase (Auth,
+PostgREST, Postgres) lancée par la CLI en CI — pas le projet cloud.
 
 | # | Étape | État | Détail |
 |---|---|---|---|
-| 1 | Stockage local | ✅ testé | Drift, base dans le stockage privé de l'app ; ouverte au démarrage |
-| 2 | Chiffrement local | ✅ testé | SQLite3MultipleCiphers 2.5.0, ChaCha20-Poly1305, clé brute `raw:` ; fichier sans en-tête SQLite ni texte clair ; mauvaise clé refusée ; fichiers temporaires en mémoire (SECURITY §4.5) |
-| 3 | Gestion des clés | ✅ testé | libsodium ; UMK et DBK aléatoires dans le Keystore (`resetOnError: false`) ; enveloppes v1 ; code de récupération 36 chiffres (Damm) + Argon2id ; clés perdues → écran simple, aucune recréation silencieuse |
-| 4 | Verrou applicatif | ✅ testé | facultatif, PIN (Argon2id, vérificateur seulement) + biométrie + délai ; attentes croissantes, pas d'effacement ; PIN oublié → authentification du téléphone. Le PIN ne protège ni ne dérive aucune clé (D4) |
-| 5 | Modèle de données local | ✅ testé | profil, faits, projets, sections, historique, progression, copies de conflit, `sync_meta` ; marquage atomique ; identifiants déterministes. **Schéma v1 non figé** |
-| 6 | Authentification | 🟡 code + tests unitaires | e-mail / mot de passe via Supabase ; session dans le Keystore. **Jamais exécutée contre un serveur.** Google et téléphone : non faits |
-| 7 | Supabase de développement | 🟡 partiel | `env/example.json` (valeurs factices), `env/*.json` ignorés par Git, test d'absence de secrets. **Projet cloud de développement non créé** ; `supabase/config.toml` non généré ; variantes d'app dev/prod non créées |
-| 8 | Modèle serveur minimal | 🟡 testé partiellement | 1 migration : appareils, enregistrements chiffrés, têtes de sync, enveloppe de récupération ; RLS ; fonctions RPC. 46 assertions SQL vertes sur PostgreSQL 16 avec `auth` simulé ; **pas sur la pile Supabase** (Docker indisponible) ; aucun schéma de production |
-| 9 | Synchronisation | ✅ testé (faux serveur) | pull puis push, idempotente, 3 familles de conflits, aucune horloge utilisée. Déclencheurs (réseau, WorkManager) **non faits** |
-| 10 | Migration invité → compte | ✅ testé (faux serveur) | nouveau compte (code affiché une fois), compte existant (code demandé), refus d'un autre compte |
-| 11 | Tests de reprise, interruption, réseau, conflits | ✅ 12 scénarios sur 14, 2 partiels | OFFLINE_SYNC §13.1 |
+| 1 | Stockage local | ✅ auto + émulateur | Drift, base dans le stockage privé ; ouverte au démarrage (11–27 ms sur émulateur) |
+| 2 | Chiffrement local | ✅ auto + émulateur | SQLite3MultipleCiphers 2.5.0, ChaCha20-Poly1305, clé brute `raw:` ; fichier sans en-tête SQLite ni texte clair ; mauvaise clé refusée ; fichiers temporaires en mémoire |
+| 3 | Gestion des clés | ✅ auto + émulateur | Keystore Android (clé RSA-OAEP enveloppant une clé AES-GCM, **corrigé** : voir échecs), `resetOnError: false` ; clés perdues → écran simple ; effacement complet testé |
+| 4 | Verrou applicatif | ✅ auto + émulateur (PIN) | PIN, mauvais PIN, reverrouillage au retour, redémarrage verrouillé : vérifiés sur Android 8 et 14. **Biométrie : non testée** (émulateur sans empreinte) |
+| 5 | Modèle de données local | ✅ auto | **schéma v1 non figé** |
+| 6 | Authentification | 🟡 | inscription / connexion e-mail via la bibliothèque Supabase **vérifiées sur Supabase local** (tests de contrat) ; notre `SupabaseAuthRepository` lui-même n'y est pas encore exécuté ; Google et téléphone non faits |
+| 7 | Supabase de développement | 🟡 | pile **locale** versionnée (`supabase/config.toml`) et testée en CI ; **projet cloud de développement non créé** (compte du porteur nécessaire) ; variantes d'app dev/prod non créées |
+| 8 | Modèle serveur minimal | ✅ auto + Supabase local | 2 migrations (schéma + liaison session/appareil) ; RLS ; **60 assertions SQL** vertes sur PostgreSQL 16 et sur Supabase local ; aucun schéma de production |
+| 9 | Synchronisation | ✅ auto + Supabase local + émulateur | contrat RPC identique sur faux serveur et Supabase local ; 5 000 éléments (CI) ; 1 000 sur émulateur. Déclencheurs automatiques **non faits** |
+| 10 | Migration invité → compte | ✅ auto | provisoire : le 2ᵉ appareil passe par le code de récupération (SECURITY §6.0), le double QR arrive en Phase 5 |
+| 11 | Reprise, interruption, réseau, conflits | ✅ 14/14 scénarios | OFFLINE_SYNC §13.1 (révocation et 5 000 éléments complétés) |
 
-Tests : **229 automatiques, tous verts** + 46 assertions SQL.
+### Validation Phase 2 (2026-10-06)
 
-**Non fait ou NON VÉRIFIÉ en Phase 2** (à ne pas considérer comme livré) :
+Pull request de validation :
+[nrazafindravonjy-cmd/eripoo#1](https://github.com/nrazafindravonjy-cmd/eripoo/pull/1),
+CI **entièrement verte au run 12**, 6 jobs :
 
-- build Android (jamais exécuté) et donc : Keystore réel, biométrie réelle,
-  `FlutterFragmentActivity`, binaires natifs sqlite3mc et libsodium dans
-  l'APK ;
-- tout appel à un vrai Supabase (authentification, RPC, RLS sur la pile
-  Supabase, format `amr` de la réauthentification) ;
-- mesures sur appareil : Argon2id (3 × 64 Mio), ouverture de la base,
-  sync de 5 000 éléments ;
-- connexion Google et téléphone ; transfert double QR (Phase 5) ;
-  suppression de compte (Edge Function) ;
-- déclencheurs de sync, effacement local après révocation, purge de la
-  corbeille après 30 jours, écran des copies de conflit, resynchronisation
-  complète des enregistrements illisibles ;
-- les services ouverts au démarrage ne sont encore utilisés par aucun
-  écran ; les réglages (thème, langue) restent en mémoire ;
-- mentions de licences natives dans l'app ; vérification minisign de
-  libsodium en CI ;
-- toutes les chaînes malagasy ajoutées sont « à relire ».
+| Job | Contenu | Résultat |
+|---|---|---|
+| Format, analyse, tests | `dart format`, `flutter analyze`, 253 tests (dont 5 000 éléments, révocation, fuite de données, contrat RPC sur faux serveur) | ✅ |
+| PostgreSQL + `auth` simulé | 60 assertions SQL | ✅ |
+| Supabase local | mêmes 60 assertions + 13 tests de contrat RPC par HTTP avec de vrais comptes (fictifs) | ✅ |
+| Build Android | APK debug produit (182 764 352 octets, artefact `eripoo-debug-apk`) ; APK release x86_64 produit (23,1 Mo) dans les jobs émulateur | ✅ |
+| Émulateur Android 8.0, « 1 Go » (1,5 Go réels) | démarrage à froid, effacement des données, 5 tests d'intégration | ✅ 5/5 |
+| Émulateur Android 14, 2 Go | idem | ✅ 5/5 |
 
-**Conditions d'acceptation de la Phase 2** (restent ouvertes) : build
-Android réel, tests et mesures sur appareils A et B (P7), projet Supabase
-de développement + tests sur la pile Supabase (P4), avis juridique mineurs
-avant l'onboarding des mineurs (P6), relecture malagasy (P9).
+Mesures : [DEVICE_TESTS.md](DEVICE_TESTS.md) (Android),
+[OFFLINE_SYNC §13.2](OFFLINE_SYNC.md) (5 000 éléments),
+[SECURITY §4.8](SECURITY.md) (Argon2id : décision provisoire et règle de
+choix sur A/B).
+
+**Échecs trouvés pendant la validation, tous corrigés** :
+
+| # | Trouvé par | Défaut | Correction |
+|---|---|---|---|
+| 1 | contrat RPC sur Supabase local | PostgreSQL renvoie le base64 avec un saut de ligne tous les 76 caractères ; le client les refusait : **aucune enveloppe de plus de 57 octets ne pouvait être relue depuis le vrai serveur** (invisible avec le faux serveur) | décodage tolérant + test |
+| 2 | test 5 000 éléments en CI (échec seulement sur machine rapide) | après une coupure réseau, chaque élément du lot recevait un délai de 15 s ; les cycles suivants l'ignoraient et se déclaraient **« complets » avec 50 modifications en attente** | une coupure laisse le lot en attente ; « complet » exige `pendingLeft == 0` ; test déterministe |
+| 3 | émulateur Android 8 | le stockage sécurisé était configuré en mode biométrique : **plantage au premier lancement sur Android 7–8** (minSdk 24) et demande d'authentification au démarrage sur Android 9+ verrouillé | configuration par défaut (RSA-OAEP + AES-GCM) ; règle d'architecture |
+| 4 | analyse de la révocation | une session d'un appareil révoqué pouvait enregistrer un nouvel identifiant et continuer à synchroniser | session liée à l'appareil, supprimée à la révocation, refusée partout (migration `20261007000001`) |
+| 5 | règle « données de test fictives » | une adresse `@example.mg` (domaine potentiellement réel) dans un test | `@example.com` |
+| 6 | relecture | mes rapports annonçaient 46 assertions SQL ; il y en avait 52 (60 aujourd'hui) | documents corrigés |
+| 7–9 | CI | disque insuffisant pour l'émulateur ; mémoire saturée (Gradle 8 Go + émulateur) ; test du verrou n'attendant pas la vérification du PIN en arrière-plan ; mesure du gel sur l'isolat principal lue à 0 | job émulateur corrigé ; test corrigé ; mesure corrigée (valeur au prochain run) |
+
+**Non vérifié** (ne pas considérer comme livré) :
+
+- **téléphones réels A et B** : aucune mesure ; l'émulateur « 1 Go » avait
+  1,5 Go ; aucun processeur ARM (A : 32 bits) testé ; Keystore matériel,
+  biométrie réelle ;
+- **projet Supabase de développement en ligne** : non créé ; latence depuis
+  Madagascar non mesurée ;
+- notre dépôt d'authentification exécuté contre Supabase ; Google, téléphone ;
+- absence de gel d'interface avec 5 000 éléments sur appareil ;
+- intégrité de l'archive libsodium compilée au build par le paquet
+  `sodium` (constaté dans le journal du build, vérification non faite) ;
+- mentions de licences natives dans l'app.
+
+**Restent volontairement ouverts** (inchangés par la validation) :
+
+- [ ] avis juridique mineurs 14–17 (P6)
+- [ ] transferts de données hors de Madagascar (P6)
+- [ ] région Supabase de production (P5)
+- [ ] relecture native du malagasy (P9)
+- [ ] appareils de référence A et B, puis appareils supplémentaires C–E (P7)
+- [ ] validation finale de la licence de SQLite3MultipleCiphers dans le contexte complet de distribution (mentions dans l'app, juriste)
+- [ ] suppression de compte (Edge Function)
+- [ ] transfert multi-appareil par double QR (Phase 5)
+- [ ] synchronisation automatique en arrière-plan (déclencheurs, WorkManager)
+- [ ] corbeille : purge après 30 jours
+- [ ] écran de résolution des copies de conflit
+
+**Conditions d'acceptation de la Phase 2** : mesures sur appareils A et B
+(et choix définitif d'Argon2id), projet Supabase de développement créé et
+suite de contrat passée dessus, relecture malagasy, avis juridique mineurs
+avant l'onboarding des mineurs.
 
 ## Phases suivantes
 
@@ -210,8 +249,8 @@ pas) :
 - [ ] région de production (P5)
 - [ ] tests sur appareils A et B (P7)
 - [ ] relecture native du malagasy (P9)
-- [ ] validation réelle du build Android
-- [ ] mesures de performance d'Argon2id (et ouverture de la base chiffrée) sur appareil
+- [x] validation réelle du build Android — APK debug et release produits en CI (2026-10-06) ; reste : appareils réels
+- [ ] mesures de performance d'Argon2id (et ouverture de la base chiffrée) sur appareil — faites sur émulateur seulement
 - [ ] validation finale de SQLite3MultipleCiphers dans notre distribution (build Android réel + mentions de licences validées)
 
 ## Pré-requis Phase 2
