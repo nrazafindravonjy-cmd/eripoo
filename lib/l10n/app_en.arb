@@ -28,5 +28,16 @@
   "progressValue": "{done} of {total}",
   "stepTrackValue": "Step {current} of {total}: {name}",
   "badgeEarned": "Badge earned: {name}",
-  "badgeLocked": "Badge to earn: {name}"
+  "badgeLocked": "Badge to earn: {name}",
+  "lockTitle": "Eripoo is locked",
+  "lockEnterPin": "Enter your PIN",
+  "lockWrongPin": "That is not the right code.",
+  "lockRetryIn": "Too many attempts. Try again in {duration}.",
+  "lockUseBiometrics": "Use fingerprint or face",
+  "lockBiometricReason": "Unlock Eripoo",
+  "lockForgotPin": "Forgot your PIN?",
+  "lockForgotPinReason": "Confirm it's you to turn off the lock",
+  "lockForgotPinUnavailable": "This phone has no screen lock. To get back in, sign in to your account again with your recovery code.",
+  "lockDeleteDigit": "Delete a digit",
+  "lockPinProgress": "{count} digits entered"
 }

@@ -2,6 +2,7 @@
 library;
 
 import 'package:eripoo/app/app.dart';
+import 'package:eripoo/app/di/core_providers.dart';
 import 'package:eripoo/core/i18n/app_language.dart';
 import 'package:eripoo/features/settings/domain/app_settings.dart';
 import 'package:eripoo/features/settings/presentation/app_settings_controller.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/component_sheet.dart';
+import '../helpers/memory_secure_store.dart';
 import '../helpers/real_fonts.dart';
 import '../helpers/test_host.dart';
 
@@ -38,7 +40,11 @@ void main() {
   ]) {
     testWidgets(name, (tester) async {
       setSurfaceSize(tester, size);
-      final container = ProviderContainer();
+      final container = ProviderContainer(
+        overrides: [
+          secureKeyStoreProvider.overrideWithValue(MemorySecureKeyStore()),
+        ],
+      );
       addTearDown(container.dispose);
       container.read(appSettingsProvider.notifier)
         ..setLanguage(language)

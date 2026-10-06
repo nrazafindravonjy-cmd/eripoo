@@ -1,4 +1,5 @@
 import 'package:eripoo/app/app.dart';
+import 'package:eripoo/app/di/core_providers.dart';
 import 'package:eripoo/core/i18n/app_language.dart';
 import 'package:eripoo/design_system/design_system.dart';
 import 'package:eripoo/features/settings/domain/app_settings.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../helpers/memory_secure_store.dart';
 import '../helpers/real_fonts.dart';
 import '../helpers/test_host.dart';
 
@@ -18,7 +20,11 @@ Future<ProviderContainer> pumpApp(
   AppSettings settings = const AppSettings(language: AppLanguage.fr),
 }) async {
   setSurfaceSize(tester, size);
-  final container = ProviderContainer();
+  final container = ProviderContainer(
+    overrides: [
+      secureKeyStoreProvider.overrideWithValue(MemorySecureKeyStore()),
+    ],
+  );
   addTearDown(container.dispose);
   final controller = container.read(appSettingsProvider.notifier)
     ..setTheme(settings.theme)

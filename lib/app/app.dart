@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../design_system/design_system.dart';
+import '../features/app_lock/presentation/app_lock_gate.dart';
 import '../features/settings/domain/app_settings.dart';
 import '../features/settings/presentation/app_settings_controller.dart';
 import '../l10n/generated/app_localizations.dart';
@@ -46,10 +47,11 @@ class EripooApp extends ConsumerWidget {
       // The Eripoo "reduce animations" setting is applied through
       // MediaQuery so that every widget has a single source of truth.
       builder: (context, child) {
-        if (!settings.reducedMotion) return child!;
+        final gated = AppLockGate(child: child!);
+        if (!settings.reducedMotion) return gated;
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(disableAnimations: true),
-          child: child!,
+          child: gated,
         );
       },
     );

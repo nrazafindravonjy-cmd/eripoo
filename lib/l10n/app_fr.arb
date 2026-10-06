@@ -144,5 +144,59 @@
         "type": "String"
       }
     }
+  },
+  "lockTitle": "Eripoo est verrouillé",
+  "@lockTitle": {
+    "description": "Titre de l'écran de verrouillage."
+  },
+  "lockEnterPin": "Entre ton code PIN",
+  "@lockEnterPin": {
+    "description": "Consigne de saisie du PIN."
+  },
+  "lockWrongPin": "Ce n'est pas le bon code.",
+  "@lockWrongPin": {
+    "description": "Message après un PIN incorrect."
+  },
+  "lockRetryIn": "Trop d'essais. Réessaie dans {duration}.",
+  "@lockRetryIn": {
+    "description": "Attente après plusieurs erreurs ; {duration} est formaté (ex. « 5 min »).",
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "lockUseBiometrics": "Utiliser l'empreinte ou le visage",
+  "@lockUseBiometrics": {
+    "description": "Bouton de déverrouillage biométrique."
+  },
+  "lockBiometricReason": "Déverrouiller Eripoo",
+  "@lockBiometricReason": {
+    "description": "Raison affichée par la fenêtre système de biométrie."
+  },
+  "lockForgotPin": "Code PIN oublié ?",
+  "@lockForgotPin": {
+    "description": "Lien en cas d'oubli du PIN."
+  },
+  "lockForgotPinReason": "Confirme que c'est bien toi pour désactiver le verrou",
+  "@lockForgotPinReason": {
+    "description": "Raison affichée par la fenêtre système (verrouillage du téléphone)."
+  },
+  "lockForgotPinUnavailable": "Ce téléphone n'a pas de verrouillage d'écran. Pour retrouver l'accès, reconnecte-toi à ton compte avec ton code de récupération.",
+  "@lockForgotPinUnavailable": {
+    "description": "Explication quand l'oubli du PIN ne peut pas être résolu par le verrouillage du téléphone."
+  },
+  "lockDeleteDigit": "Effacer un chiffre",
+  "@lockDeleteDigit": {
+    "description": "Libellé (lecteur d'écran) de la touche d'effacement."
+  },
+  "lockPinProgress": "{count} chiffres saisis",
+  "@lockPinProgress": {
+    "description": "Lecture d'écran du nombre de chiffres saisis.",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
   }
 }

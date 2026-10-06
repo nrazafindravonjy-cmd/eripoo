@@ -292,6 +292,31 @@ anciennes enveloppes. **Recommandé : implémentée avant le lancement public
 (Phase 10)**, car c'est la seule réponse à un appareil autorisé compromis
 (D17).
 
+### 4.11 Verrou Eripoo (accès à l'application)
+
+Décision D4 (2026-10-06) ; implémenté dans `lib/features/app_lock/`.
+
+| Aspect | Choix |
+|---|---|
+| Rôle | protection d'**accès à l'interface** sur un téléphone partagé ; **jamais** une protection cryptographique |
+| Facultatif | désactivé par défaut ; activable et désactivable par l'utilisateur |
+| PIN | 4 à 8 chiffres ; seul un **vérificateur Argon2id** (`crypto_pwhash_str`, 2 passes, 32 Mio, calculé dans un isolat) est conservé dans le stockage sécurisé ; le PIN n'est **jamais** stocké, ni utilisé comme clé ou pour dériver une clé |
+| Biométrie | facultative, si disponible (`local_auth`, empreinte ou visage) ; activée seulement par l'utilisateur |
+| Délai | immédiat, 1, 5 ou 15 min en arrière-plan (1 min par défaut) ; un démarrage à froid redemande toujours le PIN ; une horloge qui recule verrouille |
+| Erreurs | 4 essais libres, puis attentes de 30 s, 1 min, 5 min, 15 min, puis 1 h ; compteurs conservés au redémarrage ; **aucun effacement de données** après des erreurs (le verrou ne protège pas les données, effacer détruirait le travail non synchronisé) |
+| PIN oublié | si le téléphone a son propre verrouillage (ou la biométrie), il prouve que c'est le propriétaire et le verrou Eripoo est désactivé ; sinon, l'app explique de se reconnecter avec le code de récupération (les données synchronisées sont alors retrouvées ; un invité sans compte n'a pas ce recours) |
+| Indépendance | les clés du Keystore ne sont pas liées à une authentification de l'utilisateur : activer, désactiver ou oublier le verrou ne peut **jamais** rendre les données illisibles |
+| Affichage | l'app reste en mémoire sous l'écran de verrouillage, masquée aux lecteurs d'écran et au toucher |
+
+Limites assumées : le délai d'attente repose sur l'horloge du téléphone
+(modifiable par l'utilisateur) ; la miniature de l'app dans la liste des
+applications récentes peut montrer le dernier écran (protection par
+`FLAG_SECURE` à étudier, car elle bloque aussi les captures d'écran
+légitimes) ; **biométrie et configuration Android non vérifiées sur
+appareil** (activité `FlutterFragmentActivity`, permission
+`USE_BIOMETRIC`, thème AppCompat ajoutés selon la documentation de
+`local_auth`, vérifiables seulement par un build Android).
+
 ## 5. Code de récupération
 
 ### 5.1 Rôle exact

@@ -28,5 +28,16 @@
   "progressValue": "{done} amin'ny {total}",
   "stepTrackValue": "Dingana {current} amin'ny {total}: {name}",
   "badgeEarned": "Mari-pankasitrahana azo: {name}",
-  "badgeLocked": "Mari-pankasitrahana mbola ho azo: {name}"
+  "badgeLocked": "Mari-pankasitrahana mbola ho azo: {name}",
+  "lockTitle": "Mihidy ny Eripoo",
+  "lockEnterPin": "Ampidiro ny kaody PIN-nao",
+  "lockWrongPin": "Tsy io ny kaody marina.",
+  "lockRetryIn": "Be loatra ny fanandramana. Andramo indray afaka {duration}.",
+  "lockUseBiometrics": "Ampiasao ny dian-tanana na ny tarehy",
+  "lockBiometricReason": "Hamoha ny Eripoo",
+  "lockForgotPin": "Hadinonao ve ny kaody PIN?",
+  "lockForgotPinReason": "Hamafiso fa ianao tokoa mba hanesorana ny hidy",
+  "lockForgotPinUnavailable": "Tsy misy hidy efijery ity finday ity. Mba hidirana indray, midira amin'ny kaontinao miaraka amin'ny kaody famerenanao.",
+  "lockDeleteDigit": "Hamafa isa iray",
+  "lockPinProgress": "Isa {count} voasoratra"
 }

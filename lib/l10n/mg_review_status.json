@@ -29,6 +29,17 @@
     "progressValue": "needs_review",
     "stepTrackValue": "needs_review",
     "badgeEarned": "needs_review",
-    "badgeLocked": "needs_review"
+    "badgeLocked": "needs_review",
+    "lockTitle": "needs_review",
+    "lockEnterPin": "needs_review",
+    "lockWrongPin": "needs_review",
+    "lockRetryIn": "needs_review",
+    "lockUseBiometrics": "needs_review",
+    "lockBiometricReason": "needs_review",
+    "lockForgotPin": "needs_review",
+    "lockForgotPinReason": "needs_review",
+    "lockForgotPinUnavailable": "needs_review",
+    "lockDeleteDigit": "needs_review",
+    "lockPinProgress": "needs_review"
   }
 }
