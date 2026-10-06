@@ -67,7 +67,7 @@ go_router, Drift (SQLite), Supabase.**
 | Couche | Contenu | Peut dépendre de |
 |---|---|---|
 | `presentation` | écrans, rendus de blocs de contenu, contrôleurs Riverpod | domain, content (modèles) |
-| `domain` | entités, services purs (machine d'états d'hypothèse, calculs financiers, planificateur), interfaces de repository | rien (Dart pur) |
+| `domain` | entités, services purs (machine d'états d'hypothèse, calculs financiers), interfaces de repository | core, content (Dart pur) |
 | `data` | repositories Drift, DAO, mappers | domain, core |
 | `sync` | marquage des modifications, push/pull, résolution, enveloppes | data, security, core |
 | `content` | modèles de contenu, chargeur et vérification de packs, localisation du contenu, évaluateur de règles, planificateur | core |
@@ -75,6 +75,12 @@ go_router, Drift (SQLite), Supabase.**
 | `services` | Supabase, transcription, IA, notifications | core |
 | `core` | erreurs, `Result`, logger expurgé, UUID, configuration | — |
 
+- **`domain` peut lire les modèles de `content`** (Phase 3) : les statuts
+  d'étape et de mission, les types de réponse et la structure d'une étape
+  sont définis une seule fois, par le contenu ; les dupliquer dans le
+  domaine créerait deux vérités. `content` reste du Dart pur qui ne dépend
+  que de `core` (vérifié par le test d'architecture « domain and core
+  layers are pure Dart »).
 - **Aucune logique métier dans les widgets.**
 - **Le domaine est du Dart pur**, testable sans émulateur.
 - **Toute écriture métier passe par un repository** qui, dans la même
@@ -202,9 +208,12 @@ Flutter.
 | badges, outils proposés, ressources, informations réglementaires sourcées | **rendus génériques** de chaque *type* de bloc (texte, question à choix, réponse libre, montant, audio, image, exemple, mission…) |
 | schéma des champs de chaque section du projet | calculateurs financiers, export PDF |
 
-- Les écrans de parcours sont **génériques** : une route par identifiant,
-  un registre `BlockRenderer` par type de bloc. Aucun écran n'est propre à
-  une étape.
+- Les écrans de parcours sont **génériques** : une route par identifiant
+  (`/step/:stepId`, `/mission/:missionId`), un rendu par type de bloc.
+  Aucun écran n'est propre à une étape. Implémentation (Phase 3) : les
+  blocs sont une classe scellée et l'écran d'étape fait un `switch`
+  exhaustif dessus — le compilateur refuse un type de bloc sans rendu, ce
+  qui remplace le registre.
 - **Sans mise à jour de l'app** (nouveau pack) : ajouter, retirer ou
   réordonner des quêtes et étapes, réécrire ou traduire tout texte, créer
   des missions, changer les règles, ajouter des badges, des exemples, des
@@ -291,7 +300,7 @@ Budgets proposés (mesurés en Phase 10 sur appareil réel) : démarrage à froi
 | Serveur | RLS, RPC, refus d'accès du personnel | Supabase CLI + pgTAP |
 | Widgets | design system, états loading/error/offline, accessibilité, clair/sombre, 2 tailles, 3 langues | `flutter_test` |
 | Intégration | onboarding, compte, projet, parcours, offline/reconnexion/sync, transfert QR | `integration_test` (émulateurs API 24 et récent) |
-| Contenu | schéma, références, traductions manquantes, lisibilité, sources réglementaires, signature | `tool/content_validate.dart` en CI |
+| Contenu | schéma, références, traductions manquantes, statut de relecture ; plus tard lisibilité, sources réglementaires, signature | `tool/content_build.dart --check` en CI (Phase 3) |
 | Appareil lent | démarrage, défilement, mémoire | appareils de référence |
 
 ## 13. Arborescence du projet

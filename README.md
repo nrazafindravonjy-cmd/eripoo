@@ -6,8 +6,11 @@ Application Android (Flutter) d'accompagnement à la construction de projets
 entrepreneuriaux, pensée pour Madagascar, offline-first, en malagasy,
 français et anglais.
 
-**État : Phase 1 — design system implémenté, en attente de validation.**
-Aucune fonctionnalité produit n'est encore implémentée.
+**État : Phase 3 (« Ma quête ») livrée pour revue, non acceptée.** Phase 1
+acceptée ; Phase 2 en validation (appareils réels et projet Supabase de
+développement non vérifiés). Le contenu pédagogique est un **brouillon non
+relu** (malagasy à réécrire par des auteurs natifs). Détail :
+[plan de développement](docs/DEVELOPMENT_PLAN.md).
 
 ## Documentation
 
@@ -29,4 +32,14 @@ dart run build_runner build     # génère le code Drift (*.g.dart)
 flutter analyze
 flutter test
 flutter run
+```
+
+## Contenu pédagogique
+
+Le contenu (diagnostic, quêtes, missions) s'écrit en YAML dans `content/`,
+puis se compile dans le pack embarqué :
+
+```sh
+dart run tool/content_build.dart          # valide et écrit assets/content/base_pack.json
+dart run tool/content_build.dart --check  # CI : échoue si le pack n'est pas à jour
 ```

@@ -149,6 +149,59 @@ choix sur A/B).
 suite de contrat passée dessus, relecture malagasy, avis juridique mineurs
 avant l'onboarding des mineurs.
 
+## Phase 3 — Ma quête (LIVRÉE POUR REVUE, non acceptée)
+
+GO donné le 2026-10-06 (« GO PHASE 3. ON REVIENDRA SUR LE TEST A LA
+FIN ») : les tests réels de la Phase 2 (appareils A/B, projet Supabase de
+développement) sont **reportés à la fin**, ils ne sont pas faits.
+
+| Élément | État | Détail |
+|---|---|---|
+| Format de contenu | ✅ auto | `lib/content/` (Dart pur) : pack, quêtes, étapes, 7 types de blocs, missions ; lecteur JSON strict (clé inconnue = erreur) ; textes `LocalizedText` mg/fr/en avec statut de relecture ; repli mg→fr→en, fr→mg→en, en→fr→mg |
+| Langage de règles | ✅ auto | `all`, `any`, `not`, faits (`eq`, `ne`, `in`, `gte`, `lte`, `exists`), étape, quête, mission, compteurs (sur statuts, jamais sur du texte), `days_since` ; aucune évaluation de code |
+| Validateur de contenu | ✅ auto + CI | références, valeurs de faits, ≤ 5 questions d'affilée, synthèse en fin d'étape de réflexion, sorties issues de questions, **jamais de fait tiré d'un texte libre**, avance rapide sans sauter de livrable, texte français obligatoire |
+| Compilation du contenu | ✅ CI | YAML dans `content/` (D5) → `assets/content/base_pack.json` par `tool/content_build.dart` ; étape CI `--check` : pack valide et à jour |
+| Planificateur | ✅ auto | statuts `locked`/`available`/`in_progress`/`deferred`/`postponed`/`fast_tracked`/`completed`, raison du verrou, prochaine action recommandée, avance rapide (seule la sortie est demandée), étapes passées qui réapparaissent ; **le parcours s'ouvre après le diagnostic** (qui crée le projet) |
+| Données (schéma v2) | ✅ auto | `answers`, `mission_instances`, `step_progress.deferred_until` ; migration v1 → v2 testée sur base chiffrée ; synchronisées comme les autres entités (enveloppes chiffrées) |
+| Exécuteur d'étape + anti-blocage | ✅ auto | un bloc par écran ; « Je ne sais pas » (fait `unknown`), « Je ne comprends pas » (reformulation 1 puis 2), exemple, indices progressifs, « bloqué » après 2 aides ; « Passer pour l'instant » / « Revenir plus tard » (sauf dans le diagnostic) |
+| Missions | ✅ auto | proposée → acceptée → remise → accomplie, abandon confirmé, reprise ; complétion par règle de contenu facultative |
+| Écrans | ✅ auto | bienvenue (langue, mg présélectionné), Accueil (prochaine action, missions en cours), Ma quête (liste, détail), étape générique, mission ; autres onglets : « Pas encore disponible » |
+| Contenu | 🟡 brouillon | diagnostic (8 écrans), 3 quêtes (problème, clients, solution), 2 missions de terrain ; **aucun texte relu par une personne** (voir D14) |
+| Parcours de bout en bout hors ligne | ✅ auto ; ⏳ émulateur | test de widget avec les vrais écrans et le vrai contenu : bienvenue → diagnostic → projet nommé → quête 1 avec mission → quête 2 débloquée → redémarrage, avec interdiction de toute connexion réseau. Même parcours ajouté au test d'intégration Android (base chiffrée réelle) : **résultat à lire dans la CI** |
+| Appareils A et B | ❌ NON VÉRIFIÉ | reporté à la fin (décision du porteur) |
+
+Décisions appliquées ou précisées pendant la Phase 3 :
+
+- **D5 appliquée** : contenu en YAML dans le dépôt ; le JSON embarqué est
+  un produit de compilation vérifié en CI.
+- **D14 — toujours ouverte.** Les textes ont été rédigés pour la Phase 3
+  sans auteurs natifs : le français est la référence mais **n'est pas
+  relu** (`needs_review`), le malagasy est un **premier jet**
+  (`machine_draft`) à réécrire par des auteurs natifs, l'anglais est à
+  relire. Statut par défaut posé dans `content/pack.yaml`, appliqué à chaque
+  texte par l'outil de compilation, vérifié par un test ; l'app affiche une
+  mention discrète sur ces écrans. Le critère « premières quêtes relues »
+  du plan n'est donc **pas rempli**.
+- **Profil d'entrée** : demandé directement (`diag.entry_profile`) au lieu
+  d'être dérivé par règle (PRODUCT_ARCHITECTURE §2) : les faits dérivés
+  n'existent pas encore ; plus simple, même résultat pour les règles.
+- **Titre provisoire** : « Je ne sais pas » au nom du projet crée le projet
+  avec le titre « Mon projet » (dans la langue de l'interface), modifiable
+  plus tard (Phase 4).
+
+Reporté (hors Phase 3, rien de commencé) : signature des packs (le pack
+embarqué est couvert par la signature de l'APK ; obligatoire avant tout
+pack téléchargé), audio et médias (Phase 4/9), rappels et notifications
+locales, badges, outils, édition du projet (Phase 4), refaire le
+diagnostic, migrations d'identifiants de contenu (`renamed`/`retired`).
+
+Points ouverts de la Phase 3 :
+
+- [ ] relecture native malagasy et relecture du français et de l'anglais du contenu (D13/D14)
+- [ ] parcours sur appareils A et B (lisibilité, rythme, compréhension) — NON VÉRIFIÉ
+- [ ] avis d'entrepreneurs malgaches sur les exemples et les missions — NON VÉRIFIÉ
+- [ ] 16 quêtes minimum (3 écrites)
+
 ## Phases suivantes
 
 Ordre du cahier des charges conservé, avec deux ajustements déjà présentés :
@@ -192,7 +245,7 @@ règles) posés en Phase 2.
 |---|---|---|---|
 | ~~D2~~ | **Décidée le 2026-10-06 : récupération sans séquestre** (voir Portes) | — | — |
 | ~~D4~~ | **Décidée le 2026-10-06 : verrou facultatif**, chiffrement toujours actif (voir Portes) | — | — |
-| **D5** | Contenu en YAML dans le dépôt jusqu'à la Phase 6 | oui | Phase 3 |
+| **D5** | Contenu en YAML dans le dépôt jusqu'à la Phase 6 | oui — **appliquée en Phase 3** | Phase 3 |
 | **D6** | Identifiant Android définitif (domaine possédé) | à fixer avant la création de l'app dans la Play Console | publication |
 | **D7** | Analytics opt-in, sans identifiant, auto-hébergés | oui | Phase 2 (onboarding) |
 | **D8** | Rapports de crash maison | oui au départ | — |
@@ -208,6 +261,8 @@ règles) posés en Phase 2.
 ## Portes
 
 ### Phase 1 — ACCEPTÉE (2026-10-06)
+
+### Phase 3 — GO donné le 2026-10-06 (tests réels reportés à la fin)
 
 ### Phase 2 — GO donné le 2026-10-06, en cours
 

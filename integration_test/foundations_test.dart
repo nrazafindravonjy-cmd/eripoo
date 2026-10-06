@@ -20,7 +20,9 @@ import 'package:eripoo/features/app_lock/domain/app_lock_service.dart';
 import 'package:eripoo/features/app_lock/presentation/app_lock_controller.dart';
 import 'package:eripoo/features/app_lock/presentation/lock_screen.dart';
 import 'package:eripoo/features/project/data/project_repository.dart';
+import 'package:eripoo/features/quest/application/journey_service.dart';
 import 'package:eripoo/features/quest/presentation/journey_providers.dart';
+import 'package:eripoo/features/settings/data/settings_store.dart';
 import 'package:eripoo/features/settings/presentation/app_settings_controller.dart';
 import 'package:eripoo/security/crypto_service.dart';
 import 'package:eripoo/security/key_manager.dart';
@@ -396,4 +398,110 @@ void main() {
     container.dispose();
     await services.database.close();
   });
+
+  testWidgets('journey offline: welcome, diagnostic, first step, restart', (
+    tester,
+  ) async {
+    await eraseEverything(store);
+    final previousHttp = HttpOverrides.current;
+    HttpOverrides.global = _NoNetwork();
+    addTearDown(() => HttpOverrides.global = previousHttp);
+
+    var services = await AppServices.start(store);
+    final watch = Stopwatch()..start();
+    final pack = ContentPack.parse(await rootBundle.loadString(basePackAsset));
+    measure('content_pack_parse_ms', watch.elapsedMilliseconds);
+    final journey = JourneyService(pack: pack, db: services.database);
+    watch
+      ..reset()
+      ..start();
+    await journey.currentPlan();
+    measure('journey_plan_ms', watch.elapsedMilliseconds);
+
+    Future<ProviderContainer> launch() async {
+      final settingsStore = SettingsStore(services.database);
+      final container = ProviderContainer(
+        overrides: [
+          secureKeyStoreProvider.overrideWithValue(store),
+          appServicesProvider.overrideWithValue(services),
+          contentPackProvider.overrideWithValue(pack),
+          settingsStoreProvider.overrideWithValue(settingsStore),
+          initialSettingsProvider.overrideWithValue(await settingsStore.load()),
+        ],
+      );
+      await tester.pumpWidget(
+        UncontrolledProviderScope(
+          container: container,
+          child: const EripooApp(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      return container;
+    }
+
+    Future<void> tapText(String text) async {
+      final finder = find.text(text).last;
+      await tester.ensureVisible(finder);
+      await tester.pumpAndSettle();
+      final w = Stopwatch()..start();
+      await tester.tap(finder);
+      await tester.pumpAndSettle();
+      if (text == "Terminer l'étape") {
+        measure('step_finish_ui_ms', w.elapsedMilliseconds);
+      }
+    }
+
+    var container = await launch();
+    await tapText('Français');
+    await tapText('Commencer'); // welcome
+    await tapText('Commencer'); // home: start the diagnostic
+    await tapText('Suivant');
+    await tapText("J'ai une idée, encore floue");
+    await tapText('Suivant');
+    await tapText('2 à 5 heures');
+    await tapText('Suivant');
+    await tapText('Commerce');
+    await tapText('Suivant');
+    await tapText('Seul ou seule');
+    await tapText("Terminer l'étape");
+    await tapText('Commencer');
+    await tapText('Un revenu en plus');
+    await tapText('Suivant');
+    await tester.enterText(find.byType(TextField), 'Projet fictif');
+    await tester.pumpAndSettle();
+    await tapText('Suivant');
+    await tapText("Terminer l'étape");
+    expect(find.widgetWithText(AppBar, 'Projet fictif'), findsOneWidget);
+    await tapText('Commencer'); // first journey step
+    for (var i = 0; i < 3; i++) {
+      await tapText('Suivant');
+    }
+    await tapText("Terminer l'étape");
+    expect(find.text('Le problème que tu vois'), findsOneWidget);
+
+    // Restart: the database is closed and reopened (keys from the
+    // Keystore); the journey continues where it was.
+    await tester.pumpWidget(const SizedBox());
+    container.dispose();
+    await services.database.close();
+    watch
+      ..reset()
+      ..start();
+    services = await AppServices.start(store);
+    container = await launch();
+    measure('journey_restart_to_home_ms', watch.elapsedMilliseconds);
+    expect(find.widgetWithText(AppBar, 'Projet fictif'), findsOneWidget);
+    expect(find.text('Le problème que tu vois'), findsOneWidget);
+    expect(find.text('Bienvenue sur Eripoo'), findsNothing);
+    await tester.pumpWidget(const SizedBox());
+    container.dispose();
+    await services.database.close();
+  });
+}
+
+/// Fails the test if anything opens a network connection.
+class _NoNetwork extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) =>
+      throw StateError('network used during the offline journey');
 }

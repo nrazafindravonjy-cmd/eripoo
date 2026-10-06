@@ -61,6 +61,15 @@ création de compte (facultative, voir [SECURITY §10](SECURITY.md#10-authentifi
 - Le diagnostic peut être refait ; le plan est recalculé sans effacer le
   travail fait.
 
+**État (Phase 3)** : diagnostic de 8 écrans (`content/diagnostic.yaml`),
+réponses à choix → faits `diag.*`, puis nom du projet (« Je ne sais pas »
+→ titre provisoire). Le profil d'entrée est **demandé** directement au lieu
+d'être dérivé par règle (pas encore de faits dérivés). Le diagnostic ne
+peut pas être mis de côté (« Je ne sais pas » reste toujours possible) et
+le parcours ne s'ouvre qu'après lui, car il crée le projet. Pas encore
+faits : icônes des choix, réponse vocale, refaire le diagnostic, choix de
+la langue au-delà de mg/fr/en.
+
 ## 3. Moteur de parcours « Ma quête »
 
 ### 3.1 Hiérarchie de contenu

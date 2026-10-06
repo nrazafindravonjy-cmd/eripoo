@@ -17,19 +17,30 @@ RLS par table) — changement lourd une fois des données en production.
 
 ---
 
-## 0. État d'implémentation (Phase 2)
+## 0. État d'implémentation (Phases 2 et 3)
 
-Implémenté dans `lib/data/local/tables.dart` (schéma v1, **non figé**
+Implémenté dans `lib/data/local/tables.dart` (schéma **v2**, **non figé**
 avant les premières données réelles) : `user_profiles`, `facts`,
 `projects`, `project_sections`, `project_revisions`,
-`step_progress_entries`, `conflict_copies`, `sync_meta_entries`,
-`local_key_values`. Les autres tables du §3 (hypothèses, expériences,
-observations, interviews, médias, finances…) arrivent avec leurs
-fonctionnalités (Phases 3 à 7).
+`step_progress_entries` (+ `deferred_until` en v2), `answers` (v2),
+`mission_instances` (v2), `conflict_copies`, `sync_meta_entries`,
+`local_key_values`. Migration v1 → v2 testée sur une base chiffrée
+(`test/data/phase3_data_test.dart`). Les autres tables du §3 (hypothèses,
+expériences, observations, interviews, médias, finances, badges…) arrivent
+avec leurs fonctionnalités (Phases 4 à 7).
+
+Écarts avec le §3.2 (Phase 3) : `answers` porte aussi `quest_id` ; types de
+réponse implémentés `text`, `choice`, `multi_choice`, `number`, `money`,
+`unknown` (`audio` en Phase 4/9) ; `mission_instances` porte
+`submitted_at` et `abandoned_at`, pas encore `due_at` ni `experiment_id`
+(Phase 4). Les réglages d'affichage (langue, thème, animations réduites)
+sont dans `local_key_values` (local seulement, non synchronisés) en
+attendant `local_profile`.
 
 **Identifiants déterministes (UUID v5)** pour les éléments qui existent au
 plus une fois par clé : profil (`profile`), fait (`fact:<clé>`), section
-(`section:<projet>:<section>`), progression (`step:<étape>`). Deux appareils
+(`section:<projet>:<section>`), progression (`step:<étape>`), réponse
+(`answer:<étape>/<bloc>`), mission (`mission:<modèle>`). Deux appareils
 qui créent la même chose hors ligne produisent le même identifiant : la
 synchronisation traite alors un conflit sur un seul élément au lieu de
 créer un doublon. Les autres éléments utilisent des UUID v7.
