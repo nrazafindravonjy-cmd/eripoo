@@ -24,7 +24,8 @@ Aucune fonctionnalité produit n'est encore implémentée.
 Prérequis : Flutter 3.47.6 (stable), JDK 17, Android SDK.
 
 ```sh
-flutter pub get        # génère aussi lib/l10n/generated
+flutter pub get                 # génère aussi lib/l10n/generated
+dart run build_runner build     # génère le code Drift (*.g.dart)
 flutter analyze
 flutter test
 flutter run

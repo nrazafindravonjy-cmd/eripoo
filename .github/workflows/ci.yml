@@ -25,6 +25,8 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
       - run: flutter pub get
+      - name: Generate code
+        run: dart run build_runner build
       - name: Format
         run: dart format --output=none --set-exit-if-changed $(git ls-files '*.dart')
       - run: flutter analyze
@@ -47,4 +49,5 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           cache: true
       - run: flutter pub get
+      - run: dart run build_runner build
       - run: flutter build apk --debug

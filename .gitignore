@@ -48,3 +48,6 @@ app.*.map.json
 .widget_preview/
 lib/l10n/generated/
 test/screenshots/goldens/
+
+# Generated code (build_runner)
+*.g.dart

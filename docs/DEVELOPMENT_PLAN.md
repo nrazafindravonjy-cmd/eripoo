@@ -123,11 +123,49 @@ règles) posés en Phase 2.
 
 ### Phase 1 — ACCEPTÉE (2026-10-06)
 
-### Phase 2 — **NO-GO pour l'instant**
+### Phase 2 — GO donné le 2026-10-06, en cours
 
-Conditions détaillées ci-dessous (« Pré-requis Phase 2 »). Le GO
-nécessite au minimum que tous les points 🔴 soient levés, puis un GO
-explicite du porteur du projet.
+Décisions du porteur (2026-10-06) :
+
+- **D2 — récupération sans séquestre : ACCEPTÉE.** Récupération uniquement
+  par le code conservé par l'utilisateur et par le double QR ; aucune copie
+  de la clé de données déchiffrable par Eripoo ; aucun mécanisme de
+  récupération par le support. Risque accepté explicitement : si
+  l'utilisateur perd tous ses appareils **et** son code, Eripoo ne peut ni
+  récupérer ni déchiffrer son projet. L'UX doit le dire **simplement, sans
+  ton anxiogène ni technique** : le code est essentiel et Eripoo ne peut pas
+  le remplacer.
+- **D4 — verrou Eripoo facultatif.** Deux couches distinctes : (1)
+  chiffrement des données **toujours actif**, indépendant du verrou ; (2)
+  verrou d'accès à l'application, désactivable, par PIN local et biométrie
+  quand elle est disponible, avec délai configurable. Le verrou ne remplace
+  jamais le chiffrement ; **le PIN n'est ni une clé maîtresse ni une source
+  de dérivation de la clé de données** (SECURITY §4.4).
+- **Supabase — trois environnements séparés : ACCEPTÉ** (local,
+  staging/développement cloud, production) avec les contraintes de P4.
+- **Région de production : non choisie** (P5 reste ouvert).
+
+Ordre de travail imposé : stockage local → chiffrement local → gestion des
+clés → verrou → modèle de données local → authentification → environnement
+Supabase de développement → modèle serveur minimal → synchronisation →
+migration invité → compte → tests de reprise, interruption, réseau et
+conflits.
+
+Hors périmètre de la Phase 2 : contenu pédagogique définitif, moteur
+adaptatif complet, onboarding final, analytics de production, SMS de
+production, région de production, données réelles.
+
+**Restent explicitement OUVERTS** (le démarrage de la Phase 2 ne les résout
+pas) :
+
+- [ ] avis juridique mineurs 14–17 (P6)
+- [ ] transferts de données hors de Madagascar (P6)
+- [ ] région de production (P5)
+- [ ] tests sur appareils A et B (P7)
+- [ ] relecture native du malagasy (P9)
+- [ ] validation réelle du build Android
+- [ ] mesures de performance d'Argon2id (et ouverture de la base chiffrée) sur appareil
+- [ ] validation finale de SQLite3MultipleCiphers dans notre distribution (build Android réel + mentions de licences validées)
 
 ## Pré-requis Phase 2
 
@@ -158,10 +196,10 @@ Aucune décision de cette liste ne peut remettre en cause :
 
 | # | Point | Niveau | Statut | Valide |
 |---|---|---|---|---|
-| P1 | D2 — risque de perte de clé, modèle de récupération | 🔴 | ouvert | porteur du projet |
-| P2 | D4 — verrou applicatif et base locale chiffrée | 🔴 | ouvert | porteur du projet |
+| P1 | D2 — risque de perte de clé, modèle de récupération | 🟢 | **décidé : sans séquestre (2026-10-06)** | porteur du projet |
+| P2 | D4 — verrou applicatif et base locale chiffrée | 🟢 | **décidé : chiffrement toujours actif, verrou facultatif (2026-10-06)** | porteur du projet |
 | P3 | Licence de SQLite3MultipleCiphers | 🟢 (technique) / 🟡 (mentions validées) | **vérifiée : MIT sur l'étiquette v2.5.0** | Claude (fait) ; juriste pour la liste des mentions |
-| P4 | Environnements Supabase (local / dev-staging / production) et projet de développement | 🔴 stratégie · 🟠 projet cloud | ouvert | porteur du projet (propriétaire du compte Supabase) |
+| P4 | Environnements Supabase (local / dev-staging / production) et projet de développement | 🟢 stratégie · 🟠 projet cloud | stratégie validée (2026-10-06) ; projet cloud à créer | porteur du projet (propriétaire du compte Supabase) |
 | P5 | D9 — région Supabase de production | 🟡 | ouvert | porteur + juriste |
 | P6 | D12 — cadre juridique (mineurs 14–17, transferts, loi 2014-038) | 🟠 | ouvert | juriste qualifié en droit malgache (+ protection des données UE si hébergement UE) |
 | P7 | D11 — appareils Android de référence | 🟠 | **aucun appareil disponible — tout NON VÉRIFIÉ** | porteur (achat) ; mesures par l'équipe |
@@ -369,13 +407,12 @@ Dans `mg_review_status.json`, `reviewed` correspond à « validé » et
 
 ### Condition de GO Phase 2
 
-- [ ] P1 — D2 accepté par écrit
-- [ ] P2 — D4 décidé par écrit (verrou optionnel ou obligatoire)
+- [x] P1 — D2 accepté par écrit (2026-10-06)
+- [x] P2 — D4 décidé par écrit : verrou facultatif (2026-10-06)
 - [x] P3 — licence vérifiée
-- [ ] P4 — stratégie des environnements validée ; projet de développement
-      créé **ou** démarrage accepté en local seul (projet cloud requis
-      avant les tests d'intégration de la synchronisation des clés)
-- [ ] GO explicite du porteur
+- [x] P4 — stratégie des trois environnements validée (2026-10-06) ;
+      projet cloud de développement à créer par le porteur
+- [x] GO explicite du porteur (2026-10-06)
 
 Points qui **ne bloquent pas le démarrage** mais bloquent l'acceptation de
 la Phase 2 : P6 (volet mineurs), P7 (mesures A et B), P9 (onboarding
