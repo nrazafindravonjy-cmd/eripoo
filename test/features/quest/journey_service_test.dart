@@ -56,6 +56,34 @@ void main() {
     expect((await journey.currentPlan()).next!.step.id, 'q01.s01');
   });
 
+  test(
+    '"I don\'t know" as project name: provisional title, never empty',
+    () async {
+      await journey.saveAnswer(
+        'diag.s01',
+        'stage',
+        const Answer(AnswerType.choice, 'no_idea'),
+      );
+      await journey.saveAnswer(
+        'diag.s01',
+        'hours',
+        const Answer(AnswerType.number, 2),
+      );
+      await journey.saveAnswer('diag.s01', 'name', const Answer.unknown());
+      expect(
+        await journey.complete(
+          'diag.s01',
+          provisionalProjectTitle: 'Mon projet',
+        ),
+        isA<StepCompleted>(),
+      );
+      final projects = await ProjectRepository(db).active();
+      expect(projects.single.title, 'Mon projet');
+      // Later steps can fill the project.
+      expect((await journey.currentPlan()).diagnosticDone, isTrue);
+    },
+  );
+
   test('a step cannot finish with required questions unanswered', () async {
     await doDiagnostic();
     await journey.open('q01.s02');

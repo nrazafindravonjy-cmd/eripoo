@@ -12,6 +12,7 @@ import 'dart:isolate';
 import 'package:eripoo/app/app.dart';
 import 'package:eripoo/app/di/core_providers.dart';
 import 'package:eripoo/app/startup/app_services.dart';
+import 'package:eripoo/content/content_pack.dart';
 import 'package:eripoo/core/i18n/app_language.dart';
 import 'package:eripoo/core/logging/app_logger.dart';
 import 'package:eripoo/features/app_lock/data/app_lock_adapters.dart';
@@ -19,12 +20,14 @@ import 'package:eripoo/features/app_lock/domain/app_lock_service.dart';
 import 'package:eripoo/features/app_lock/presentation/app_lock_controller.dart';
 import 'package:eripoo/features/app_lock/presentation/lock_screen.dart';
 import 'package:eripoo/features/project/data/project_repository.dart';
+import 'package:eripoo/features/quest/presentation/journey_providers.dart';
 import 'package:eripoo/features/settings/presentation/app_settings_controller.dart';
 import 'package:eripoo/security/crypto_service.dart';
 import 'package:eripoo/security/key_manager.dart';
 import 'package:eripoo/security/secure_key_store.dart';
 import 'package:eripoo/sync/engine/sync_engine.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -319,12 +322,15 @@ void main() {
     measure('pin_enable_ms', watch.elapsedMilliseconds);
     await service.setTimeout(Duration.zero);
 
+    final pack = ContentPack.parse(await rootBundle.loadString(basePackAsset));
+
     Future<ProviderContainer> launch() async {
       final container = ProviderContainer(
         overrides: [
           secureKeyStoreProvider.overrideWithValue(store),
           appServicesProvider.overrideWithValue(services),
           appLockServiceProvider.overrideWithValue(service),
+          contentPackProvider.overrideWithValue(pack),
         ],
       );
       container.read(appSettingsProvider.notifier).setLanguage(AppLanguage.fr);

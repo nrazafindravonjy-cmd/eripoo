@@ -11,6 +11,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../helpers/component_sheet.dart';
+import '../helpers/journey_overrides.dart';
 import '../helpers/memory_secure_store.dart';
 import '../helpers/real_fonts.dart';
 import '../helpers/test_host.dart';
@@ -43,6 +44,7 @@ void main() {
       final container = ProviderContainer(
         overrides: [
           secureKeyStoreProvider.overrideWithValue(MemorySecureKeyStore()),
+          ...journeyOverrides(),
         ],
       );
       addTearDown(container.dispose);

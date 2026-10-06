@@ -61,13 +61,18 @@ class ProjectRepository {
     return row == null ? null : _toDomain(row);
   }
 
+  SimpleSelectStatement<$ProjectsTable, ProjectRow> _activeQuery() =>
+      _db.select(_db.projects)
+        ..where((t) => t.deletedAt.isNull())
+        ..orderBy([(t) => OrderingTerm.asc(t.createdAt)]);
+
   /// Projects not in the trash, oldest first.
+  Future<List<Project>> active() async =>
+      (await _activeQuery().get()).map(_toDomain).toList();
+
+  /// Same, updated on every change.
   Stream<List<Project>> watchActive() =>
-      (_db.select(_db.projects)
-            ..where((t) => t.deletedAt.isNull())
-            ..orderBy([(t) => OrderingTerm.asc(t.createdAt)]))
-          .watch()
-          .map((rows) => rows.map(_toDomain).toList());
+      _activeQuery().watch().map((rows) => rows.map(_toDomain).toList());
 
   Future<void> rename(String id, String title) => _update(
     id,

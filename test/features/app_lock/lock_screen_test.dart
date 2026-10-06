@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../helpers/journey_overrides.dart';
 import '../../helpers/memory_secure_store.dart';
 import '../../helpers/test_host.dart';
 
@@ -60,6 +61,7 @@ void main() {
       overrides: [
         secureKeyStoreProvider.overrideWithValue(secure),
         appLockServiceProvider.overrideWithValue(service),
+        ...journeyOverrides(),
       ],
     );
     addTearDown(container.dispose);

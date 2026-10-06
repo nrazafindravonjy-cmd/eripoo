@@ -1,0 +1,2341 @@
+{
+ "format": 1,
+ "pack_id": "base",
+ "version": "2026.10.1",
+ "min_app_version": 1,
+ "block_types": [
+  "example",
+  "mission",
+  "question",
+  "synthesis",
+  "term",
+  "text",
+  "tip"
+ ],
+ "quests": [
+  {
+   "id": "diag",
+   "kind": "diagnostic",
+   "order": 0,
+   "maturity": "exploration",
+   "title": {
+    "fr": "Faisons connaissance",
+    "mg": "Hifankahalala isika",
+    "en": "Getting to know you",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Quelques questions pour te proposer le bon chemin.",
+    "mg": "Fanontaniana vitsivitsy hanomezana anao ny lalana mety.",
+    "en": "A few questions to suggest the right path for you.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "steps": [
+    {
+     "id": "diag.s01",
+     "type": "checkpoint",
+     "title": {
+      "fr": "Où en es-tu ?",
+      "mg": "Aiza ianao izao?",
+      "en": "Where are you now?",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Il n'y a pas de mauvaise réponse. Si tu ne sais pas, dis-le : on avancera quand même.",
+        "mg": "Tsy misy valiny diso. Raha tsy fantatrao, lazao fotsiny: handroso ihany isika.",
+        "en": "There are no wrong answers. If you don't know, just say so: we'll move forward anyway.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "stage",
+       "type": "question",
+       "prompt": {
+        "fr": "Où en es-tu avec ton projet ?",
+        "mg": "Aiza ianao amin'ny tetikasanao?",
+        "en": "Where are you with your project?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "choice",
+        "options": [
+         {
+          "value": "no_idea",
+          "label": {
+           "fr": "Je n'ai pas encore d'idée",
+           "mg": "Mbola tsy manana hevitra aho",
+           "en": "I don't have an idea yet",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "vague_idea",
+          "label": {
+           "fr": "J'ai une idée, encore floue",
+           "mg": "Manana hevitra aho, nefa mbola tsy mazava",
+           "en": "I have an idea, still vague",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "problem_identified",
+          "label": {
+           "fr": "J'ai repéré un problème à résoudre",
+           "mg": "Nahita olana tokony hovahana aho",
+           "en": "I've spotted a problem to solve",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "existing_activity",
+          "label": {
+           "fr": "J'ai déjà une petite activité",
+           "mg": "Efa manana asa kely aho",
+           "en": "I already have a small activity",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "existing_customers",
+          "label": {
+           "fr": "J'ai déjà des clients réguliers",
+           "mg": "Efa manana mpanjifa maharitra aho",
+           "en": "I already have regular customers",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         }
+        ]
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Est-ce que tu commences de zéro, ou est-ce que tu fais déjà quelque chose ?",
+          "mg": "Manomboka amin'ny zero ve ianao, sa efa manao zavatra?",
+          "en": "Are you starting from scratch, or are you already doing something?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         },
+         {
+          "fr": "Choisis la phrase qui te ressemble le plus aujourd'hui.",
+          "mg": "Fidio ny fehezanteny mifanaraka indrindra aminao ankehitriny.",
+          "en": "Pick the sentence that sounds most like you today.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "Lova vend déjà des beignets devant l'école tous les matins : elle choisit « J'ai déjà une petite activité ».",
+         "mg": "Efa mivarotra mofo gasy eo anoloan'ny sekoly isa-maraina i Lova: misafidy hoe « Efa manana asa kely aho » izy.",
+         "en": "Lova already sells doughnuts in front of the school every morning: she picks \"I already have a small activity\".",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Si tu hésites entre deux réponses, prends la première : tu pourras refaire ce questionnaire.",
+          "mg": "Raha misalasala eo amin'ny valiny roa ianao, raiso ny voalohany: azonao averina ity fanontaniana ity.",
+          "en": "If you hesitate between two answers, take the first one: you can take this questionnaire again.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "hours",
+       "type": "question",
+       "prompt": {
+        "fr": "Combien d'heures par semaine peux-tu y consacrer ?",
+        "mg": "Ora firy isan-kerinandro no azonao omena azy?",
+        "en": "How many hours a week can you give it?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "choice",
+        "options": [
+         {
+          "value": "less_2",
+          "label": {
+           "fr": "Moins de 2 heures",
+           "mg": "Latsaky ny 2 ora",
+           "en": "Less than 2 hours",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "2_5",
+          "label": {
+           "fr": "2 à 5 heures",
+           "mg": "2 ka hatramin'ny 5 ora",
+           "en": "2 to 5 hours",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "5_10",
+          "label": {
+           "fr": "5 à 10 heures",
+           "mg": "5 ka hatramin'ny 10 ora",
+           "en": "5 to 10 hours",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "more_10",
+          "label": {
+           "fr": "Plus de 10 heures",
+           "mg": "Mihoatra ny 10 ora",
+           "en": "More than 10 hours",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         }
+        ]
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Combien de temps libre as-tu pour ton projet, dans une semaine normale ?",
+          "mg": "Firy ny fotoana malalaka anananao ho an'ny tetikasanao, ao anatin'ny herinandro mahazatra?",
+          "en": "How much free time do you have for your project in a normal week?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "Une heure chaque soir et trois heures le samedi, cela fait environ 8 heures.",
+         "mg": "Adiny iray isaky ny hariva sy telo ora ny asabotsy: eo amin'ny 8 ora eo izany.",
+         "en": "One hour every evening and three hours on Saturday is about 8 hours.",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Compte large : les quêtes s'adaptent à ton rythme.",
+          "mg": "Aza manahy: mifanaraka amin'ny gadonao ny dia.",
+          "en": "A rough guess is fine: the quests adapt to your pace.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "sector",
+       "type": "question",
+       "prompt": {
+        "fr": "Dans quel domaine est ton projet ?",
+        "mg": "Amin'ny sehatra inona ny tetikasanao?",
+        "en": "What field is your project in?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "choice",
+        "options": [
+         {
+          "value": "food",
+          "label": {
+           "fr": "Alimentation",
+           "mg": "Sakafo",
+           "en": "Food",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "trade",
+          "label": {
+           "fr": "Commerce",
+           "mg": "Varotra",
+           "en": "Trade",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "agriculture",
+          "label": {
+           "fr": "Agriculture, élevage",
+           "mg": "Fambolena, fiompiana",
+           "en": "Farming",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "crafts",
+          "label": {
+           "fr": "Artisanat",
+           "mg": "Asa tanana",
+           "en": "Crafts",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "services",
+          "label": {
+           "fr": "Services",
+           "mg": "Tolotra",
+           "en": "Services",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "digital",
+          "label": {
+           "fr": "Numérique",
+           "mg": "Nomerika",
+           "en": "Digital",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "other",
+          "label": {
+           "fr": "Autre",
+           "mg": "Hafa",
+           "en": "Other",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         }
+        ]
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Que vendrais-tu ou que ferais-tu pour tes clients ?",
+          "mg": "Inona no hamidinao na hataonao ho an'ny mpanjifanao?",
+          "en": "What would you sell or do for your customers?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "Réparer des téléphones, c'est un service. Vendre du riz, c'est du commerce.",
+         "mg": "Fanamboarana finday dia tolotra. Fivarotana vary dia varotra.",
+         "en": "Repairing phones is a service. Selling rice is trade.",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Sans idée encore ? Réponds « Je ne sais pas ».",
+          "mg": "Mbola tsy manana hevitra? Valio hoe « Tsy fantatro ».",
+          "en": "No idea yet? Answer \"I don't know\".",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "team",
+       "type": "question",
+       "prompt": {
+        "fr": "Tu avances seul ou à plusieurs ?",
+        "mg": "Irery ve ianao sa maromaro?",
+        "en": "Are you doing this alone or with others?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "choice",
+        "options": [
+         {
+          "value": "alone",
+          "label": {
+           "fr": "Seul ou seule",
+           "mg": "Irery",
+           "en": "Alone",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "with_partners",
+          "label": {
+           "fr": "Avec d'autres personnes",
+           "mg": "Miaraka amin'olona hafa",
+           "en": "With other people",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         }
+        ]
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Est-ce que d'autres personnes travaillent avec toi sur ce projet ?",
+          "mg": "Misy olona hafa miara-miasa aminao amin'ity tetikasa ity ve?",
+          "en": "Are other people working with you on this project?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "Tiana prépare les plats et sa sœur s'occupe des ventes : elles sont deux.",
+         "mg": "I Tiana no mahandro ary ny rahavaviny no mivarotra: roa izy ireo.",
+         "en": "Tiana cooks and her sister handles the sales: there are two of them.",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "La famille qui aide de temps en temps compte aussi.",
+          "mg": "Tafiditra ihany koa ny fianakaviana manampy indraindray.",
+          "en": "Family who help from time to time count too.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      }
+     ],
+     "outputs": [
+      {
+       "from": "stage",
+       "fact": "diag.entry_profile"
+      },
+      {
+       "from": "hours",
+       "fact": "diag.weekly_hours"
+      },
+      {
+       "from": "sector",
+       "fact": "diag.sector"
+      },
+      {
+       "from": "team",
+       "fact": "diag.team"
+      }
+     ]
+    },
+    {
+     "id": "diag.s02",
+     "type": "checkpoint",
+     "title": {
+      "fr": "Ton projet",
+      "mg": "Ny tetikasanao",
+      "en": "Your project",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "goal",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'attends-tu surtout de ce projet ?",
+        "mg": "Inona indrindra no andrasanao amin'ity tetikasa ity?",
+        "en": "What do you mainly expect from this project?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "choice",
+        "options": [
+         {
+          "value": "extra_income",
+          "label": {
+           "fr": "Un revenu en plus",
+           "mg": "Vola miditra fanampiny",
+           "en": "Extra income",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "main_income",
+          "label": {
+           "fr": "Mon revenu principal",
+           "mg": "Ny vola miditra fototra",
+           "en": "My main income",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "community",
+          "label": {
+           "fr": "Aider ma communauté",
+           "mg": "Hanampy ny fiaraha-monina",
+           "en": "Helping my community",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "grow",
+          "label": {
+           "fr": "Faire grandir mon activité",
+           "mg": "Hampitombo ny asako",
+           "en": "Growing my activity",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         }
+        ]
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Pourquoi as-tu envie de te lancer ?",
+          "mg": "Nahoana ianao no te hanomboka?",
+          "en": "Why do you want to start?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "Rado est étudiant : il cherche surtout un revenu en plus pour payer ses études.",
+         "mg": "Mpianatra i Rado: vola miditra fanampiny no tadiaviny indrindra handoavana ny fianarany.",
+         "en": "Rado is a student: he mainly wants extra income to pay for his studies.",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Choisis ce qui compte le plus pour toi aujourd'hui.",
+          "mg": "Fidio izay zava-dehibe indrindra aminao ankehitriny.",
+          "en": "Choose what matters most to you today.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "name",
+       "type": "question",
+       "prompt": {
+        "fr": "Donne un nom à ton projet, même provisoire.",
+        "mg": "Omeo anarana ny tetikasanao, na dia vonjimaika aza.",
+        "en": "Give your project a name, even a temporary one.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 60
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Comment veux-tu appeler ton projet pour l'instant ?",
+          "mg": "Ahoana no tianao hiantsoana ny tetikasanao amin'izao?",
+          "en": "What do you want to call your project for now?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Savon du quartier », « Projet de Fara » ou « Mon idée ».",
+         "mg": "« Savony ao an-tanàna », « Tetikasan'i Fara » na « Ny hevitro ».",
+         "en": "\"Neighbourhood soap\", \"Fara's project\" or \"My idea\".",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Tu pourras le changer quand tu veux.",
+          "mg": "Azonao ovaina izy amin'ny fotoana tianao.",
+          "en": "You can change it whenever you like.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "ready",
+       "type": "text",
+       "body": {
+        "fr": "Merci ! Ton chemin est prêt. Commence par la première étape proposée.",
+        "mg": "Misaotra! Vonona ny lalanao. Atombohy amin'ny dingana voalohany natolotra.",
+        "en": "Thank you! Your path is ready. Start with the first suggested step.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ],
+     "outputs": [
+      {
+       "from": "goal",
+       "fact": "diag.goal"
+      },
+      {
+       "from": "name",
+       "project_title": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "q01",
+   "order": 1,
+   "maturity": "exploration",
+   "priority": 30,
+   "title": {
+    "fr": "Trouver un problème qui compte",
+    "mg": "Mitady olana manan-danja",
+    "en": "Find a problem that matters",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Une entreprise commence par un problème que des gens veulent voir résolu.",
+    "mg": "Manomboka amin'ny olana tian'ny olona hovahana ny orinasa iray.",
+    "en": "A business starts with a problem people want solved.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "fast_track_when": {
+    "fact": "diag.entry_profile",
+    "in": [
+     "problem_identified",
+     "existing_activity",
+     "existing_customers"
+    ]
+   },
+   "steps": [
+    {
+     "id": "q01.s01",
+     "type": "learn",
+     "title": {
+      "fr": "Pourquoi partir d'un problème ?",
+      "mg": "Nahoana no manomboka amin'ny olana?",
+      "en": "Why start from a problem?",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Les gens paient pour ce qui leur simplifie la vie. Si tu pars d'un vrai problème, tu as déjà des clients qui t'attendent.",
+        "mg": "Mandoa vola ho an'izay manamora ny fiainany ny olona. Raha manomboka amin'ny olana tena misy ianao, efa misy mpanjifa miandry anao.",
+        "en": "People pay for what makes their life easier. If you start from a real problem, customers are already waiting for you.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "term",
+       "type": "term",
+       "plain": {
+        "fr": "Un souci que des gens vivent souvent",
+        "mg": "Fahasahiranana iainan'ny olona matetika",
+        "en": "A worry people often live with",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "term": {
+        "fr": "Problème client",
+        "mg": "Olan'ny mpanjifa",
+        "en": "Customer problem",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "definition": {
+        "fr": "Une difficulté réelle et répétée, assez gênante pour qu'on cherche une solution.",
+        "mg": "Fahasahiranana tena misy sy miverimberina, manelingelina ka itadiavana vahaolana.",
+        "en": "A real, repeated difficulty, annoying enough that people look for a solution.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "example",
+       "type": "example",
+       "body": {
+        "fr": "À Toamasina, Fara remarque que les mères de son quartier marchent trente minutes pour acheter du savon. Le problème : la distance et le temps perdu.",
+        "mg": "Any Toamasina, hitan'i Fara fa mandeha tongotra telopolo minitra ireo reny ao amin'ny fokontaniny mba hividianana savony. Ny olana: ny halavirana sy ny fotoana very.",
+        "en": "In Toamasina, Fara notices that mothers in her neighbourhood walk thirty minutes to buy soap. The problem: the distance and the time lost.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "tip",
+       "type": "tip",
+       "body": {
+        "fr": "Regarde ce qui fait râler les gens autour de toi : la file d'attente, le prix, la distance, la qualité.",
+        "mg": "Jereo izay mampitaraina ny olona manodidina anao: ny filaharana, ny vidiny, ny halavirana, ny kalitao.",
+        "en": "Look at what makes people around you complain: queues, prices, distance, quality.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q01.s02",
+     "type": "reflect",
+     "title": {
+      "fr": "Le problème que tu vois",
+      "mg": "Ny olana hitanao",
+      "en": "The problem you see",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "problem",
+       "type": "question",
+       "prompt": {
+        "fr": "Quel problème as-tu remarqué ?",
+        "mg": "Inona no olana hitanao?",
+        "en": "What problem have you noticed?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce qui est difficile, cher ou lent pour des gens que tu connais ?",
+          "mg": "Inona no sarotra, lafo na miadana ho an'ny olona fantatrao?",
+          "en": "What is hard, expensive or slow for people you know?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         },
+         {
+          "fr": "Raconte une petite galère que tu as vue cette semaine.",
+          "mg": "Tantarao fahasahiranana kely hitanao tamin'ity herinandro ity.",
+          "en": "Describe a small hassle you saw this week.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Les mères du quartier perdent une heure pour acheter du savon. »",
+         "mg": "« Very adiny iray ireo reny ao an-tanàna vao mahavidy savony. »",
+         "en": "\"Mothers in the neighbourhood lose an hour buying soap.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Commence ta phrase par « Les gens… » ou « Les … ont du mal à … ».",
+          "mg": "Atombohy amin'ny hoe « Ny olona… » na « Sahirana ireo … amin'ny … ».",
+          "en": "Start your sentence with \"People…\" or \"… struggle to …\".",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         },
+         {
+          "fr": "Pense à ta journée d'hier : qu'est-ce qui t'a fait perdre du temps ?",
+          "mg": "Eritrereto ny andronao omaly: inona no nandany fotoana anao?",
+          "en": "Think about yesterday: what made you lose time?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "who",
+       "type": "question",
+       "prompt": {
+        "fr": "Qui vit ce problème ?",
+        "mg": "Iza no miaina io olana io?",
+        "en": "Who has this problem?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quelles personnes sont gênées par ce problème ?",
+          "mg": "Olona manao ahoana no sahirana amin'io olana io?",
+          "en": "Which people are bothered by this problem?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Les mères qui travaillent au marché et n'ont pas le temps de se déplacer. »",
+         "mg": "« Ireo reny miasa eny an-tsena ka tsy manam-potoana hivezivezy. »",
+         "en": "\"Mothers who work at the market and have no time to travel.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Décris un groupe de personnes, sans donner de nom.",
+          "mg": "Lazao vondron'olona iray, nefa aza manome anarana.",
+          "en": "Describe a group of people, without giving names.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "frequency",
+       "type": "question",
+       "prompt": {
+        "fr": "À quelle fréquence ce problème arrive-t-il ?",
+        "mg": "Impiry no mitranga io olana io?",
+        "en": "How often does this problem happen?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "choice",
+        "options": [
+         {
+          "value": "daily",
+          "label": {
+           "fr": "Tous les jours",
+           "mg": "Isan'andro",
+           "en": "Every day",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "weekly",
+          "label": {
+           "fr": "Chaque semaine",
+           "mg": "Isan-kerinandro",
+           "en": "Every week",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "rarely",
+          "label": {
+           "fr": "De temps en temps",
+           "mg": "Indraindray",
+           "en": "Now and then",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         }
+        ]
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Ces personnes rencontrent ce problème souvent ou rarement ?",
+          "mg": "Matetika ve sa tsy fahita firy no sendra io olana io ireo olona ireo?",
+          "en": "Do these people meet this problem often or rarely?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "Acheter du savon : chaque semaine.",
+         "mg": "Mividy savony: isan-kerinandro.",
+         "en": "Buying soap: every week.",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Plus un problème revient souvent, plus les gens sont prêts à payer.",
+          "mg": "Arakaraka ny hiverenan'ny olana matetika no hahavononan'ny olona handoa vola.",
+          "en": "The more often a problem comes back, the more people are ready to pay.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici le problème que tu as décrit. Il est enregistré dans ton projet.",
+        "mg": "Ity ny olana nofaritanao. Voatahiry ao amin'ny tetikasanao izy.",
+        "en": "Here is the problem you described. It is saved in your project.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "problem",
+        "who",
+        "frequency"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "problem",
+       "section": "problem",
+       "field": "statement",
+       "tracked": true
+      },
+      {
+       "from": "who",
+       "section": "customers",
+       "field": "first_guess",
+       "tracked": true
+      },
+      {
+       "from": "frequency",
+       "fact": "problem.frequency"
+      }
+     ]
+    },
+    {
+     "id": "q01.s03",
+     "type": "act",
+     "title": {
+      "fr": "Va voir le problème de tes yeux",
+      "mg": "Mandehana jereo maso ny olana",
+      "en": "Go and see the problem yourself",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "why",
+       "type": "text",
+       "body": {
+        "fr": "Ce que l'on imagine n'est pas toujours ce qui se passe. Une courte observation sur place vaut mieux que des heures de réflexion.",
+        "mg": "Tsy mitovy foana amin'ny zava-misy ny eritreretina. Tsara kokoa ny fandinihana fohy eny an-toerana noho ny fisainana ora maro.",
+        "en": "What we imagine is not always what happens. A short look on site beats hours of thinking.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "go",
+       "type": "mission",
+       "mission": "m.observe_problem"
+      }
+     ],
+     "complete_when": {
+      "mission": "m.observe_problem",
+      "is": "completed"
+     }
+    }
+   ]
+  },
+  {
+   "id": "q02",
+   "order": 2,
+   "maturity": "validation",
+   "priority": 20,
+   "title": {
+    "fr": "Comprendre tes futurs clients",
+    "mg": "Mahafantatra ny mpanjifanao ho avy",
+    "en": "Understand your future customers",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Découvre qui vit le problème et ce qu'ils font aujourd'hui pour s'en sortir.",
+    "mg": "Fantaro hoe iza no miaina ny olana sy izay ataony ankehitriny mba hialana aminy.",
+    "en": "Find out who has the problem and what they do about it today.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "available_when": {
+    "step": "q01.s02",
+    "is": [
+     "completed",
+     "fast_tracked"
+    ]
+   },
+   "steps": [
+    {
+     "id": "q02.s01",
+     "type": "learn",
+     "title": {
+      "fr": "Qui sont tes clients ?",
+      "mg": "Iza avy ireo mpanjifanao?",
+      "en": "Who are your customers?",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Tes clients ne sont pas « tout le monde ». Ce sont des personnes précises, qui vivent le problème et qui pourraient payer pour le résoudre.",
+        "mg": "Tsy « ny olona rehetra » ny mpanjifanao. Olona voafaritra izy ireo, miaina ny olana ary mety handoa vola hamahana azy.",
+        "en": "Your customers are not \"everyone\". They are specific people who have the problem and could pay to solve it.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "term",
+       "type": "term",
+       "plain": {
+        "fr": "Le groupe de personnes pour qui tu travailles",
+        "mg": "Ny vondron'olona iasanao",
+        "en": "The group of people you work for",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "term": {
+        "fr": "Client cible",
+        "mg": "Mpanjifa kendrena",
+        "en": "Target customer",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "definition": {
+        "fr": "Les personnes que ton projet veut servir en premier, décrites par ce qu'elles vivent, où elles sont et ce qu'elles peuvent payer.",
+        "mg": "Ireo olona tian'ny tetikasanao hotompoina voalohany, voafaritra amin'izay iainany, ny toerana misy azy ary izay azony aloa.",
+        "en": "The people your project wants to serve first, described by what they live, where they are and what they can pay.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "example",
+       "type": "example",
+       "body": {
+        "fr": "Pour Fara, ce n'est pas « les habitants de Toamasina » mais « les mères qui travaillent au marché de Bazary Be ». C'est plus précis, donc plus facile à rencontrer.",
+        "mg": "Ho an'i Fara, tsy hoe « ny mponina any Toamasina » fa « ireo reny miasa eny amin'ny tsenan'i Bazary Be ». Mazava kokoa izany, ka mora kokoa ny mihaona amin'izy ireo.",
+        "en": "For Fara, it's not \"people in Toamasina\" but \"mothers who work at Bazary Be market\". That is more precise, so easier to meet.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q02.s02",
+     "type": "reflect",
+     "title": {
+      "fr": "Décrire ton client",
+      "mg": "Mamaritra ny mpanjifanao",
+      "en": "Describe your customer",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "description",
+       "type": "question",
+       "prompt": {
+        "fr": "Décris la personne qui a le plus besoin de ta solution.",
+        "mg": "Lazao ny olona mila indrindra ny vahaolanao.",
+        "en": "Describe the person who most needs your solution.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Si tu ne pouvais aider qu'un seul type de personne, ce serait qui ?",
+          "mg": "Raha karazan'olona iray ihany no azonao ampiana, iza izany?",
+          "en": "If you could help only one kind of person, who would it be?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         },
+         {
+          "fr": "Dis son âge à peu près, son travail et sa journée.",
+          "mg": "Lazao eo ho eo ny taonany, ny asany ary ny andro iainany.",
+          "en": "Give their rough age, their work and their day.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Une mère de 25 à 40 ans, vendeuse au marché, qui rentre tard et n'a pas le temps de faire les courses. »",
+         "mg": "« Reny 25 ka hatramin'ny 40 taona, mpivarotra eny an-tsena, tara vao mody ka tsy manam-potoana hiantsena. »",
+         "en": "\"A mother aged 25 to 40, a market seller, who gets home late and has no time to shop.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Reprends la personne que tu as décrite dans la quête précédente et ajoute un détail.",
+          "mg": "Raiso indray ilay olona nofaritanao tamin'ny dia teo aloha ary ampio antsipiriany iray.",
+          "en": "Take the person you described in the last quest and add one detail.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "where",
+       "type": "question",
+       "prompt": {
+        "fr": "Où peux-tu rencontrer ces personnes ?",
+        "mg": "Aiza no ahitanao ireo olona ireo?",
+        "en": "Where can you meet these people?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Dans quels lieux passent-elles souvent ?",
+          "mg": "Amin'ny toerana inona no andalovany matetika?",
+          "en": "Which places do they often go to?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Au marché le matin, à la sortie de l'école, à l'église le dimanche. »",
+         "mg": "« Eny an-tsena ny maraina, eo am-pivoahan'ny sekoly, any am-piangonana ny alahady. »",
+         "en": "\"At the market in the morning, outside the school, at church on Sunday.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Pense aux lieux et aux heures où tu pourrais leur parler quelques minutes.",
+          "mg": "Eritrereto ny toerana sy ny ora ahafahanao miresaka aminy minitra vitsivitsy.",
+          "en": "Think of places and times when you could talk to them for a few minutes.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "today",
+       "type": "question",
+       "prompt": {
+        "fr": "Aujourd'hui, que font-elles face à ce problème ?",
+        "mg": "Ankehitriny, inona no ataon'izy ireo manoloana io olana io?",
+        "en": "Today, what do they do about this problem?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "choice",
+        "options": [
+         {
+          "value": "pays_other",
+          "label": {
+           "fr": "Elles paient déjà une autre solution",
+           "mg": "Efa mandoa vahaolana hafa izy ireo",
+           "en": "They already pay for another solution",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "own_way",
+          "label": {
+           "fr": "Elles se débrouillent seules",
+           "mg": "Mitady lalana ho azy izy ireo",
+           "en": "They manage on their own",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "nothing",
+          "label": {
+           "fr": "Elles ne font rien",
+           "mg": "Tsy manao na inona na inona izy ireo",
+           "en": "They do nothing",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         }
+        ]
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Comment ces personnes s'en sortent-elles sans toi ?",
+          "mg": "Ahoana no hialan'ireo olona ireo amin'izany raha tsy misy anao?",
+          "en": "How do these people cope without you?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "Les mères de Fara envoient parfois un enfant au magasin : elles se débrouillent seules.",
+         "mg": "Indraindray ireo reny any amin'i Fara dia maniraka zaza any amin'ny magazay: mitady lalana ho azy izy ireo.",
+         "en": "The mothers Fara knows sometimes send a child to the shop: they manage on their own.",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Si elles paient déjà autre chose, c'est bon signe : le problème compte pour elles.",
+          "mg": "Raha efa mandoa zavatra hafa izy ireo, famantarana tsara izany: manan-danja aminy ny olana.",
+          "en": "If they already pay for something else, that's a good sign: the problem matters to them.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ton client tel que tu l'imagines aujourd'hui. La prochaine étape : vérifier en lui parlant.",
+        "mg": "Ity ny mpanjifanao araka ny eritreritrao ankehitriny. Dingana manaraka: hamarino amin'ny firesahana aminy.",
+        "en": "Here is your customer as you picture them today. Next: check by talking to them.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "description",
+        "where",
+        "today"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "description",
+       "section": "customers",
+       "field": "description",
+       "tracked": true
+      },
+      {
+       "from": "where",
+       "section": "customers",
+       "field": "where_to_meet"
+      },
+      {
+       "from": "today",
+       "fact": "customers.current_solution"
+      }
+     ]
+    },
+    {
+     "id": "q02.s03",
+     "type": "act",
+     "title": {
+      "fr": "Parler à trois personnes",
+      "mg": "Miresaka amin'olona telo",
+      "en": "Talk to three people",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "why",
+       "type": "text",
+       "body": {
+        "fr": "Tu ne présentes pas ton idée : tu écoutes. Le but est de comprendre leur vie, pas de les convaincre.",
+        "mg": "Tsy manolotra ny hevitrao ianao: mihaino. Ny tanjona dia ny hahatakatra ny fiainany fa tsy ny handresy lahatra azy.",
+        "en": "You don't pitch your idea: you listen. The goal is to understand their life, not to convince them.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "go",
+       "type": "mission",
+       "mission": "m.talk_three"
+      }
+     ],
+     "complete_when": {
+      "mission": "m.talk_three",
+      "is": "completed"
+     }
+    },
+    {
+     "id": "q02.s04",
+     "type": "reflect",
+     "title": {
+      "fr": "Ce que tu as appris",
+      "mg": "Izay nianaranao",
+      "en": "What you learned",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "learned",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui t'a surpris dans ce qu'elles t'ont dit ?",
+        "mg": "Inona no nahagaga anao tamin'izay nolazain'izy ireo taminao?",
+        "en": "What surprised you in what they told you?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 400
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'as-tu découvert que tu ne savais pas avant ?",
+          "mg": "Inona no hitanao izay tsy fantatrao teo aloha?",
+          "en": "What did you discover that you didn't know before?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Le savon n'est pas le vrai souci : c'est l'eau, qui manque le matin. »",
+         "mg": "« Tsy ny savony no tena olana: ny rano, izay tsy ampy ny maraina. »",
+         "en": "\"Soap isn't the real issue: it's water, which runs short in the morning.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Relis ce que tu as écrit dans la mission.",
+          "mg": "Vakio indray izay nosoratanao tao amin'ny iraka.",
+          "en": "Read again what you wrote in the mission.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "confirmed",
+       "type": "question",
+       "prompt": {
+        "fr": "Le problème est-il confirmé ?",
+        "mg": "Voamarina ve ny olana?",
+        "en": "Is the problem confirmed?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "choice",
+        "options": [
+         {
+          "value": "yes",
+          "label": {
+           "fr": "Oui, clairement",
+           "mg": "Eny, mazava tsara",
+           "en": "Yes, clearly",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "partly",
+          "label": {
+           "fr": "En partie",
+           "mg": "Ampahany",
+           "en": "Partly",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "no",
+          "label": {
+           "fr": "Non, pas vraiment",
+           "mg": "Tsia, tsy dia",
+           "en": "No, not really",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         }
+        ]
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Les personnes rencontrées vivent-elles vraiment ce problème ?",
+          "mg": "Tena miaina io olana io tokoa ve ireo olona nifanena taminao?",
+          "en": "Do the people you met really have this problem?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "Deux personnes sur trois en parlent sans que tu poses la question : c'est « Oui ».",
+         "mg": "Olona roa amin'ny telo no miresaka momba azy na dia tsy nanontanianao aza: « Eny » izany.",
+         "en": "Two people out of three bring it up without you asking: that's a \"Yes\".",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "« Non » n'est pas un échec : tu viens d'éviter de construire quelque chose d'inutile.",
+          "mg": "Tsy fahombiazana ny « Tsia »: nisoroka ny hanorina zavatra tsy ilaina ianao.",
+          "en": "\"No\" is not a failure: you just avoided building something useless.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ce que tu retiens de tes rencontres.",
+        "mg": "Ity izay tadidinao tamin'ireo fihaonana ireo.",
+        "en": "Here is what you take away from your conversations.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "learned",
+        "confirmed"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "learned",
+       "section": "customers",
+       "field": "interview_learnings",
+       "tracked": true
+      },
+      {
+       "from": "confirmed",
+       "fact": "customers.problem_confirmed"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "q03",
+   "order": 3,
+   "maturity": "validation",
+   "priority": 10,
+   "title": {
+    "fr": "Imaginer ta solution",
+    "mg": "Mamorona ny vahaolanao",
+    "en": "Imagine your solution",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "À partir de ce que tu as appris, imagine une première réponse simple.",
+    "mg": "Avy amin'izay nianaranao, eritrereto valiny voalohany tsotra.",
+    "en": "Based on what you learned, imagine a first simple answer.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "available_when": {
+    "quest": "q02",
+    "is": "completed"
+   },
+   "steps": [
+    {
+     "id": "q03.s01",
+     "type": "learn",
+     "title": {
+      "fr": "Commencer petit",
+      "mg": "Manomboka kely",
+      "en": "Start small",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Ta première solution n'a pas besoin d'être parfaite. Elle doit être assez simple pour être essayée vite, avec peu d'argent.",
+        "mg": "Tsy voatery ho lavorary ny vahaolanao voalohany. Tokony ho tsotra ampy izy mba hazo andramana haingana, amin'ny vola kely.",
+        "en": "Your first solution doesn't need to be perfect. It must be simple enough to try quickly, with little money.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "term",
+       "type": "term",
+       "plain": {
+        "fr": "Une première version, simple, pour essayer",
+        "mg": "Dika voalohany tsotra, hanandramana",
+        "en": "A simple first version, to try things out",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "term": {
+        "fr": "Produit minimum viable",
+        "mg": "Vokatra kely indrindra azo ampiasaina",
+        "en": "Minimum viable product",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "definition": {
+        "fr": "La plus petite version de ta solution qui permet de vérifier si des clients en veulent vraiment.",
+        "mg": "Ny dika kely indrindra amin'ny vahaolanao ahafahana manamarina raha tena mila azy ny mpanjifa.",
+        "en": "The smallest version of your solution that lets you check whether customers really want it.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "example",
+       "type": "example",
+       "body": {
+        "fr": "Avant d'ouvrir une boutique, Fara livre du savon à pied à dix mères, une fois par semaine, pour voir si elles commandent à nouveau.",
+        "mg": "Alohan'ny hanokafany magazay, mandefa savony an-tongotra ho an'ny reny folo i Fara, indray mandeha isan-kerinandro, mba hijerena raha mbola hanafatra indray izy ireo.",
+        "en": "Before opening a shop, Fara delivers soap on foot to ten mothers once a week, to see if they order again.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q03.s02",
+     "type": "reflect",
+     "title": {
+      "fr": "Ta première idée de solution",
+      "mg": "Ny hevitra voalohany momba ny vahaolanao",
+      "en": "Your first solution idea",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "solution",
+       "type": "question",
+       "prompt": {
+        "fr": "Comment pourrais-tu aider tes clients, simplement ?",
+        "mg": "Ahoana no ahafahanao manampy ny mpanjifanao, amin'ny fomba tsotra?",
+        "en": "How could you help your customers, simply?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Que pourrais-tu proposer dès la semaine prochaine ?",
+          "mg": "Inona no azonao atolotra manomboka amin'ny herinandro ho avy?",
+          "en": "What could you offer as soon as next week?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         },
+         {
+          "fr": "Décris ce que le client reçoit, et comment.",
+          "mg": "Lazao izay azon'ny mpanjifa, sy ny fomba ahazoany azy.",
+          "en": "Describe what the customer gets, and how.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Livrer savon et produits de base au marché, chaque lundi, sur commande. »",
+         "mg": "« Mandefa savony sy entana fototra eny an-tsena, isaky ny alatsinainy, araka ny kaomandy. »",
+         "en": "\"Deliver soap and basics to the market every Monday, to order.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Repars de ce qui t'a surpris pendant tes rencontres.",
+          "mg": "Miverena amin'izay nahagaga anao nandritra ireo fihaonana.",
+          "en": "Start again from what surprised you in your conversations.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "different",
+       "type": "question",
+       "prompt": {
+        "fr": "En quoi est-ce mieux que ce qu'ils font aujourd'hui ?",
+        "mg": "Amin'ny lafiny inona no tsara kokoa noho izay ataony ankehitriny izany?",
+        "en": "How is it better than what they do today?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Pourquoi choisiraient-ils ta solution plutôt que leur habitude ?",
+          "mg": "Nahoana no hisafidy ny vahaolanao izy ireo fa tsy ny fahazarany?",
+          "en": "Why would they choose your solution over their habit?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Elles gagnent une heure et paient le même prix. »",
+         "mg": "« Mahazo adiny iray izy ireo ary mitovy ny vidiny aloany. »",
+         "en": "\"They save an hour and pay the same price.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Pense au temps, à l'argent, à la fatigue ou à la confiance.",
+          "mg": "Eritrereto ny fotoana, ny vola, ny havizanana na ny fahatokisana.",
+          "en": "Think about time, money, tiredness or trust.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "kind",
+       "type": "question",
+       "prompt": {
+        "fr": "Ta solution, c'est plutôt…",
+        "mg": "Ny vahaolanao dia…",
+        "en": "Your solution is mostly…",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "choice",
+        "options": [
+         {
+          "value": "product",
+          "label": {
+           "fr": "Un produit",
+           "mg": "Vokatra",
+           "en": "A product",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "service",
+          "label": {
+           "fr": "Un service",
+           "mg": "Tolotra",
+           "en": "A service",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "both",
+          "label": {
+           "fr": "Les deux",
+           "mg": "Izy roa",
+           "en": "Both",
+           "status": {
+            "fr": "needs_review",
+            "mg": "machine_draft",
+            "en": "needs_review"
+           }
+          }
+         }
+        ]
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Vends-tu un objet, ou fais-tu quelque chose pour le client ?",
+          "mg": "Zavatra ve no amidinao, sa misy zavatra ataonao ho an'ny mpanjifa?",
+          "en": "Do you sell an object, or do something for the customer?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "Du savon livré : c'est les deux, un produit et un service de livraison.",
+         "mg": "Savony aterina: izy roa izany, vokatra sy tolotra fanaterana.",
+         "en": "Delivered soap is both: a product and a delivery service.",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Si tu hésites, choisis « Les deux ».",
+          "mg": "Raha misalasala ianao, fidio « Izy roa ».",
+          "en": "If unsure, choose \"Both\".",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ta première idée de solution. Elle évoluera avec ce que tes clients te diront.",
+        "mg": "Ity ny hevitra voalohany momba ny vahaolanao. Hivoatra arakaraka izay holazain'ny mpanjifanao izy.",
+        "en": "Here is your first solution idea. It will change with what your customers tell you.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "solution",
+        "different",
+        "kind"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "solution",
+       "section": "solution",
+       "field": "first_idea",
+       "tracked": true
+      },
+      {
+       "from": "different",
+       "section": "solution",
+       "field": "advantage",
+       "tracked": true
+      },
+      {
+       "from": "kind",
+       "fact": "solution.kind"
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "missions": [
+  {
+   "id": "m.observe_problem",
+   "title": {
+    "fr": "Observer le problème en vrai",
+    "mg": "Mandinika ny olana amin'ny tena izy",
+    "en": "Observe the problem for real",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "objective": {
+    "fr": "Voir de tes propres yeux comment les gens vivent le problème.",
+    "mg": "Mahita maso ny fomba iainan'ny olona ny olana.",
+    "en": "See with your own eyes how people live with the problem.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "instructions": [
+    {
+     "fr": "Va là où le problème arrive (marché, arrêt de taxi-be, quartier…).",
+     "mg": "Mandehana any amin'ny toerana itrangan'ny olana (tsena, fiantsonan'ny taxi-be, fokontany…).",
+     "en": "Go where the problem happens (market, minibus stop, neighbourhood…).",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Observe pendant 20 minutes, sans rien vendre.",
+     "mg": "Mandinika mandritra ny 20 minitra, nefa aza mivarotra na inona na inona.",
+     "en": "Watch for 20 minutes without selling anything.",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Note ce que les gens font, ce qui leur prend du temps, ce qui les agace. Pas de nom, pas de numéro de téléphone.",
+     "mg": "Soraty izay ataon'ny olona, izay mandany fotoana azy, izay mahasosotra azy. Aza misy anarana na laharana finday.",
+     "en": "Note what people do, what takes them time, what annoys them. No names, no phone numbers.",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    }
+   ],
+   "deliverable": {
+    "fr": "Ce que tu as vu, en deux ou trois phrases.",
+    "mg": "Izay hitanao, fehezanteny roa na telo.",
+    "en": "What you saw, in two or three sentences.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "duration_minutes": 30,
+   "difficulty": 1,
+   "example": {
+    "fr": "« Au marché, 6 mères sur 10 demandent du savon aux voisines avant de rentrer. »",
+    "mg": "« Eny an-tsena, reny 6 amin'ny 10 no mangataka savony amin'ny mpifanolo-bodirindrina alohan'ny hodiana. »",
+    "en": "\"At the market, 6 mothers out of 10 ask neighbours for soap before going home.\"",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   }
+  },
+  {
+   "id": "m.talk_three",
+   "title": {
+    "fr": "Parler à trois personnes concernées",
+    "mg": "Miresaka amin'olona telo voakasika",
+    "en": "Talk to three people concerned",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "objective": {
+    "fr": "Comprendre comment trois personnes vivent le problème, sans leur vendre ton idée.",
+    "mg": "Mahatakatra ny fomba iainan'olona telo ny olana, nefa tsy mivarotra ny hevitrao aminy.",
+    "en": "Understand how three people live with the problem, without selling them your idea.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "instructions": [
+    {
+     "fr": "Choisis trois personnes qui correspondent à ton client. Demande-leur si elles acceptent de parler cinq minutes.",
+     "mg": "Mifidiana olona telo mifanaraka amin'ny mpanjifanao. Anontanio raha manaiky hiresaka dimy minitra izy ireo.",
+     "en": "Pick three people who match your customer. Ask if they agree to talk for five minutes.",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Demande : « Raconte-moi la dernière fois que cela t'est arrivé. » Puis écoute.",
+     "mg": "Anontanio hoe: « Tantarao ahy ny fotoana farany nitrangan'izany taminao. » Avy eo mihainoa.",
+     "en": "Ask: \"Tell me about the last time this happened to you.\" Then listen.",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Ne parle pas de ton idée avant la fin. N'enregistre personne et ne note ni nom ni numéro.",
+     "mg": "Aza miresaka ny hevitrao raha tsy amin'ny farany. Aza mandrakitra feon'olona ary aza manoratra anarana na laharana.",
+     "en": "Don't mention your idea until the end. Don't record anyone and don't note names or numbers.",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    }
+   ],
+   "deliverable": {
+    "fr": "Pour chaque personne, une phrase sur ce qu'elle vit et ce qu'elle fait aujourd'hui.",
+    "mg": "Ho an'ny olona tsirairay, fehezanteny iray momba izay iainany sy izay ataony ankehitriny.",
+    "en": "For each person, one sentence on what they live and what they do today.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "duration_minutes": 60,
+   "difficulty": 2,
+   "example": {
+    "fr": "« Personne 1 : vend au marché, achète son savon le dimanche, trouve la boutique trop loin. »",
+    "mg": "« Olona 1: mivarotra eny an-tsena, mividy savony ny alahady, mahita fa lavitra loatra ny magazay. »",
+    "en": "\"Person 1: sells at the market, buys soap on Sundays, finds the shop too far.\"",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   }
+  }
+ ]
+}

@@ -1,0 +1,60 @@
+# Missions: short real-world actions proposed by steps. They never ask
+# for names, phone numbers or recordings of other people.
+- id: m.observe_problem
+  title:
+    fr: "Observer le problème en vrai"
+    mg: "Mandinika ny olana amin'ny tena izy"
+    en: "Observe the problem for real"
+  objective:
+    fr: "Voir de tes propres yeux comment les gens vivent le problème."
+    mg: "Mahita maso ny fomba iainan'ny olona ny olana."
+    en: "See with your own eyes how people live with the problem."
+  instructions:
+    - fr: "Va là où le problème arrive (marché, arrêt de taxi-be, quartier…)."
+      mg: "Mandehana any amin'ny toerana itrangan'ny olana (tsena, fiantsonan'ny taxi-be, fokontany…)."
+      en: "Go where the problem happens (market, minibus stop, neighbourhood…)."
+    - fr: "Observe pendant 20 minutes, sans rien vendre."
+      mg: "Mandinika mandritra ny 20 minitra, nefa aza mivarotra na inona na inona."
+      en: "Watch for 20 minutes without selling anything."
+    - fr: "Note ce que les gens font, ce qui leur prend du temps, ce qui les agace. Pas de nom, pas de numéro de téléphone."
+      mg: "Soraty izay ataon'ny olona, izay mandany fotoana azy, izay mahasosotra azy. Aza misy anarana na laharana finday."
+      en: "Note what people do, what takes them time, what annoys them. No names, no phone numbers."
+  deliverable:
+    fr: "Ce que tu as vu, en deux ou trois phrases."
+    mg: "Izay hitanao, fehezanteny roa na telo."
+    en: "What you saw, in two or three sentences."
+  duration_minutes: 30
+  difficulty: 1
+  example:
+    fr: "« Au marché, 6 mères sur 10 demandent du savon aux voisines avant de rentrer. »"
+    mg: "« Eny an-tsena, reny 6 amin'ny 10 no mangataka savony amin'ny mpifanolo-bodirindrina alohan'ny hodiana. »"
+    en: "\"At the market, 6 mothers out of 10 ask neighbours for soap before going home.\""
+- id: m.talk_three
+  title:
+    fr: "Parler à trois personnes concernées"
+    mg: "Miresaka amin'olona telo voakasika"
+    en: "Talk to three people concerned"
+  objective:
+    fr: "Comprendre comment trois personnes vivent le problème, sans leur vendre ton idée."
+    mg: "Mahatakatra ny fomba iainan'olona telo ny olana, nefa tsy mivarotra ny hevitrao aminy."
+    en: "Understand how three people live with the problem, without selling them your idea."
+  instructions:
+    - fr: "Choisis trois personnes qui correspondent à ton client. Demande-leur si elles acceptent de parler cinq minutes."
+      mg: "Mifidiana olona telo mifanaraka amin'ny mpanjifanao. Anontanio raha manaiky hiresaka dimy minitra izy ireo."
+      en: "Pick three people who match your customer. Ask if they agree to talk for five minutes."
+    - fr: "Demande : « Raconte-moi la dernière fois que cela t'est arrivé. » Puis écoute."
+      mg: "Anontanio hoe: « Tantarao ahy ny fotoana farany nitrangan'izany taminao. » Avy eo mihainoa."
+      en: "Ask: \"Tell me about the last time this happened to you.\" Then listen."
+    - fr: "Ne parle pas de ton idée avant la fin. N'enregistre personne et ne note ni nom ni numéro."
+      mg: "Aza miresaka ny hevitrao raha tsy amin'ny farany. Aza mandrakitra feon'olona ary aza manoratra anarana na laharana."
+      en: "Don't mention your idea until the end. Don't record anyone and don't note names or numbers."
+  deliverable:
+    fr: "Pour chaque personne, une phrase sur ce qu'elle vit et ce qu'elle fait aujourd'hui."
+    mg: "Ho an'ny olona tsirairay, fehezanteny iray momba izay iainany sy izay ataony ankehitriny."
+    en: "For each person, one sentence on what they live and what they do today."
+  duration_minutes: 60
+  difficulty: 2
+  example:
+    fr: "« Personne 1 : vend au marché, achète son savon le dimanche, trouve la boutique trop loin. »"
+    mg: "« Olona 1: mivarotra eny an-tsena, mividy savony ny alahady, mahita fa lavitra loatra ny magazay. »"
+    en: "\"Person 1: sells at the market, buys soap on Sundays, finds the shop too far.\""

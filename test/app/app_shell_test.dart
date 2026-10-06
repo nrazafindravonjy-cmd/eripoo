@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../helpers/journey_overrides.dart';
 import '../helpers/memory_secure_store.dart';
 import '../helpers/real_fonts.dart';
 import '../helpers/test_host.dart';
@@ -23,6 +24,7 @@ Future<ProviderContainer> pumpApp(
   final container = ProviderContainer(
     overrides: [
       secureKeyStoreProvider.overrideWithValue(MemorySecureKeyStore()),
+      ...journeyOverrides(),
     ],
   );
   addTearDown(container.dispose);
@@ -128,6 +130,8 @@ void main() {
 
   testWidgets('unbuilt sections say so honestly', (tester) async {
     await pumpApp(tester);
+    await tester.tap(find.text('Projet'));
+    await tester.pumpAndSettle();
     expect(find.text('Pas encore disponible'), findsOneWidget);
   });
 

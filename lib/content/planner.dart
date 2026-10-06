@@ -220,8 +220,8 @@ bool evaluateRule(Rule rule, PlannerInput input) =>
 JourneyPlan plan(PlannerInput input) {
   final context = _Context(input);
 
-  PlannedQuest planQuest(Quest quest) {
-    final available = quest.availableWhen?.evaluate(context) ?? true;
+  PlannedQuest planQuest(Quest quest, {required bool open}) {
+    final available = open && (quest.availableWhen?.evaluate(context) ?? true);
     final planned = <PlannedStep>[];
     for (var i = 0; i < quest.steps.length; i++) {
       final step = quest.steps[i];
@@ -324,8 +324,14 @@ JourneyPlan plan(PlannerInput input) {
   final diagnosticQuest = input.pack.diagnostic;
   final diagnostic = diagnosticQuest == null
       ? null
-      : planQuest(diagnosticQuest);
-  final quests = [for (final q in input.pack.journey) planQuest(q)];
+      : planQuest(diagnosticQuest, open: true);
+  // The journey starts after the diagnostic: it creates the project that
+  // the steps' outputs fill, and its facts adapt the plan.
+  final journeyOpen =
+      diagnostic == null || diagnostic.state == QuestState.completed;
+  final quests = [
+    for (final q in input.pack.journey) planQuest(q, open: journeyOpen),
+  ];
 
   PlannedStep? next;
   if (diagnostic != null && diagnostic.state != QuestState.completed) {

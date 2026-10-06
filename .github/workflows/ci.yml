@@ -31,6 +31,8 @@ jobs:
       - name: Format
         run: dart format --output=none --set-exit-if-changed $(git ls-files '*.dart')
       - run: flutter analyze
+      - name: Content pack (parse, validate, built from content/)
+        run: dart run tool/content_build.dart --check
       - run: flutter test
 
   android-build:

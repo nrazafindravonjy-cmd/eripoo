@@ -37,6 +37,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    # Built from content/ by tool/content_build.dart (do not edit by hand).
+    - assets/content/base_pack.json
 
 # Native build hooks configuration.
 hooks:

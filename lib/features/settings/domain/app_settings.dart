@@ -12,8 +12,7 @@ class AppSettings {
 
   final ThemePreference theme;
 
-  /// Null follows the device language (until the onboarding language choice
-  /// exists, Phase 2).
+  /// Chosen on the welcome screen (Malagasy preselected). Null until then.
   final AppLanguage? language;
 
   /// Eripoo-level "reduce animations", on top of the system setting.

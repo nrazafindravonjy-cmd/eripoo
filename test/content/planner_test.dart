@@ -51,6 +51,16 @@ void main() {
     expect(p.quests.first.total, 3);
   });
 
+  test('the journey stays locked until the diagnostic is done', () {
+    // Even with no rule on q01: the diagnostic creates the project the
+    // journey fills.
+    final p = planWith(facts: {'diag.idea_stage': 'vague_idea'});
+    expect(statusOf(p, 'q01.s01'), StepStatus.locked);
+    expect(p.step('q01.s01')!.lockReason, LockReason.questLocked);
+    expect(p.quests.every((q) => !q.available), isTrue);
+    expect(p.next!.step.id, 'diag.s01');
+  });
+
   test('progress unlocks the next step and a step in progress comes first', () {
     final p = planWith(
       steps: {

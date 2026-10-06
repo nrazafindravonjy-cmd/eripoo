@@ -47,8 +47,44 @@ Set<String> usedBlockTypes(List<Object?> quests) => {
         b['type']! as String,
 };
 
+const _languageKeys = {'fr', 'mg', 'en'};
+
+/// True for a localized text (`{fr: ..., mg: ..., en: ..., status: ...}`).
+bool _isText(Map<String, Object?> map) =>
+    map.containsKey('fr') &&
+    map.keys.every((k) => _languageKeys.contains(k) || k == 'status');
+
+/// Applies the pack's `default_status` to every text that does not state
+/// its own status for a language, so the review state of drafts is never
+/// implied as "reviewed" by omission.
+Object? withDefaultStatus(Object? node, Map<String, Object?> defaults) {
+  if (node is List) {
+    return [for (final v in node) withDefaultStatus(v, defaults)];
+  }
+  if (node is! Map<String, Object?>) return node;
+  if (_isText(node)) {
+    final own = (node['status'] as Map<String, Object?>?) ?? const {};
+    final status = {
+      for (final language in _languageKeys)
+        if (node.containsKey(language) &&
+            (own[language] ?? defaults[language]) != null)
+          language: own[language] ?? defaults[language],
+    };
+    return {
+      for (final e in node.entries)
+        if (e.key != 'status') e.key: e.value,
+      if (status.isNotEmpty) 'status': status,
+    };
+  }
+  return {
+    for (final e in node.entries) e.key: withDefaultStatus(e.value, defaults),
+  };
+}
+
 Map<String, Object?> assemble() {
   final meta = load('$sourceDir/pack.yaml')! as Map<String, Object?>;
+  final defaults =
+      (meta.remove('default_status') as Map<String, Object?>?) ?? const {};
   final quests = <Object?>[
     if (File('$sourceDir/diagnostic.yaml').existsSync())
       load('$sourceDir/diagnostic.yaml'),
@@ -62,8 +98,8 @@ Map<String, Object?> assemble() {
     'format': supportedPackFormat,
     ...meta,
     'block_types': (usedBlockTypes(quests).toList()..sort()),
-    'quests': quests,
-    'missions': missions,
+    'quests': withDefaultStatus(quests, defaults),
+    'missions': withDefaultStatus(missions, defaults),
   };
 }
 

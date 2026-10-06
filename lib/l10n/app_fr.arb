@@ -222,5 +222,271 @@
   "startupResetConfirmBody": "Ce qui n'était pas sauvegardé dans ton compte sera perdu. Ce qui était sauvegardé pourra être retrouvé avec ton code de récupération.",
   "@startupResetConfirmBody": {
     "description": "Conséquence de l'effacement, dite simplement."
+  },
+  "welcomeTitle": "Bienvenue sur Eripoo",
+  "@welcomeTitle": {
+    "description": "Titre de l'écran d'accueil (premier lancement)."
+  },
+  "welcomeChooseLanguage": "Choisis ta langue",
+  "@welcomeChooseLanguage": {
+    "description": "Invitation à choisir la langue."
+  },
+  "welcomePrivacy": "Ton projet reste à toi : il est chiffré sur ton téléphone.",
+  "@welcomePrivacy": {
+    "description": "Promesse de confidentialité en une phrase."
+  },
+  "welcomeStart": "Commencer",
+  "@welcomeStart": {
+    "description": "Bouton pour commencer après le choix de la langue."
+  },
+  "languageMg": "Malagasy",
+  "@languageMg": {
+    "description": "Nom de la langue malagasy (toujours écrit en malagasy)."
+  },
+  "languageFr": "Français",
+  "@languageFr": {
+    "description": "Nom de la langue française (toujours écrit en français)."
+  },
+  "languageEn": "English",
+  "@languageEn": {
+    "description": "Nom de la langue anglaise (toujours écrit en anglais)."
+  },
+  "homeStartTitle": "Faisons connaissance",
+  "@homeStartTitle": {
+    "description": "Accueil avant le diagnostic."
+  },
+  "homeStartBody": "Quelques questions courtes pour adapter ton parcours. Environ 4 minutes.",
+  "@homeStartBody": {
+    "description": "Explication du diagnostic."
+  },
+  "homeNextTitle": "Ta prochaine étape",
+  "@homeNextTitle": {
+    "description": "Titre de la carte « prochaine action » de l'accueil."
+  },
+  "homeContinue": "Continuer",
+  "@homeContinue": {
+    "description": "Bouton pour reprendre une étape commencée."
+  },
+  "homeBegin": "Commencer",
+  "@homeBegin": {
+    "description": "Bouton pour commencer une étape."
+  },
+  "homeAllDoneTitle": "Tout est fait pour l'instant",
+  "@homeAllDoneTitle": {
+    "description": "Accueil quand aucune étape n'est disponible."
+  },
+  "homeAllDoneBody": "De nouvelles quêtes arriveront avec les prochaines mises à jour.",
+  "@homeAllDoneBody": {
+    "description": "Explication quand tout est fait."
+  },
+  "homeMissionsTitle": "Tes missions en cours",
+  "@homeMissionsTitle": {
+    "description": "Titre de la liste des missions en cours."
+  },
+  "questLockedQuest": "Termine d'abord la quête précédente.",
+  "@questLockedQuest": {
+    "description": "Raison du verrouillage d'une quête."
+  },
+  "stepLockedPrevious": "Termine d'abord l'étape précédente.",
+  "@stepLockedPrevious": {
+    "description": "Raison du verrouillage d'une étape."
+  },
+  "stepLockedCondition": "Pas encore disponible : continue ton parcours.",
+  "@stepLockedCondition": {
+    "description": "Étape verrouillée par une condition du contenu."
+  },
+  "stepStatusAvailable": "À faire",
+  "@stepStatusAvailable": {
+    "description": "Statut d'une étape disponible."
+  },
+  "stepStatusInProgress": "En cours",
+  "@stepStatusInProgress": {
+    "description": "Statut d'une étape commencée."
+  },
+  "stepStatusDeferred": "Revient le {date}",
+  "@stepStatusDeferred": {
+    "description": "Étape passée temporairement.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "stepStatusResurfaced": "À reprendre",
+  "@stepStatusResurfaced": {
+    "description": "Étape passée temporairement, revenue."
+  },
+  "stepStatusPostponed": "Mise de côté",
+  "@stepStatusPostponed": {
+    "description": "Étape « revenir plus tard »."
+  },
+  "stepStatusCompleted": "Terminée",
+  "@stepStatusCompleted": {
+    "description": "Étape terminée."
+  },
+  "stepStatusFastTracked": "Survolée (tu maîtrises déjà)",
+  "@stepStatusFastTracked": {
+    "description": "Étape allégée pour un profil avancé."
+  },
+  "stepNext": "Suivant",
+  "@stepNext": {
+    "description": "Bouton pour passer au bloc suivant."
+  },
+  "stepBack": "Retour",
+  "@stepBack": {
+    "description": "Bouton pour revenir au bloc précédent."
+  },
+  "stepFinish": "Terminer l'étape",
+  "@stepFinish": {
+    "description": "Bouton de fin d'étape."
+  },
+  "stepYourAnswer": "Ta réponse",
+  "@stepYourAnswer": {
+    "description": "Libellé du champ de réponse."
+  },
+  "stepNumberLabel": "Un nombre",
+  "@stepNumberLabel": {
+    "description": "Libellé d'un champ numérique."
+  },
+  "stepMoneyLabel": "Montant en ariary",
+  "@stepMoneyLabel": {
+    "description": "Libellé d'un champ de montant."
+  },
+  "stepInvalidAnswer": "Cette réponse n'est pas possible ici.",
+  "@stepInvalidAnswer": {
+    "description": "Erreur de saisie (sans répéter la saisie)."
+  },
+  "stepRephrase": "Autrement dit",
+  "@stepRephrase": {
+    "description": "Titre de la reformulation."
+  },
+  "stepExample": "Exemple",
+  "@stepExample": {
+    "description": "Titre de l'exemple."
+  },
+  "stepHint": "Indice",
+  "@stepHint": {
+    "description": "Titre d'un indice."
+  },
+  "stepStuckTitle": "Pas de souci",
+  "@stepStuckTitle": {
+    "description": "Après deux « Je ne comprends pas »."
+  },
+  "stepStuckBody": "Regarde l'exemple. Tu peux aussi répondre « Je ne sais pas » ou passer cette étape pour l'instant.",
+  "@stepStuckBody": {
+    "description": "Message anti-blocage."
+  },
+  "stepTermIntro": "En langage d'entrepreneur :",
+  "@stepTermIntro": {
+    "description": "Introduit un terme entrepreneurial."
+  },
+  "stepUnknownAnswer": "Je ne sais pas (encore)",
+  "@stepUnknownAnswer": {
+    "description": "Affichage d'une réponse « Je ne sais pas »."
+  },
+  "stepNoAnswer": "Pas de réponse",
+  "@stepNoAnswer": {
+    "description": "Synthèse : question facultative sans réponse."
+  },
+  "stepCompleted": "Étape terminée. Bravo !",
+  "@stepCompleted": {
+    "description": "Message de fin d'étape."
+  },
+  "stepWaitingMission": "Termine d'abord la mission de cette étape.",
+  "@stepWaitingMission": {
+    "description": "Étape en attente de sa mission."
+  },
+  "stepMissingAnswers": "Il manque encore une réponse.",
+  "@stepMissingAnswers": {
+    "description": "Étape incomplète."
+  },
+  "stepSkipped": "D'accord, cette étape reviendra plus tard.",
+  "@stepSkipped": {
+    "description": "Confirmation de « passer pour l'instant »."
+  },
+  "stepPostponed": "D'accord, tu la reprendras quand tu veux.",
+  "@stepPostponed": {
+    "description": "Confirmation de « revenir plus tard »."
+  },
+  "contentReviewNote": "Certains textes sont encore en relecture ou affichés dans une autre langue.",
+  "@contentReviewNote": {
+    "description": "Signal discret de traduction non relue."
+  },
+  "missionLabel": "Mission",
+  "@missionLabel": {
+    "description": "Étiquette d'une mission."
+  },
+  "missionDuration": "Environ {minutes} min",
+  "@missionDuration": {
+    "description": "Durée estimée d'une mission.",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      }
+    }
+  },
+  "missionRealWorld": "Action dans la vraie vie",
+  "@missionRealWorld": {
+    "description": "Indique une mission à faire hors de l'app."
+  },
+  "missionInstructions": "Comment faire",
+  "@missionInstructions": {
+    "description": "Titre des instructions."
+  },
+  "missionDeliverable": "Ce que tu rapportes",
+  "@missionDeliverable": {
+    "description": "Titre du livrable."
+  },
+  "missionAccept": "J'accepte la mission",
+  "@missionAccept": {
+    "description": "Bouton d'acceptation."
+  },
+  "missionReflectionLabel": "Ce que tu as fait et appris",
+  "@missionReflectionLabel": {
+    "description": "Champ de compte rendu."
+  },
+  "missionSubmit": "J'ai terminé",
+  "@missionSubmit": {
+    "description": "Bouton de remise."
+  },
+  "missionAbandon": "Abandonner la mission",
+  "@missionAbandon": {
+    "description": "Bouton d'abandon."
+  },
+  "missionAbandonConfirmTitle": "Abandonner cette mission ?",
+  "@missionAbandonConfirmTitle": {
+    "description": "Titre de confirmation d'abandon."
+  },
+  "missionAbandonConfirmBody": "Tu pourras la reprendre plus tard.",
+  "@missionAbandonConfirmBody": {
+    "description": "Corps de confirmation d'abandon."
+  },
+  "missionStatusAccepted": "Acceptée",
+  "@missionStatusAccepted": {
+    "description": "Statut d'une mission."
+  },
+  "missionStatusSubmitted": "Remise, en attente",
+  "@missionStatusSubmitted": {
+    "description": "Statut d'une mission remise."
+  },
+  "missionStatusCompleted": "Accomplie",
+  "@missionStatusCompleted": {
+    "description": "Statut d'une mission accomplie."
+  },
+  "missionStatusAbandoned": "Abandonnée",
+  "@missionStatusAbandoned": {
+    "description": "Statut d'une mission abandonnée."
+  },
+  "missionTakeUpAgain": "Reprendre la mission",
+  "@missionTakeUpAgain": {
+    "description": "Reprendre une mission abandonnée."
+  },
+  "missionOpen": "Voir la mission",
+  "@missionOpen": {
+    "description": "Ouvre une mission."
+  },
+  "projectProvisionalTitle": "Mon projet",
+  "@projectProvisionalTitle": {
+    "description": "Titre provisoire du projet quand l'utilisateur ne sait pas encore le nommer."
   }
 }

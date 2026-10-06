@@ -1,0 +1,170 @@
+# Quest 1: find a problem worth solving. Advanced profiles only confirm
+# the deliverable (the problem statement), they never skip it.
+id: q01
+order: 1
+maturity: exploration
+priority: 30
+title:
+  fr: "Trouver un problème qui compte"
+  mg: "Mitady olana manan-danja"
+  en: "Find a problem that matters"
+summary:
+  fr: "Une entreprise commence par un problème que des gens veulent voir résolu."
+  mg: "Manomboka amin'ny olana tian'ny olona hovahana ny orinasa iray."
+  en: "A business starts with a problem people want solved."
+fast_track_when:
+  fact: diag.entry_profile
+  in: [problem_identified, existing_activity, existing_customers]
+steps:
+  - id: q01.s01
+    type: learn
+    title:
+      fr: "Pourquoi partir d'un problème ?"
+      mg: "Nahoana no manomboka amin'ny olana?"
+      en: "Why start from a problem?"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Les gens paient pour ce qui leur simplifie la vie. Si tu pars d'un vrai problème, tu as déjà des clients qui t'attendent."
+          mg: "Mandoa vola ho an'izay manamora ny fiainany ny olona. Raha manomboka amin'ny olana tena misy ianao, efa misy mpanjifa miandry anao."
+          en: "People pay for what makes their life easier. If you start from a real problem, customers are already waiting for you."
+      - id: term
+        type: term
+        plain:
+          fr: "Un souci que des gens vivent souvent"
+          mg: "Fahasahiranana iainan'ny olona matetika"
+          en: "A worry people often live with"
+        term:
+          fr: "Problème client"
+          mg: "Olan'ny mpanjifa"
+          en: "Customer problem"
+        definition:
+          fr: "Une difficulté réelle et répétée, assez gênante pour qu'on cherche une solution."
+          mg: "Fahasahiranana tena misy sy miverimberina, manelingelina ka itadiavana vahaolana."
+          en: "A real, repeated difficulty, annoying enough that people look for a solution."
+      - id: example
+        type: example
+        body:
+          fr: "À Toamasina, Fara remarque que les mères de son quartier marchent trente minutes pour acheter du savon. Le problème : la distance et le temps perdu."
+          mg: "Any Toamasina, hitan'i Fara fa mandeha tongotra telopolo minitra ireo reny ao amin'ny fokontaniny mba hividianana savony. Ny olana: ny halavirana sy ny fotoana very."
+          en: "In Toamasina, Fara notices that mothers in her neighbourhood walk thirty minutes to buy soap. The problem: the distance and the time lost."
+      - id: tip
+        type: tip
+        body:
+          fr: "Regarde ce qui fait râler les gens autour de toi : la file d'attente, le prix, la distance, la qualité."
+          mg: "Jereo izay mampitaraina ny olona manodidina anao: ny filaharana, ny vidiny, ny halavirana, ny kalitao."
+          en: "Look at what makes people around you complain: queues, prices, distance, quality."
+  - id: q01.s02
+    type: reflect
+    title:
+      fr: "Le problème que tu vois"
+      mg: "Ny olana hitanao"
+      en: "The problem you see"
+    blocks:
+      - id: problem
+        type: question
+        prompt:
+          fr: "Quel problème as-tu remarqué ?"
+          mg: "Inona no olana hitanao?"
+          en: "What problem have you noticed?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Qu'est-ce qui est difficile, cher ou lent pour des gens que tu connais ?"
+              mg: "Inona no sarotra, lafo na miadana ho an'ny olona fantatrao?"
+              en: "What is hard, expensive or slow for people you know?"
+            - fr: "Raconte une petite galère que tu as vue cette semaine."
+              mg: "Tantarao fahasahiranana kely hitanao tamin'ity herinandro ity."
+              en: "Describe a small hassle you saw this week."
+          example:
+            fr: "« Les mères du quartier perdent une heure pour acheter du savon. »"
+            mg: "« Very adiny iray ireo reny ao an-tanàna vao mahavidy savony. »"
+            en: "\"Mothers in the neighbourhood lose an hour buying soap.\""
+          hints:
+            - fr: "Commence ta phrase par « Les gens… » ou « Les … ont du mal à … »."
+              mg: "Atombohy amin'ny hoe « Ny olona… » na « Sahirana ireo … amin'ny … »."
+              en: "Start your sentence with \"People…\" or \"… struggle to …\"."
+            - fr: "Pense à ta journée d'hier : qu'est-ce qui t'a fait perdre du temps ?"
+              mg: "Eritrereto ny andronao omaly: inona no nandany fotoana anao?"
+              en: "Think about yesterday: what made you lose time?"
+      - id: who
+        type: question
+        prompt:
+          fr: "Qui vit ce problème ?"
+          mg: "Iza no miaina io olana io?"
+          en: "Who has this problem?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Quelles personnes sont gênées par ce problème ?"
+              mg: "Olona manao ahoana no sahirana amin'io olana io?"
+              en: "Which people are bothered by this problem?"
+          example:
+            fr: "« Les mères qui travaillent au marché et n'ont pas le temps de se déplacer. »"
+            mg: "« Ireo reny miasa eny an-tsena ka tsy manam-potoana hivezivezy. »"
+            en: "\"Mothers who work at the market and have no time to travel.\""
+          hints:
+            - fr: "Décris un groupe de personnes, sans donner de nom."
+              mg: "Lazao vondron'olona iray, nefa aza manome anarana."
+              en: "Describe a group of people, without giving names."
+      - id: frequency
+        type: question
+        prompt:
+          fr: "À quelle fréquence ce problème arrive-t-il ?"
+          mg: "Impiry no mitranga io olana io?"
+          en: "How often does this problem happen?"
+        answer:
+          kind: choice
+          options:
+            - value: daily
+              label: {fr: "Tous les jours", mg: "Isan'andro", en: "Every day"}
+            - value: weekly
+              label: {fr: "Chaque semaine", mg: "Isan-kerinandro", en: "Every week"}
+            - value: rarely
+              label: {fr: "De temps en temps", mg: "Indraindray", en: "Now and then"}
+        help:
+          rephrase:
+            - fr: "Ces personnes rencontrent ce problème souvent ou rarement ?"
+              mg: "Matetika ve sa tsy fahita firy no sendra io olana io ireo olona ireo?"
+              en: "Do these people meet this problem often or rarely?"
+          example:
+            fr: "Acheter du savon : chaque semaine."
+            mg: "Mividy savony: isan-kerinandro."
+            en: "Buying soap: every week."
+          hints:
+            - fr: "Plus un problème revient souvent, plus les gens sont prêts à payer."
+              mg: "Arakaraka ny hiverenan'ny olana matetika no hahavononan'ny olona handoa vola."
+              en: "The more often a problem comes back, the more people are ready to pay."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici le problème que tu as décrit. Il est enregistré dans ton projet."
+          mg: "Ity ny olana nofaritanao. Voatahiry ao amin'ny tetikasanao izy."
+          en: "Here is the problem you described. It is saved in your project."
+        shows: [problem, who, frequency]
+    outputs:
+      - {from: problem, section: problem, field: statement, tracked: true}
+      - {from: who, section: customers, field: first_guess, tracked: true}
+      - {from: frequency, fact: problem.frequency}
+  - id: q01.s03
+    type: act
+    title:
+      fr: "Va voir le problème de tes yeux"
+      mg: "Mandehana jereo maso ny olana"
+      en: "Go and see the problem yourself"
+    blocks:
+      - id: why
+        type: text
+        body:
+          fr: "Ce que l'on imagine n'est pas toujours ce qui se passe. Une courte observation sur place vaut mieux que des heures de réflexion."
+          mg: "Tsy mitovy foana amin'ny zava-misy ny eritreretina. Tsara kokoa ny fandinihana fohy eny an-toerana noho ny fisainana ora maro."
+          en: "What we imagine is not always what happens. A short look on site beats hours of thinking."
+      - id: go
+        type: mission
+        mission: m.observe_problem
+    complete_when: {mission: m.observe_problem, is: completed}

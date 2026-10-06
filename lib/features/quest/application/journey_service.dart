@@ -151,9 +151,14 @@ class JourneyService {
   /// Finishes a step: checks its answers and condition, applies its
   /// outputs (facts, project sections, project title) and records the
   /// completion — all in one transaction.
+  ///
+  /// [provisionalProjectTitle] names the project when the user answers
+  /// "I don't know" to the title question and no project exists yet
+  /// (the project exists from the end of the diagnostic, §7).
   Future<CompletionResult> complete(
     String stepId, {
     bool fastTrack = false,
+    String? provisionalProjectTitle,
   }) async {
     final step = pack.step(stepId)!;
     final quest = _questOf(stepId);
@@ -173,6 +178,7 @@ class JourneyService {
       if (!ok) return const ConditionNotMet();
     }
 
+    final hasProject = await activeProjectId() != null;
     await _db.transaction(() async {
       final sections = <String, Map<String, Object?>>{};
       final trackedBySection = <String, Set<String>>{};
@@ -194,7 +200,11 @@ class JourneyService {
             (sections[section] ??= {})[field] = answer.value;
             if (tracked) (trackedBySection[section] ??= {}).add(field);
           case ProjectTitleTarget():
-            if (!answer.isUnknown) projectTitle = answer.value! as String;
+            if (!answer.isUnknown) {
+              projectTitle = answer.value! as String;
+            } else if (!hasProject) {
+              projectTitle = provisionalProjectTitle;
+            }
         }
       }
       if (projectTitle != null) await _nameProject(projectTitle);
@@ -222,7 +232,7 @@ class JourneyService {
   /// The project the journey builds (the first active one). The diagnostic
   /// creates it; until then there is none.
   Future<String?> activeProjectId() async {
-    final projects = await _projects.watchActive().first;
+    final projects = await _projects.active();
     return projects.isEmpty ? null : projects.first.id;
   }
 

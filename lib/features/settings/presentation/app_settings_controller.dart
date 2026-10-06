@@ -1,23 +1,37 @@
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/i18n/app_language.dart';
+import '../data/settings_store.dart';
 import '../domain/app_settings.dart';
 
-/// Holds display preferences.
-///
-/// ⚠️ In memory only: settings reset when the app restarts. Persistence in
-/// the local database comes with Drift in Phase 2 (docs/DEVELOPMENT_PLAN.md).
+/// Settings read at start-up (overridden by bootstrap with the stored ones).
+final initialSettingsProvider = Provider<AppSettings>(
+  (ref) => const AppSettings(),
+);
+
+/// Where settings are saved; null keeps them in memory (widget tests).
+final settingsStoreProvider = Provider<SettingsStore?>((ref) => null);
+
+/// Holds display preferences and saves every change in the local database.
 class AppSettingsController extends Notifier<AppSettings> {
   @override
-  AppSettings build() => const AppSettings();
+  AppSettings build() => ref.read(initialSettingsProvider);
 
-  void setTheme(ThemePreference theme) => state = state.copyWith(theme: theme);
+  void _set(AppSettings next) {
+    state = next;
+    final store = ref.read(settingsStoreProvider);
+    if (store != null) unawaited(store.save(next));
+  }
+
+  void setTheme(ThemePreference theme) => _set(state.copyWith(theme: theme));
 
   void setLanguage(AppLanguage? language) =>
-      state = state.copyWith(language: () => language);
+      _set(state.copyWith(language: () => language));
 
   void setReducedMotion(bool value) =>
-      state = state.copyWith(reducedMotion: value);
+      _set(state.copyWith(reducedMotion: value));
 }
 
 final appSettingsProvider =

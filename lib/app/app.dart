@@ -27,8 +27,8 @@ class EripooApp extends ConsumerWidget {
         AppLocalizations.delegate,
         ...frameworkLocalizationsDelegates,
       ],
-      // Until the onboarding language choice exists (Phase 2), an
-      // unsupported device language falls back to French.
+      // Before the welcome screen's choice (which is shown in the language
+      // being chosen), an unsupported device language falls back to French.
       localeResolutionCallback: (deviceLocale, supported) {
         for (final candidate in supported) {
           if (candidate.languageCode == deviceLocale?.languageCode) {
