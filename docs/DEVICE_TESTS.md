@@ -73,10 +73,14 @@ run 11 quand elles diffèrent nettement : la variation entre deux runs
 | Mauvais PIN, bon PIN, reverrouillage au retour, redémarrage verrouillé | ✅ | ✅ |
 | Biométrie disponible / verrouillage d'écran | non / non (émulateur sans empreinte) | non / non |
 
-Mesure invalide dans ces deux runs : « Argon2id sur l'isolat principal »
-(lu 0 ms, défaut de la mesure, corrigé depuis ; valeur attendue au run
-suivant). Ce chiffre sert seulement à montrer pourquoi le calcul est fait
-en arrière-plan.
+**Run 14 (code final, 5/5 tests sur les deux émulateurs)** confirme ces
+ordres de grandeur (Android 8 / Android 14) : démarrage à froid médian
+507 ms / 3 722 ms ; Argon2id 3 × 64 Mio 167–171 ms / 186–229 ms ;
+redémarrage clés + base 17 ms / 16 ms. Il donne aussi la mesure corrigée
+du gel : **Argon2id 3 × 64 Mio exécuté sur l'isolat principal bloque
+l'interface 146 ms / 184 ms**, contre ≤ 4 ms quand il tourne en arrière-plan
+comme dans l'app. (Dans les runs 11 et 12 cette mesure lisait 0 ms : défaut
+de la mesure, corrigé.)
 
 Pourquoi Android 14 démarre plus lentement : image `google_apis` plus lourde
 et rendu graphique logiciel (swiftshader) sur le serveur ; ce n'est pas une

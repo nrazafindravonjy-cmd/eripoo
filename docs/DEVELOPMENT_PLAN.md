@@ -89,7 +89,7 @@ PostgREST, Postgres) lancée par la CLI en CI — pas le projet cloud.
 
 Pull request de validation :
 [nrazafindravonjy-cmd/eripoo#1](https://github.com/nrazafindravonjy-cmd/eripoo/pull/1),
-CI **entièrement verte au run 12**, 6 jobs :
+CI **entièrement verte aux runs 12 et 14** (le run 14 porte le code final), 6 jobs :
 
 | Job | Contenu | Résultat |
 |---|---|---|
@@ -115,7 +115,7 @@ choix sur A/B).
 | 4 | analyse de la révocation | une session d'un appareil révoqué pouvait enregistrer un nouvel identifiant et continuer à synchroniser | session liée à l'appareil, supprimée à la révocation, refusée partout (migration `20261007000001`) |
 | 5 | règle « données de test fictives » | une adresse `@example.mg` (domaine potentiellement réel) dans un test | `@example.com` |
 | 6 | relecture | mes rapports annonçaient 46 assertions SQL ; il y en avait 52 (60 aujourd'hui) | documents corrigés |
-| 7–9 | CI | disque insuffisant pour l'émulateur ; mémoire saturée (Gradle 8 Go + émulateur) ; test du verrou n'attendant pas la vérification du PIN en arrière-plan ; mesure du gel sur l'isolat principal lue à 0 | job émulateur corrigé ; test corrigé ; mesure corrigée (valeur au prochain run) |
+| 7–9 | CI | disque insuffisant pour l'émulateur ; mémoire saturée (Gradle 8 Go + émulateur) ; test du verrou n'attendant pas la vérification du PIN en arrière-plan ; mesure du gel sur l'isolat principal lue à 0 | job émulateur corrigé ; test corrigé ; mesure corrigée (run 14 : gel de 146–184 ms si Argon2id tournait sur l'interface, ≤ 4 ms en arrière-plan) |
 
 **Non vérifié** (ne pas considérer comme livré) :
 
