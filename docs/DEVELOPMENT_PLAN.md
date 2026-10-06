@@ -61,7 +61,7 @@ Détail : [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md).
 | Inventaire des chaînes Material visibles | ✅ DESIGN_SYSTEM §5 |
 | Tests : 92 (unitaires, widgets, matrice 12 variantes × 2 tailles de texte, accessibilité, architecture, traductions) | ✅ tous verts |
 | Test sur appareil de référence | ❌ non fait (pas d'appareil, D11) |
-| Build Android local | ❌ non exécuté (pas de SDK Android) — CI seulement |
+| Build Android | ❌ jamais exécuté : pas de SDK Android ici, et la CI ne tourne que sur pull request ou `main` |
 
 ## Phases suivantes
 

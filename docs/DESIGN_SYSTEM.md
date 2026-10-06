@@ -152,7 +152,8 @@ machines) ; il est ignoré par défaut.
 - **Aucun test sur un vrai téléphone** : pas d'appareil de référence (D11)
   ni de SDK Android dans l'environnement de développement. Les mesures de
   fluidité et de démarrage restent à faire.
-- **Build Android non exécuté localement** : vérifié seulement par la CI.
+- **Build Android jamais exécuté** : ni localement (pas de SDK Android), ni
+  en CI (la CI ne se déclenche que sur une pull request ou sur `main`).
 - Relecture malagasy (D13).
 - Les réglages (thème, langue, animations réduites) existent mais sont
   **en mémoire seulement** : ils sont perdus au redémarrage jusqu'à la base
