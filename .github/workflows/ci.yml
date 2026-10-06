@@ -108,8 +108,19 @@ jobs:
           cache: true
       - run: flutter pub get
       - run: dart run build_runner build
+      # Gradle (8 GB heap in gradle.properties) and the emulator together
+      # exhausted the runner, which was shut down mid-build: cap Gradle here,
+      # build everything before the emulator starts, then stop Gradle.
+      - name: Cap Gradle memory for this job
+        run: sed -i 's/^org.gradle.jvmargs=.*/org.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=1g/' android/gradle.properties
       - name: Release APK for start-up measurements (x86_64, AOT)
         run: flutter build apk --release --target-platform android-x64
+      - name: Debug APK of the integration test (built before the emulator)
+        run: |
+          mkdir -p build/release-apk
+          cp build/app/outputs/flutter-apk/app-release.apk build/release-apk/
+          flutter build apk --debug --target-platform android-x64 -t integration_test/foundations_test.dart
+          (cd android && ./gradlew --stop)
       - name: Foundations on the emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
