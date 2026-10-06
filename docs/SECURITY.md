@@ -163,32 +163,56 @@ Android Keystore : clé AES-256-GCM non exportable (StrongBox si présent)
               "eripoo.session" = session Supabase (jetons)
 ```
 
-- Configuration : `AndroidOptions(keyCipherAlgorithm: AES_GCM_NoPadding)`
-  (algorithme de clé AES du Keystore ; vérifié dans le code Android de
-  `flutter_secure_storage` 11.2.0). Fichier exclu des sauvegardes et du
-  transfert d'appareil (fait).
+- Configuration (implémentée, `lib/security/secure_key_store.dart`) :
+  `AndroidOptions(keyCipherAlgorithm: AES_GCM_NoPadding,
+  storageCipherAlgorithm: AES_GCM_NoPadding, resetOnError: false)`.
+  ⚠️ **`resetOnError` vaut `true` par défaut dans la bibliothèque** : à la
+  moindre erreur de déchiffrement, elle efface toutes les valeurs stockées,
+  ce qui détruirait silencieusement les clés. Il est désactivé ; une erreur
+  de lecture est remontée explicitement (`SecureStoreUnavailable`), et une
+  base existante sans clé est signalée (`LocalKeysLost`) au lieu d'être
+  recréée.
+- Fichier exclu des sauvegardes et du transfert d'appareil (fait).
 - Une copie du stockage (câble, sauvegarde) est inutilisable sans le
   Keystore du même téléphone. Sur certains appareils anciens, le Keystore
   n'est que logiciel : protection plus faible face à un téléphone *rooté*.
-- **Verrou Eripoo optionnel** (PIN ou biométrie) : il lie l'accès à ces
-  entrées à une authentification de l'utilisateur
-  (`setUserAuthenticationRequired`, pris en charge par la bibliothèque).
-  Recommandé pour les téléphones partagés. Sans lui, quiconque utilise le
-  téléphone déverrouillé peut ouvrir l'app.
-- En mémoire, UMK et sous-clés sont des `SecureKey` ; elles sont libérées
-  quand l'app reste en arrière-plan au-delà d'un délai (si le verrou est
-  actif).
+- **Verrou Eripoo (décision D4, 2026-10-06)** : facultatif, et **séparé du
+  chiffrement**, qui reste toujours actif. Le verrou est une protection
+  d'**accès à l'interface** (PIN local, biométrie si disponible, délai
+  configurable) ; il ne protège pas les fichiers et n'en a pas besoin (base
+  chiffrée, clés dans le Keystore). En particulier :
+  - le PIN n'est **ni une clé ni une source de dérivation** : l'appareil
+    garde seulement un vérificateur Argon2id (`crypto_pwhash_str`) dans le
+    stockage sécurisé ;
+  - les clés du Keystore **ne sont pas** liées à une authentification de
+    l'utilisateur (`setUserAuthenticationRequired` n'est pas utilisé) :
+    activer ou oublier le verrou ne peut jamais rendre les données
+    illisibles ;
+  - détail du mécanisme : §4.11.
+- En mémoire, UMK et sous-clés sont des `SecureKey` (mémoire native
+  protégée, effacée à la libération). Quand une clé doit passer dans un
+  isolat (Argon2id en arrière-plan), elle transite comme liste d'octets
+  Dart, effacée après usage — au mieux de ce que permet la machine
+  virtuelle Dart, qui peut en garder des copies. Les tampons renvoyés par
+  libsodium sont toujours recopiés en mémoire Dart avant de sortir de
+  `CryptoService` (un tampon natif envoyé à un autre isolat faisait planter
+  le processus, constaté en test).
 
 ### 4.5 Chiffrement des données locales
 
 - Toute la base Drift est chiffrée par SQLite3MultipleCiphers (schéma par
   défaut **ChaCha20-Poly1305**, adapté aux processeurs sans accélération
   AES) avec la DBK.
-- Le schéma dérive la clé de page par PBKDF2 (64 007 itérations par
-  défaut, paramètre `kdf_iter` réglable — vérifié dans le code source). La
-  DBK étant aléatoire, ces itérations n'apportent pas de sécurité ; leur
-  nombre sera réduit après mesure du temps d'ouverture (Phase 2), sans
-  descendre sous la valeur documentée comme sûre pour une clé aléatoire.
+- La DBK est passée avec le préfixe documenté `raw:` de sqlite3mc
+  (`pragma key = 'raw:<64 hex>'`, vérifié dans le code source) : la
+  dérivation PBKDF2 du schéma est **contournée**, car la clé est déjà
+  aléatoire ; l'ouverture est plus rapide sur les téléphones d'entrée de
+  gamme et ce paramètre n'a plus à être mesuré. Le temps d'ouverture reste
+  à mesurer sur appareil (P7, NON VÉRIFIÉ).
+- Une mauvaise clé est détectée à l'ouverture (`DatabaseKeyMismatch`).
+  sqlite3mc refuse les clés sur les bases en mémoire : les tests métier
+  utilisent donc une base en mémoire non chiffrée, le chiffrement étant
+  testé séparément sur fichier.
 - Médias locaux : chiffrés dès l'enregistrement (§4.7).
 
 ### 4.6 Chiffrement des données synchronisées — format v1
@@ -626,7 +650,7 @@ le cache pub, dépôt public de SQLite3MultipleCiphers).
 | Maintenance | sqlite3mc : mainteneur principal unique (Ulrich Telle), actif depuis 2020, publications fréquentes ; `sqlite3` (Dart) : mainteneur de `drift`, très lié à notre pile |
 | Dépendances natives | **binaires précompilés** par les mainteneurs de `sqlite3` (GitHub Actions, depuis les sources amont), téléchargés à la construction depuis les releases GitHub et **vérifiés par empreintes SHA-256 figées dans le paquet** ; option `url_pattern` pour servir ces binaires depuis un dépôt interne |
 | Compatibilité Android | binaires `arm`, `arm64`, `ia32`, `x64` pour Android (empreintes vérifiées dans le paquet) |
-| Chiffrement | schéma par défaut ChaCha20-Poly1305 ; dérivation PBKDF2 réglable (`kdf_iter`) |
+| Chiffrement | schéma ChaCha20-Poly1305 (fixé explicitement) ; clé brute `raw:` sans PBKDF2 |
 | **Licence** | **MIT — vérifiée** (fichier `LICENSE` et déclaration SPDX `PackageLicenseDeclared: MIT` du dépôt). Composants inclus examinés : SQLite (domaine public), implémentations ChaCha20-Poly1305, MD5, SHA-1, miniz (domaine public / Unlicense), fastpbkdf2 (CC0), Rijndael (MIT, d'après un original du domaine public), Ascon (MIT), autres composants sous CC0, Apache 2.0 ou ISC, **SHA-2 d'Olivier Gay sous licence BSD (mention de copyright à reproduire dans les distributions binaires)** |
 | Verdict licence | **compatible avec une distribution gratuite sur le Play Store.** Obligations : afficher les mentions MIT, BSD (SHA-2) et ISC dans l'écran des licences de l'app (enregistrement via `LicenseRegistry` pour les bibliothèques natives) |
 | Vérification de l'étiquette livrée | **faite le 2026-10-06** : `LICENSE` (MIT) et `LICENSE.spdx` (`PackageLicenseDeclared: MIT`) lus sur l'étiquette **v2.5.0**, version livrée par `sqlite3` depuis la 3.5.1 ; mention BSD de SHA-2 présente. Reste : validation de la liste des mentions par le juriste (DEVELOPMENT_PLAN P3, P6) |

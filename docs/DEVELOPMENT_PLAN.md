@@ -334,7 +334,7 @@ les tests d'intégration.
 | Région Supabase (D9) | — | projet | très coûteux | avant production (P5) |
 | Formats chiffrés v1 (enveloppes, données associées, enveloppe de clé, QR) | SECURITY §4 | dans chaque donnée | oui par nouvelle version (lecture N et N-1), coûteux | avant les premières données réelles |
 | Argon2id | 3 passes, 64 Mio | stocké avec chaque enveloppe | oui pour les nouvelles enveloppes | après mesures P7 |
-| Base locale : schéma et `kdf_iter` | ChaCha20-Poly1305, itérations à mesurer | appareil | oui, par re-chiffrement de la base | après mesures P7 |
+| Base locale : schéma de chiffrement | ChaCha20-Poly1305, clé brute (pas de dérivation) | appareil | oui, par re-chiffrement de la base | avant production |
 | Limite d'appareils actifs | 5 | serveur | oui | avant production |
 | Limites de téléchargement de l'enveloppe | 5/heure, 20/jour | serveur | oui | avant production |
 | Taille maximale d'un média (D15) | 10 Mo | app + serveur | oui (à la hausse) | Phase 4 |
