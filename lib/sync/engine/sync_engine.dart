@@ -30,13 +30,19 @@ class SyncReport {
     required this.pulled,
     required this.conflicts,
     required this.complete,
+    required this.pendingLeft,
   });
 
   final int pushed;
   final int pulled;
   final int conflicts;
 
-  /// False when the cycle stopped early (network): retried later.
+  /// Local changes still waiting to be sent after this cycle (including
+  /// changes the server refused, kept locally for a later retry).
+  final int pendingLeft;
+
+  /// True only if the cycle ran to the end **and** nothing is left to send:
+  /// the only state in which the app may say "saved".
   final bool complete;
 }
 
@@ -89,16 +95,6 @@ class SyncEngine {
   static const _cursorKey = 'sync.cursor';
   static const _registeredKey = 'sync.device_registered';
 
-  /// Retry delays after transient failures, per entity.
-  static const _backoff = [
-    Duration(seconds: 5),
-    Duration(seconds: 15),
-    Duration(minutes: 1),
-    Duration(minutes: 5),
-    Duration(minutes: 15),
-    Duration(hours: 1),
-  ];
-
   int _now() => _clock().millisecondsSinceEpoch;
 
   /// Runs one cycle. Throws [DeviceRevoked] (caller must wipe local data)
@@ -130,19 +126,33 @@ class SyncEngine {
         pulled: pulled,
         conflicts: conflicts,
         complete: false,
+        pendingLeft: await _pendingCount(),
       );
     }
+    final pendingLeft = await _pendingCount();
     _logger.info(SyncLog.cycleFinished, {
       'pushed': LogInt(pushed),
       'pulled': LogInt(pulled),
       'conflicts': LogInt(conflicts),
+      'pendingLeft': LogInt(pendingLeft),
     });
     return SyncReport(
       pushed: pushed,
       pulled: pulled,
       conflicts: conflicts,
-      complete: true,
+      complete: pendingLeft == 0,
+      pendingLeft: pendingLeft,
     );
+  }
+
+  Future<int> _pendingCount() async {
+    final count = _db.syncMetaEntries.entityId.count(
+      filter: _db.syncMetaEntries.changeId.isNotNull(),
+    );
+    final row = await (_db.selectOnly(
+      _db.syncMetaEntries,
+    )..addColumns([count])).getSingle();
+    return row.read(count) ?? 0;
   }
 
   Future<void> _ensureRegistered(SyncSession session) async {
@@ -230,7 +240,10 @@ class SyncEngine {
     try {
       results = await _remote.push(session.deviceId, puts);
     } on RemoteUnavailable {
-      await _scheduleRetry(sent.values);
+      // The whole request failed (network): nothing is entry-specific, so
+      // the batch stays pending and is sent again at the next cycle. Retry
+      // pacing belongs to the caller, never to individual changes (a
+      // per-change delay made later cycles skip them and report "complete").
       rethrow;
     } on DeviceUnknown {
       await _db.writeValue(_registeredKey, '');
@@ -314,21 +327,6 @@ class SyncEngine {
       ),
     );
   });
-
-  Future<void> _scheduleRetry(Iterable<SyncMetaRow> metas) =>
-      _db.transaction(() async {
-        for (final meta in metas) {
-          final attempts = meta.attempts + 1;
-          final delay = _backoff[(attempts - 1).clamp(0, _backoff.length - 1)];
-          await _updateMeta(
-            meta,
-            SyncMetaEntriesCompanion(
-              attempts: Value(attempts),
-              nextAttemptAt: Value(_now() + delay.inMilliseconds),
-            ),
-          );
-        }
-      });
 
   Future<void> _markRejected(Iterable<SyncMetaRow> metas, String reason) =>
       _db.transaction(() async {

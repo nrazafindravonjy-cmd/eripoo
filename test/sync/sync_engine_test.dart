@@ -224,6 +224,24 @@ void main() {
     expect(await a.pending(), 0);
   });
 
+  test('a push cut by the network is retried at the next cycle, and a '
+      'cycle never reports "complete" while changes are waiting', () async {
+    for (var i = 0; i < 120; i++) {
+      await a.projects.create('Projet $i');
+    }
+    server.failPushAfter(1); // second batch lost on the way up
+    final cut = await a.sync();
+    expect(cut.complete, isFalse);
+    expect(cut.pendingLeft, greaterThan(0));
+
+    // Same instant (no time passes): everything must go now.
+    final next = await a.sync();
+    expect(next.complete, isTrue);
+    expect(next.pendingLeft, 0);
+    expect(await a.pending(), 0);
+    expect(server.recordsOf(owner), hasLength(120));
+  });
+
   test(
     '6. pull interrupted between pages: cursor never ahead of the data',
     () async {

@@ -277,8 +277,17 @@ l'historique).
 | Crash pendant une résolution de conflit | transaction Drift annulée ⇒ la résolution est refaite au cycle suivant |
 | Coupure pendant l'envoi d'un média | le fichier est renvoyé en entier (≤ 10 Mo) au même chemin, en écrasement |
 
-**Réessais** : backoff exponentiel avec gigue par élément (5 s, 15 s,
-1 min, 5 min, 15 min, plafond 1 h).
+**Réessais** (corrigé en Phase 2) : une coupure réseau concerne toute la
+requête, jamais un élément : le lot reste « à envoyer » et repart au cycle
+suivant. Le rythme des réessais (backoff exponentiel avec gigue : 5 s,
+15 s, 1 min, 5 min, 15 min, plafond 1 h) appartient au **déclencheur** de
+synchronisation (pas encore implémenté), pas aux éléments. Seuls les
+éléments **refusés** par le serveur reçoivent un délai propre (1 h).
+Un cycle n'est « complet » que s'il est allé au bout **et** qu'il ne reste
+rien à envoyer (`SyncReport.pendingLeft == 0`) : seul état où l'app peut
+afficher « sauvegardé ». Défaut trouvé par le test des 5 000 éléments en
+CI : avec un délai par élément, un lot coupé était ignoré par les cycles
+suivants, qui se déclaraient complets avec 50 modifications en attente.
 
 | Classe d'erreur | Traitement |
 |---|---|
