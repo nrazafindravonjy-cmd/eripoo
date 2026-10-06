@@ -347,6 +347,16 @@ void main() {
       }
       final w = Stopwatch()..start();
       await tester.tap(find.bySemanticsLabel('Confirmer'));
+      // The check runs Argon2id on a background isolate: real time passes
+      // without any frame, so pumpAndSettle alone can return too early.
+      // Wait (at most 10 s) until the screen is gone or shows a message.
+      while (w.elapsed < const Duration(seconds: 10)) {
+        await tester.pump(const Duration(milliseconds: 20));
+        if (find.byType(LockScreen).evaluate().isEmpty ||
+            find.text("Ce n'est pas le bon code.").evaluate().isNotEmpty) {
+          break;
+        }
+      }
       await tester.pumpAndSettle();
       measure('pin_check_ui_ms', w.elapsedMilliseconds);
     }
