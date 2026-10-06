@@ -311,7 +311,11 @@ plafonnée (10 Mo proposé) et quota par utilisateur.
   données sont conservés côte à côte (deux projets) ; l'utilisateur choisit
   le projet actif. Jamais de fusion automatique.
 - **Nouvel appareil** : déverrouillage (double QR, SECURITY §6, ou code de récupération, SECURITY §5), puis pull complet ; rien
-  n'est déchiffré avant.
+  n'est déchiffré avant. **État Phase 2** : seul le code de récupération
+  est implémenté et testé ; le double QR arrive en Phase 5 et deviendra le
+  chemin normal, le code restant le secours (SECURITY §6.0).
+- **Appareil révoqué** : implémenté (SECURITY §6.8) — effacement local
+  complet, session refusée partout, testé de bout en bout.
 - **Déconnexion** : si des éléments ne sont pas envoyés, avertissement
   explicite ; ensuite effacement des données locales (téléphones partagés).
 

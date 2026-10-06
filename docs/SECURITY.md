@@ -5,11 +5,11 @@ projet n'est accessible à **personne** chez Eripoo — administrateurs
 Supabase et personnel Eripoo compris — et cela est garanti par la
 cryptographie, pas seulement par des règles internes.
 
-Statut : conception (revue Phase 0, v3). Seul élément implémenté :
-désactivation de la sauvegarde Android et du transfert d'appareil pour les
-données de l'app (`allowBackup="false"` + `data_extraction_rules.xml`).
-Les valeurs marquées « à mesurer » seront fixées en Phase 2 sur appareil de
-référence, sans changer le schéma.
+Statut : conception (revue Phase 0, v3) **et implémentation Phase 2**
+(non acceptée). L'état réel est indiqué section par section : §4.4–4.5
+(clés, base chiffrée), §4.11 (verrou), §6.0 (multi-appareil), §6.8
+(révocation), §11 (journaux). Les valeurs « à mesurer » sont mesurées sur
+émulateur en CI ; **les appareils de référence A et B restent à faire**.
 
 ⚠️ Ce document n'est pas un avis juridique. Madagascar dispose d'une loi
 sur la protection des données personnelles (loi n° 2014-038, autorité de
@@ -428,6 +428,23 @@ La limitation ne peut pas arrêter une attaque hors ligne (couverte par
 
 ## 6. Transfert vers un nouvel appareil (double QR hors ligne)
 
+### 6.0 Où en est le multi-appareil (Phase 2) — à lire d'abord
+
+Deux mécanismes différents donnent la clé de données (UMK) à un autre
+téléphone. **Seul le premier existe aujourd'hui.**
+
+| | Récupération par le code (§5, §7) | Transfert par double QR (§6.1–6.7) |
+|---|---|---|
+| À quoi il sert | retrouver ses données sans autre appareil (perte, vol, réinstallation) ; aujourd'hui aussi : ajouter un 2ᵉ appareil | ajouter un appareil quand on en a encore un autorisé, sans taper le code |
+| Implémenté | **oui** : création du code, enveloppe Argon2id stockée sur le serveur, déverrouillage sur un nouvel appareil (`AccountLinker.unlockWithRecoveryCode`), refus d'un appareil lié à un autre compte | **non** — Phase 5 |
+| Testé | automatique : faux serveur (scénario 10 : invité → compte → 2ᵉ téléphone avec le code) ; contrat RPC sur **Supabase local** (stockage exact de l'enveloppe, paramètres faibles refusés, limite de 5 récupérations/heure) ; Argon2id mesuré sur émulateur | — |
+| Provisoire | **c'est le seul chemin vers un 2ᵉ appareil**, donc tout ajout demande le code. Pas encore d'écran, pas de notification des autres appareils (§6.8), pas de fiche de secours imprimable | — |
+| Après la Phase 5 | reste le **chemin de secours** (plus aucun appareil). Format de l'enveloppe inchangé | devient le **chemin normal** quand un appareil autorisé est présent ; ajoute les notifications d'ajout |
+
+La migration invité → compte actuelle n'est donc **pas** le protocole
+multi-appareil définitif : elle couvre « premier compte » et « récupération
+par le code », pas le transfert direct entre deux téléphones.
+
 ### 6.1 Principe
 
 L'UMK passe de l'ancien appareil (**A**, déjà autorisé) au nouvel appareil
@@ -529,10 +546,37 @@ Indépendante de l'horloge du téléphone (souvent fausse) :
 - **Limite** : 5 appareils actifs (réglable côté serveur) ; au-delà, il
   faut d'abord en révoquer un.
 - **Révocation** depuis tout appareil autorisé (confirmation d'identité +
-  réauthentification) : `revoked_at` posé, sessions fermées
-  (`signOut(scope: others)` — les autres appareils légitimes devront se
-  reconnecter, sans perte), sync refusée pour l'appareil révoqué, qui efface
-  ses données et ses clés à sa prochaine connexion.
+  réauthentification de moins de 10 minutes) : `revoked_at` posé, sync
+  refusée pour l'appareil révoqué, qui **efface ses données, ses clés et sa
+  session** à sa prochaine tentative de synchronisation.
+
+**Implémenté en Phase 2** (migration `20261007000001_device_sessions.sql`,
+`SyncRunner`, `LocalDataEraser`) :
+
+- chaque appareil retient la **session d'authentification** qu'il utilise
+  (`session_id` du jeton Supabase, conservé lors des rafraîchissements) ;
+- la révocation **supprime cette session** côté Supabase (son jeton de
+  rafraîchissement ne marche plus) ; les jetons d'accès déjà émis restent
+  valides jusqu'à expiration (1 h), mais **toutes** les fonctions les
+  refusent (`device_revoked`), y compris pour enregistrer un nouvel
+  identifiant d'appareil ou lire l'enveloppe de récupération ;
+- pourquoi c'était nécessaire : sans ce lien, l'appareil révoqué (ou des
+  jetons volés) pouvait s'enregistrer sous un nouvel identifiant et
+  continuer à synchroniser. Une session ordinaire sur un autre appareil
+  n'est pas touchée (pas de `signOut(scope: others)` nécessaire) ;
+- côté appareil révoqué : base, WAL, clés, identifiant d'appareil, session
+  et réglages du verrou sont effacés ; au redémarrage l'app repart vide avec
+  un nouvel identifiant. Le revenir au compte exige une nouvelle connexion
+  **et** le code de récupération. **Les modifications non synchronisées
+  sont perdues** (choix assumé : l'appareil est présumé perdu ou volé) ;
+- testé : SQL (PostgreSQL + Supabase local), contrat RPC sur Supabase local
+  (dont « la session révoquée ne peut plus se rafraîchir »), test de bout
+  en bout sur base chiffrée réelle (`test/sync/revocation_test.dart`).
+
+**Pas encore fait** : écran « Mes appareils » et bouton de révocation,
+message expliquant l'effacement au redémarrage (la raison est conservée :
+`LocalDataEraser.lastReason`), notifications, déclencheur automatique de
+synchronisation.
 
 ### 6.9 Appareil perdu ou volé
 
@@ -605,12 +649,27 @@ B s'ajoute plus tard sans migration (une enveloppe de plus de la même UMK).
 
 - Logger expurgé : codes d'événement, identifiants techniques, durées.
   Interdits : textes saisis, noms, e-mails, téléphones, jetons, clés, codes
-  de récupération, chemins de médias, contenus de QR, payloads. Test par
-  « données sentinelles ».
+  de récupération, chemins de médias, contenus de QR, payloads.
 - Rapports d'erreur : type + pile + version, **sans le message
-  d'exception**.
-- `print` interdit par lint (en place). Sauvegarde Android désactivée
-  (fait).
+  d'exception**. Aucun service de rapport de crash n'est intégré.
+- `print` et `debugPrint` interdits dans `lib/` (test). Sauvegarde Android
+  désactivée.
+
+Vérifié automatiquement (Phase 2) :
+
+| Canal | Test |
+|---|---|
+| journaux (mémoire et console) | `test/security/privacy_leak_test.dart` : une sentinelle saisie dans le projet, une section et le profil n'apparaît dans aucun enregistrement, ni rendu |
+| erreurs et exceptions | même test (erreurs de validation sur entrée privée, erreurs réseau) ; règle d'architecture : aucune exception de `lib/` ne porte de texte ; les erreurs Supabase sont converties en codes sans message |
+| requêtes RPC | même test : corps JSON exacts de toutes les requêtes (sync, appareil, enveloppe) ; contrat sur Supabase local |
+| fichiers temporaires | même test : seuls `eripoo.sqlite`, `-wal`, `-shm` existent, sans texte clair ; `temp_store = memory` |
+| stockage sécurisé | même test : clés et identifiants seulement |
+| analytics, crash, IA | règle d'architecture : aucun SDK d'analytics, de crash ou d'IA dans `pubspec.lock` |
+| messages de debug | règle d'architecture (`print`, `debugPrint`) ; **exception connue** : en build *debug* uniquement, le gestionnaire Flutter par défaut affiche aussi le message d'erreur dans la console du développeur (données fictives seulement) |
+| données de test et CI | règle d'architecture : adresses e-mail seulement en `example.com/.org/.invalid`, aucun numéro malgache ; les tests Supabase créent des comptes fictifs aléatoires |
+
+Non vérifiable automatiquement : journaux système Android (`logcat`) sur
+appareil réel — l'app n'y écrit que via `developer.log` en debug.
 
 ## 12. Analytics anonymisés
 
