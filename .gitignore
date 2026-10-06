@@ -51,3 +51,7 @@ test/screenshots/goldens/
 
 # Generated code (build_runner)
 *.g.dart
+
+# Environment files (never commit real keys)
+env/*.json
+!env/example.json

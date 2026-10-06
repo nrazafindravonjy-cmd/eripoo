@@ -58,4 +58,45 @@ void main() {
     ];
     expect(offenders, isEmpty);
   });
+
+  test('no secret in versioned files', () {
+    final tracked = Process.runSync('git', ['ls-files']).stdout as String;
+    final patterns = {
+      'JWT (Supabase keys are JWTs)': RegExp(r'eyJ[A-Za-z0-9_-]{10,}\.eyJ'),
+      'Supabase secret key': RegExp(r'sb_secret_[A-Za-z0-9]'),
+      'private key': RegExp(r'-----BEGIN [A-Z ]*PRIVATE KEY-----'),
+      'service_role key assignment': RegExp(
+        r'service_role_key\s*[:=]',
+        caseSensitive: false,
+      ),
+    };
+    final offenders = <String>[];
+    for (final path in tracked.split('\n')) {
+      if (path.isEmpty || path.endsWith('.png') || path.endsWith('.lock')) {
+        continue;
+      }
+      final file = File(path);
+      if (!file.existsSync()) continue;
+      final String content;
+      try {
+        content = file.readAsStringSync();
+      } on FileSystemException {
+        continue; // binary file
+      }
+      for (final entry in patterns.entries) {
+        if (entry.value.hasMatch(content)) {
+          offenders.add('$path (${entry.key})');
+        }
+      }
+    }
+    expect(offenders, isEmpty);
+  });
+
+  test('environment files other than the example are not versioned', () {
+    final tracked =
+        (Process.runSync('git', ['ls-files', 'env']).stdout as String)
+            .split('\n')
+            .where((p) => p.isNotEmpty);
+    expect(tracked.every((p) => p == 'env/example.json'), isTrue);
+  });
 }
