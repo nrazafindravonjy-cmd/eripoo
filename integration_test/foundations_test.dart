@@ -58,7 +58,10 @@ Future<(T, int)> withLoopLatency<T>(Future<T> Function() work) async {
   });
   try {
     final result = await work();
-    return (result, worst);
+    // Work done synchronously blocks the timer itself: count the gap since
+    // its last tick too, or a full freeze would read as 0 ms.
+    final tail = DateTime.now().difference(last).inMilliseconds - 4;
+    return (result, tail > worst ? tail : worst);
   } finally {
     timer.cancel();
   }
