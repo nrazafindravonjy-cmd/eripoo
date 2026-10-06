@@ -51,6 +51,15 @@ jobs:
       - run: flutter pub get
       - run: dart run build_runner build
       - run: flutter build apk --debug
+      - name: Show the produced APK (proof that it exists)
+        run: |
+          ls -l build/app/outputs/flutter-apk/app-debug.apk
+          sha256sum build/app/outputs/flutter-apk/app-debug.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: eripoo-debug-apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          retention-days: 14
 
   # SQL tests on plain PostgreSQL with a minimal auth stub (partial).
   database-stub:
