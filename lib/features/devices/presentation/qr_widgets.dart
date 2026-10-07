@@ -12,9 +12,11 @@ import '../application/qr_codec.dart';
 /// A QR code drawn black on white (whatever the theme: scanners need the
 /// contrast), with the quiet zone the standard asks for.
 class QrCodeView extends StatelessWidget {
-  QrCodeView({super.key, required String data, this.size = 260})
+  QrCodeView({super.key, required this.data, this.size = 260})
     : _modules = QrCodec.encode(data);
 
+  /// The encoded text.
+  final String data;
   final List<List<bool>> _modules;
   final double size;
 

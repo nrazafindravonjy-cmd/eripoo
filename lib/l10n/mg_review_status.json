@@ -365,6 +365,8 @@
     "syncNow": "needs_review",
     "syncPhotosMobile": "needs_review",
     "syncPhotosMobileHelp": "needs_review",
-    "actionRestart": "needs_review"
+    "actionRestart": "needs_review",
+    "deviceDefaultName": "needs_review",
+    "addDeviceDone": "needs_review"
   }
 }

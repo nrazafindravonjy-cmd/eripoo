@@ -9,6 +9,8 @@ import '../../../data/local/app_database.dart';
 import '../../../services/backend/backend.dart';
 import '../../../sync/engine/sync_engine.dart';
 import '../../../sync/sync_scheduler.dart';
+import '../../app_lock/data/app_lock_adapters.dart';
+import '../../app_lock/domain/app_lock_service.dart';
 import '../../auth/domain/auth_repository.dart';
 import '../../hypotheses/presentation/research_providers.dart';
 import '../../quest/presentation/journey_providers.dart';
@@ -32,6 +34,12 @@ final accountBackendProvider = FutureProvider<AccountBackend?>(
 /// data was erased. Set by bootstrap().
 final appRestartProvider = Provider<Future<void> Function()>(
   (ref) => () async {},
+);
+
+/// The phone's own screen lock, to confirm the owner before giving the
+/// data key to a new device (docs/SECURITY.md §6.2).
+final deviceAuthenticatorProvider = Provider<DeviceAuthenticator>(
+  (ref) => LocalAuthDeviceAuthenticator(),
 );
 
 /// Whether a WorkManager task may be planned (off in widget tests).

@@ -1645,5 +1645,18 @@
   "actionRestart": "Redémarrer",
   "@actionRestart": {
     "description": "Redémarrer l'application."
+  },
+  "deviceDefaultName": "Téléphone du {date}",
+  "@deviceDefaultName": {
+    "description": "Nom donné à un appareil dans « Mes appareils ».",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "addDeviceDone": "Le nouveau téléphone peut maintenant ouvrir tes données.",
+  "@addDeviceDone": {
+    "description": "Fin de l'ajout côté ancien appareil."
   }
 }

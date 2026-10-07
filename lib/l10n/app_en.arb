@@ -364,5 +364,7 @@
   "syncNow": "Back up now",
   "syncPhotosMobile": "Also send photos over mobile data",
   "syncPhotosMobileHelp": "Otherwise photos only go over Wi-Fi.",
-  "actionRestart": "Restart"
+  "actionRestart": "Restart",
+  "deviceDefaultName": "Phone of {date}",
+  "addDeviceDone": "The new phone can now open your data."
 }

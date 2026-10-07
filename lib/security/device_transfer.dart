@@ -176,6 +176,12 @@ class TransferRequest {
   bool get isAlive =>
       _keys != null && _clock() - _started < TransferFormat.lifetime;
 
+  /// Time left before the one-time key dies by itself.
+  Duration get remaining {
+    final left = TransferFormat.lifetime - (_clock() - _started);
+    return left.isNegative || _keys == null ? Duration.zero : left;
+  }
+
   Uint8List get _publicKey =>
       (_keys ?? (throw const TransferRefused(TransferFailure.expired)))
           .publicKey;

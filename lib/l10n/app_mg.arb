@@ -364,5 +364,7 @@
   "syncNow": "Tehirizo izao",
   "syncPhotosMobile": "Alefaso koa amin'ny data finday ny sary",
   "syncPhotosMobileHelp": "Raha tsy izany, amin'ny Wi-Fi ihany no andefasana ny sary.",
-  "actionRestart": "Avereno alefa"
+  "actionRestart": "Avereno alefa",
+  "deviceDefaultName": "Finday tamin'ny {date}",
+  "addDeviceDone": "Afaka manokatra ny angon-drakitrao izao ny finday vaovao."
 }

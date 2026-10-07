@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/account/presentation/profile_screen.dart';
 import '../../features/conflicts/presentation/conflicts_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/hypotheses/presentation/field_notes_screen.dart';
@@ -134,7 +135,14 @@ final routerProvider = Provider<GoRouter>((ref) {
             ],
           ),
           _placeholder(AppRoutes.tools, (l10n) => l10n.navTools),
-          _placeholder(AppRoutes.profile, (l10n) => l10n.navProfile),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.profile,
+                builder: (context, state) => const ProfileScreen(),
+              ),
+            ],
+          ),
         ],
       ),
     ],

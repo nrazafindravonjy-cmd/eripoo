@@ -11,6 +11,7 @@ import 'app/startup/app_services.dart';
 import 'app/startup/startup_failure_app.dart';
 import 'content/content_pack.dart';
 import 'core/logging/app_logger.dart';
+import 'features/account/presentation/account_providers.dart';
 import 'features/hypotheses/presentation/research_providers.dart';
 import 'features/quest/presentation/journey_providers.dart';
 import 'features/settings/data/settings_store.dart';
@@ -66,8 +67,19 @@ Future<void> bootstrap() async {
     settings = const AppSettings(); // display preferences only
   }
 
-  final container = ProviderContainer(
+  late final ProviderContainer container;
+  // After a recovery or a transfer (new data key) or an erasure: close
+  // everything and start again, so the keys are loaded afresh.
+  Future<void> restart() async {
+    container.dispose();
+    await services.database.close().catchError((Object _) {});
+    services.keys.dispose();
+    await bootstrap();
+  }
+
+  container = ProviderContainer(
     overrides: [
+      appRestartProvider.overrideWithValue(restart),
       secureKeyStoreProvider.overrideWithValue(store),
       appServicesProvider.overrideWithValue(services),
       contentPackProvider.overrideWithValue(pack),
