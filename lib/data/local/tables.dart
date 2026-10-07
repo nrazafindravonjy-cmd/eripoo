@@ -394,8 +394,9 @@ class MediaItems extends Table {
   /// Size of the plain file (≤ 10 MiB, D15).
   IntColumn get sizeBytes => integer()();
 
-  /// SHA-256 of the plain file (integrity after decryption).
-  TextColumn get sha256 => text()();
+  /// BLAKE2b-256 of the plain file, hex (libsodium `crypto_generichash`):
+  /// identifies the content without decrypting it again.
+  TextColumn get contentHash => text()();
   IntColumn get createdAt => integer()();
   IntColumn get updatedAt => integer()();
   IntColumn get deletedAt => integer().nullable()();

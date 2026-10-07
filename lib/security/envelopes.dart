@@ -110,6 +110,68 @@ class RecordEnvelopes {
   }
 }
 
+/// Encrypted media files (docs/SECURITY.md §4.7):
+/// `0x01 || umk_version (2) || nonce (24) || ciphertext || tag`, in one
+/// operation (files are capped at [maxPlainBytes], D15).
+///
+/// On this device, before any account, the owner is the nil UUID
+/// ([localOwner]); uploading a file (Phase 5) seals it again for the
+/// account's owner id.
+class MediaEnvelopes {
+  MediaEnvelopes(this._crypto);
+
+  final CryptoService _crypto;
+
+  static const maxPlainBytes = 10 * 1024 * 1024;
+  static const localOwner = '00000000-0000-0000-0000-000000000000';
+
+  Uint8List _ad(String ownerId, String mediaId, int umkVersion) =>
+      _associatedData(EnvelopeFormat.mediaContext, [
+        uuidToBytes(ownerId),
+        uuidToBytes(mediaId),
+        _u16(umkVersion),
+      ]);
+
+  Uint8List seal({
+    required Uint8List plaintext,
+    required SecureKey mediaKey,
+    required int umkVersion,
+    required String mediaId,
+    String ownerId = localOwner,
+  }) {
+    if (plaintext.length > maxPlainBytes) {
+      throw RangeError.range(plaintext.length, 0, maxPlainBytes);
+    }
+    final body = _crypto.encrypt(
+      plaintext,
+      mediaKey,
+      ad: _ad(ownerId, mediaId, umkVersion),
+    );
+    return Uint8List.fromList([
+      EnvelopeFormat.v1,
+      ..._u16(umkVersion),
+      ...body,
+    ]);
+  }
+
+  /// Throws [DecryptionFailed] for another media id, owner or key, or a
+  /// modified file.
+  Uint8List open({
+    required Uint8List envelope,
+    required SecureKey mediaKey,
+    required String mediaId,
+    String ownerId = localOwner,
+  }) {
+    final header = EnvelopeHeader.read(envelope);
+    if (header.format != EnvelopeFormat.v1) throw const DecryptionFailed();
+    return _crypto.decrypt(
+      envelope.sublist(3),
+      mediaKey,
+      ad: _ad(ownerId, mediaId, header.umkVersion),
+    );
+  }
+}
+
 /// The server copy of the data key, protected by the recovery code
 /// (table `user_keys`, docs/SECURITY.md §4.8).
 class RecoveryWrap {

@@ -146,4 +146,9 @@ class CryptoService {
   Uint8List hash(Uint8List message, {int length = 32}) => Uint8List.fromList(
     sodium.crypto.genericHash.call(message: message, outLen: length),
   );
+
+  /// [hash] as lowercase hex (identifies content in local metadata).
+  String hashHex(Uint8List message) =>
+      [for (final b in hash(message)) b.toRadixString(16).padLeft(2, '0')]
+          .join();
 }
