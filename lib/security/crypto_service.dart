@@ -147,6 +147,31 @@ class CryptoService {
     sodium.crypto.genericHash.call(message: message, outLen: length),
   );
 
+  /// `crypto_box_keypair`: an ephemeral key pair (device transfer, §6).
+  KeyPair boxKeyPair() => sodium.crypto.box.keyPair();
+
+  int get boxPublicKeyBytes => sodium.crypto.box.publicKeyBytes;
+
+  /// `crypto_box_seal`: anonymous encryption to [publicKey].
+  Uint8List seal(Uint8List message, Uint8List publicKey) => Uint8List.fromList(
+    sodium.crypto.box.seal(message: message, publicKey: publicKey),
+  );
+
+  /// `crypto_box_seal_open`. Throws [DecryptionFailed] on any failure.
+  Uint8List sealOpen(Uint8List cipher, KeyPair keyPair) {
+    try {
+      return Uint8List.fromList(
+        sodium.crypto.box.sealOpen(
+          cipherText: cipher,
+          publicKey: keyPair.publicKey,
+          secretKey: keyPair.secretKey,
+        ),
+      );
+    } on Object {
+      throw const DecryptionFailed();
+    }
+  }
+
   /// [hash] as lowercase hex (identifies content in local metadata).
   String hashHex(Uint8List message) =>
       [for (final b in hash(message)) b.toRadixString(16).padLeft(2, '0')]
