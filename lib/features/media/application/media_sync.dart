@@ -13,6 +13,7 @@ class MediaPassReport {
     required this.uploaded,
     required this.waiting,
     required this.refused,
+    this.interrupted = false,
   });
 
   final int uploaded;
@@ -22,6 +23,9 @@ class MediaPassReport {
 
   /// Refused by the server (kept on the phone, retried in an hour).
   final int refused;
+
+  /// Stopped by a network failure: the rest is retried with the backoff.
+  final bool interrupted;
 }
 
 /// Sends the photos taken on this phone and fetches the others' on demand
@@ -99,6 +103,7 @@ class MediaSync {
           uploaded: uploaded,
           waiting: await waitingCount(),
           refused: refused,
+          interrupted: true,
         );
       }
     }
