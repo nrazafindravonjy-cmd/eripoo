@@ -6,8 +6,11 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:eripoo/data/local/app_database.dart';
+import 'package:eripoo/features/hypotheses/application/research_service.dart';
+import 'package:eripoo/features/hypotheses/domain/hypothesis_states.dart';
 import 'package:eripoo/features/media/application/media_sync.dart';
 import 'package:eripoo/features/media/data/media_store.dart';
+import 'package:eripoo/features/trash/application/trash_service.dart';
 import 'package:eripoo/security/crypto_service.dart';
 import 'package:eripoo/security/key_manager.dart';
 import 'package:eripoo/sync/engine/entity_registry.dart';
@@ -147,14 +150,34 @@ void main() {
     },
   );
 
-  test('a photo deleted before being sent is never sent', () async {
-    final id = await a.store.addPhoto(plain.fakePhoto(), mime: 'image/jpeg');
-    await a.store.remove(id);
-    final report = await a.media.uploadPending();
-    expect(report.uploaded, 0);
-    expect(report.waiting, 0);
-    expect(server.mediaOf(owner), isEmpty);
-  });
+  test(
+    'a photo in the trash waits; deleted forever, it is never sent',
+    () async {
+      final id = await a.store.addPhoto(plain.fakePhoto(), mime: 'image/jpeg');
+      final evidence = await ResearchService(a.db).addEvidence(
+        projectId: 'p',
+        subject: EvidenceSubject.observation,
+        subjectId: 'o',
+        kind: EvidenceKind.photo,
+        mediaId: id,
+      );
+      final trash = TrashService(a.db, media: a.store);
+      await trash.moveToTrash(TrashKind.evidence, evidence.id);
+      var report = await a.media.uploadPending();
+      expect(report.uploaded, 0);
+      expect(report.waiting, 0);
+
+      await trash.restore(TrashKind.evidence, evidence.id);
+      expect(await a.media.waitingCount(), 1, reason: 'restored: sent again');
+
+      await trash.moveToTrash(TrashKind.evidence, evidence.id);
+      await trash.purge(TrashKind.evidence, evidence.id);
+      report = await a.media.uploadPending();
+      expect(report.uploaded, 0);
+      expect(server.mediaOf(owner), isEmpty);
+      expect(a.store.hasFile(id), isFalse);
+    },
+  );
 
   test('not on the server yet; a swapped or damaged file is refused', () async {
     final id = await a.store.addPhoto(plain.fakePhoto(), mime: 'image/jpeg');

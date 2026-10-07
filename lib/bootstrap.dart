@@ -16,6 +16,7 @@ import 'features/quest/presentation/journey_providers.dart';
 import 'features/settings/data/settings_store.dart';
 import 'features/settings/domain/app_settings.dart';
 import 'features/settings/presentation/app_settings_controller.dart';
+import 'features/trash/application/trash_service.dart';
 import 'security/secure_key_store.dart';
 
 enum _AppLog implements LogEventCode {
@@ -90,12 +91,15 @@ Future<void> bootstrap() async {
     return true;
   };
 
-  // Encrypted files left by an interrupted save (never plain bytes), then
-  // photos still under the data key replaced by a recovery or a transfer.
+  // Elements in the trash for more than 30 days are deleted forever; then
+  // encrypted files left by an interrupted save (never plain bytes) or
+  // deleted forever; then photos still under the data key replaced by a
+  // recovery or a transfer.
   final media = container.read(mediaStoreProvider);
   unawaited(
-    media
-        .purgeOrphans()
+    TrashService(services.database, media: media)
+        .purgeExpired()
+        .then((_) => media.purgeOrphans())
         .then((_) async {
           if (services.previousDataKey == null) return;
           // Files opened by neither key are left as they are; the previous key

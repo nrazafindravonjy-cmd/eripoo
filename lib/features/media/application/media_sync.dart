@@ -74,11 +74,14 @@ class MediaSync {
       final row = await (_db.select(
         _db.mediaItems,
       )..where((m) => m.id.equals(item.mediaId))).getSingleOrNull();
-      final sealed = row == null || row.deletedAt != null
+      // In the trash: not sent while there (it may never be needed), not
+      // forgotten either (it may be restored).
+      if (row != null && row.deletedAt != null) continue;
+      final sealed = row == null
           ? null
           : await _store.sealedForAccount(item.mediaId, _ownerId);
       if (sealed == null) {
-        // Deleted, or the file is gone: nothing to send.
+        // Deleted forever, or the file is gone: nothing to send.
         await _forget(item.mediaId);
         continue;
       }
@@ -118,15 +121,42 @@ class MediaSync {
     _db.mediaUploads,
   )..where((u) => u.mediaId.equals(mediaId))).go();
 
-  /// Files of this phone not yet on the server.
+  /// Files of this phone not yet on the server (trash excluded).
   Future<int> waitingCount() async {
-    final count = _db.mediaUploads.mediaId.count(
-      filter: _db.mediaUploads.uploadedAt.isNull(),
-    );
-    final row = await (_db.selectOnly(
-      _db.mediaUploads,
-    )..addColumns([count])).getSingle();
-    return row.read(count) ?? 0;
+    final row = await _db
+        .customSelect(
+          'SELECT COUNT(*) AS n FROM media_uploads u '
+          'JOIN media_items m ON m.id = u.media_id '
+          'WHERE u.uploaded_at IS NULL AND m.deleted_at IS NULL',
+          readsFrom: {_db.mediaUploads, _db.mediaItems},
+        )
+        .getSingle();
+    return row.read<int>('n');
+  }
+
+  /// Key prefix of server files to delete (photos deleted forever).
+  static const deletePrefix = 'media.delete.';
+
+  /// Deletes the server copies of photos deleted forever. Stops quietly
+  /// at the first network failure (retried at the next pass).
+  Future<int> deleteRemoved() async {
+    final pending = await (_db.select(
+      _db.localKeyValues,
+    )..where((k) => k.key.like('$deletePrefix%'))).get();
+    var deleted = 0;
+    for (final entry in pending) {
+      final id = entry.key.substring(deletePrefix.length);
+      try {
+        await _remote.delete(id);
+      } on RemoteUnavailable {
+        break;
+      } on RemoteRejected {
+        // Not ours to delete (or already gone): nothing more to do.
+      }
+      await _db.deleteValue(entry.key);
+      deleted++;
+    }
+    return deleted;
   }
 
   /// Fetches a file known by its metadata only (taken on another phone).
@@ -139,11 +169,5 @@ class MediaSync {
     if (sealed == null) return false;
     await _store.storeFromAccount(mediaId, _ownerId, sealed);
     return true;
-  }
-
-  /// Deletes the server copy of a media purged from the trash.
-  Future<void> deleteRemote(String mediaId) async {
-    await _remote.delete(mediaId);
-    await _forget(mediaId);
   }
 }

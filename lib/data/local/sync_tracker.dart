@@ -45,6 +45,42 @@ class SyncTracker {
     }
   }
 
+  /// "Delete forever". Returns true when the entity never reached the
+  /// server: the caller deletes the row now. Otherwise a tombstone is
+  /// scheduled and the engine removes the row once the server confirmed.
+  Future<bool> requestPurge(String entityType, String entityId) async {
+    final meta =
+        await (_db.select(_db.syncMetaEntries)..where(
+              (t) =>
+                  t.entityType.equals(entityType) & t.entityId.equals(entityId),
+            ))
+            .getSingleOrNull();
+    if (meta == null ||
+        (meta.baseVersion == null && meta.pushedChangeId == null)) {
+      if (meta != null) {
+        await (_db.delete(_db.syncMetaEntries)..where(
+              (t) =>
+                  t.entityType.equals(entityType) & t.entityId.equals(entityId),
+            ))
+            .go();
+      }
+      return true;
+    }
+    await (_db.update(_db.syncMetaEntries)..where(
+          (t) => t.entityType.equals(entityType) & t.entityId.equals(entityId),
+        ))
+        .write(
+          SyncMetaEntriesCompanion(
+            changeId: Value(Ids.random()),
+            purgeRequested: const Value(true),
+            lastError: const Value(null),
+            attempts: const Value(0),
+            nextAttemptAt: const Value(null),
+          ),
+        );
+    return false;
+  }
+
   /// Number of local changes waiting to be sent.
   Stream<int> watchPendingCount() {
     final count = _db.syncMetaEntries.entityId.count();

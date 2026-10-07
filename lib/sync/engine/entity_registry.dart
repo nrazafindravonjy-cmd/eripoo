@@ -56,7 +56,15 @@ class EntityRegistry {
   Future<void> write(String entityType, Map<String, Object?> json) async {
     final table = _table(entityType);
     final row = table.map(_toSqlRow(table, json));
-    await _db.into(table).insertOnConflictUpdate(row! as Insertable<Object?>);
+    // Explicit nulls: a field cleared on another phone (a restore from the
+    // trash, an emptied note) must be cleared here too. Inserting the data
+    // class itself would treat null as "unchanged"; its companion built
+    // with nullToAbsent = false keeps them. (Generated per table, hence
+    // the dynamic call.)
+    // ignore: avoid_dynamic_calls
+    final companion =
+        (row as dynamic).toCompanion(false) as Insertable<Object?>;
+    await _db.into(table).insertOnConflictUpdate(companion);
   }
 
   Future<void> delete(String entityType, String id) async {

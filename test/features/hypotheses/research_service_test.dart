@@ -567,9 +567,13 @@ void main() {
       'observations',
       'interviews',
       'media_items',
+      'media_uploads', // v4
     ]) {
       await v3.customStatement('drop table $table');
     }
+    await v3.customStatement(
+      'alter table sync_meta_entries drop column purge_requested', // v5
+    );
     await v3.customStatement('pragma user_version = 2');
     await v3.close();
 

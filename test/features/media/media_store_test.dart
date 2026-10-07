@@ -140,11 +140,12 @@ void main() {
     },
   );
 
-  test('remove deletes the file; a missing file reads as null', () async {
+  test('deleteFile removes the file; a missing file reads as null', () async {
     final id = await store.addPhoto(fakePhoto(), mime: 'image/jpeg');
-    await store.remove(id);
+    store.deleteFile(id);
     expect(store.fileOf(id).existsSync(), isFalse);
     expect(await store.read(id), isNull);
+    store.deleteFile(id); // idempotent
 
     final id2 = await store.addPhoto(fakePhoto(), mime: 'image/jpeg');
     store.fileOf(id2).deleteSync(); // e.g. metadata synced, file not yet

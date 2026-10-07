@@ -48,7 +48,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.executor);
 
   @override
-  int get schemaVersion => 4;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -87,6 +87,10 @@ class AppDatabase extends _$AppDatabase {
           'INSERT INTO media_uploads (media_id, attempts) '
           'SELECT id, 0 FROM media_items WHERE deleted_at IS NULL',
         );
+      }
+      if (from < 5) {
+        // Phase 5: "delete forever" from the trash.
+        await m.addColumn(syncMetaEntries, syncMetaEntries.purgeRequested);
       }
     },
   );

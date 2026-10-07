@@ -181,6 +181,12 @@ class SyncMetaEntries extends Table {
   IntColumn get attempts => integer().withDefault(const Constant(0))();
   IntColumn get nextAttemptAt => integer().nullable()();
 
+  /// "Delete forever" asked here: the server gets a tombstone without
+  /// content; the local row is removed only once the server confirmed
+  /// (docs/OFFLINE_SYNC.md §7).
+  BoolColumn get purgeRequested =>
+      boolean().withDefault(const Constant(false))();
+
   @override
   Set<Column<Object>> get primaryKey => {entityType, entityId};
 }

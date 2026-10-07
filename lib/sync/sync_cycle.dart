@@ -59,6 +59,8 @@ class SyncCycle {
 
     final media = _media;
     if (media == null) return SyncAttempt.complete;
+    // Deleting server copies costs a few bytes: on any network.
+    await media.deleteRemoved();
     final mobileData = await _db.readValue(mediaOnMobileDataKey) == '1';
     if (network == NetworkKind.metered && !mobileData) {
       // Records are saved; photos wait for Wi-Fi. Not a failure: no retry

@@ -257,9 +257,8 @@ class MediaStore {
   /// could be opened with neither key (left untouched).
   Future<int> resealAll() async {
     if (_previousKey == null || !_dir.existsSync()) return 0;
-    final rows = await (_db.select(
-      _db.mediaItems,
-    )..where((t) => t.deletedAt.isNull())).get();
+    // Trashed photos too: they can still be restored.
+    final rows = await _db.select(_db.mediaItems).get();
     var unreadable = 0;
     for (final row in rows) {
       final file = fileOf(row.id);
@@ -287,31 +286,19 @@ class MediaStore {
     return unreadable;
   }
 
-  /// Moves the media to the trash and deletes its encrypted file.
-  Future<void> remove(String mediaId) async {
-    await _db.transaction(() async {
-      final now = _clock().millisecondsSinceEpoch;
-      await (_db.update(
-        _db.mediaItems,
-      )..where((t) => t.id.equals(mediaId))).write(
-        MediaItemsCompanion(deletedAt: Value(now), updatedAt: Value(now)),
-      );
-      await _sync.markChanged(EntityTypes.media, mediaId);
-    });
+  /// Deletes the encrypted file of a media deleted forever (the trash
+  /// keeps it until then, so a restored photo is still there).
+  void deleteFile(String mediaId) {
     final file = fileOf(mediaId);
     if (file.existsSync()) file.deleteSync();
   }
 
-  /// Deletes files with no live row: an interrupted save (`.part`) or a
-  /// crash between the file and the database. Returns how many.
+  /// Deletes files with no row (trashed rows keep theirs): an interrupted
+  /// save (`.part`), a crash between the file and the database, or a media
+  /// deleted forever on another phone. Returns how many.
   Future<int> purgeOrphans() async {
     if (!_dir.existsSync()) return 0;
-    final live = {
-      for (final r in await (_db.select(
-        _db.mediaItems,
-      )..where((t) => t.deletedAt.isNull())).get())
-        r.id,
-    };
+    final live = {for (final r in await _db.select(_db.mediaItems).get()) r.id};
     var removed = 0;
     for (final entity in _dir.listSync().whereType<File>()) {
       final name = entity.uri.pathSegments.last;

@@ -242,6 +242,21 @@ class SyncEngine {
     final puts = <RemotePut>[];
     final sent = <String, SyncMetaRow>{};
     for (final meta in batch) {
+      if (meta.purgeRequested) {
+        // Tombstone: no content leaves the phone.
+        puts.add(
+          RemotePut(
+            id: meta.entityId,
+            changeId: meta.changeId!,
+            baseVersion: meta.baseVersion,
+            deleted: true,
+            umkVersion: session.umkVersion,
+            payload: null,
+          ),
+        );
+        sent[meta.entityId] = meta;
+        continue;
+      }
       final json = await _registry.read(meta.entityType, meta.entityId);
       if (json == null) {
         // Nothing to send (row purged locally): clear the mark.
@@ -297,9 +312,29 @@ class SyncEngine {
       final meta = sent[result.id];
       if (meta == null) continue;
       switch (result) {
+        case PushApplied(:final version) when meta.purgeRequested:
+          await _confirmPurge(meta, version);
+          applied++;
         case PushApplied(:final version):
           await _clearChange(meta, meta.changeId!, version: version);
           applied++;
+        case PushConflict(:final current) when meta.purgeRequested:
+          // Changed elsewhere meanwhile (restored or edited on another
+          // phone): the purge is cancelled, the other version kept.
+          await _db.transaction(() async {
+            await _updateMeta(
+              meta,
+              const SyncMetaEntriesCompanion(
+                purgeRequested: Value(false),
+                changeId: Value(null),
+                baseVersion: Value(null),
+              ),
+            );
+            if (current != null) {
+              await _applyRemote(session, current, knownType: meta.entityType);
+            }
+          });
+          conflicts++;
         case PushConflict(:final current):
           await _db.transaction(() async {
             if (current == null) {
@@ -364,6 +399,30 @@ class SyncEngine {
       ),
     );
   });
+
+  /// The server keeps the tombstone: the row can go. A change made here
+  /// after asking (a restore) cancels nothing already sent and is kept.
+  Future<void> _confirmPurge(SyncMetaRow meta, int version) =>
+      _db.transaction(() async {
+        final current = await _meta(meta.entityType, meta.entityId);
+        if (current == null) return;
+        if (current.changeId == meta.changeId) {
+          await _registry.delete(meta.entityType, meta.entityId);
+        }
+        await _updateMeta(
+          current,
+          SyncMetaEntriesCompanion(
+            baseVersion: Value(version),
+            purgeRequested: const Value(false),
+            changeId: current.changeId == meta.changeId
+                ? const Value(null)
+                : const Value.absent(),
+            lastError: const Value(null),
+            attempts: const Value(0),
+            nextAttemptAt: const Value(null),
+          ),
+        );
+      });
 
   Future<void> _markRejected(Iterable<SyncMetaRow> metas, String reason) =>
       _db.transaction(() async {
@@ -468,6 +527,22 @@ class SyncEngine {
         ),
       );
       return false;
+    }
+
+    if (meta.purgeRequested) {
+      // Deleted forever here, changed (restored, edited) on another phone
+      // meanwhile: the other version wins, nothing is lost; the purge is
+      // cancelled (docs/OFFLINE_SYNC.md §7).
+      await _registry.write(type, remote);
+      await _updateMeta(
+        meta,
+        SyncMetaEntriesCompanion(
+          baseVersion: Value(record.version),
+          changeId: const Value(null),
+          purgeRequested: const Value(false),
+        ),
+      );
+      return true;
     }
 
     final local = await _registry.read(type, record.id);
