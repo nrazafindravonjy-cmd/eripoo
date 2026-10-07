@@ -233,7 +233,8 @@ au pull. Jamais par date.
 |---|---|---|
 | **Éditables** | projet, sections, hypothèses en brouillon, expériences avant démarrage, observations, interviews, concurrents, éléments financiers, scénarios de prix, profil, réponses | **la version de l'appareil qui résout est conservée** et repart avec `base_version = version distante` ; **la version distante est enregistrée dans `conflict_copies`** (synchronisée) |
 | **Append-only** | historique du projet, décisions, preuves, résultats, conclusions, badges, consentements, copies de conflit | jamais modifiés ⇒ pas de conflit possible (identifiants uniques) |
-| **Progression** | progression d'étape, missions, outils débloqués | fusion par état le plus avancé (`locked < available < in_progress < completed`), dates de début = min, de fin = max ; si un texte libre (ex. réflexion de mission) diffère, la version distante va aussi en copie de conflit |
+| **Progression** | progression d'étape, missions | fusion par état le plus avancé (`locked < available < in_progress < completed`), dates de début = min, de fin = max ; si un texte libre (ex. réflexion de mission) diffère, la version distante va aussi en copie de conflit |
+| **Déblocage** (Phase 6) | outils débloqués | jamais reverrouillé : date de déblocage = la plus ancienne, « vu » = le plus ancien des deux, suppression ignorée ; pas de copie de conflit (aucun texte) |
 | **Verrouillés** | critère de réussite d'une expérience démarrée, hypothèse testée | immuables par règle de domaine ; toute divergence ⇒ copie de conflit, jamais d'écrasement |
 
 Pourquoi « l'appareil qui résout gagne » : c'est déterministe, sans

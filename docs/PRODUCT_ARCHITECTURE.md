@@ -343,6 +343,10 @@ Phase 0.**
   quotidienne punitive.
 - Outils débloqués progressivement par règles (`tool_unlock`), toujours
   accessibles en lecture d'aide.
+  **Implémenté en Phase 6** : catalogue dans `content/tools.yaml` (règle
+  `unlock`, `unlock_hint`, aide, sections du guide d'interview) ; un outil
+  non construit est annoncé (« Bientôt »), jamais imité. Badges : pas
+  encore.
 
 ## 9. Voix et IA
 

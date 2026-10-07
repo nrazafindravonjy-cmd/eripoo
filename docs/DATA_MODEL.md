@@ -17,7 +17,7 @@ RLS par table) — changement lourd une fois des données en production.
 
 ---
 
-## 0. État d'implémentation (Phases 2 à 4)
+## 0. État d'implémentation (Phases 2 à 6)
 
 Implémenté dans `lib/data/local/tables.dart` (schéma **v3**, **non figé**
 avant les premières données réelles) : `user_profiles`, `facts`,
@@ -39,6 +39,14 @@ Ajouté en v3 (Phase 4) : `hypotheses`, `experiments`,
 juridique P6), `media_items` (`content_hash` BLAKE2b-256 ; pas de chemin
 stocké, il se déduit de l'identifiant). Migration v2 → v3 testée sur une
 base chiffrée.
+
+Ajouté en v6 (Phase 6) : `tool_unlocks` (`tool_id` unique, `unlocked_at`,
+`seen_at?` ; identifiant UUID v5 de `eripoo:tool:<id>`, un seul
+enregistrement par outil sur tous les téléphones ; famille « déblocage »
+d'OFFLINE_SYNC §6) et `competitors` (`project_id`, `name`, `kind` :
+`direct` / `indirect` / `alternative`, `offer?`, `price_mga?`,
+`strengths?`, `weaknesses?` ; éditable, corbeille). Migration v5 → v6
+testée sur une base chiffrée.
 
 Écarts avec le §3.2 (Phase 3) : `answers` porte aussi `quest_id` ; types de
 réponse implémentés `text`, `choice`, `multi_choice`, `number`, `money`,
@@ -250,7 +258,7 @@ Toutes les tables ci-dessous ont les colonnes communes du §1.1 sauf mention
 | `answers` | `step_id`, `block_id`, `answer_type` (`text`,`choice`,`number`,`money`,`audio`,`unknown`,`skipped`), `value_json`, `audio_media_id?`, `help_used` (niveau d'aide) |
 | `mission_instances` | `mission_template_id`, `status`, `accepted_at`, `due_at?`, `completed_at?`, `reflection`, `experiment_id?` |
 | `badges_earned` | `badge_id`, `earned_at`, `trigger_entity_id?` |
-| `tool_unlocks` | `tool_id`, `unlocked_at` |
+| `tool_unlocks` | `tool_id`, `unlocked_at`, `seen_at?` |
 
 ### 3.3 Projet
 
@@ -262,7 +270,7 @@ Toutes les tables ci-dessous ont les colonnes communes du §1.1 sauf mention
 | `customer_segments` | `project_id`, `label`, `description`, `situation` |
 | `observations` | `title`, `description`, `category`, `observed_at`, `context`, `people_involved`, `supposed_problem`, `photo_media_id?`, `audio_media_id?`, `transcription?`, `transcription_status` |
 | `interviews` | `project_id`, `interviewee_alias` (pseudonyme recommandé), `segment_id?`, `held_at`, `quick_notes`, `structured_answers_json`, `audio_media_id?`, `transcription?`, `conclusion`, `audio_consent_recorded` |
-| `competitors` | `project_id`, `name`, `offer`, `price_mga?`, `strengths`, `weaknesses` |
+| `competitors` | `project_id`, `name`, `kind`, `offer?`, `price_mga?`, `strengths?`, `weaknesses?` |
 | `finance_items` | `project_id`, `kind` (`fixed_cost`,`variable_cost`,`investment`,`revenue`,`funding`), `label`, `amount_mga`, `period` |
 | `price_scenarios` | `project_id`, `unit_cost_mga`, `price_mga`, `expected_volume`, `notes` |
 | `documents` | `project_id`, `doc_type` (`business_plan`,`pitch`,`formalization_checklist`…), `generated_from_version`, `file_media_id?` |

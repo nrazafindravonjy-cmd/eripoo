@@ -6,8 +6,8 @@ Application Android (Flutter) d'accompagnement à la construction de projets
 entrepreneuriaux, pensée pour Madagascar, offline-first, en malagasy,
 français et anglais.
 
-**État : Phase 5 (« Offline + sync ») livrée pour revue, non acceptée.**
-Phase 1 acceptée ; Phases 2 à 4 en attente de validation (appareils réels
+**État : Phase 6 (« Outils ») livrée pour revue, non acceptée.**
+Phase 1 acceptée ; Phases 2 à 5 en attente de validation (appareils réels
 et projet Supabase de développement non vérifiés). La sauvegarde en ligne
 ne s'active que dans une version construite avec un serveur de
 développement ; sans serveur, tout reste sur le téléphone. Le contenu pédagogique est un **brouillon non
@@ -23,6 +23,7 @@ relu** (malagasy à réécrire par des auteurs natifs). Détail :
 - [Offline et synchronisation](docs/OFFLINE_SYNC.md)
 - [Sécurité et confidentialité](docs/SECURITY.md)
 - [Plan de développement et décisions ouvertes](docs/DEVELOPMENT_PLAN.md)
+- [Liste des vérifications et modifications à faire à la fin](docs/END_CHECKLIST.md)
 
 ## Démarrer
 

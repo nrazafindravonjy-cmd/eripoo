@@ -130,7 +130,7 @@ choix sur A/B).
   `sodium` (constaté dans le journal du build, vérification non faite) ;
 - mentions de licences natives dans l'app.
 
-**Restent volontairement ouverts** (inchangés par la validation) :
+**Restent volontairement ouverts** (inchangés par la validation ; liste complète de fin de projet : [END_CHECKLIST.md](END_CHECKLIST.md)) :
 
 - [ ] avis juridique mineurs 14–17 (P6)
 - [ ] transferts de données hors de Madagascar (P6)
@@ -140,9 +140,9 @@ choix sur A/B).
 - [ ] validation finale de la licence de SQLite3MultipleCiphers dans le contexte complet de distribution (mentions dans l'app, juriste)
 - [ ] suppression de compte (Edge Function)
 - [x] transfert multi-appareil par double QR — fait en Phase 5 (appareils réels non vérifiés)
-- [ ] synchronisation automatique en arrière-plan (déclencheurs, WorkManager)
-- [ ] corbeille : purge après 30 jours
-- [ ] écran de résolution des copies de conflit
+- [x] synchronisation automatique (déclencheurs, WorkManager) — faite en Phase 5 (WorkManager non vérifié sur appareil)
+- [x] corbeille : purge après 30 jours — faite en Phase 5
+- [x] écran de résolution des copies de conflit — fait en Phase 5
 
 **Conditions d'acceptation de la Phase 2** : mesures sur appareils A et B
 (et choix définitif d'Argon2id), projet Supabase de développement créé et
@@ -200,7 +200,7 @@ Points ouverts de la Phase 3 :
 - [ ] relecture native malagasy et relecture du français et de l'anglais du contenu (D13/D14)
 - [ ] parcours sur appareils A et B (lisibilité, rythme, compréhension) — NON VÉRIFIÉ
 - [ ] avis d'entrepreneurs malgaches sur les exemples et les missions — NON VÉRIFIÉ
-- [ ] 16 quêtes minimum (3 écrites)
+- [ ] 16 quêtes minimum (3 écrites en Phase 3, 4 après la Phase 4)
 
 ## Phase 4 — Projet (LIVRÉE POUR REVUE, non acceptée)
 
@@ -303,6 +303,40 @@ Points ouverts de la Phase 5 :
 - [ ] confirmation d'identité par le verrou Eripoo quand le téléphone n'a pas de verrouillage
 - [ ] relecture native des nouveaux textes malagasy (≈ 110 chaînes, statut `needs_review`)
 
+## Phase 6 — Outils : déverrouillage progressif (LIVRÉE POUR REVUE, non acceptée)
+
+GO donné le 2026-10-07 (« go phase 6 s'il n'y a rien qui bloque ») : aucun
+point en attente des Phases 2 à 5 ne la bloquait (ils concernent les
+appareils réels, le projet Supabase en ligne et des avis extérieurs).
+
+| Élément | État | Détail |
+|---|---|---|
+| Catalogue des 14 outils (§20) | ✅ auto | `content/tools.yaml`, dans l'ordre du cahier des charges : résumé, aide lisible **avant** le déblocage, règle de déblocage, indice en clair. Validateur : identifiants et genres uniques, règles vérifiées (quêtes, compteurs), indice obligatoire, sections obligatoires pour le guide d'interview |
+| Déblocage progressif | ✅ auto | règles sur **ce que l'utilisateur a fait** (quêtes, observations, interviews, hypothèses, expériences terminées, hypothèses validées, concurrents), jamais sur le simple fait d'avoir lu (§21). Évalué à chaque changement des données lues par les règles, où que soit l'utilisateur |
+| Déblocage définitif et synchronisé | ✅ auto (deux téléphones simulés) | table `tool_unlocks` (schéma v6) ; identifiant UUID v5 du nom de l'outil, donc un seul enregistrement si deux téléphones débloquent hors ligne ; fusion : date la plus ancienne, jamais reverrouillé, sans copie de conflit. Défaire le travail (mettre une observation à la corbeille) ne reverrouille pas |
+| Outils utilisables (5) | ✅ widget | journal d'observation et hypothèses / expériences (écrans de la Phase 4), **guide d'interview** (nouveau, contenu : avant, questions, à éviter, après ; « n'enregistre personne », avis juridique P6), **analyse concurrentielle** (nouvelle : direct / indirect / ce que les gens font sans acheter, offre, prix observé en ariary, forces, manques ; table `competitors` v6, synchronisée, corbeille avec « Annuler ») |
+| Outils annoncés (9) | ✅ widget — **non construits, annoncés comme tels** | Business Model Canvas, calculateurs de prix / marge / seuil de rentabilité, plan marketing, business plan, pitch, pitch deck → **Phase 7** ; préparation administrative → **Phase 8** (contenu réglementaire sourcé). Ils se débloquent quand même (« Débloqué : il sera là dès qu'il existera ») mais ne s'ouvrent pas : aucune imitation |
+| Onglet Outils | ✅ widget | trois parties : « Tes outils », « À débloquer » (indice + aide), « Bientôt ». Pastille sur l'onglet tant qu'un outil débloqué n'a pas été vu. Le dernier écran provisoire de la Phase 1 disparaît |
+| Célébration | ✅ widget | message court à l'ouverture de l'onglet (« Nouvel outil débloqué — grâce à ce que tu as fait : … »), montré **une fois** sur l'ensemble des téléphones (`seen_at` synchronisé) ; **désactivable** dans Profil > Préférences ; sans classement ni série |
+| Badges (§21) | ⏸️ non faits | hors du périmètre de la phase « Outils » ; à prévoir avec les règles déjà en place (même langage, même validateur) |
+| Contenu | 🟡 brouillon | français et anglais à relire, malagasy en premier jet machine (`machine_draft`) ; 31 nouvelles chaînes d'interface `needs_review` |
+
+Choix et limites :
+
+- Les règles de déblocage sont des **propositions** à valider avec les
+  auteurs du contenu (D14) ; elles se changent dans `content/tools.yaml`
+  sans toucher au code, et le validateur refuse une règle incohérente.
+- Un outil débloqué reste débloqué même si le contenu change plus tard.
+- Pas d'analyse concurrentielle « notée » ni de score : l'outil sert à
+  écrire ce qu'on a vu, pas à juger.
+
+Points ouverts de la Phase 6 :
+
+- [ ] relecture des règles de déblocage et des textes des outils par les auteurs (D14)
+- [ ] relecture native du malagasy (contenu des outils + 31 chaînes)
+- [ ] badges (§21) : à planifier
+- [ ] outils annoncés : Phase 7 (finance, canvas, documents) et Phase 8 (formalisation)
+
 ## Phases suivantes
 
 Ordre du cahier des charges conservé, avec deux ajustements déjà présentés :
@@ -316,7 +350,7 @@ règles) posés en Phase 2.
 | **3 — Ma quête** | planificateur, exécuteur d'étapes générique, missions, progression, anti-blocage, premières quêtes relues | parcours de bout en bout hors ligne |
 | **4 — Projet** | sections, historique, observations, interviews, hypothèses → décisions, preuves, médias chiffrés | machine d'états testée exhaustivement |
 | **5 — Offline + sync** | RPC, moteur, conflits, corbeille, médias, WorkManager, **transfert double QR**, révocation | 14 scénarios d'OFFLINE_SYNC §13 + scénarios de transfert (§6.7 de SECURITY) |
-| **6 — Outils** | déblocage progressif | — |
+| **6 — Outils** | déblocage progressif — **livrée pour revue** | 14 outils catalogués, 5 utilisables, les autres annoncés |
 | **7 — Finance, business model, documents** | calculateurs, canvas, dossier, export PDF | calculs testés aux limites |
 | **8 — Formalisation Madagascar** | contenu réglementaire sourcé et daté | 100 % des informations sourcées |
 | **9 — Voix + IA limitée** | transcription optionnelle, proxy IA, consentements | rien n'est envoyé sans consentement |
@@ -346,7 +380,7 @@ règles) posés en Phase 2.
 |---|---|---|---|
 | ~~D2~~ | **Décidée le 2026-10-06 : récupération sans séquestre** (voir Portes) | — | — |
 | ~~D4~~ | **Décidée le 2026-10-06 : verrou facultatif**, chiffrement toujours actif (voir Portes) | — | — |
-| **D5** | Contenu en YAML dans le dépôt jusqu'à la Phase 6 | oui — **appliquée en Phase 3** | Phase 3 |
+| **D5** | Contenu en YAML dans le dépôt jusqu'à la Phase 6 | oui — **appliquée en Phases 3 à 6** ; à revoir avant la production (édition hors dépôt) | Phase 10 |
 | **D6** | Identifiant Android définitif (domaine possédé) | à fixer avant la création de l'app dans la Play Console | publication |
 | **D7** | Analytics opt-in, sans identifiant, auto-hébergés | oui | Phase 2 (onboarding) |
 | **D8** | Rapports de crash maison | oui au départ | — |
@@ -362,6 +396,8 @@ règles) posés en Phase 2.
 ## Portes
 
 ### Phase 1 — ACCEPTÉE (2026-10-06)
+
+### Phase 6 — GO donné le 2026-10-07
 
 ### Phase 5 — GO donné le 2026-10-07
 
