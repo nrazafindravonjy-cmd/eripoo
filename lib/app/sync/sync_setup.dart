@@ -44,7 +44,7 @@ Future<NetworkKind> currentNetwork() async {
 class SyncSetup {
   SyncSetup({
     required AppServices services,
-    required Backend backend,
+    required AccountBackend backend,
     required String ownerId,
     required SecureKeyStore store,
     required AppLogger logger,

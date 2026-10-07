@@ -192,9 +192,14 @@ class SyncEngine {
     return row.read(count) ?? 0;
   }
 
+  /// The name of this device in "My devices", chosen when the account was
+  /// linked on it (local only).
+  static const deviceLabelKey = 'device.label';
+
   Future<void> _ensureRegistered(SyncSession session) async {
     if (await _db.readValue(_registeredKey) == session.deviceId) return;
-    await _remote.registerDevice(session.deviceId, 'Eripoo');
+    final label = await _db.readValue(deviceLabelKey) ?? 'Eripoo';
+    await _remote.registerDevice(session.deviceId, label);
     await _db.writeValue(_registeredKey, session.deviceId);
   }
 

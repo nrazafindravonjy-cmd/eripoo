@@ -1,6 +1,17 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- Optional biometric unlock of the app lock (local_auth). -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <!-- Camera: only to read the QR codes of a device transfer (camera
+         plugin), asked at that moment. Phones without a camera can still
+         install the app (the recovery code works without it). -->
+    <uses-feature android:name="android.hardware.camera.any" android:required="false"
+        tools:replace="android:required" />
+    <!-- Declared by the camera plugin but never needed: no audio is ever
+         recorded (no recording of interviewed people), nothing is written
+         to shared storage. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" tools:node="remove" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove" />
     <application
         android:label="Eripoo"
         android:allowBackup="false"

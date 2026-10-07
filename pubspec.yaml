@@ -7,6 +7,7 @@ environment:
   sdk: ^3.13.5
 
 dependencies:
+  camera: ^0.12.1
   connectivity_plus: ^7.3.2
   drift: ^2.35.1
   drift_flutter: ^0.3.1
@@ -21,11 +22,13 @@ dependencies:
   intl: ^0.20.3
   local_auth: ^3.0.2
   path_provider: ^2.1.6
+  qr: ^4.0.0
   sodium: ^4.1.1+2
   sqlite3: ^3.7.0
   supabase_flutter: ^2.18.0
   uuid: ^4.6.0
   workmanager: ^0.10.10
+  zxing2: ^0.2.4
 
 dev_dependencies:
   flutter_test:

@@ -1274,5 +1274,376 @@
   "conflictNoDifference": "Les deux versions disent la même chose.",
   "@conflictNoDifference": {
     "description": "Aucune différence visible entre les versions."
+  },
+  "accountTitle": "Compte",
+  "@accountTitle": {
+    "description": "Section compte du profil."
+  },
+  "accountUnavailable": "La sauvegarde en ligne n'est pas encore disponible dans cette version. Tout reste sur ce téléphone.",
+  "@accountUnavailable": {
+    "description": "Pas de serveur configuré."
+  },
+  "accountGuestBody": "Sans compte, tout reste sur ce téléphone. Avec un compte, tes données sont sauvegardées chiffrées : personne d'autre que toi ne peut les lire, pas même Eripoo.",
+  "@accountGuestBody": {
+    "description": "Pourquoi créer un compte."
+  },
+  "accountCreate": "Créer un compte",
+  "@accountCreate": {
+    "description": "Inscription."
+  },
+  "accountSignIn": "Me connecter",
+  "@accountSignIn": {
+    "description": "Connexion."
+  },
+  "accountEmailLabel": "Adresse e-mail",
+  "@accountEmailLabel": {
+    "description": "Champ e-mail."
+  },
+  "accountPasswordLabel": "Mot de passe",
+  "@accountPasswordLabel": {
+    "description": "Champ mot de passe."
+  },
+  "accountPasswordHelp": "Au moins 8 caractères.",
+  "@accountPasswordHelp": {
+    "description": "Aide mot de passe."
+  },
+  "accountSignedInAs": "Connecté : {email}",
+  "@accountSignedInAs": {
+    "description": "Compte connecté.",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "accountLinking": "Préparation de la sauvegarde chiffrée… Cela peut prendre quelques secondes.",
+  "@accountLinking": {
+    "description": "Liaison du compte en cours."
+  },
+  "accountMismatch": "Ce téléphone contient les données d'un autre compte. Elles doivent d'abord être effacées.",
+  "@accountMismatch": {
+    "description": "Téléphone lié à un autre compte."
+  },
+  "authInvalidCredentials": "Adresse ou mot de passe incorrect.",
+  "@authInvalidCredentials": {
+    "description": "Erreur de connexion."
+  },
+  "authEmailNotConfirmed": "Confirme d'abord ton adresse avec le lien reçu par e-mail.",
+  "@authEmailNotConfirmed": {
+    "description": "E-mail non confirmé."
+  },
+  "authAccountExists": "Un compte existe déjà avec cette adresse : connecte-toi.",
+  "@authAccountExists": {
+    "description": "Compte existant."
+  },
+  "authWeakPassword": "Mot de passe trop court : au moins 8 caractères.",
+  "@authWeakPassword": {
+    "description": "Mot de passe trop faible."
+  },
+  "authInvalidEmail": "Cette adresse e-mail ne semble pas correcte.",
+  "@authInvalidEmail": {
+    "description": "E-mail invalide."
+  },
+  "authTooManyAttempts": "Trop d'essais. Réessaie dans quelques minutes.",
+  "@authTooManyAttempts": {
+    "description": "Limite d'essais."
+  },
+  "authUnavailable": "Pas de connexion au serveur. Réessaie plus tard.",
+  "@authUnavailable": {
+    "description": "Serveur injoignable."
+  },
+  "recoveryTitle": "Ton code de secours",
+  "@recoveryTitle": {
+    "description": "Titre du code de secours."
+  },
+  "recoveryShowBody": "Écris ce code sur papier et garde-le en lieu sûr. C'est le seul moyen de retrouver tes données si tu perds tous tes appareils. Eripoo ne peut pas le retrouver pour toi.",
+  "@recoveryShowBody": {
+    "description": "Consigne du code de secours."
+  },
+  "recoveryConfirmCheck": "Je l'ai écrit sur papier",
+  "@recoveryConfirmCheck": {
+    "description": "Confirmation d'écriture du code."
+  },
+  "recoveryConfirmLast": "Pour vérifier, tape les 4 derniers chiffres",
+  "@recoveryConfirmLast": {
+    "description": "Vérification du code écrit."
+  },
+  "recoveryConfirmWrong": "Ce ne sont pas les bons chiffres : vérifie ce que tu as écrit.",
+  "@recoveryConfirmWrong": {
+    "description": "Vérification ratée."
+  },
+  "actionDone": "Terminé",
+  "@actionDone": {
+    "description": "Terminer."
+  },
+  "recoveryEnterTitle": "Entrer mon code de secours",
+  "@recoveryEnterTitle": {
+    "description": "Saisie du code de secours."
+  },
+  "recoveryEnterLabel": "Code de secours (36 chiffres)",
+  "@recoveryEnterLabel": {
+    "description": "Champ code de secours."
+  },
+  "recoveryMalformed": "Il manque des chiffres ou l'un d'eux est mal tapé.",
+  "@recoveryMalformed": {
+    "description": "Code mal formé."
+  },
+  "recoveryWrong": "Ce code n'ouvre pas les données de ce compte.",
+  "@recoveryWrong": {
+    "description": "Mauvais code."
+  },
+  "recoveryRateLimited": "Trop d'essais : réessaie dans une heure.",
+  "@recoveryRateLimited": {
+    "description": "Limite de récupération."
+  },
+  "recoveryWorking": "Vérification du code… Cela peut prendre quelques secondes.",
+  "@recoveryWorking": {
+    "description": "Vérification en cours."
+  },
+  "unlockTitle": "Retrouver tes données",
+  "@unlockTitle": {
+    "description": "Titre du choix de déverrouillage."
+  },
+  "unlockBody": "Ce compte a déjà des données. Pour les ouvrir sur ce téléphone :",
+  "@unlockBody": {
+    "description": "Explication du choix."
+  },
+  "unlockWithPhone": "Avec mon autre téléphone",
+  "@unlockWithPhone": {
+    "description": "Transfert par QR."
+  },
+  "unlockWithCode": "Avec mon code de secours",
+  "@unlockWithCode": {
+    "description": "Récupération par code."
+  },
+  "receiveTitle": "Recevoir la clé",
+  "@receiveTitle": {
+    "description": "Écran du nouveau téléphone."
+  },
+  "receiveBody": "Sur ton autre téléphone : Profil › Mes appareils › Ajouter un appareil. Scanne ce code, puis tape là-bas le code à 6 chiffres affiché ici.",
+  "@receiveBody": {
+    "description": "Consignes du transfert."
+  },
+  "receiveCodeLabel": "Code à taper sur l'autre téléphone",
+  "@receiveCodeLabel": {
+    "description": "Code de vérification."
+  },
+  "receiveScan": "Scanner le code de l'autre téléphone",
+  "@receiveScan": {
+    "description": "Scanner QR2."
+  },
+  "receiveExpiresIn": "Valable encore {time}",
+  "@receiveExpiresIn": {
+    "description": "Temps restant.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "actionStartAgain": "Recommencer",
+  "@actionStartAgain": {
+    "description": "Recommencer le transfert."
+  },
+  "receiveWorking": "Vérification de la clé…",
+  "@receiveWorking": {
+    "description": "Vérification en cours."
+  },
+  "receiveDone": "Clé reçue et vérifiée. Eripoo redémarre pour ouvrir tes données.",
+  "@receiveDone": {
+    "description": "Transfert réussi."
+  },
+  "transferMalformed": "Ce n'est pas un code de transfert Eripoo, ou il est abîmé.",
+  "@transferMalformed": {
+    "description": "QR invalide."
+  },
+  "transferUnsupported": "Ce code vient d'une version plus récente d'Eripoo : mets l'application à jour.",
+  "@transferUnsupported": {
+    "description": "Version inconnue."
+  },
+  "transferWrongAccount": "Les deux téléphones ne sont pas connectés au même compte.",
+  "@transferWrongAccount": {
+    "description": "Comptes différents."
+  },
+  "transferWrongCode": "Ce n'est pas le code affiché sur le nouveau téléphone.",
+  "@transferWrongCode": {
+    "description": "Mauvais code V."
+  },
+  "transferRetry": "Ce code ne correspond pas à ce transfert. Recommence avec tes deux téléphones.",
+  "@transferRetry": {
+    "description": "Mauvais transfert, clé jetable perdue."
+  },
+  "transferExpired": "Le transfert a expiré. Recommence.",
+  "@transferExpired": {
+    "description": "Transfert expiré."
+  },
+  "transferKeyMismatch": "Cette clé n'ouvre pas les données du compte. Recommence avec ton propre téléphone.",
+  "@transferKeyMismatch": {
+    "description": "Clé non vérifiée."
+  },
+  "transferDeviceLimit": "Ce compte a déjà 5 appareils : retires-en un depuis un autre téléphone.",
+  "@transferDeviceLimit": {
+    "description": "Limite d'appareils."
+  },
+  "transferOffline": "Pas de connexion : connecte-toi à internet pour vérifier la clé, puis réessaie.",
+  "@transferOffline": {
+    "description": "Hors ligne."
+  },
+  "devicesTitle": "Mes appareils",
+  "@devicesTitle": {
+    "description": "Liste des appareils."
+  },
+  "devicesThis": "Ce téléphone",
+  "@devicesThis": {
+    "description": "Appareil courant."
+  },
+  "devicesLastSeen": "Vu le {date}",
+  "@devicesLastSeen": {
+    "description": "Dernière activité.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "devicesRemoved": "Retiré",
+  "@devicesRemoved": {
+    "description": "Appareil révoqué."
+  },
+  "devicesRemove": "Retirer",
+  "@devicesRemove": {
+    "description": "Révoquer."
+  },
+  "devicesRemoveConfirmTitle": "Retirer « {name} » ?",
+  "@devicesRemoveConfirmTitle": {
+    "description": "Confirmation de révocation.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "devicesRemoveConfirmBody": "Il ne pourra plus rien recevoir ni envoyer, et ses données Eripoo seront effacées dès qu'il se connectera.",
+  "@devicesRemoveConfirmBody": {
+    "description": "Effet de la révocation."
+  },
+  "devicesReauthTitle": "Confirme ton mot de passe",
+  "@devicesReauthTitle": {
+    "description": "Réauthentification."
+  },
+  "devicesReauthBody": "Par sécurité, retirer un appareil demande de retaper ton mot de passe.",
+  "@devicesReauthBody": {
+    "description": "Pourquoi réauthentifier."
+  },
+  "devicesAdd": "Ajouter un appareil",
+  "@devicesAdd": {
+    "description": "Ajout par QR."
+  },
+  "devicesLoadError": "Impossible d'afficher tes appareils sans connexion.",
+  "@devicesLoadError": {
+    "description": "Liste indisponible."
+  },
+  "addDeviceWarning": "Ne scanne que ton propre nouveau téléphone, que tu tiens en main. Si quelqu'un te demande de scanner un code, refuse.",
+  "@addDeviceWarning": {
+    "description": "Avertissement anti-hameçonnage."
+  },
+  "addDeviceScan": "Scanner le code du nouveau téléphone",
+  "@addDeviceScan": {
+    "description": "Scanner QR1."
+  },
+  "addDeviceConfirm": "Ajouter « {name} » ?",
+  "@addDeviceConfirm": {
+    "description": "Confirmation d'ajout.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "addDeviceCodeLabel": "Code à 6 chiffres affiché sur le nouveau téléphone",
+  "@addDeviceCodeLabel": {
+    "description": "Saisie du code V."
+  },
+  "addDeviceShowKey": "Montrer la clé",
+  "@addDeviceShowKey": {
+    "description": "Afficher QR2."
+  },
+  "addDeviceKeyBody": "Scanne ce code avec le nouveau téléphone. Il disparaît dans {time}.",
+  "@addDeviceKeyBody": {
+    "description": "Consigne QR2.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "addDeviceIdentityReason": "Confirme que c'est bien toi pour ajouter un appareil.",
+  "@addDeviceIdentityReason": {
+    "description": "Raison de l'authentification locale."
+  },
+  "addDeviceIdentityFailed": "Identité non confirmée.",
+  "@addDeviceIdentityFailed": {
+    "description": "Échec de l'authentification locale."
+  },
+  "scannerTitle": "Scanner",
+  "@scannerTitle": {
+    "description": "Titre du scanner."
+  },
+  "scannerHint": "Place le code dans le cadre.",
+  "@scannerHint": {
+    "description": "Aide du scanner."
+  },
+  "scannerUnavailable": "La caméra n'est pas disponible. Autorise-la dans les réglages du téléphone, ou utilise ton code de secours.",
+  "@scannerUnavailable": {
+    "description": "Caméra refusée ou absente."
+  },
+  "syncTitle": "Sauvegarde",
+  "@syncTitle": {
+    "description": "Section synchronisation."
+  },
+  "syncStateIdle": "Pas encore sauvegardé depuis l'ouverture.",
+  "@syncStateIdle": {
+    "description": "Aucun cycle."
+  },
+  "syncStateRunning": "Sauvegarde en cours…",
+  "@syncStateRunning": {
+    "description": "Cycle en cours."
+  },
+  "syncStateSaved": "Tout est sauvegardé.",
+  "@syncStateSaved": {
+    "description": "Rien en attente."
+  },
+  "syncStateWaiting": "{count, plural, =0{En attente de connexion.} =1{1 modification attend une connexion.} other{{count} modifications attendent une connexion.}}",
+  "@syncStateWaiting": {
+    "description": "Modifications en attente.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncStateSignIn": "Reconnecte-toi pour reprendre la sauvegarde. Rien n'est perdu sur ce téléphone.",
+  "@syncStateSignIn": {
+    "description": "Session expirée."
+  },
+  "syncStateRemoved": "Ce téléphone a été retiré du compte. Ses données Eripoo ont été effacées.",
+  "@syncStateRemoved": {
+    "description": "Appareil révoqué."
+  },
+  "syncNow": "Sauvegarder maintenant",
+  "@syncNow": {
+    "description": "Lancer une synchronisation."
+  },
+  "syncPhotosMobile": "Envoyer aussi les photos avec les données mobiles",
+  "@syncPhotosMobile": {
+    "description": "Réglage photos hors Wi-Fi."
+  },
+  "syncPhotosMobileHelp": "Sinon, les photos partent seulement en Wi-Fi.",
+  "@syncPhotosMobileHelp": {
+    "description": "Aide du réglage."
+  },
+  "actionRestart": "Redémarrer",
+  "@actionRestart": {
+    "description": "Redémarrer l'application."
   }
 }

@@ -10,12 +10,23 @@ import '../../sync/remote/supabase_sync_remote.dart';
 import '../../sync/remote/sync_remote.dart';
 import 'secure_session_storage.dart';
 
+/// What the app needs from the server: sign-in, encrypted records and
+/// files. Implemented by [Backend] (Supabase) and by test doubles.
+abstract interface class AccountBackend {
+  AuthRepository get auth;
+  SyncRemote get sync;
+  MediaRemote get media;
+
+  /// The signed-in account, if any (no network needed).
+  String? get userId;
+}
+
 /// The server, when the build has one (`--dart-define-from-file`). Without
 /// it the app is a complete offline app (guest); this is a normal state.
 ///
 /// Production is refused on purpose: the production project must not
 /// exist yet (DEVELOPMENT_PLAN), so a build pointing to one is a mistake.
-class Backend {
+class Backend implements AccountBackend {
   Backend._(this.client);
 
   final SupabaseClient client;
@@ -42,10 +53,12 @@ class Backend {
     return _started = Backend._(Supabase.instance.client);
   }
 
+  @override
   AuthRepository get auth => SupabaseAuthRepository(client.auth);
+  @override
   SyncRemote get sync => SupabaseSyncRemote(client);
+  @override
   MediaRemote get media => SupabaseMediaRemote(client);
-
-  /// The signed-in account, if any (no network needed).
+  @override
   String? get userId => client.auth.currentUser?.id;
 }

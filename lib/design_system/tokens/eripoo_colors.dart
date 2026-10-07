@@ -231,3 +231,13 @@ class EripooColors extends ThemeExtension<EripooColors> {
     );
   }
 }
+
+/// Colours that must not follow the theme: QR codes are read by cameras,
+/// which need black on white in light and dark mode alike.
+abstract final class EripooFixedColors {
+  static const qrDark = Color(0xFF000000);
+  static const qrLight = Color(0xFFFFFFFF);
+
+  /// The frame drawn over the camera preview.
+  static const scannerFrame = Color(0xFFFFFFFF);
+}
