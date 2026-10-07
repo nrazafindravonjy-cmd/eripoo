@@ -131,6 +131,12 @@ class JourneyService {
         )..where((t) => t.deletedAt.isNull())).get(),
         (r) => {'kind': r.kind},
       ),
+      'finance_items': rows(
+        await (_db.select(
+          _db.financeItems,
+        )..where((t) => t.deletedAt.isNull())).get(),
+        (r) => {'kind': r.kind},
+      ),
     };
   }
 
@@ -158,6 +164,7 @@ class JourneyService {
                 _db.observations,
                 _db.interviews,
                 _db.competitors,
+                _db.financeItems,
               ]),
             )
             .listen((_) => triggers.add(null));

@@ -77,6 +77,19 @@ class EripooFormatter {
       ? '${integer(value)}%'
       : '${integer(value)}$_nbsp%';
 
+  /// Rate in basis points (1 % = 100), at most one decimal, rounded:
+  /// `25 %`, `33,3 %` (mg, fr) or `33.3%` (en).
+  String percentBp(int bp) {
+    final tenths = (bp.abs() + 5) ~/ 10;
+    final whole = integer(tenths ~/ 10);
+    final decimal = tenths % 10;
+    final number = decimal == 0
+        ? whole
+        : '$whole${language == AppLanguage.en ? '.' : ','}$decimal';
+    final signed = bp < 0 && tenths > 0 ? '$_minus$number' : number;
+    return language == AppLanguage.en ? '$signed%' : '$signed$_nbsp%';
+  }
+
   /// Long date: `6 Oktobra 2026`, `6 octobre 2026`, `6 October 2026`.
   String date(DateTime value) =>
       '${value.day}$_nbsp${_months[language]![value.month - 1]} ${value.year}';

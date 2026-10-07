@@ -44,13 +44,15 @@ class LocalKeyValues extends Table {
     Competitors,
     ConflictCopies,
     SyncMetaEntries,
+    FinanceItems,
+    FinancePlans,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.executor);
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -98,6 +100,11 @@ class AppDatabase extends _$AppDatabase {
         // Phase 6: unlocked tools, competitor analysis.
         await m.createTable(toolUnlocks);
         await m.createTable(competitors);
+      }
+      if (from < 7) {
+        // Phase 7: project money.
+        await m.createTable(financeItems);
+        await m.createTable(financePlans);
       }
     },
   );

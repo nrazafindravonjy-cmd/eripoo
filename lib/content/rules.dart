@@ -38,6 +38,8 @@ const countableEntities = <String, Set<String>>{
   'interviews': <String>{},
   // Phase 6: competitors noted in the competitor analysis.
   'competitors': {'kind'},
+  // Phase 7: money of the project, counted by kind, never by amount.
+  'finance_items': {'kind'},
 };
 
 /// Entities of the project counted from stored records (not the journey).
@@ -48,6 +50,7 @@ const recordEntities = {
   'observations',
   'interviews',
   'competitors',
+  'finance_items',
 };
 
 enum EventKind { stepCompleted, missionAccepted, missionCompleted }

@@ -9,7 +9,7 @@ import '../../media/application/media_sync.dart';
 import '../../media/data/media_store.dart';
 
 /// What the user can delete and find again in the trash.
-enum TrashKind { observation, interview, evidence, competitor }
+enum TrashKind { observation, interview, evidence, competitor, financeItem }
 
 /// One element in the trash. [label] is the user's own text: shown on
 /// screen only, never logged.
@@ -58,6 +58,7 @@ class TrashService {
     TrashKind.interview => EntityTypes.interview,
     TrashKind.evidence => EntityTypes.evidence,
     TrashKind.competitor => EntityTypes.competitor,
+    TrashKind.financeItem => EntityTypes.financeItem,
   };
 
   int _now() => _clock().millisecondsSinceEpoch;
@@ -185,6 +186,17 @@ class TrashService {
       )..where((t) => t.deletedAt.isNotNull())).get())
         if (!purging.contains(r.id))
           item(TrashKind.competitor, r.id, r.name, r.deletedAt!),
+      for (final r in await (_db.select(
+        _db.financeItems,
+      )..where((t) => t.deletedAt.isNotNull())).get())
+        if (!purging.contains(r.id))
+          item(
+            TrashKind.financeItem,
+            r.id,
+            r.label,
+            r.deletedAt!,
+            amountMga: r.amountMga,
+          ),
     ]..sort((a, b) => b.deletedAt.compareTo(a.deletedAt));
     return list;
   }
@@ -196,6 +208,7 @@ class TrashService {
       _db.interviews,
       _db.evidences,
       _db.competitors,
+      _db.financeItems,
       _db.syncMetaEntries,
     ]),
   );

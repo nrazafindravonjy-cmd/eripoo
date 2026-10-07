@@ -576,6 +576,8 @@ void main() {
     );
     await v3.customStatement('drop table tool_unlocks'); // v6
     await v3.customStatement('drop table competitors'); // v6
+    await v3.customStatement('drop table finance_items'); // v7
+    await v3.customStatement('drop table finance_plans'); // v7
     await v3.customStatement('pragma user_version = 2');
     await v3.close();
 

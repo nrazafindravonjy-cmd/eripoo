@@ -40,6 +40,17 @@ void main() {
     expect(en.percent(40), '40%');
   });
 
+  test('percent from basis points: one decimal at most, rounded', () {
+    expect(fr.percentBp(2500), '25$nbsp%');
+    expect(fr.percentBp(3333), '33,3$nbsp%');
+    expect(mg.percentBp(3335), '33,4$nbsp%');
+    expect(en.percentBp(3333), '33.3%');
+    expect(fr.percentBp(0), '0$nbsp%');
+    expect(fr.percentBp(4), '0$nbsp%', reason: 'no "−0"');
+    expect(fr.percentBp(-2500), '−25$nbsp%');
+    expect(en.percentBp(100000), '1,000%');
+  });
+
   group('dates', () {
     final d = DateTime(2026, 10, 6); // a Tuesday
 

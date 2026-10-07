@@ -29,6 +29,8 @@ class EntityRegistry {
         EntityTypes.media: _db.mediaItems,
         EntityTypes.toolUnlock: _db.toolUnlocks,
         EntityTypes.competitor: _db.competitors,
+        EntityTypes.financeItem: _db.financeItems,
+        EntityTypes.financePlan: _db.financePlans,
         EntityTypes.conflictCopy: _db.conflictCopies,
       };
 

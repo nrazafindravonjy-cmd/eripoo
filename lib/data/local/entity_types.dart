@@ -22,6 +22,8 @@ abstract final class EntityTypes {
   static const media = 'media';
   static const toolUnlock = 'tool_unlock';
   static const competitor = 'competitor';
+  static const financeItem = 'finance_item';
+  static const financePlan = 'finance_plan';
 
   static const all = [
     profile,
@@ -44,6 +46,8 @@ abstract final class EntityTypes {
     media,
     toolUnlock,
     competitor,
+    financeItem,
+    financePlan,
     conflictCopy,
   ];
 }

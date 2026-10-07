@@ -120,6 +120,8 @@ void main() {
     );
     await v2.customStatement('drop table tool_unlocks'); // v6
     await v2.customStatement('drop table competitors'); // v6
+    await v2.customStatement('drop table finance_items'); // v7
+    await v2.customStatement('drop table finance_plans'); // v7
     await v2.customStatement('pragma user_version = 1');
     await v2.close();
 

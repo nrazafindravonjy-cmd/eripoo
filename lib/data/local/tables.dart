@@ -476,3 +476,47 @@ class Competitors extends Table {
   @override
   Set<Column<Object>> get primaryKey => {id};
 }
+
+/// Money of a project (Phase 7, CLAUDE.md §17): what one unit costs, the
+/// costs of each month, what must be bought before starting, and the money
+/// found. Amounts in whole ariary.
+@DataClassName('FinanceItemRow')
+class FinanceItems extends Table {
+  TextColumn get id => text()();
+  TextColumn get projectId => text()();
+
+  /// `variable_cost` (per unit sold), `fixed_cost` (per month),
+  /// `investment` (once, before starting) or `funding` (money found).
+  TextColumn get kind => text()();
+
+  /// For `funding` only: `own`, `family`, `microfinance`, `bank`,
+  /// `investor`, `grant` or `other`.
+  TextColumn get source => text().nullable()();
+  TextColumn get label => text()();
+  IntColumn get amountMga => integer()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// The price chosen and the sales expected, one per project (UUID v5 of
+/// the project id): what the margin, break-even and cash plan use.
+@DataClassName('FinancePlanRow')
+class FinancePlans extends Table {
+  TextColumn get id => text()();
+  TextColumn get projectId => text().unique()();
+  IntColumn get priceMga => integer().nullable()();
+
+  /// Units expected in the first month and in the twelfth.
+  IntColumn get volumeFirst => integer().nullable()();
+  IntColumn get volumeLast => integer().nullable()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
