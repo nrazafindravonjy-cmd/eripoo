@@ -286,5 +286,27 @@ void main() {
       expect(reloaded.dataKey.extractBytes(), otherKeys.dataKey.extractBytes());
       expect(reloaded.databaseKey, keys.databaseKey); // DB key unchanged
     });
+
+    test(
+      'the replaced key is kept until local files use the new one',
+      () async {
+        final keys = await manager.loadOrCreate(databaseExists: false);
+        final first = keys.dataKey.extractBytes();
+        expect(await manager.previousDataKey(), isNull);
+        await manager.replaceDataKey(crypto.generateKey(), 2);
+        // A second switch before the files were re-encrypted keeps the
+        // first key: the files are still under it.
+        await manager.replaceDataKey(crypto.generateKey(), 3);
+        final previous = await manager.previousDataKey();
+        expect(previous!.key.extractBytes(), first);
+        expect(previous.version, 1);
+        await manager.forgetPreviousDataKey();
+        expect(await manager.previousDataKey(), isNull);
+
+        await manager.replaceDataKey(crypto.generateKey(), 4);
+        await manager.wipe();
+        expect(await manager.previousDataKey(), isNull);
+      },
+    );
   });
 }

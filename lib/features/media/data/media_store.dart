@@ -38,6 +38,7 @@ class MediaStore {
     required this._key,
     required this._umkVersion,
     required this._dir,
+    this._previousKey,
     this._clock = systemClock,
   }) : _crypto = crypto,
        _envelopes = MediaEnvelopes(crypto),
@@ -48,6 +49,10 @@ class MediaStore {
   final MediaEnvelopes _envelopes;
   final SecureKey _key;
   final int _umkVersion;
+
+  /// The media sub-key of the data key replaced by a recovery or a device
+  /// transfer, until [resealAll] has re-encrypted every file.
+  final SecureKey? _previousKey;
   final Directory _dir;
   final Clock _clock;
   final SyncTracker _sync;
@@ -109,13 +114,66 @@ class MediaStore {
             .getSingleOrNull();
     final file = fileOf(mediaId);
     if (row == null || !file.existsSync()) return null;
-    final plain = _envelopes.open(
-      envelope: file.readAsBytesSync(),
-      mediaKey: _key,
-      mediaId: mediaId,
-    );
+    final plain = _open(file.readAsBytesSync(), mediaId).$1;
     if (_crypto.hashHex(plain) != row.contentHash) throw const MediaCorrupted();
     return plain;
+  }
+
+  /// The plain bytes, and whether they were opened with the previous key.
+  (Uint8List, bool) _open(Uint8List envelope, String mediaId) {
+    try {
+      return (
+        _envelopes.open(envelope: envelope, mediaKey: _key, mediaId: mediaId),
+        false,
+      );
+    } on DecryptionFailed {
+      final previous = _previousKey;
+      if (previous == null) rethrow;
+      return (
+        _envelopes.open(
+          envelope: envelope,
+          mediaKey: previous,
+          mediaId: mediaId,
+        ),
+        true,
+      );
+    }
+  }
+
+  /// Re-encrypts with the current key every file still under the previous
+  /// one, each through `.part` + rename (a crash leaves the old complete
+  /// file, still readable with the previous key). Returns how many files
+  /// could be opened with neither key (left untouched).
+  Future<int> resealAll() async {
+    if (_previousKey == null || !_dir.existsSync()) return 0;
+    final rows = await (_db.select(
+      _db.mediaItems,
+    )..where((t) => t.deletedAt.isNull())).get();
+    var unreadable = 0;
+    for (final row in rows) {
+      final file = fileOf(row.id);
+      if (!file.existsSync()) continue;
+      final Uint8List plain;
+      final bool old;
+      try {
+        (plain, old) = _open(file.readAsBytesSync(), row.id);
+      } on DecryptionFailed {
+        unreadable++;
+        continue;
+      }
+      if (!old) continue;
+      final sealed = _envelopes.seal(
+        plaintext: plain,
+        mediaKey: _key,
+        umkVersion: _umkVersion,
+        mediaId: row.id,
+      );
+      plain.fillRange(0, plain.length, 0);
+      final part = File('${file.path}.part')
+        ..writeAsBytesSync(sealed, flush: true);
+      part.renameSync(file.path);
+    }
+    return unreadable;
   }
 
   /// Moves the media to the trash and deletes its encrypted file.

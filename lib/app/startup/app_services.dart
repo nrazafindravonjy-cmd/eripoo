@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
+import 'package:sodium/sodium_sumo.dart';
 
 import '../../data/local/app_database.dart';
 import '../../data/local/encrypted_database.dart';
@@ -18,6 +19,7 @@ class AppServices {
     required this.keys,
     required this.database,
     required this.mediaDirectory,
+    this.previousDataKey,
   });
 
   final CryptoService crypto;
@@ -27,6 +29,10 @@ class AppServices {
 
   /// Encrypted media files (docs/SECURITY.md §4.7).
   final Directory mediaDirectory;
+
+  /// Set after a recovery or a device transfer, until local photos are
+  /// re-encrypted with the new data key (`KeyManager.replaceDataKey`).
+  final SecureKey? previousDataKey;
 
   static Future<File> databaseFile() async =>
       File('${(await getApplicationSupportDirectory()).path}/eripoo.sqlite');
@@ -63,6 +69,7 @@ class AppServices {
       keys: keys,
       database: database,
       mediaDirectory: LocalDataEraser.mediaDirectoryOf(file),
+      previousDataKey: (await keyManager.previousDataKey())?.key,
     );
   }
 

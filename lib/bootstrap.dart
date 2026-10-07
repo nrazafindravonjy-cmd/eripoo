@@ -90,12 +90,20 @@ Future<void> bootstrap() async {
     return true;
   };
 
-  // Encrypted files left by an interrupted save (never plain bytes).
+  // Encrypted files left by an interrupted save (never plain bytes), then
+  // photos still under the data key replaced by a recovery or a transfer.
+  final media = container.read(mediaStoreProvider);
   unawaited(
-    container
-        .read(mediaStoreProvider)
+    media
         .purgeOrphans()
-        .catchError((Object _) => 0),
+        .then((_) async {
+          if (services.previousDataKey == null) return;
+          // Files opened by neither key are left as they are; the previous key
+          // is erased only when every readable file uses the new one.
+          await media.resealAll();
+          await services.keyManager.forgetPreviousDataKey();
+        })
+        .catchError((Object _) {}),
   );
 
   runApp(

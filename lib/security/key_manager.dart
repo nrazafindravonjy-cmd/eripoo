@@ -89,6 +89,7 @@ class KeyManager {
   static const _umkEntry = 'eripoo.umk';
   static const _dbkEntry = 'eripoo.dbk';
   static const _deviceEntry = 'eripoo.device_id';
+  static const _previousUmkEntry = 'eripoo.umk.previous';
   static const _storedFormat = 0x01;
 
   /// Loads the keys of this device, creating them on first launch (before
@@ -134,11 +135,42 @@ class KeyManager {
 
   /// Replaces this device's data key with the account's (after recovery
   /// with the code or a device transfer). The database key is unchanged.
+  ///
+  /// The replaced key is kept as the *previous* key until
+  /// [forgetPreviousDataKey]: local photos are encrypted with a sub-key of
+  /// it and must be re-encrypted first (`MediaStore.resealAll`). Without
+  /// it, a crash between the switch and the re-encryption would make them
+  /// unreadable forever.
   Future<void> replaceDataKey(SecureKey umk, int version) async {
+    final current = await _store.read(_umkEntry);
+    // An unfinished switch keeps its first previous key: the photos not yet
+    // re-encrypted are still under that one.
+    if (current != null && await _store.read(_previousUmkEntry) == null) {
+      await _store.write(_previousUmkEntry, current);
+    }
     final bytes = umk.extractBytes();
     await _store.write(_umkEntry, _encodeStored(bytes, version: version));
     bytes.fillRange(0, bytes.length, 0);
   }
+
+  /// The data key replaced by [replaceDataKey], while local files may
+  /// still be encrypted with it; null otherwise.
+  Future<({SecureKey key, int version})?> previousDataKey() async {
+    final value = await _store.read(_previousUmkEntry);
+    if (value == null) return null;
+    final ({Uint8List bytes, int version}) stored;
+    try {
+      stored = _decodeStored(value, withVersion: true);
+    } on LocalKeysLost {
+      return null;
+    }
+    final key = _crypto.keyFromBytes(stored.bytes);
+    stored.bytes.fillRange(0, stored.bytes.length, 0);
+    return (key: key, version: stored.version);
+  }
+
+  /// Every local file uses the current key: the previous one is erased.
+  Future<void> forgetPreviousDataKey() => _store.delete(_previousUmkEntry);
 
   /// Removes every key from this device (sign-out of a shared phone,
   /// account deletion, revoked device). Irreversible for local data.
@@ -146,6 +178,7 @@ class KeyManager {
     await _store.delete(_umkEntry);
     await _store.delete(_dbkEntry);
     await _store.delete(_deviceEntry);
+    await _store.delete(_previousUmkEntry);
   }
 
   /// A new recovery code: 35 uniform random digits + Damm check digit.

@@ -24,13 +24,20 @@ final researchServiceProvider = Provider<ResearchService>((ref) {
 final mediaStoreProvider = Provider<MediaStore>((ref) {
   final services = ref.watch(appServicesProvider);
   final keys = DataKeys(services.crypto, services.keys.dataKey);
-  ref.onDispose(keys.dispose);
+  final previous = services.previousDataKey == null
+      ? null
+      : DataKeys(services.crypto, services.previousDataKey!);
+  ref.onDispose(() {
+    keys.dispose();
+    previous?.dispose();
+  });
   return MediaStore(
     db: ref.watch(appDatabaseProvider),
     crypto: services.crypto,
     key: keys.media,
     umkVersion: services.keys.dataKeyVersion,
     dir: services.mediaDirectory,
+    previousKey: previous?.media,
   );
 });
 
