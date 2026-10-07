@@ -29,6 +29,16 @@ class LocalKeyValues extends Table {
     StepProgressEntries,
     Answers,
     MissionInstances,
+    Hypotheses,
+    Experiments,
+    ExperimentHypotheses,
+    Results,
+    Evidences,
+    Conclusions,
+    Decisions,
+    Observations,
+    Interviews,
+    MediaItems,
     ConflictCopies,
     SyncMetaEntries,
   ],
@@ -37,7 +47,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.executor);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -50,6 +60,23 @@ class AppDatabase extends _$AppDatabase {
           stepProgressEntries,
           stepProgressEntries.deferredUntil,
         );
+      }
+      if (from < 3) {
+        // Phase 4: hypotheses and their tests, field notes, media.
+        for (final TableInfo<Table, Object?> table in [
+          hypotheses,
+          experiments,
+          experimentHypotheses,
+          results,
+          evidences,
+          conclusions,
+          decisions,
+          observations,
+          interviews,
+          mediaItems,
+        ]) {
+          await m.createTable(table);
+        }
       }
     },
   );

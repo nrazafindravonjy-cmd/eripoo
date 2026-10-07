@@ -184,3 +184,222 @@ class SyncMetaEntries extends Table {
   @override
   Set<Column<Object>> get primaryKey => {entityType, entityId};
 }
+
+// ---- Schema v3 (Phase 4): hypothesis → experiment → result → evidence →
+// conclusion → decision (docs/DATA_MODEL.md §3.4), field notes, media.
+
+@DataClassName('HypothesisRow')
+class Hypotheses extends Table {
+  TextColumn get id => text()();
+  TextColumn get projectId => text()();
+  TextColumn get statement => text()();
+
+  /// `problem`, `customer`, `solution`, `price`, `channel`, `other`.
+  TextColumn get category => text()();
+
+  /// 1 (nice to know) to 3 (the project depends on it).
+  IntColumn get importance => integer().withDefault(const Constant(2))();
+
+  /// 1–5, before any test.
+  IntColumn get confidenceBefore => integer().nullable()();
+
+  /// See HypothesisStatus (snake_case).
+  TextColumn get status => text()();
+
+  /// Previous version, when this one was written after a test.
+  TextColumn get parentHypothesisId => text().nullable()();
+
+  /// Journey step it came from ("go back" reopens it).
+  TextColumn get sourceStepId => text().nullable()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+@DataClassName('ExperimentRow')
+class Experiments extends Table {
+  TextColumn get id => text()();
+  TextColumn get projectId => text()();
+  TextColumn get method => text()();
+  TextColumn get plan => text()();
+
+  /// Defined before the test; locked when it starts.
+  TextColumn get successCriterion => text().nullable()();
+  IntColumn get criterionLockedAt => integer().nullable()();
+  IntColumn get sampleTarget => integer().nullable()();
+  IntColumn get startedAt => integer().nullable()();
+  IntColumn get endedAt => integer().nullable()();
+  TextColumn get status => text()();
+  TextColumn get missionInstanceId => text().nullable()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// Which hypotheses an experiment tests (deterministic id per pair).
+@DataClassName('ExperimentHypothesisRow')
+class ExperimentHypotheses extends Table {
+  TextColumn get id => text()();
+  TextColumn get experimentId => text()();
+  TextColumn get hypothesisId => text()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+@DataClassName('ResultRow')
+class Results extends Table {
+  TextColumn get id => text()();
+  TextColumn get experimentId => text()();
+  TextColumn get summary => text()();
+
+  /// "7 out of 10": both or neither.
+  IntColumn get metricYes => integer().nullable()();
+  IntColumn get metricTotal => integer().nullable()();
+  IntColumn get recordedAt => integer()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// A piece of evidence attached to any subject (polymorphic).
+@DataClassName('EvidenceRow')
+class Evidences extends Table {
+  TextColumn get id => text()();
+  TextColumn get projectId => text()();
+
+  /// See EvidenceSubject (snake_case).
+  TextColumn get subjectType => text()();
+  TextColumn get subjectId => text()();
+
+  /// `note`, `photo`, `link`, `number`, `sale`.
+  TextColumn get kind => text()();
+  TextColumn get body => text().nullable()();
+  TextColumn get mediaId => text().nullable()();
+
+  /// A number (kind `number`).
+  RealColumn get numberValue => real().nullable()();
+
+  /// A sale in ariary (kind `sale`).
+  IntColumn get amountMga => integer().nullable()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+@DataClassName('ConclusionRow')
+class Conclusions extends Table {
+  TextColumn get id => text()();
+  TextColumn get hypothesisId => text()();
+  TextColumn get experimentId => text().nullable()();
+
+  /// What the user now thinks.
+  TextColumn get statement => text()();
+
+  /// The status reached (validated, invalidated, inconclusive).
+  TextColumn get outcome => text()();
+  IntColumn get confidenceAfter => integer()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// Decision journal (append-only).
+@DataClassName('DecisionRow')
+class Decisions extends Table {
+  TextColumn get id => text()();
+  TextColumn get hypothesisId => text()();
+  TextColumn get experimentId => text().nullable()();
+
+  /// `continue`, `modify`, `test_more`, `abandon`, `go_back`.
+  TextColumn get decision => text()();
+  TextColumn get rationale => text()();
+
+  /// The new version created by `modify`.
+  TextColumn get newHypothesisId => text().nullable()();
+  IntColumn get decidedAt => integer()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// Something seen in the field (photos are attached as evidence).
+@DataClassName('ObservationRow')
+class Observations extends Table {
+  TextColumn get id => text()();
+  TextColumn get projectId => text()();
+  TextColumn get description => text()();
+
+  /// Where and when, in the user's words.
+  TextColumn get context => text().nullable()();
+  TextColumn get supposedProblem => text().nullable()();
+  IntColumn get observedAt => integer()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// A conversation with a potential customer: pseudonym only, written
+/// notes only (no recording of other people — legal advice P6 pending).
+@DataClassName('InterviewRow')
+class Interviews extends Table {
+  TextColumn get id => text()();
+  TextColumn get projectId => text()();
+  TextColumn get intervieweeAlias => text()();
+  TextColumn get notes => text()();
+  TextColumn get conclusion => text().nullable()();
+  IntColumn get heldAt => integer()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// An encrypted file of the app's private directory (docs/SECURITY.md
+/// §4.7). The path is derived from the id; it is never stored.
+@DataClassName('MediaRow')
+class MediaItems extends Table {
+  TextColumn get id => text()();
+
+  /// `photo`.
+  TextColumn get kind => text()();
+  TextColumn get mime => text()();
+
+  /// Size of the plain file (≤ 10 MiB, D15).
+  IntColumn get sizeBytes => integer()();
+
+  /// SHA-256 of the plain file (integrity after decryption).
+  TextColumn get sha256 => text()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}

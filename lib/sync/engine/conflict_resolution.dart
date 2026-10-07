@@ -7,6 +7,8 @@ enum EntityFamily { editable, appendOnly, progress }
 
 EntityFamily familyOf(String entityType) => switch (entityType) {
   EntityTypes.projectRevision ||
+  EntityTypes.conclusion ||
+  EntityTypes.decision ||
   EntityTypes.conflictCopy => EntityFamily.appendOnly,
   EntityTypes.stepProgress => EntityFamily.progress,
   _ => EntityFamily.editable,

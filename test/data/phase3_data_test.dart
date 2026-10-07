@@ -94,7 +94,8 @@ void main() {
     expect((await progress.all())['q01.s02']!.deferredUntil, isNull);
   });
 
-  test('a schema v1 database migrates to v2 without losing data', () async {
+  test('a schema v1 database migrates to the current one without losing '
+      'data', () async {
     final dir = Directory.systemTemp.createTempSync('eripoo_migr');
     addTearDown(() => dir.deleteSync(recursive: true));
     final file = File('${dir.path}/db.sqlite');
@@ -129,6 +130,6 @@ void main() {
     final version = await migrated
         .customSelect('pragma user_version')
         .getSingle();
-    expect(version.data.values.single, 2);
+    expect(version.data.values.single, migrated.schemaVersion);
   });
 }

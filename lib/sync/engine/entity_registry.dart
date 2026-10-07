@@ -17,6 +17,16 @@ class EntityRegistry {
         EntityTypes.stepProgress: _db.stepProgressEntries,
         EntityTypes.answer: _db.answers,
         EntityTypes.missionInstance: _db.missionInstances,
+        EntityTypes.hypothesis: _db.hypotheses,
+        EntityTypes.experiment: _db.experiments,
+        EntityTypes.experimentHypothesis: _db.experimentHypotheses,
+        EntityTypes.result: _db.results,
+        EntityTypes.evidence: _db.evidences,
+        EntityTypes.conclusion: _db.conclusions,
+        EntityTypes.decision: _db.decisions,
+        EntityTypes.observation: _db.observations,
+        EntityTypes.interview: _db.interviews,
+        EntityTypes.media: _db.mediaItems,
         EntityTypes.conflictCopy: _db.conflictCopies,
       };
 

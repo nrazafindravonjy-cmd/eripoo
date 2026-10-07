@@ -10,6 +10,16 @@ abstract final class EntityTypes {
   static const conflictCopy = 'conflict_copy';
   static const answer = 'answer';
   static const missionInstance = 'mission_instance';
+  static const hypothesis = 'hypothesis';
+  static const experiment = 'experiment';
+  static const experimentHypothesis = 'experiment_hypothesis';
+  static const result = 'result';
+  static const evidence = 'evidence';
+  static const conclusion = 'conclusion';
+  static const decision = 'decision';
+  static const observation = 'observation';
+  static const interview = 'interview';
+  static const media = 'media';
 
   static const all = [
     profile,
@@ -20,6 +30,16 @@ abstract final class EntityTypes {
     stepProgress,
     answer,
     missionInstance,
+    hypothesis,
+    experiment,
+    experimentHypothesis,
+    result,
+    evidence,
+    conclusion,
+    decision,
+    observation,
+    interview,
+    media,
     conflictCopy,
   ];
 }
