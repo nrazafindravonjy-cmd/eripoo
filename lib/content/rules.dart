@@ -29,6 +29,22 @@ const countableEntities = <String, Set<String>>{
   'quests': {'state'},
   'missions': {'status'},
   'unknown_answers': {'quest'},
+  // Project research (Phase 4): counted by status and type only, never by
+  // what the user wrote.
+  'hypotheses': {'status', 'category'},
+  'experiments': {'status', 'method'},
+  'evidences': {'kind'},
+  'observations': <String>{},
+  'interviews': <String>{},
+};
+
+/// Entities of the project counted from stored records (not the journey).
+const recordEntities = {
+  'hypotheses',
+  'experiments',
+  'evidences',
+  'observations',
+  'interviews',
 };
 
 enum EventKind { stepCompleted, missionAccepted, missionCompleted }

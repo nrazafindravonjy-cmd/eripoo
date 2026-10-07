@@ -2180,6 +2180,267 @@
      ]
     }
    ]
+  },
+  {
+   "id": "q04",
+   "order": 4,
+   "maturity": "validation",
+   "priority": 5,
+   "title": {
+    "fr": "Tester ta première hypothèse",
+    "mg": "Andramo ny vinavinanao voalohany",
+    "en": "Test your first hypothesis",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Transforme une idée en question, et vérifie-la sur le terrain.",
+    "mg": "Ataovy fanontaniana ny hevitra iray, ary hamarino eny an-tsehatra.",
+    "en": "Turn an idea into a question and check it in the field.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "available_when": {
+    "quest": "q02",
+    "is": "completed"
+   },
+   "steps": [
+    {
+     "id": "q04.s01",
+     "type": "learn",
+     "title": {
+      "fr": "Une idée à vérifier",
+      "mg": "Hevitra tokony hohamarinina",
+      "en": "An idea to check",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Beaucoup de projets échouent parce qu'ils reposent sur des idées jamais vérifiées. Une hypothèse, c'est une idée que tu acceptes de mettre à l'épreuve.",
+        "mg": "Tetikasa maro no tsy mahomby satria miorina amin'ny hevitra tsy voamarina mihitsy. Ny vinavina dia hevitra ekenao hosedraina.",
+        "en": "Many projects fail because they rest on ideas nobody checked. A hypothesis is an idea you agree to put to the test.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "term",
+       "type": "term",
+       "plain": {
+        "fr": "Ce que je crois, sans l'avoir encore vérifié",
+        "mg": "Izay inoako, nefa mbola tsy nohamarinina",
+        "en": "What I believe, without having checked it yet",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "term": {
+        "fr": "Hypothèse",
+        "mg": "Vinavina",
+        "en": "Hypothesis",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "definition": {
+        "fr": "Une phrase précise qu'un test simple peut confirmer ou infirmer.",
+        "mg": "Fehezanteny mazava izay azon'ny fitsapana tsotra hamarinina na holavina.",
+        "en": "A precise sentence that a simple test can confirm or disprove.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "example",
+       "type": "example",
+       "body": {
+        "fr": "Fara pense : « Les vendeuses du marché commanderaient du savon livré le lundi. » Avant de tester, elle décide : c'est réussi si au moins 6 vendeuses sur 10 commandent.",
+        "mg": "Mihevitra i Fara hoe: « Hanafatra savony aterina isaky ny alatsinainy ireo mpivarotra eny an-tsena. » Alohan'ny hitsapana dia manapa-kevitra izy: mahomby raha mpivarotra 6 farafahakeliny amin'ny 10 no manafatra.",
+        "en": "Fara thinks: \"Market sellers would order soap delivered on Mondays.\" Before testing, she decides: it succeeds if at least 6 sellers out of 10 order.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "tip",
+       "type": "tip",
+       "body": {
+        "fr": "Décide quand le test sera réussi avant de le faire. Sinon, on finit toujours par voir ce qu'on a envie de voir.",
+        "mg": "Tapaho alohan'ny hitsapana hoe rahoviana no mahomby izy. Raha tsy izany, izay tiana ho hita foana no hita.",
+        "en": "Decide when the test succeeds before running it. Otherwise you always end up seeing what you want to see.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q04.s02",
+     "type": "act",
+     "title": {
+      "fr": "Écris ta première hypothèse",
+      "mg": "Soraty ny vinavinanao voalohany",
+      "en": "Write your first hypothesis",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "how",
+       "type": "text",
+       "body": {
+        "fr": "Ouvre l'onglet Projet, puis « Hypothèses », et écris ce que tu crois. Commence par « Je pense que… ». Reviens ensuite ici pour terminer l'étape.",
+        "mg": "Sokafy ny tabilao Tetikasa, avy eo « Vinavina », ary soraty izay inoanao. Atombohy amin'ny hoe « Mihevitra aho fa… ». Miverena eto avy eo hamita ny dingana.",
+        "en": "Open the Project tab, then \"Hypotheses\", and write what you believe. Start with \"I think that…\". Then come back here to finish the step.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ],
+     "complete_when": {
+      "count": "hypotheses",
+      "gte": 1
+     }
+    },
+    {
+     "id": "q04.s03",
+     "type": "act",
+     "title": {
+      "fr": "Prépare et lance un test",
+      "mg": "Omano ary atombohy ny fitsapana",
+      "en": "Plan and start a test",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "how",
+       "type": "text",
+       "body": {
+        "fr": "Dans ton hypothèse, choisis « Préparer un test ». Écris ce que tu vas faire et quand ce sera réussi, puis commence le test.",
+        "mg": "Ao amin'ny vinavinanao, fidio « Omano fitsapana ». Soraty izay hataonao sy ny fotoana hahombiazany, avy eo atombohy ny fitsapana.",
+        "en": "In your hypothesis, choose \"Plan a test\". Write what you will do and when it succeeds, then start the test.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ],
+     "complete_when": {
+      "any": [
+       {
+        "count": "experiments",
+        "where": {
+         "status": "running"
+        },
+        "gte": 1
+       },
+       {
+        "count": "experiments",
+        "where": {
+         "status": "done"
+        },
+        "gte": 1
+       }
+      ]
+     }
+    },
+    {
+     "id": "q04.s04",
+     "type": "checkpoint",
+     "title": {
+      "fr": "Conclure honnêtement",
+      "mg": "Mamarana amim-pahatsorana",
+      "en": "Conclude honestly",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "how",
+       "type": "text",
+       "body": {
+        "fr": "Note ce que tu as observé, ajoute au moins une preuve (une note, une photo, un chiffre), puis conclus. Une hypothèse infirmée est une bonne nouvelle : tu as évité une erreur.",
+        "mg": "Soraty izay hitanao, ampio porofo iray farafahakeliny (fanamarihana, sary, isa), avy eo famarano. Vaovao tsara ny vinavina tsy marina: nisoroka fahadisoana ianao.",
+        "en": "Write what you observed, add at least one piece of evidence (a note, a photo, a number), then conclude. A disproved hypothesis is good news: you avoided a mistake.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ],
+     "complete_when": {
+      "any": [
+       {
+        "count": "hypotheses",
+        "where": {
+         "status": "validated"
+        },
+        "gte": 1
+       },
+       {
+        "count": "hypotheses",
+        "where": {
+         "status": "invalidated"
+        },
+        "gte": 1
+       },
+       {
+        "count": "hypotheses",
+        "where": {
+         "status": "inconclusive"
+        },
+        "gte": 1
+       }
+      ]
+     }
+    }
+   ]
   }
  ],
  "missions": [

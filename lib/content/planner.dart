@@ -27,6 +27,7 @@ class PlannerInput {
     this.steps = const {},
     this.missions = const {},
     this.unknownAnswersByQuest = const {},
+    this.records = const {},
   });
 
   final ContentPack pack;
@@ -35,6 +36,10 @@ class PlannerInput {
   final Map<String, StepRecord> steps;
   final Map<String, MissionRecord> missions;
   final Map<String, int> unknownAnswersByQuest;
+
+  /// Project records for count rules, by entity (`hypotheses`...): only
+  /// their token fields (`status`, `category`, `kind`, `method`).
+  final Map<String, List<Map<String, String>>> records;
 }
 
 /// Why a step cannot be started yet (shown as "what to do before").
@@ -162,6 +167,14 @@ class _Context implements RuleContext {
 
   @override
   int count(String entity, Map<String, String> where) {
+    if (recordEntities.contains(entity)) {
+      return (input.records[entity] ?? const []).where((record) {
+        for (final e in where.entries) {
+          if (record[e.key] != e.value) return false;
+        }
+        return true;
+      }).length;
+    }
     switch (entity) {
       case 'missions':
         return input.missions.values

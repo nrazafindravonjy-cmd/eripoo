@@ -1137,5 +1137,9 @@
         "type": "String"
       }
     }
+  },
+  "stepConditionNotMet": "Ce n'est pas encore fait : termine d'abord ce que demande cette étape.",
+  "@stepConditionNotMet": {
+    "description": "Condition d'une étape non remplie (sans mission)."
   }
 }

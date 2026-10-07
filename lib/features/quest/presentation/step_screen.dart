@@ -138,7 +138,12 @@ class _StepScreenState extends ConsumerState<StepScreen> {
           }
         });
       case ConditionNotMet():
-        setState(() => _error = l10n.stepWaitingMission);
+        final hasMission = _session!.step.missionIds.isNotEmpty;
+        setState(
+          () => _error = hasMission
+              ? l10n.stepWaitingMission
+              : l10n.stepConditionNotMet,
+        );
     }
   }
 

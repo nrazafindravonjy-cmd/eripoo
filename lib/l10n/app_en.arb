@@ -254,5 +254,6 @@
   "interviewNotesLabel": "What the person told you",
   "interviewConclusionLabel": "What you take from it",
   "interviewNoRecording": "No recording of the person: take written notes.",
-  "projectHistoryEntry": "{field} · {date}"
+  "projectHistoryEntry": "{field} · {date}",
+  "stepConditionNotMet": "Not done yet: first finish what this step asks."
 }

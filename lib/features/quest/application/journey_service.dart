@@ -83,26 +83,84 @@ class JourneyService {
           ),
       },
       unknownAnswersByQuest: await _answers.unknownCountByQuest(),
+      records: await _researchRecords(),
     );
+  }
+
+  /// Hypotheses, tests, evidence and field notes, as token fields only.
+  Future<Map<String, List<Map<String, String>>>> _researchRecords() async {
+    List<Map<String, String>> rows<T>(
+      List<T> list,
+      Map<String, String> Function(T) f,
+    ) => [for (final r in list) f(r)];
+    return {
+      'hypotheses': rows(
+        await (_db.select(
+          _db.hypotheses,
+        )..where((t) => t.deletedAt.isNull())).get(),
+        (r) => {'status': r.status, 'category': r.category},
+      ),
+      'experiments': rows(
+        await (_db.select(
+          _db.experiments,
+        )..where((t) => t.deletedAt.isNull())).get(),
+        (r) => {'status': r.status, 'method': r.method},
+      ),
+      'evidences': rows(
+        await (_db.select(
+          _db.evidences,
+        )..where((t) => t.deletedAt.isNull())).get(),
+        (r) => {'kind': r.kind},
+      ),
+      'observations': rows(
+        await (_db.select(
+          _db.observations,
+        )..where((t) => t.deletedAt.isNull())).get(),
+        (_) => const {},
+      ),
+      'interviews': rows(
+        await (_db.select(
+          _db.interviews,
+        )..where((t) => t.deletedAt.isNull())).get(),
+        (_) => const {},
+      ),
+    };
   }
 
   Future<JourneyPlan> currentPlan() async => plan(await _input());
 
-  /// The plan, recomputed whenever the journey data changes.
-  Stream<JourneyPlan> watchPlan() async* {
-    yield await currentPlan();
-    final updates = _db.tableUpdates(
-      TableUpdateQuery.onAllTables([
-        _db.stepProgressEntries,
-        _db.answers,
-        _db.facts,
-        _db.missionInstances,
-        _db.projects,
-      ]),
+  /// The plan, recomputed whenever the journey data changes. The table
+  /// updates are listened to before the first plan is computed, so a change
+  /// made meanwhile is never missed.
+  Stream<JourneyPlan> watchPlan() {
+    StreamSubscription<void>? updates;
+    late final StreamController<void> triggers;
+    triggers = StreamController<void>(
+      onListen: () {
+        updates = _db
+            .tableUpdates(
+              TableUpdateQuery.onAllTables([
+                _db.stepProgressEntries,
+                _db.answers,
+                _db.facts,
+                _db.missionInstances,
+                _db.projects,
+                _db.hypotheses,
+                _db.experiments,
+                _db.evidences,
+                _db.observations,
+                _db.interviews,
+              ]),
+            )
+            .listen((_) => triggers.add(null));
+        triggers.add(null);
+      },
+      onCancel: () async {
+        await updates?.cancel();
+        await triggers.close();
+      },
     );
-    await for (final _ in updates) {
-      yield await currentPlan();
-    }
+    return triggers.stream.asyncMap((_) => currentPlan());
   }
 
   Future<Map<String, Answer>> answersOf(String stepId) =>

@@ -254,5 +254,6 @@
   "interviewNotesLabel": "Izay nolazain'ilay olona taminao",
   "interviewConclusionLabel": "Izay tadidinao",
   "interviewNoRecording": "Aza mandrakitra feon'ilay olona: manorata fanamarihana.",
-  "projectHistoryEntry": "{field} · {date}"
+  "projectHistoryEntry": "{field} · {date}",
+  "stepConditionNotMet": "Mbola tsy vita: vitao aloha izay angatahin'ity dingana ity."
 }
