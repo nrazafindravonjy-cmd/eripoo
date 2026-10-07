@@ -20,6 +20,8 @@ abstract final class EntityTypes {
   static const observation = 'observation';
   static const interview = 'interview';
   static const media = 'media';
+  static const toolUnlock = 'tool_unlock';
+  static const competitor = 'competitor';
 
   static const all = [
     profile,
@@ -40,6 +42,8 @@ abstract final class EntityTypes {
     observation,
     interview,
     media,
+    toolUnlock,
+    competitor,
     conflictCopy,
   ];
 }

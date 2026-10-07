@@ -428,3 +428,51 @@ class MediaUploads extends Table {
   @override
   Set<Column<Object>> get primaryKey => {mediaId};
 }
+
+// ---- Schema v6 (Phase 6): tools.
+
+/// A tool unlocked on this account (synced). Never re-locked: concurrent
+/// versions keep the earliest unlock (docs/OFFLINE_SYNC.md §6).
+@DataClassName('ToolUnlockRow')
+class ToolUnlocks extends Table {
+  /// UUID v5 of [toolId]: the same on every phone, so two phones that
+  /// unlock a tool offline produce one record, not two.
+  TextColumn get id => text()();
+
+  /// The tool id from the content pack (`tool.interview_guide`).
+  TextColumn get toolId => text().unique()();
+  IntColumn get unlockedAt => integer()();
+
+  /// When the unlock was shown to the user (celebration), once.
+  IntColumn get seenAt => integer().nullable()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
+/// What people already use instead of the project (competitor analysis):
+/// the user's own observations, no personal data.
+@DataClassName('CompetitorRow')
+class Competitors extends Table {
+  TextColumn get id => text()();
+  TextColumn get projectId => text()();
+  TextColumn get name => text()();
+
+  /// `direct`, `indirect` or `alternative` (doing it oneself, doing nothing).
+  TextColumn get kind => text()();
+  TextColumn get offer => text().nullable()();
+
+  /// A price observed, in ariary.
+  IntColumn get priceMga => integer().nullable()();
+  TextColumn get strengths => text().nullable()();
+  TextColumn get weaknesses => text().nullable()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}

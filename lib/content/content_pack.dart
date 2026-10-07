@@ -598,6 +598,108 @@ class SectionSchema {
   }
 }
 
+/// The tools of the Tools tab (CLAUDE.md §20), in the order of the spec.
+/// The app knows how to open some of them ([implementedTools]); the others
+/// are announced, never imitated.
+enum ToolKind {
+  observationJournal,
+  interviewGuide,
+  hypotheses,
+  experiments,
+  competitorAnalysis,
+  businessModelCanvas,
+  priceCalculator,
+  marginCalculator,
+  breakEvenCalculator,
+  marketingPlan,
+  businessPlan,
+  pitch,
+  pitchDeck,
+  adminPreparation,
+}
+
+/// Tools this version of the app can open.
+const implementedTools = {
+  ToolKind.observationJournal,
+  ToolKind.interviewGuide,
+  ToolKind.hypotheses,
+  ToolKind.experiments,
+  ToolKind.competitorAnalysis,
+};
+
+/// A titled list of advice inside a tool (e.g. the interview guide).
+class GuideSection {
+  const GuideSection({required this.title, required this.items});
+
+  final LocalizedText title;
+  final List<LocalizedText> items;
+
+  factory GuideSection.read(JsonReader json) {
+    json.onlyKeys({'title', 'items'});
+    return GuideSection(
+      title: LocalizedText.read(json['title']),
+      items: [for (final i in json['items'].list) LocalizedText.read(i)],
+    );
+  }
+}
+
+/// A tool as content defines it (docs/PRODUCT_ARCHITECTURE.md §8): what it
+/// is for, its help (always readable), and the rule that unlocks it.
+class ToolDefinition {
+  const ToolDefinition({
+    required this.id,
+    required this.kind,
+    required this.title,
+    required this.summary,
+    required this.help,
+    this.unlock,
+    this.unlockHint,
+    this.guide = const [],
+  });
+
+  final String id;
+  final ToolKind kind;
+  final LocalizedText title;
+  final LocalizedText summary;
+
+  /// How to use it, readable even before it is unlocked.
+  final List<LocalizedText> help;
+
+  /// Null: available from the start.
+  final Rule? unlock;
+
+  /// "Unlocked when you…", in plain words.
+  final LocalizedText? unlockHint;
+  final List<GuideSection> guide;
+
+  bool get implemented => implementedTools.contains(kind);
+
+  factory ToolDefinition.read(JsonReader json) {
+    json.onlyKeys({
+      'id',
+      'kind',
+      'title',
+      'summary',
+      'help',
+      'unlock',
+      'unlock_hint',
+      'guide',
+    });
+    return ToolDefinition(
+      id: json['id'].id,
+      kind: json['kind'].oneOf(ToolKind.values),
+      title: LocalizedText.read(json['title']),
+      summary: LocalizedText.read(json['summary']),
+      help: [for (final h in json['help'].list) LocalizedText.read(h)],
+      unlock: json.has('unlock') ? Rule.read(json['unlock']) : null,
+      unlockHint: json.has('unlock_hint')
+          ? LocalizedText.read(json['unlock_hint'])
+          : null,
+      guide: [for (final g in json['guide'].listOrEmpty) GuideSection.read(g)],
+    );
+  }
+}
+
 class ContentPack {
   ContentPack({
     required this.packId,
@@ -607,6 +709,7 @@ class ContentPack {
     required this.quests,
     required this.missions,
     this.sections = const [],
+    this.tools = const [],
   }) {
     for (final quest in quests) {
       for (final step in quest.steps) {
@@ -629,6 +732,16 @@ class ContentPack {
 
   /// Project sections in display order.
   final List<SectionSchema> sections;
+
+  /// Tools in display order.
+  final List<ToolDefinition> tools;
+
+  ToolDefinition? tool(String id) {
+    for (final t in tools) {
+      if (t.id == id) return t;
+    }
+    return null;
+  }
 
   SectionSchema? section(String key) {
     for (final s in sections) {
@@ -680,6 +793,7 @@ class ContentPack {
       'quests',
       'missions',
       'sections',
+      'tools',
     });
     if (json['format'].integer != supportedPackFormat) {
       json['format'].fail('unsupported pack format');
@@ -697,6 +811,9 @@ class ContentPack {
       ],
       sections: [
         for (final s in json['sections'].listOrEmpty) SectionSchema.read(s),
+      ],
+      tools: [
+        for (final t in json['tools'].listOrEmpty) ToolDefinition.read(t),
       ],
     );
   }

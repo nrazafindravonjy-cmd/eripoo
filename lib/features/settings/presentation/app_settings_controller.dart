@@ -32,6 +32,8 @@ class AppSettingsController extends Notifier<AppSettings> {
 
   void setReducedMotion(bool value) =>
       _set(state.copyWith(reducedMotion: value));
+
+  void setCelebrations(bool value) => _set(state.copyWith(celebrations: value));
 }
 
 final appSettingsProvider =

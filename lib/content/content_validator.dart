@@ -270,6 +270,25 @@ ValidationReport validatePack(ContentPack pack) {
     }
   }
 
+  // ---- tools (CLAUDE.md §20): each kind once, rules valid, help always
+  // readable, a hint for every locked tool.
+  final toolIds = <String>{};
+  final toolKinds = <ToolKind>{};
+  for (final tool in pack.tools) {
+    if (!toolIds.add(tool.id)) error(tool.id, 'duplicate tool id');
+    if (!toolKinds.add(tool.kind)) {
+      error(tool.id, 'tool ${tool.kind.name} declared twice');
+    }
+    if (tool.help.isEmpty) error(tool.id, 'a tool needs help text');
+    checkRule('${tool.id}.unlock', tool.unlock);
+    if (tool.unlock != null && tool.unlockHint == null) {
+      error(tool.id, 'a tool with an unlock rule needs an unlock_hint');
+    }
+    if (tool.kind == ToolKind.interviewGuide && tool.guide.isEmpty) {
+      error(tool.id, 'the interview guide needs its guide sections');
+    }
+  }
+
   for (final type in usedTypes) {
     if (!pack.blockTypes.contains(type)) {
       error('pack', 'block type ${type.name} used but not declared');
@@ -338,5 +357,15 @@ Iterable<LocalizedText> allTexts(ContentPack pack) sync* {
     yield* mission.instructions;
     yield mission.deliverable;
     if (mission.example != null) yield mission.example!;
+  }
+  for (final tool in pack.tools) {
+    yield tool.title;
+    yield tool.summary;
+    yield* tool.help;
+    if (tool.unlockHint != null) yield tool.unlockHint!;
+    for (final g in tool.guide) {
+      yield g.title;
+      yield* g.items;
+    }
   }
 }

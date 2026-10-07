@@ -27,6 +27,8 @@ class EntityRegistry {
         EntityTypes.observation: _db.observations,
         EntityTypes.interview: _db.interviews,
         EntityTypes.media: _db.mediaItems,
+        EntityTypes.toolUnlock: _db.toolUnlocks,
+        EntityTypes.competitor: _db.competitors,
         EntityTypes.conflictCopy: _db.conflictCopies,
       };
 

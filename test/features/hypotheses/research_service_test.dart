@@ -574,6 +574,8 @@ void main() {
     await v3.customStatement(
       'alter table sync_meta_entries drop column purge_requested', // v5
     );
+    await v3.customStatement('drop table tool_unlocks'); // v6
+    await v3.customStatement('drop table competitors'); // v6
     await v3.customStatement('pragma user_version = 2');
     await v3.close();
 

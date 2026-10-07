@@ -40,6 +40,8 @@ class LocalKeyValues extends Table {
     Interviews,
     MediaItems,
     MediaUploads,
+    ToolUnlocks,
+    Competitors,
     ConflictCopies,
     SyncMetaEntries,
   ],
@@ -48,7 +50,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.executor);
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -91,6 +93,11 @@ class AppDatabase extends _$AppDatabase {
       if (from < 5) {
         // Phase 5: "delete forever" from the trash.
         await m.addColumn(syncMetaEntries, syncMetaEntries.purgeRequested);
+      }
+      if (from < 6) {
+        // Phase 6: unlocked tools, competitor analysis.
+        await m.createTable(toolUnlocks);
+        await m.createTable(competitors);
       }
     },
   );

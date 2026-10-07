@@ -59,7 +59,8 @@ class JourneyService {
   final ProjectRepository _projects;
   final MissionRepository _missions;
 
-  Future<PlannerInput> _input() async {
+  /// What the rules read: progress, facts and counted records.
+  Future<PlannerInput> input() async {
     final steps = await _progress.all();
     final missions = await _missions.all();
     return PlannerInput(
@@ -124,10 +125,16 @@ class JourneyService {
         )..where((t) => t.deletedAt.isNull())).get(),
         (_) => const {},
       ),
+      'competitors': rows(
+        await (_db.select(
+          _db.competitors,
+        )..where((t) => t.deletedAt.isNull())).get(),
+        (r) => {'kind': r.kind},
+      ),
     };
   }
 
-  Future<JourneyPlan> currentPlan() async => plan(await _input());
+  Future<JourneyPlan> currentPlan() async => plan(await input());
 
   /// The plan, recomputed whenever the journey data changes. The table
   /// updates are listened to before the first plan is computed, so a change
@@ -150,6 +157,7 @@ class JourneyService {
                 _db.evidences,
                 _db.observations,
                 _db.interviews,
+                _db.competitors,
               ]),
             )
             .listen((_) => triggers.add(null));
@@ -232,7 +240,7 @@ class JourneyService {
     ];
     if (missing.isNotEmpty) return MissingAnswers(missing);
     if (step.completeWhen != null) {
-      final ok = evaluateRule(step.completeWhen!, await _input());
+      final ok = evaluateRule(step.completeWhen!, await input());
       if (!ok) return const ConditionNotMet();
     }
 
@@ -345,7 +353,7 @@ class JourneyService {
         throw StateError('mission not accepted');
       }
       final rule = template.completeWhen;
-      if (rule == null || evaluateRule(rule, await _input())) {
+      if (rule == null || evaluateRule(rule, await input())) {
         await _missions.move(missionId, MissionStatus.completed);
       }
     });

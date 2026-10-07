@@ -12,6 +12,7 @@ class SettingsStore {
   static const _language = 'settings.language';
   static const _theme = 'settings.theme';
   static const _reducedMotion = 'settings.reduced_motion';
+  static const _celebrations = 'settings.celebrations';
 
   Future<AppSettings> load() async {
     final theme = await _db.readValue(_theme);
@@ -22,6 +23,7 @@ class SettingsStore {
         orElse: () => ThemePreference.system,
       ),
       reducedMotion: await _db.readValue(_reducedMotion) == 'true',
+      celebrations: await _db.readValue(_celebrations) != 'false',
     );
   }
 
@@ -30,5 +32,6 @@ class SettingsStore {
     if (language != null) await _db.writeValue(_language, language.name);
     await _db.writeValue(_theme, settings.theme.name);
     await _db.writeValue(_reducedMotion, '${settings.reducedMotion}');
+    await _db.writeValue(_celebrations, '${settings.celebrations}');
   }
 }

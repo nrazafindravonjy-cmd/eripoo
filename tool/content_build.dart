@@ -97,6 +97,9 @@ Map<String, Object?> assemble() {
   final sections = File('$sourceDir/sections.yaml').existsSync()
       ? load('$sourceDir/sections.yaml')! as List<Object?>
       : const <Object?>[];
+  final tools = File('$sourceDir/tools.yaml').existsSync()
+      ? load('$sourceDir/tools.yaml')! as List<Object?>
+      : const <Object?>[];
   return {
     'format': supportedPackFormat,
     ...meta,
@@ -104,6 +107,7 @@ Map<String, Object?> assemble() {
     'quests': withDefaultStatus(quests, defaults),
     'missions': withDefaultStatus(missions, defaults),
     'sections': withDefaultStatus(sections, defaults),
+    'tools': withDefaultStatus(tools, defaults),
   };
 }
 

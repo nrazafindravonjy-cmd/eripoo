@@ -1187,7 +1187,7 @@
       }
     }
   },
-  "trashKind": "{kind, select, observation{Observation} interview{Rencontre} evidence{Preuve} other{Élément}}",
+  "trashKind": "{kind, select, observation{Observation} interview{Rencontre} evidence{Preuve} competitor{Concurrent} other{Élément}}",
   "@trashKind": {
     "description": "Type d'un élément de la corbeille.",
     "placeholders": {
@@ -1241,7 +1241,7 @@
   "@conflictsEmpty": {
     "description": "Aucune copie de conflit."
   },
-  "conflictEntity": "{kind, select, project{Projet} project_section{Partie du projet} hypothesis{Hypothèse} experiment{Test} observation{Observation} interview{Rencontre} evidence{Preuve} profile{Profil} answer{Réponse} other{Élément}}",
+  "conflictEntity": "{kind, select, project{Projet} project_section{Partie du projet} hypothesis{Hypothèse} experiment{Test} observation{Observation} interview{Rencontre} evidence{Preuve} profile{Profil} answer{Réponse} competitor{Concurrent} other{Élément}}",
   "@conflictEntity": {
     "description": "Type de l'élément en conflit.",
     "placeholders": {

@@ -3,7 +3,14 @@ import '../../features/quest/domain/step_progress.dart';
 
 /// How concurrent versions of an entity type are reconciled
 /// (docs/OFFLINE_SYNC.md §6).
-enum EntityFamily { editable, appendOnly, progress }
+enum EntityFamily {
+  editable,
+  appendOnly,
+  progress,
+
+  /// Unlocked tools: never re-locked, the earliest unlock is kept.
+  unlock,
+}
 
 EntityFamily familyOf(String entityType) => switch (entityType) {
   EntityTypes.projectRevision ||
@@ -11,6 +18,7 @@ EntityFamily familyOf(String entityType) => switch (entityType) {
   EntityTypes.decision ||
   EntityTypes.conflictCopy => EntityFamily.appendOnly,
   EntityTypes.stepProgress => EntityFamily.progress,
+  EntityTypes.toolUnlock => EntityFamily.unlock,
   _ => EntityFamily.editable,
 };
 
@@ -73,6 +81,17 @@ MergeOutcome resolveConflict({
           'deferredUntil': status == localStatus
               ? local['deferredUntil']
               : remote['deferredUntil'],
+          'updatedAt': _maxInt(local['updatedAt'], remote['updatedAt']),
+        },
+      );
+
+    case EntityFamily.unlock:
+      return MergeOutcome(
+        merged: {
+          ...local,
+          'unlockedAt': _minInt(local['unlockedAt'], remote['unlockedAt']),
+          'seenAt': _minInt(local['seenAt'], remote['seenAt']),
+          'deletedAt': null,
           'updatedAt': _maxInt(local['updatedAt'], remote['updatedAt']),
         },
       );
