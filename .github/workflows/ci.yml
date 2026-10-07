@@ -170,9 +170,11 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+      # Pinned: resolving "latest" calls the GitHub API, whose rate limit
+      # failed a run before any test (2026-10-07). Last version seen green.
       - uses: supabase/setup-cli@v1
         with:
-          version: latest
+          version: 2.120.0
       - run: supabase --version
       - run: supabase start
       - run: supabase db reset
