@@ -218,7 +218,7 @@ pseudonyme, sans nom ni numéro de téléphone.
 | Règles métier | ✅ auto | critère de réussite défini avant le test et **verrouillé au démarrage** ; « confirmée » / « infirmée » exigent au moins un résultat **et** une preuve, « pas de réponse claire » un résultat ; aucune modification en place après un test (nouvelle version liée) ; journal des décisions en ajout seul |
 | Décisions | ✅ auto | continuer, modifier (nouvelle version liée), tester davantage, abandonner, revenir en arrière (rouvre l'étape source de la quête) |
 | Données (schéma v3) | ✅ auto | hypothèses, expériences et leurs liens, résultats, preuves, conclusions, décisions, observations, rencontres, métadonnées des médias ; synchronisées chiffrées comme le reste ; migration v2 → v3 testée sur base chiffrée |
-| Photos chiffrées | ✅ auto ; ⏳ émulateur | chiffrées en mémoire avec la sous-clé médias (format SECURITY §4.7, libsodium), **jamais en clair sur le disque** (vérifié octet par octet), 10 Mo maximum (D15), fichiers orphelins purgés au démarrage, **effacés avec les données locales** (réinitialisation, révocation : test ajouté). Copie temporaire du sélecteur photo lue puis supprimée. Temps sur émulateur : à lire dans la CI |
+| Photos chiffrées | ✅ auto + émulateur | chiffrées en mémoire avec la sous-clé médias (format SECURITY §4.7, libsodium), **jamais en clair sur le disque** (vérifié octet par octet), 10 Mo maximum (D15), fichiers orphelins purgés au démarrage, **effacés avec les données locales** (réinitialisation, révocation : test ajouté). Copie temporaire du sélecteur photo lue puis supprimée. Émulateurs (run 30) : photo de 300 Ko chiffrée en 39 ms, interface jamais bloquée plus de 19 ms ; **un fichier de 10 Mo bloque l'interface ≈ 0,7 s** (voir DEVICE_TESTS §2ter) |
 | Écrans | ✅ auto | Projet (sections du contenu, modification avec « Avant / Maintenant »), Hypothèses (liste, formulaire avec gabarit), fiche d'une hypothèse (tests, résultats « 7 sur 10 », preuves note / photo / lien / chiffre / vente, conclusion avec confiance avant → après, décisions, versions), Carnet de terrain (observations, rencontres) |
 | Lien avec la quête | ✅ auto | les règles de contenu comptent hypothèses, tests, preuves, observations et rencontres **par statut ou type, jamais par texte** ; quête 4 « Tester ta première hypothèse » |
 | Contenu | 🟡 brouillon | schémas des sections et quête 4 : non relus (D14), comme en Phase 3 |
@@ -236,6 +236,13 @@ pseudonyme, sans nom ni numéro de téléphone.
   photo dédiée). Pas de colonnes audio ni transcription (Phase 9 et P6).
 - Empreinte des médias : BLAKE2b-256 (`crypto_generichash` de libsodium)
   au lieu de SHA-256, que la bibliothèque n'expose pas.
+
+Points ouverts de la Phase 4 :
+
+- [ ] chiffrer les gros fichiers hors du fil de l'interface (≈ 0,7 s de gel pour 10 Mo) **avant** d'accepter documents ou audio
+- [ ] avis juridique P6 (données de tiers, enregistrements) avant tout enregistrement d'une rencontre
+- [ ] relecture des textes des sections et de la quête 4 (D14)
+- [ ] appareils A et B — NON VÉRIFIÉ
 
 Reporté (rien de commencé) : audio et documents comme preuves, segments
 clients, concurrents, finances (Phase 7), édition et suppression des

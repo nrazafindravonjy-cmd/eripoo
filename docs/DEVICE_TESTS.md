@@ -116,6 +116,32 @@ message est retiré à l'ouverture d'une étape (vérifié par le test de
 widget du parcours). Comme au §2, ces temps sont **indicatifs** (émulateur x86_64) ; sur
 appareils A et B : **NON VÉRIFIÉ**.
 
+## 2ter. Projet et photos chiffrées sur émulateurs (Phase 4)
+
+Test `project research` de `integration_test/foundations_test.dart` (CI
+run 30, commit c233a06), **réussi sur les deux émulateurs** : photos
+chiffrées puis relues sur la vraie base chiffrée, hypothèse menée jusqu'à
+sa conclusion avec une photo comme preuve, médias effacés avec les données
+locales.
+
+| Mesure | Android 8.0 (API 26) | Android 14 (API 34) |
+|---|---|---|
+| Photo 300 Ko : chiffrer + écrire | 39 ms | 39 ms |
+| Photo 300 Ko : retard maximal de l'interface | 19 ms | 15 ms |
+| Photo 300 Ko : lire + déchiffrer | 7 ms | 15 ms |
+| Fichier 10 Mo (plafond) : chiffrer + écrire | 715 ms | 787 ms |
+| Fichier 10 Mo : **retard maximal de l'interface** | **672 ms** | **743 ms** |
+| Fichier 10 Mo : lire + déchiffrer | 135 ms | 98 ms |
+| Cycle complet d'une hypothèse (créer → tester → résultat → photo → conclure) | 219 ms | 118 ms |
+
+**Limite connue** : chiffrer un fichier proche du plafond fige l'interface
+environ 0,7 s (chiffrement et écriture sur le fil de l'interface : la clé
+médias ne quitte pas l'isolat qui la détient). Sans effet aujourd'hui, car
+le sélecteur réduit les photos à 1 600 px (≈ 300 Ko, 19 ms au pire). À
+traiter **avant d'accepter de gros fichiers** (documents, audio) : point
+ouvert dans DEVELOPMENT_PLAN. Temps indicatifs (émulateurs x86_64) ;
+appareils A et B : **NON VÉRIFIÉ**.
+
 ## 3. Appareils de référence
 
 | Cat. | Appareil | Android | RAM | Résultats |
