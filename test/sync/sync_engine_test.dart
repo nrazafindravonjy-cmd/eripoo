@@ -11,6 +11,7 @@ import 'package:eripoo/security/crypto_service.dart';
 import 'package:eripoo/security/envelopes.dart';
 import 'package:eripoo/security/key_manager.dart';
 import 'package:eripoo/sync/engine/conflict_resolution.dart';
+import 'package:eripoo/sync/engine/entity_registry.dart';
 import 'package:eripoo/sync/engine/sync_engine.dart';
 import 'package:eripoo/sync/remote/sync_remote.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -42,6 +43,9 @@ class Device {
   late final ProjectRepository projects;
   late final ProgressRepository progress;
 
+  /// The payload format this phone's app reads (an update raises it).
+  int appSchemaVersion = EntityRegistry.schemaVersion;
+
   SyncEngine engine() => SyncEngine(
     db: db,
     remote: server.clientFor(owner, session: deviceId),
@@ -49,6 +53,7 @@ class Device {
     logger: AppLogger(sinks: [logs]),
     clock: clock.call,
     pullPageSize: pullPageSize,
+    appSchemaVersion: appSchemaVersion,
   );
 
   SyncSession get session => SyncSession(
@@ -403,6 +408,60 @@ void main() {
       );
     },
   );
+
+  test('12b. after an update, the skipped records are pulled again and '
+      'applied (full resync from the first one skipped)', () async {
+    await a.sync();
+    await b.sync();
+    // A newer app on A writes a project with payload format 2.
+    final project = await a.projects.create('Écrit par la version 2');
+    final json = (await EntityRegistry(a.db).read('project', project.id))!;
+    await a.sync();
+    final base = server.recordsOf(owner)[project.id]!.version;
+    final newer = RecordEnvelopes(crypto).seal(
+      plaintext: Uint8List.fromList(
+        utf8.encode(
+          jsonEncode({
+            't': 'project',
+            's': EntityRegistry.schemaVersion + 1,
+            'd': {...json, 'title': 'Version 2'},
+          }),
+        ),
+      ),
+      recordKey: a.keys.records,
+      umkVersion: 1,
+      ownerId: owner,
+      recordId: project.id,
+    );
+    await server.clientFor(owner, session: a.deviceId).push(a.deviceId, [
+      RemotePut(
+        id: project.id,
+        changeId: Ids.random(),
+        baseVersion: base,
+        deleted: false,
+        umkVersion: 1,
+        payload: newer,
+      ),
+    ]);
+    await a.projects.create('Autre projet'); // after it, format 1
+    await a.sync();
+
+    // B is still format 1: the project (now only in format 2 on the
+    // server) is skipped, the cursor moves on.
+    await b.sync();
+    expect(await b.projects.get(project.id), isNull);
+    expect(await b.db.select(b.db.projects).get(), hasLength(1));
+
+    b.appSchemaVersion = EntityRegistry.schemaVersion + 1; // B is updated
+    final report = await b.sync();
+    expect(report.complete, isTrue);
+    expect((await b.projects.get(project.id))!.title, 'Version 2');
+    expect(await b.db.select(b.db.projects).get(), hasLength(2));
+    expect(await b.conflictCopies(), isEmpty);
+    expect(await b.db.readValue('sync.replay_from'), isNull);
+    // Nothing more to replay at the next cycle.
+    expect((await b.sync()).pulled, 0);
+  });
 
   test(
     'a device with another key cannot read anything and does not crash',

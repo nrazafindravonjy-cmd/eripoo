@@ -80,6 +80,7 @@ class SyncEngine {
     this._clock = systemClock,
     this.batchSize = 50,
     this.pullPageSize = 200,
+    this.appSchemaVersion = EntityRegistry.schemaVersion,
   }) : _registry = EntityRegistry(_db),
        _envelopes = RecordEnvelopes(crypto);
 
@@ -92,7 +93,17 @@ class SyncEngine {
   final int batchSize;
   final int pullPageSize;
 
+  /// The payload format this app reads ([EntityRegistry.schemaVersion];
+  /// tests simulate an updated app).
+  final int appSchemaVersion;
+
   static const _cursorKey = 'sync.cursor';
+
+  /// Records skipped because a newer app wrote them: the lowest server
+  /// version skipped, and the format this app read then. After an update,
+  /// the pull starts again from there (scenario 12).
+  static const _replayFromKey = 'sync.replay_from';
+  static const _replaySchemaKey = 'sync.replay_schema';
   static const _registeredKey = 'sync.device_registered';
 
   int _now() => _clock().millisecondsSinceEpoch;
@@ -106,6 +117,7 @@ class SyncEngine {
     var conflicts = 0;
     try {
       await _ensureRegistered(session);
+      await _replayAfterUpdate();
       // Pull first: if a previous push was applied but its response lost,
       // the change comes back here and is recognised as ours before any
       // new push overwrites what is in flight. Then push; if the push met
@@ -143,6 +155,31 @@ class SyncEngine {
       complete: pendingLeft == 0,
       pendingLeft: pendingLeft,
     );
+  }
+
+  /// The app was updated since records were skipped as too new: move the
+  /// cursor back so they are pulled again. Records already applied are
+  /// recognised by their version and skipped.
+  Future<void> _replayAfterUpdate() async {
+    final from = int.tryParse(await _db.readValue(_replayFromKey) ?? '');
+    final schema = int.tryParse(await _db.readValue(_replaySchemaKey) ?? '');
+    if (from == null || schema == null || appSchemaVersion <= schema) return;
+    await _db.transaction(() async {
+      final cursor = int.tryParse(await _db.readValue(_cursorKey) ?? '') ?? 0;
+      if (from - 1 < cursor) {
+        await _db.writeValue(_cursorKey, '${from - 1}');
+      }
+      await _db.deleteValue(_replayFromKey);
+      await _db.deleteValue(_replaySchemaKey);
+    });
+  }
+
+  Future<void> _rememberSkipped(RemoteRecord record) async {
+    final from = int.tryParse(await _db.readValue(_replayFromKey) ?? '');
+    if (from == null || record.version < from) {
+      await _db.writeValue(_replayFromKey, '${record.version}');
+    }
+    await _db.writeValue(_replaySchemaKey, '$appSchemaVersion');
   }
 
   Future<int> _pendingCount() async {
@@ -397,11 +434,12 @@ class SyncEngine {
       return false;
     }
     final type = envelope['t']! as String;
-    if ((envelope['s']! as int) > EntityRegistry.schemaVersion ||
+    if ((envelope['s']! as int) > appSchemaVersion ||
         !_registry.supports(type)) {
       // Written by a newer app version: not overwritten, kept on the
-      // server; applied after an update.
+      // server; pulled again and applied after an update.
       _logger.warning(SyncLog.unknownSchema);
+      await _rememberSkipped(record);
       return false;
     }
     final remote = Map<String, Object?>.from(envelope['d']! as Map);

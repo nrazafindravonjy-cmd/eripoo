@@ -92,4 +92,7 @@ class AppDatabase extends _$AppDatabase {
       .insertOnConflictUpdate(
         LocalKeyValuesCompanion.insert(key: key, value: value),
       );
+
+  Future<void> deleteValue(String key) =>
+      (delete(localKeyValues)..where((t) => t.key.equals(key))).go();
 }
