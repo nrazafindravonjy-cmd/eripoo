@@ -17,9 +17,9 @@ RLS par table) — changement lourd une fois des données en production.
 
 ---
 
-## 0. État d'implémentation (Phases 2 et 3)
+## 0. État d'implémentation (Phases 2 à 4)
 
-Implémenté dans `lib/data/local/tables.dart` (schéma **v2**, **non figé**
+Implémenté dans `lib/data/local/tables.dart` (schéma **v3**, **non figé**
 avant les premières données réelles) : `user_profiles`, `facts`,
 `projects`, `project_sections`, `project_revisions`,
 `step_progress_entries` (+ `deferred_until` en v2), `answers` (v2),
@@ -28,6 +28,17 @@ avant les premières données réelles) : `user_profiles`, `facts`,
 (`test/data/phase3_data_test.dart`). Les autres tables du §3 (hypothèses,
 expériences, observations, interviews, médias, finances, badges…) arrivent
 avec leurs fonctionnalités (Phases 4 à 7).
+
+Ajouté en v3 (Phase 4) : `hypotheses`, `experiments`,
+`experiment_hypotheses` (identifiant déterministe par paire), `results`
+(`metric_yes` / `metric_total` au lieu de `metrics_json`), `evidences`
+(`body`, `media_id`, `number_value`, `amount_mga`), `conclusions` (avec
+`outcome`), `decisions` (ajout seul, avec `new_hypothesis_id`),
+`observations` (photos rattachées comme preuves), `interviews`
+(pseudonyme et notes écrites, **ni audio ni transcription** : avis
+juridique P6), `media_items` (`content_hash` BLAKE2b-256 ; pas de chemin
+stocké, il se déduit de l'identifiant). Migration v2 → v3 testée sur une
+base chiffrée.
 
 Écarts avec le §3.2 (Phase 3) : `answers` porte aussi `quest_id` ; types de
 réponse implémentés `text`, `choice`, `multi_choice`, `number`, `money`,

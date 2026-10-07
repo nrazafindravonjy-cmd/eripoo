@@ -202,6 +202,46 @@ Points ouverts de la Phase 3 :
 - [ ] avis d'entrepreneurs malgaches sur les exemples et les missions — NON VÉRIFIÉ
 - [ ] 16 quêtes minimum (3 écrites)
 
+## Phase 4 — Projet (LIVRÉE POUR REVUE, non acceptée)
+
+GO donné le 2026-10-07 (« si les éléments en attente ne gênent pas la
+phase 4 lance-la »). Analyse faite avant de commencer : les points en
+attente (relecture du contenu, appareils A/B, projet Supabase cloud) ne
+bloquent pas la Phase 4 ; **un seul la limite** : l'avis juridique P6 sur
+les données de tiers. En conséquence, **aucun enregistrement audio des
+personnes rencontrées** : les rencontres sont des notes écrites sous
+pseudonyme, sans nom ni numéro de téléphone.
+
+| Élément | État | Détail |
+|---|---|---|
+| Machines d'états | ✅ auto (critère de sortie) | hypothèse (7 statuts) et expérience (4 statuts) : **les 49 + 16 paires** (de, vers) testées contre une table écrite indépendamment, chaque décision × chaque statut (35 cas), chaque règle ; **300 marches aléatoires** de 25 opérations vérifiant les invariants après chaque opération |
+| Règles métier | ✅ auto | critère de réussite défini avant le test et **verrouillé au démarrage** ; « confirmée » / « infirmée » exigent au moins un résultat **et** une preuve, « pas de réponse claire » un résultat ; aucune modification en place après un test (nouvelle version liée) ; journal des décisions en ajout seul |
+| Décisions | ✅ auto | continuer, modifier (nouvelle version liée), tester davantage, abandonner, revenir en arrière (rouvre l'étape source de la quête) |
+| Données (schéma v3) | ✅ auto | hypothèses, expériences et leurs liens, résultats, preuves, conclusions, décisions, observations, rencontres, métadonnées des médias ; synchronisées chiffrées comme le reste ; migration v2 → v3 testée sur base chiffrée |
+| Photos chiffrées | ✅ auto ; ⏳ émulateur | chiffrées en mémoire avec la sous-clé médias (format SECURITY §4.7, libsodium), **jamais en clair sur le disque** (vérifié octet par octet), 10 Mo maximum (D15), fichiers orphelins purgés au démarrage, **effacés avec les données locales** (réinitialisation, révocation : test ajouté). Copie temporaire du sélecteur photo lue puis supprimée. Temps sur émulateur : à lire dans la CI |
+| Écrans | ✅ auto | Projet (sections du contenu, modification avec « Avant / Maintenant »), Hypothèses (liste, formulaire avec gabarit), fiche d'une hypothèse (tests, résultats « 7 sur 10 », preuves note / photo / lien / chiffre / vente, conclusion avec confiance avant → après, décisions, versions), Carnet de terrain (observations, rencontres) |
+| Lien avec la quête | ✅ auto | les règles de contenu comptent hypothèses, tests, preuves, observations et rencontres **par statut ou type, jamais par texte** ; quête 4 « Tester ta première hypothèse » |
+| Contenu | 🟡 brouillon | schémas des sections et quête 4 : non relus (D14), comme en Phase 3 |
+| Appareils A et B | ❌ NON VÉRIFIÉ | reporté à la fin |
+
+Écarts avec DATA_MODEL / PRODUCT_ARCHITECTURE, décidés pendant la phase :
+
+- « Tester davantage » mène à « à tester » (un nouveau test, avec son
+  critère fixé avant, est nécessaire), ou directement à « en test » si un
+  test tourne déjà. Un test annulé renvoie à « à tester » une hypothèse
+  qu'il était seul à tester. Abandonner n'est possible qu'avant ou entre
+  deux tests ; une hypothèse confirmée ou infirmée reste un résultat.
+- Résultats : `metric_yes` / `metric_total` au lieu d'un JSON libre.
+- Photos d'une observation : rattachées comme preuves (pas de colonne
+  photo dédiée). Pas de colonnes audio ni transcription (Phase 9 et P6).
+- Empreinte des médias : BLAKE2b-256 (`crypto_generichash` de libsodium)
+  au lieu de SHA-256, que la bibliothèque n'expose pas.
+
+Reporté (rien de commencé) : audio et documents comme preuves, segments
+clients, concurrents, finances (Phase 7), édition et suppression des
+preuves, envoi des fichiers médias au serveur (Phase 5), calcul de la
+maturité et du niveau de préparation par règles.
+
 ## Phases suivantes
 
 Ordre du cahier des charges conservé, avec deux ajustements déjà présentés :
@@ -261,6 +301,8 @@ règles) posés en Phase 2.
 ## Portes
 
 ### Phase 1 — ACCEPTÉE (2026-10-06)
+
+### Phase 4 — GO donné le 2026-10-07 (sous réserve que les points en attente ne la bloquent pas)
 
 ### Phase 3 — GO donné le 2026-10-06 (tests réels reportés à la fin)
 

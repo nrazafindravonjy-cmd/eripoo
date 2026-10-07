@@ -19,6 +19,9 @@ import 'package:eripoo/features/app_lock/data/app_lock_adapters.dart';
 import 'package:eripoo/features/app_lock/domain/app_lock_service.dart';
 import 'package:eripoo/features/app_lock/presentation/app_lock_controller.dart';
 import 'package:eripoo/features/app_lock/presentation/lock_screen.dart';
+import 'package:eripoo/features/hypotheses/application/research_service.dart';
+import 'package:eripoo/features/hypotheses/domain/research.dart';
+import 'package:eripoo/features/media/data/media_store.dart';
 import 'package:eripoo/features/project/data/project_repository.dart';
 import 'package:eripoo/features/quest/application/journey_service.dart';
 import 'package:eripoo/features/quest/presentation/journey_providers.dart';
@@ -512,6 +515,91 @@ void main() {
     await tester.pumpWidget(const SizedBox());
     container.dispose();
     await services.database.close();
+  });
+
+  testWidgets('project research: hypothesis tested to its conclusion, '
+      'encrypted photos (300 KB and 10 MiB)', (tester) async {
+    await eraseEverything(store);
+    final services = await AppServices.start(store);
+    final keys = DataKeys(services.crypto, services.keys.dataKey);
+    final media = MediaStore(
+      db: services.database,
+      crypto: services.crypto,
+      key: keys.media,
+      umkVersion: services.keys.dataKeyVersion,
+      dir: services.mediaDirectory,
+    );
+    final research = ResearchService(services.database);
+    const project = '0192f2a0-0000-7000-8000-0000000000bb';
+
+    // Photos: a typical resized photo, then the 10 MiB cap.
+    for (final (name, size) in [('300kb', 300 * 1024), ('10mib', 10 << 20)]) {
+      final bytes = Uint8List(size);
+      for (var i = 0; i < size; i += 4096) {
+        bytes[i] = i & 0xff;
+      }
+      final w = Stopwatch()..start();
+      final (id, freeze) = await withLoopLatency(
+        () => media.addPhoto(bytes, mime: 'image/jpeg'),
+      );
+      measure('media_${name}_encrypt_write_ms', w.elapsedMilliseconds);
+      measure('media_${name}_ui_worst_delay_ms', freeze);
+      w
+        ..reset()
+        ..start();
+      final back = await media.read(id);
+      measure('media_${name}_read_decrypt_ms', w.elapsedMilliseconds);
+      expect(back!.length, size);
+      expect(media.fileOf(id).lengthSync(), greaterThan(size));
+    }
+
+    final w = Stopwatch()..start();
+    final h = await research.createHypothesis(
+      projectId: project,
+      statement: 'Les vendeuses commanderaient du savon livré.',
+    );
+    final e = await research.planExperiment(
+      projectId: project,
+      method: ExperimentMethod.preSale,
+      plan: 'Proposer à 10 vendeuses.',
+      hypothesisIds: [h.id],
+      successCriterion: '6 commandes sur 10.',
+    );
+    await research.startExperiment(e.id);
+    final r = await research.recordResult(
+      e.id,
+      summary: '7 commandes',
+      yes: 7,
+      total: 10,
+    );
+    final photo = await media.addPhoto(
+      Uint8List.fromList([0xff, 0xd8, 0xff, 1, 2, 3]),
+      mime: 'image/jpeg',
+    );
+    await research.addEvidence(
+      projectId: project,
+      subject: EvidenceSubject.result,
+      subjectId: r.id,
+      kind: EvidenceKind.photo,
+      mediaId: photo,
+    );
+    await research.conclude(
+      h.id,
+      outcome: HypothesisStatus.validated,
+      statement: 'Elles commandent.',
+      confidenceAfter: 4,
+    );
+    measure('research_full_cycle_ms', w.elapsedMilliseconds);
+    expect(
+      (await research.hypothesis(h.id))!.status,
+      HypothesisStatus.validated,
+    );
+
+    keys.dispose();
+    await services.database.close();
+    // Local data erasure removes the media files too.
+    await AppServices.resetLocalData(store);
+    expect(services.mediaDirectory.existsSync(), isFalse);
   });
 }
 

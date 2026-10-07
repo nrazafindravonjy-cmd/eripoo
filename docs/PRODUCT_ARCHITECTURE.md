@@ -191,6 +191,16 @@ Règles métier (service de domaine, tests unitaires obligatoires) :
 5. `invalidated` est un résultat positif pour la progression (badge
    « Chercheur de vérité ») ; aucun texte de culpabilisation.
 
+**État (Phase 4)** : implémenté dans
+`lib/features/hypotheses/` et testé exhaustivement. Écarts : « tester
+davantage » mène à `to_test` (ou à `testing` si un test tourne déjà) ; un
+test annulé ramène à `to_test` une hypothèse qu'il était seul à tester ;
+l'abandon n'est possible qu'avant ou entre deux tests ; décisions
+possibles : toutes sur `inconclusive`, et « continuer / modifier / revenir
+en arrière » sur `validated` / `invalidated`. Preuves : note, photo, lien,
+chiffre, vente (audio et documents plus tard). Les rencontres ne sont
+jamais enregistrées (avis juridique P6).
+
 ### 4.2 Expérience
 
 Méthodes : interview, observation, prototype, test de prix, prévente, essai
@@ -299,6 +309,11 @@ Phase 0.**
   `market`, `competition`, `business_model`, `pricing`, `finances`,
   `marketing`, `launch`, `formalization`, `pitch`) remplies par les
   **sorties d'étapes** ; l'utilisateur peut aussi les éditer directement.
+- **État (Phase 4)** : le schéma des sections (titre, champs, libellés,
+  longueur maximale) est déclaré dans le contenu (`content/sections.yaml`) ;
+  une sortie d'étape ne peut écrire qu'un champ déclaré (vérifié à la
+  compilation). Toute modification faite à la main est gardée dans
+  l'historique.
 - **Historique** : les champs marqués `tracked` dans le contenu produisent
   une révision (ancienne/nouvelle valeur, étape source, raison facultative).
   Affichage léger : « Avant / Maintenant » à la demande.

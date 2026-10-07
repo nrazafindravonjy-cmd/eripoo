@@ -268,6 +268,18 @@ AD     = "eripoo:med:v1" || 0x00 || owner_id || media_id || umk_version
 Chiffrement en une seule opération ; taille plafonnée à 10 Mo (D15) pour
 rester en mémoire bornée sans format de flux maison.
 
+**Implémentation (Phase 4, `lib/features/media/data/media_store.dart`)** :
+chiffrement en mémoire puis écriture de `<id>.part` renommé en `<id>.bin`
+dans le répertoire privé de l'app : aucun octet en clair n'est écrit
+(vérifié par test). Avant tout compte, `owner_id` vaut l'UUID nul ; l'envoi
+au serveur (Phase 5) rechiffrera le fichier pour l'identifiant du compte.
+Le sélecteur photo du système remet une copie en clair dans le cache de
+l'app : elle est lue puis supprimée aussitôt ; une photo choisie dans la
+galerie y reste (c'est la copie de l'utilisateur). Les fichiers médias sont
+effacés avec les données locales (réinitialisation, révocation). Photos
+réduites à 1 600 px (≈ 300 Ko) ; écriture synchrone pour ne jamais laisser
+de fichier à moitié écrit.
+
 ### 4.8 Copie serveur de la clé de données — format v1
 
 Seule copie de l'UMK hors des appareils : la table `user_keys`.
