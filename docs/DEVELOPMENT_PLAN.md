@@ -139,7 +139,7 @@ choix sur A/B).
 - [ ] appareils de référence A et B, puis appareils supplémentaires C–E (P7)
 - [ ] validation finale de la licence de SQLite3MultipleCiphers dans le contexte complet de distribution (mentions dans l'app, juriste)
 - [ ] suppression de compte (Edge Function)
-- [ ] transfert multi-appareil par double QR (Phase 5)
+- [x] transfert multi-appareil par double QR — fait en Phase 5 (appareils réels non vérifiés)
 - [ ] synchronisation automatique en arrière-plan (déclencheurs, WorkManager)
 - [ ] corbeille : purge après 30 jours
 - [ ] écran de résolution des copies de conflit
@@ -239,7 +239,7 @@ pseudonyme, sans nom ni numéro de téléphone.
 
 Points ouverts de la Phase 4 :
 
-- [ ] chiffrer les gros fichiers hors du fil de l'interface (≈ 0,7 s de gel pour 10 Mo) **avant** d'accepter documents ou audio
+- [x] chiffrer les gros fichiers hors du fil de l'interface (≈ 0,7 s de gel pour 10 Mo) — fait en Phase 5 (isolat), mesure émulateur à relever
 - [ ] avis juridique P6 (données de tiers, enregistrements) avant tout enregistrement d'une rencontre
 - [ ] relecture des textes des sections et de la quête 4 (D14)
 - [ ] appareils A et B — NON VÉRIFIÉ
@@ -248,6 +248,60 @@ Reporté (rien de commencé) : audio et documents comme preuves, segments
 clients, concurrents, finances (Phase 7), édition et suppression des
 preuves, envoi des fichiers médias au serveur (Phase 5), calcul de la
 maturité et du niveau de préparation par règles.
+
+## Phase 5 — Offline + sync (LIVRÉE POUR REVUE, non acceptée)
+
+GO donné le 2026-10-07 (« GO PHASE 5 »). Les tests sur appareils réels A/B
+et sur le projet Supabase de développement en ligne restent reportés à la
+fin (le projet n'existe pas encore).
+
+| Élément | État | Détail |
+|---|---|---|
+| Transfert double QR — protocole | ✅ auto (critère de sortie) | QR1/QR2, code à 6 chiffres, `tid`, clé jetable en mémoire seulement, détruite après 5 min (temps monotone), à l'annulation et **après toute tentative d'ouverture** ; chaque ligne de SECURITY §6.5 testée (QR2 photographié, faux QR1, autre compte, mauvais `tid`, mauvais code) |
+| Transfert — interruptions §6.7 | ✅ auto (critère de sortie) | avant le scan, application fermée après le scan, réseau coupé en fin de transfert (clé gardée en mémoire, nouvel essai sans rescanner), appareil enregistré mais clé non stockée (refait, compté une fois), clé stockée puis arrêt brutal avant le rechiffrement des photos ; refus : clé qui n'ouvre pas les données du compte, 5 appareils, téléphone d'un autre compte, ancien téléphone non lié |
+| Transfert — écrans | ✅ auto (widget, deux téléphones simulés) — ❌ caméra réelle NON VÉRIFIÉE | nouveau téléphone (QR1 + code + compte à rebours, lecture de QR2, vérification, redémarrage) ; ancien téléphone (confirmation par le verrouillage du téléphone, avertissement anti-hameçonnage, code faux refusé, QR2 affiché 2 min puis effacé). `FLAG_SECURE` sur les écrans de clé et de code (canal natif, non vérifié sur appareil). Lecture des QR en Dart pur (zxing2) : image de caméra simulée 640×480 avec bruit et pas de ligne, décodée exactement |
+| Changement de clé de données | ✅ auto | **défaut trouvé** : après une récupération par code (Phase 2) ou un transfert, les photos locales restaient chiffrées avec l'ancienne sous-clé, donc illisibles. L'ancienne clé est désormais gardée le temps de rechiffrer les photos au démarrage, puis effacée |
+| Serveur | ✅ SQL (17 assertions) + contrat sur Supabase local (run 34) | `list_devices` (métadonnées, jamais la session), bucket Storage privé `user-media` (`{owner}/{media_id}` seulement, 10 Mo + enveloppe, écriture unique, refus pour la session d'un appareil retiré) ; colonne `session_id` des appareils plus lisible directement |
+| Synchronisation automatique | ✅ auto | démarrage, retour au premier plan, retour du réseau, 5 s après une modification, toutes les 5 min au premier plan ; réessais 5 s / 15 s / 1 min / 5 min / 15 min / 1 h ± 20 % ; jamais deux cycles à la fois. **Défaut corrigé** : le cycle périodique contournait l'attente après échec |
+| WorkManager | 🟡 compilé (APK CI), ❌ exécution NON VÉRIFIÉE | tâche toutes les heures environ, réseau requis ; même cycle qu'au premier plan ; jamais lancée sur émulateur ni appareil |
+| Médias | ✅ auto + contrat Supabase local | photos envoyées après leurs métadonnées, rechiffrées pour le compte (jamais le fichier local tel quel), **en Wi-Fi seulement** sauf réglage ; récupérées à la demande et vérifiées par leur empreinte ; coupures et refus gérés |
+| Gros fichiers hors du fil de l'interface | ✅ auto ; mesure émulateur à relever | ≥ 1 Mo : chiffrement et déchiffrement sur un isolat (point ouvert de la Phase 4) ; nouvelle mesure du gel à 10 Mo dans le prochain run CI |
+| Scénario 12 (version future) | ✅ auto | après mise à jour, les enregistrements écartés sont retirés et appliqués (curseur ramené au premier écarté) |
+| Corbeille 30 jours | ✅ auto + widget | supprimer (avec « Annuler »), remettre, supprimer pour de bon (pierre tombale sans contenu ; ligne locale effacée après confirmation du serveur), purge automatique après 30 jours ; une restauration sur un autre téléphone l'emporte sur une suppression définitive. Photos : fichier gardé chiffré dans la corbeille, effacé avec sa copie serveur ensuite |
+| Copies de conflit | ✅ auto + widget | écran « Versions à vérifier » : garder la version actuelle ou l'autre ; le choix se synchronise, la copie reste dans l'historique |
+| Valeurs effacées à distance | ✅ auto | **défaut trouvé** : un champ vidé sur un téléphone (restauration, note effacée) n'était jamais vidé sur les autres (Drift ignorait les `null`) |
+| Profil | ✅ widget ; ❌ connexion Supabase réelle NON VÉRIFIÉE | compte (serveur de développement seulement ; sinon message clair), code de secours montré une fois et vérifié, second téléphone par code ou par QR, état de la sauvegarde, « Mes appareils » (retrait avec mot de passe redemandé si nécessaire), corbeille |
+| Appareils A et B, projet Supabase en ligne | ❌ NON VÉRIFIÉ | reportés à la fin |
+
+Couverture des 14 scénarios : OFFLINE_SYNC §13.4.
+
+Écarts avec SECURITY §6, décidés pendant la phase (détail : SECURITY
+§6.10) : indice de compte = 8 premiers octets d'un BLAKE2b de 16 octets
+(libsodium refuse 8) ; l'ancien téléphone n'annonce pas le nouveau au
+serveur (pas d'enregistrement « en attente ») ; le nouveau s'enregistre
+**avant** de stocker la clé, puis la vérifie sur les données du compte (un
+compte encore vide n'a rien pour la vérifier : clé acceptée, risque
+résiduel documenté) ; la confirmation d'identité utilise le verrouillage
+du téléphone, pas encore le verrou Eripoo.
+
+Dépendances ajoutées (licences vérifiées sur pub.dev) : `workmanager`
+0.10.10 (MIT), `connectivity_plus` 7.3.2 (BSD-3), `camera` 0.12.1
+(BSD-3, flutter.dev), `zxing2` 0.2.4 (BSD-3), `qr` 4.0.0 (BSD-3),
+`fake_async` (tests). Pourquoi pas `mobile_scanner` : il s'appuie sur
+Google ML Kit, qui envoie des métriques d'usage à Google et dépend des
+services Play ; la lecture en Dart pur est plus lente mais reste sur le
+téléphone. Les permissions micro et stockage partagé déclarées par le
+module caméra sont retirées ; la caméra est facultative.
+
+Points ouverts de la Phase 5 :
+
+- [ ] lecture des QR avec une vraie caméra, `FLAG_SECURE` et WorkManager sur appareils A et B — NON VÉRIFIÉ
+- [ ] connexion, transfert et médias contre le projet Supabase de développement en ligne (à créer par le porteur)
+- [ ] notification « Nouvel appareil ajouté » aux autres appareils et par e-mail (SECURITY §6.8) — non faite (l'événement est enregistré côté serveur)
+- [ ] déconnexion avec effacement local et suppression de compte — non faites
+- [ ] quota de stockage des médias par utilisateur — non appliqué
+- [ ] confirmation d'identité par le verrou Eripoo quand le téléphone n'a pas de verrouillage
+- [ ] relecture native des nouveaux textes malagasy (≈ 110 chaînes, statut `needs_review`)
 
 ## Phases suivantes
 
@@ -308,6 +362,8 @@ règles) posés en Phase 2.
 ## Portes
 
 ### Phase 1 — ACCEPTÉE (2026-10-06)
+
+### Phase 5 — GO donné le 2026-10-07
 
 ### Phase 4 — GO donné le 2026-10-07 (sous réserve que les points en attente ne la bloquent pas)
 

@@ -475,7 +475,7 @@ téléphone. **Seul le premier existe aujourd'hui.**
 | | Récupération par le code (§5, §7) | Transfert par double QR (§6.1–6.7) |
 |---|---|---|
 | À quoi il sert | retrouver ses données sans autre appareil (perte, vol, réinstallation) ; aujourd'hui aussi : ajouter un 2ᵉ appareil | ajouter un appareil quand on en a encore un autorisé, sans taper le code |
-| Implémenté | **oui** : création du code, enveloppe Argon2id stockée sur le serveur, déverrouillage sur un nouvel appareil (`AccountLinker.unlockWithRecoveryCode`), refus d'un appareil lié à un autre compte | **non** — Phase 5 |
+| Implémenté | **oui** : création du code, enveloppe Argon2id stockée sur le serveur, déverrouillage sur un nouvel appareil (`AccountLinker.unlockWithRecoveryCode`), refus d'un appareil lié à un autre compte | **oui (Phase 5)** — voir §6.10 ; appareils réels non vérifiés |
 | Testé | automatique : faux serveur (scénario 10 : invité → compte → 2ᵉ téléphone avec le code) ; contrat RPC sur **Supabase local** (stockage exact de l'enveloppe, paramètres faibles refusés, limite de 5 récupérations/heure) ; Argon2id mesuré sur émulateur | — |
 | Provisoire | **c'est le seul chemin vers un 2ᵉ appareil**, donc tout ajout demande le code. Pas encore d'écran, pas de notification des autres appareils (§6.8), pas de fiche de secours imprimable | — |
 | Après la Phase 5 | reste le **chemin de secours** (plus aucun appareil). Format de l'enveloppe inchangé | devient le **chemin normal** quand un appareil autorisé est présent ; ajoute les notifications d'ajout |
@@ -612,10 +612,13 @@ Indépendante de l'horloge du téléphone (souvent fausse) :
   (dont « la session révoquée ne peut plus se rafraîchir »), test de bout
   en bout sur base chiffrée réelle (`test/sync/revocation_test.dart`).
 
-**Pas encore fait** : écran « Mes appareils » et bouton de révocation,
-message expliquant l'effacement au redémarrage (la raison est conservée :
-`LocalDataEraser.lastReason`), notifications, déclencheur automatique de
-synchronisation.
+**Fait en Phase 5** : écran « Mes appareils » (liste par `list_devices`,
+métadonnées seulement) et retrait avec mot de passe redemandé quand le
+serveur l'exige ; synchronisation automatique (le téléphone retiré
+découvre son retrait au cycle suivant, efface tout et affiche
+« Redémarrer »). **Pas encore fait** : message au redémarrage expliquant
+l'effacement (la raison est conservée : `LocalDataEraser.lastReason`),
+notifications.
 
 ### 6.9 Appareil perdu ou volé
 
@@ -628,6 +631,39 @@ synchronisation.
 4. Si une compromission de l'UMK est suspectée (téléphone non verrouillé,
    *rooté*) : rotation (§4.10).
 5. Les modifications jamais synchronisées depuis cet appareil sont perdues.
+
+### 6.10 Implémentation (Phase 5) et écarts
+
+Code : `lib/security/device_transfer.dart` (protocole pur),
+`lib/features/account/application/device_transfer_service.dart` (côté
+serveur et stockage), écrans `lib/features/devices/presentation/`.
+Tests : `test/security/device_transfer_test.dart` (formats, §6.5, §6.6),
+`test/features/account/device_transfer_service_test.dart` (§6.7, deux
+téléphones sur le faux serveur), `test/features/account/
+profile_screens_test.dart` (écrans des deux côtés).
+
+| Point | Spécification | Implémenté | Pourquoi |
+|---|---|---|---|
+| Indice de compte (QR1) | `generichash(owner_id, 8)` | 8 premiers octets de `generichash("eripoo:xfer:v1:" ‖ owner_id, 16)` | libsodium refuse une sortie de moins de 16 octets ; le préfixe sépare cet usage des autres |
+| Code V | 6 chiffres du `generichash` | 8 premiers octets modulo 10⁶ (biais < 10⁻¹³) | — |
+| Ordre côté N (§6.3 étapes 7–9) | stocker, vérifier, s'enregistrer | **s'enregistrer, vérifier, puis stocker** | la vérification lit les données du compte, ce qui demande un appareil enregistré ; ainsi une clé non vérifiée n'est jamais stockée. Hors ligne, la clé reçue reste en mémoire et l'utilisateur réessaie sans rescanner |
+| Vérification de la clé | déchiffre les données existantes | ouvre le premier enregistrement de la même version de clé (5 pages de 50 au plus) ; toute erreur ⇒ refus | — |
+| Compte sans aucune donnée | — | clé acceptée sans vérification possible | **risque résiduel** : il faut avoir vu QR1 et être présent au moment exact (§6.5) |
+| Enregistrement « en attente » 24 h (§6.7, ligne 4) | A annonce N au serveur | **pas d'annonce** : N s'enregistre lui-même | sans annonce, rien n'est en attente ; un enregistrement fait puis interrompu est refait sans être compté deux fois |
+| Confirmation d'identité sur A (§6.2) | verrouillage du téléphone, sinon verrou Eripoo | verrouillage du téléphone s'il existe | le recours au verrou Eripoo reste à faire (point ouvert) |
+| Notification « Nouvel appareil ajouté » (§6.8) | autres appareils + e-mail | **non faite** | l'événement `device_added` est enregistré côté serveur |
+| Lecture des QR | — | `camera` + `zxing2` (Dart pur, sur un isolat, ≈ 4 images/s) ; génération `qr` | pas de Google ML Kit (métriques d'usage envoyées à Google, services Play requis) |
+| `FLAG_SECURE` | écrans de transfert et du code | canal natif `eripoo/secure_window` (`MainActivity.kt`) : écrans QR1/code, QR2, code de secours (affichage et saisie) | non vérifié sur appareil |
+| Permissions | — | caméra demandée au moment du scan ; `RECORD_AUDIO` et `WRITE_EXTERNAL_STORAGE` (déclarées par le module caméra) retirées du manifeste final | aucun enregistrement audio (avis P6 en attente) |
+
+**Changement de la clé de données (récupération ou transfert).** Défaut
+trouvé en Phase 5 : les photos locales sont chiffrées avec une sous-clé de
+la clé de données ; la remplacer les rendait illisibles. `KeyManager`
+garde désormais l'ancienne clé (`eripoo.umk.previous`, Keystore) jusqu'à
+ce que chaque photo lisible soit rechiffrée (au démarrage, fichier par
+fichier via `.part` + renommage) ; un arrêt brutal entre-temps ne perd
+rien (test). L'ancienne clé est effacée ensuite et avec toutes les données
+locales.
 
 ## 7. Scénarios de compte
 

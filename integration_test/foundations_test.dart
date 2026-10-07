@@ -19,6 +19,7 @@ import 'package:eripoo/features/app_lock/data/app_lock_adapters.dart';
 import 'package:eripoo/features/app_lock/domain/app_lock_service.dart';
 import 'package:eripoo/features/app_lock/presentation/app_lock_controller.dart';
 import 'package:eripoo/features/app_lock/presentation/lock_screen.dart';
+import 'package:eripoo/features/devices/application/qr_codec.dart';
 import 'package:eripoo/features/hypotheses/application/research_service.dart';
 import 'package:eripoo/features/hypotheses/domain/research.dart';
 import 'package:eripoo/features/media/data/media_store.dart';
@@ -28,6 +29,7 @@ import 'package:eripoo/features/quest/presentation/journey_providers.dart';
 import 'package:eripoo/features/settings/data/settings_store.dart';
 import 'package:eripoo/features/settings/presentation/app_settings_controller.dart';
 import 'package:eripoo/security/crypto_service.dart';
+import 'package:eripoo/security/device_transfer.dart';
 import 'package:eripoo/security/key_manager.dart';
 import 'package:eripoo/security/secure_key_store.dart';
 import 'package:eripoo/sync/engine/sync_engine.dart';
@@ -600,6 +602,63 @@ void main() {
     // Local data erasure removes the media files too.
     await AppServices.resetLocalData(store);
     expect(services.mediaDirectory.existsSync(), isFalse);
+  });
+
+  testWidgets('double-QR transfer: codes and QR reading speed', (_) async {
+    final crypto = await CryptoService.init();
+    final w = Stopwatch()..start();
+    final n = TransferRequest.start(
+      crypto,
+      ownerId: '0192f2a0-7c1e-7b3a-9c2d-1f2e3d4c5b6a',
+      deviceId: '11111111-2222-4333-8444-555555555555',
+      label: 'Téléphone de test',
+    );
+    final umk = crypto.generateKey();
+    final qr2 =
+        TransferOffer.parse(
+          n.qr1,
+          publicKeyBytes: crypto.boxPublicKeyBytes,
+        ).sealKey(
+          crypto,
+          ownerId: '0192f2a0-7c1e-7b3a-9c2d-1f2e3d4c5b6a',
+          typedCode: n.code,
+          umk: umk,
+          umkVersion: 1,
+          senderDeviceId: '99999999-8888-4777-8666-555555555555',
+        );
+    expect(n.open(qr2).umk.extractBytes(), umk.extractBytes());
+    measure('transfer_protocol_ms', w.elapsedMilliseconds);
+
+    // A 640x480 grey frame with QR1 on it, as the scanner gets it from
+    // the camera, decoded in pure Dart (one frame of the scan loop).
+    final modules = QrCodec.encode(
+      TransferRequest.start(
+        crypto,
+        ownerId: '0192f2a0-7c1e-7b3a-9c2d-1f2e3d4c5b6a',
+        deviceId: '11111111-2222-4333-8444-555555555555',
+        label: 'Téléphone de test',
+      ).qr1,
+    );
+    final frame = Uint8List(640 * 480)..fillRange(0, 640 * 480, 230);
+    for (var r = 0; r < modules.length; r++) {
+      for (var c = 0; c < modules.length; c++) {
+        if (!modules[r][c]) continue;
+        for (var y = 0; y < 6; y++) {
+          for (var x = 0; x < 6; x++) {
+            frame[(60 + r * 6 + y) * 640 + 160 + c * 6 + x] = 25;
+          }
+        }
+      }
+    }
+    var worst = 0;
+    for (var i = 0; i < 5; i++) {
+      w
+        ..reset()
+        ..start();
+      expect(QrCodec.decode(frame, width: 640, height: 480), isNotNull);
+      if (w.elapsedMilliseconds > worst) worst = w.elapsedMilliseconds;
+    }
+    measure('qr_decode_640x480_worst_ms', worst);
   });
 }
 

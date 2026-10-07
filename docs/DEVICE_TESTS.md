@@ -142,6 +142,20 @@ traiter **avant d'accepter de gros fichiers** (documents, audio) : point
 ouvert dans DEVELOPMENT_PLAN. Temps indicatifs (émulateurs x86_64) ;
 appareils A et B : **NON VÉRIFIÉ**.
 
+## 2quater. Synchronisation, gros fichiers et QR sur émulateurs (Phase 5)
+
+Mêmes tests (`integration_test/foundations_test.dart`) : le fichier de
+10 Mo passe désormais par un isolat ; nouveau test `double-QR transfer`
+(protocole complet et lecture en Dart pur d'une image 640×480 portant
+QR1).
+
+| Mesure | Android 8.0 (API 26) | Android 14 (API 34) |
+|---|---|---|
+| Fichier 10 Mo : retard maximal de l'interface (était ≈ 0,7 s) | à relever | à relever |
+| Fichier 10 Mo : chiffrer + écrire | à relever | à relever |
+| Protocole de transfert complet (QR1 → QR2 → clé) | à relever | à relever |
+| Lecture d'un QR dans une image 640×480 (pire de 5) | à relever | à relever |
+
 ## 3. Appareils de référence
 
 | Cat. | Appareil | Android | RAM | Résultats |
@@ -152,3 +166,10 @@ appareils A et B : **NON VÉRIFIÉ**.
 Non testable sur émulateur, à faire sur A et B : biométrie réelle,
 Keystore matériel, processeur ARM 32 bits (A), vrai 1 Go de RAM, autonomie,
 lisibilité en extérieur, ANR sous charge.
+
+Ajouts Phase 5, à faire sur A et B : lecture des QR avec la vraie caméra
+(lumière faible, écran de l'autre téléphone, distance), `FLAG_SECURE`
+(capture d'écran refusée, aperçu des applications récentes masqué),
+demande de permission caméra et refus, tâche WorkManager réellement
+lancée application fermée (et retardée par l'économie de batterie), envoi
+des photos seulement en Wi-Fi, transfert complet entre A et B.

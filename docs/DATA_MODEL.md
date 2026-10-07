@@ -174,6 +174,17 @@ contenu chiffré côté client. Politiques `storage.objects` :
 Les métadonnées du média (type, taille, hash) sont dans une entité `media`
 chiffrée de `sync_records`.
 
+**Implémenté en Phase 5** (migration `20261008000001_devices_media.sql`) :
+chemin limité à `{owner_id}/{uuid}`, fichiers de 10 Mo + 43 octets
+d'enveloppe au plus, type `application/octet-stream`, **aucune politique
+de mise à jour** (un fichier n'est écrit qu'une fois), et les politiques
+refusent aussi la session d'un appareil retiré (fonction
+`eripoo_policy.media_allowed`, seul schéma accessible aux politiques).
+Les fichiers sont rechiffrés pour l'identifiant du compte avant l'envoi
+(SECURITY §4.7). Quota par utilisateur : **non appliqué** (point ouvert).
+La colonne `devices.session_id` n'est plus lisible directement ; la liste
+des appareils passe par `list_devices`.
+
 ### 2.4 Contenu (public en lecture, édition réservée)
 
 ```sql
@@ -298,8 +309,12 @@ chiffrés avec la sous-clé médias de l'UMK
 | `sync_state` (local seulement) | clé/valeur : `cursor`, `device_id`, `last_push_at`, `last_pull_at`, `device_revoked` |
 | `conflict_copies` (**synchronisée**, append-only) | `entity_type`, `entity_id`, `payload_json`, `from_device_id`, `resolved_at?`, `resolution?` |
 
-L'envoi des fichiers médias est suivi par les colonnes `upload_*` de
-`media`. Détail du protocole : [OFFLINE_SYNC.md](OFFLINE_SYNC.md).
+L'envoi des fichiers médias est suivi par la table **locale**
+`media_uploads` (schéma v4, jamais synchronisée : savoir qu'un fichier est
+à envoyer dépend du téléphone), et non par des colonnes `upload_*` de
+`media`, qui seraient synchronisées. `sync_meta.purge_requested`
+(schéma v5) marque une suppression définitive en attente de confirmation
+du serveur (OFFLINE_SYNC §7). Détail du protocole : [OFFLINE_SYNC.md](OFFLINE_SYNC.md).
 
 ## 4. Évolution des schémas
 

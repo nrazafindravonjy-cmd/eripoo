@@ -391,7 +391,7 @@ contre Supabase local en CI ; fonctions de résolution testées unitairement.
 | 9 | ✅ testé |
 | 10 | ✅ testé (invité → compte, puis 2ᵉ téléphone avec le code) — sur petit volume, pas 3 mois de données |
 | 11 | ✅ testé : section reçue avant son projet, conservée sans être affichée, rattachée à l'arrivée du projet |
-| 12 | ✅ testé : enregistrement laissé intact ; **limite** : le curseur avance, une resynchronisation complète après mise à jour reste à faire (Phase 5) |
+| 12 | ✅ testé : enregistrement laissé intact ; resynchronisation après mise à jour faite en Phase 5 (§13.4) |
 | 13 | ✅ testé (validation Phase 2) : synchronisation refusée, **effacement local réel** (base, WAL, clés, identifiant, session, verrou), redémarrage vide avec nouvel identifiant, ancienne session refusée partout et incapable de se rafraîchir (vérifié sur Supabase local), retour au compte seulement avec le code — `test/sync/revocation_test.dart`, contrat RPC, SQL `15_sessions_test.sql`. **Pas fait** : écran « Mes appareils », message à l'utilisateur après effacement, déclencheur automatique |
 | 14 | ✅ testé avec **5 000 éléments** (`test/sync/volume_test.dart`, base chiffrée réelle sur fichier, coupure à l'envoi, réponse perdue, coupure à la réception) ; mesures §13.2. **Non vérifié** : 5 000 éléments sur téléphone 1 Go et absence de gel d'interface sur appareil (le moteur tourne sur l'isolat principal par petites étapes ; la base est sur un isolat séparé) |
 
@@ -400,6 +400,36 @@ confidentialité, récupération) passent sur PostgreSQL 16 avec `auth`
 simulé **et sur la pile Supabase locale** (CI). Correction : les rapports
 précédents annonçaient 46 assertions, c'était une erreur de comptage
 (il y en avait 52 avant l'ajout des 8 assertions de sessions).
+
+### 13.4 Couverture en Phase 5
+
+| # | État |
+|---|---|
+| 1–3, 5–9, 11, 13 | inchangés (✅ testés), voir §13.1 ; 13 : écran « Mes appareils » et retrait ajoutés (widget) |
+| 4 | ✅ et **corbeille complète** (§7) : supprimer, remettre, supprimer pour de bon (pierre tombale sans contenu), purge après 30 jours, restauration concurrente gagnante — `test/features/trash/` |
+| 10 | ✅ + second téléphone par **double QR** (SECURITY §6.10) ou par le code, par l'interface — `test/features/account/` |
+| 12 | ✅ **complet** : après mise à jour, retrait et application des enregistrements écartés (`sync.replay_from`) — `test/sync/sync_engine_test.dart` « 12b » |
+| 14 | ✅ inchangé ; fichiers ≥ 1 Mo désormais chiffrés hors du fil de l'interface (mesure émulateur à relever) |
+
+Ajouts de la Phase 5 :
+
+- **Déclencheurs et réessais** (§8) : `lib/sync/sync_scheduler.dart`,
+  testés en temps simulé (`test/sync/sync_scheduler_test.dart`) ; défaut
+  corrigé : le cycle de 5 min contournait l'attente après échec.
+  Arrière-plan : WorkManager (`lib/app/sync/background_sync.dart`),
+  compilé mais **jamais exécuté sur appareil** (NON VÉRIFIÉ). Un cycle en
+  arrière-plan et un au premier plan peuvent se croiser : sans danger
+  (idempotence par `change_id`, page et curseur dans une transaction).
+- **Médias** (§9) : envoi après les métadonnées, en Wi-Fi seulement sauf
+  réglage, rechiffrés pour le compte ; réception à la demande avec
+  vérification de l'empreinte ; file locale `media_uploads` (schéma v4) ;
+  envoi sans écrasement (un même identifiant n'est jamais réécrit : la
+  ligne « renvoyé en écrasement » de §8 ne s'applique plus, le renvoi
+  d'un fichier déjà présent est simplement accepté).
+- **Valeurs effacées à distance** : défaut corrigé — un `null` reçu d'un
+  autre appareil n'était pas appliqué (restauration de la corbeille,
+  champ vidé).
+- **Copies de conflit** : écran « Versions à vérifier » (§6).
 
 ### 13.2 Mesures — 5 000 éléments (machine de CI GitHub, pas un téléphone)
 

@@ -443,6 +443,11 @@ Résolution vérifiée dans un projet de test le 2026-10-06 (Flutter 3.47.6).
 | `sodium` | 4.1.1+2 | 2 | **libsodium 1.0.22** : AEAD XChaCha20-Poly1305, KDF, Argon2id, sceaux X25519, signatures Ed25519, aléa. Compile libsodium à la construction (hooks). Remplace `cryptography` retenu en v1. Analyse de maintenance, licence et remplacement : SECURITY §18.1. `sodium_libs` est abandonné au profit de `sodium`. |
 | `flutter_secure_storage` | 11.2.0 | 2 | UMK, clé de base et session protégées par Android Keystore (option AES-GCM). |
 | `supabase_flutter` | 2.18.0 | 2 | Imposé ; Auth (dont liaison d'identités), RPC, Storage. |
+| `workmanager` | 0.10.10 | 5 | Synchronisation en arrière-plan (Android WorkManager), MIT. |
+| `connectivity_plus` | 7.3.2 | 5 | Signal de retour du réseau et Wi-Fi / données mobiles (envoi des photos), BSD-3. |
+| `camera` | 0.12.1 | 5 | Images de la caméra pour lire les QR du transfert (flutter.dev, BSD-3) ; micro jamais demandé. |
+| `zxing2` | 0.2.4 | 5 | Lecture des QR en Dart pur, sur l'appareil (BSD-3) ; préféré à `mobile_scanner` (Google ML Kit). |
+| `qr` | 4.0.0 | 5 | Génération des QR (BSD-3). |
 | `connectivity_plus` | 7.3.2 | 5 | Signal de changement de réseau (jamais une preuve de connexion). |
 | `integration_test` (SDK, dev) | — | 2 | Tests d'intégration. |
 
