@@ -404,3 +404,21 @@ class MediaItems extends Table {
   @override
   Set<Column<Object>> get primaryKey => {id};
 }
+
+/// Local only, never synchronised: which media files this phone still has
+/// to send to the server (docs/OFFLINE_SYNC.md §9). A row is added with
+/// each photo taken here; files received from the server are already
+/// there and get no row.
+class MediaUploads extends Table {
+  TextColumn get mediaId => text()();
+
+  /// Null while waiting; set once the server has the file.
+  IntColumn get uploadedAt => integer().nullable()();
+  IntColumn get attempts => integer().withDefault(const Constant(0))();
+
+  /// Set when the server refused the file (kept locally, retried later).
+  IntColumn get nextAttemptAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {mediaId};
+}

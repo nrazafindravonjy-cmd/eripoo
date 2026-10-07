@@ -543,7 +543,8 @@ void main() {
     }
   }, timeout: const Timeout(Duration(minutes: 5)));
 
-  test('a schema v2 database migrates to v3 without losing data', () async {
+  test('a schema v2 database migrates to the current schema without losing '
+      'data', () async {
     final dir = Directory.systemTemp.createTempSync('eripoo_migr3');
     addTearDown(() => dir.deleteSync(recursive: true));
     final file = File('${dir.path}/db.sqlite');
@@ -584,6 +585,6 @@ void main() {
     final version = await migrated
         .customSelect('pragma user_version')
         .getSingle();
-    expect(version.data.values.single, 3);
+    expect(version.data.values.single, migrated.schemaVersion);
   });
 }

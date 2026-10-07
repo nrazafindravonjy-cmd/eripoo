@@ -39,6 +39,7 @@ class LocalKeyValues extends Table {
     Observations,
     Interviews,
     MediaItems,
+    MediaUploads,
     ConflictCopies,
     SyncMetaEntries,
   ],
@@ -47,7 +48,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase(super.executor);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -77,6 +78,15 @@ class AppDatabase extends _$AppDatabase {
         ]) {
           await m.createTable(table);
         }
+      }
+      if (from < 4) {
+        // Phase 5: media files to send (local only). Photos taken before
+        // are queued too: none of them is on the server yet.
+        await m.createTable(mediaUploads);
+        await customStatement(
+          'INSERT INTO media_uploads (media_id, attempts) '
+          'SELECT id, 0 FROM media_items WHERE deleted_at IS NULL',
+        );
       }
     },
   );

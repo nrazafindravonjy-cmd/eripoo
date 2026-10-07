@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:isolate';
 
 import 'package:drift/drift.dart';
 import 'package:sodium/sodium_sumo.dart';
@@ -68,12 +69,7 @@ class MediaStore {
       throw const MediaTooLarge();
     }
     final id = Ids.newId();
-    final sealed = _envelopes.seal(
-      plaintext: bytes,
-      mediaKey: _key,
-      umkVersion: _umkVersion,
-      mediaId: id,
-    );
+    final sealed = await _seal(bytes, id, MediaEnvelopes.localOwner);
     // Synchronous writes: photos are small (≈ 300 KB after resizing) and
     // a write cannot be left half-done by a suspended future.
     _dir.createSync(recursive: true);
@@ -97,6 +93,10 @@ class MediaStore {
               ),
             );
         await _sync.markChanged(EntityTypes.media, id);
+        // The file itself is sent later (Wi-Fi by default).
+        await _db
+            .into(_db.mediaUploads)
+            .insert(MediaUploadsCompanion.insert(mediaId: id));
       });
     } on Object {
       if (fileOf(id).existsSync()) fileOf(id).deleteSync();
@@ -114,10 +114,121 @@ class MediaStore {
             .getSingleOrNull();
     final file = fileOf(mediaId);
     if (row == null || !file.existsSync()) return null;
-    final plain = _open(file.readAsBytesSync(), mediaId).$1;
+    final plain = await _openLocal(file.readAsBytesSync(), mediaId);
     if (_crypto.hashHex(plain) != row.contentHash) throw const MediaCorrupted();
     return plain;
   }
+
+  /// Files above this size are encrypted and decrypted on a background
+  /// isolate: a 10 MiB file blocked the interface ≈ 0.7 s on emulators
+  /// (docs/DEVICE_TESTS.md §2ter). Small photos stay on this isolate,
+  /// where the cost (≈ 40 ms for 300 KB) is lower than starting one.
+  static const backgroundThreshold = 1024 * 1024;
+
+  Future<Uint8List> _seal(Uint8List plain, String mediaId, String owner) {
+    if (plain.length < backgroundThreshold) {
+      return Future.value(
+        _envelopes.seal(
+          plaintext: plain,
+          mediaKey: _key,
+          umkVersion: _umkVersion,
+          mediaId: mediaId,
+          ownerId: owner,
+        ),
+      );
+    }
+    // Only plain values go to the isolate, never `this` (native keys, the
+    // database).
+    final version = _umkVersion;
+    return _withKeyBytes(
+      (key) => Isolate.run(
+        () => _sealInIsolate(key, plain, version, mediaId, owner),
+      ),
+    );
+  }
+
+  /// Opens with the current key, in the background for large files; small
+  /// files fall back to the previous key (after a key switch).
+  Future<Uint8List> _openLocal(Uint8List envelope, String mediaId) async {
+    if (envelope.length < backgroundThreshold || _previousKey != null) {
+      return _open(envelope, mediaId).$1;
+    }
+    return _withKeyBytes(
+      (key) => Isolate.run(
+        () => _openInIsolate(key, envelope, mediaId, MediaEnvelopes.localOwner),
+      ),
+    );
+  }
+
+  /// The media key as bytes for a background isolate (which loads its own
+  /// libsodium), zeroed afterwards: a best effort, as the Dart VM may keep
+  /// copies (same trade-off as the recovery code, KeyManager).
+  Future<T> _withKeyBytes<T>(Future<T> Function(Uint8List key) run) async {
+    final key = _key.extractBytes();
+    try {
+      return await run(key);
+    } finally {
+      key.fillRange(0, key.length, 0);
+    }
+  }
+
+  // ---------------------------------------------------------- server copy
+
+  /// The file sealed for the account [ownerId], ready to upload; null when
+  /// it is not on this phone.
+  Future<Uint8List?> sealedForAccount(String mediaId, String ownerId) async {
+    final file = fileOf(mediaId);
+    if (!file.existsSync()) return null;
+    final plain = await _openLocal(file.readAsBytesSync(), mediaId);
+    try {
+      return await _seal(plain, mediaId, ownerId);
+    } finally {
+      plain.fillRange(0, plain.length, 0);
+    }
+  }
+
+  /// Stores a file downloaded from the account [ownerId] after checking it
+  /// is the one described by its metadata (hash). Throws [MediaCorrupted]
+  /// (or `DecryptionFailed` for a file not sealed with this key).
+  Future<void> storeFromAccount(
+    String mediaId,
+    String ownerId,
+    Uint8List sealed,
+  ) async {
+    final row = await (_db.select(
+      _db.mediaItems,
+    )..where((t) => t.id.equals(mediaId))).getSingleOrNull();
+    if (row == null) throw const MediaCorrupted();
+    final Uint8List plain;
+    if (sealed.length < backgroundThreshold) {
+      plain = _envelopes.open(
+        envelope: sealed,
+        mediaKey: _key,
+        mediaId: mediaId,
+        ownerId: ownerId,
+      );
+    } else {
+      plain = await _withKeyBytes(
+        (key) =>
+            Isolate.run(() => _openInIsolate(key, sealed, mediaId, ownerId)),
+      );
+    }
+    try {
+      if (_crypto.hashHex(plain) != row.contentHash) {
+        throw const MediaCorrupted();
+      }
+      final local = await _seal(plain, mediaId, MediaEnvelopes.localOwner);
+      _dir.createSync(recursive: true);
+      final part = File('${fileOf(mediaId).path}.part')
+        ..writeAsBytesSync(local, flush: true);
+      part.renameSync(fileOf(mediaId).path);
+    } finally {
+      plain.fillRange(0, plain.length, 0);
+    }
+  }
+
+  /// Whether the file is on this phone (it may be only on the server).
+  bool hasFile(String mediaId) => fileOf(mediaId).existsSync();
 
   /// The plain bytes, and whether they were opened with the previous key.
   (Uint8List, bool) _open(Uint8List envelope, String mediaId) {
@@ -213,5 +324,51 @@ class MediaStore {
       }
     }
     return removed;
+  }
+}
+
+// Isolate entry points: top-level, so the closures capture plain values.
+
+Future<Uint8List> _sealInIsolate(
+  Uint8List key,
+  Uint8List plain,
+  int umkVersion,
+  String mediaId,
+  String owner,
+) async {
+  final crypto = await CryptoService.init();
+  final secure = crypto.keyFromBytes(key);
+  key.fillRange(0, key.length, 0);
+  try {
+    return MediaEnvelopes(crypto).seal(
+      plaintext: plain,
+      mediaKey: secure,
+      umkVersion: umkVersion,
+      mediaId: mediaId,
+      ownerId: owner,
+    );
+  } finally {
+    secure.dispose();
+  }
+}
+
+Future<Uint8List> _openInIsolate(
+  Uint8List key,
+  Uint8List envelope,
+  String mediaId,
+  String owner,
+) async {
+  final crypto = await CryptoService.init();
+  final secure = crypto.keyFromBytes(key);
+  key.fillRange(0, key.length, 0);
+  try {
+    return MediaEnvelopes(crypto).open(
+      envelope: envelope,
+      mediaKey: secure,
+      mediaId: mediaId,
+      ownerId: owner,
+    );
+  } finally {
+    secure.dispose();
   }
 }
