@@ -130,7 +130,7 @@ void main() {
 
   testWidgets('unbuilt sections say so honestly', (tester) async {
     await pumpApp(tester);
-    await tester.tap(find.text('Projet'));
+    await tester.tap(find.text('Outils'));
     await tester.pumpAndSettle();
     expect(find.text('Pas encore disponible'), findsOneWidget);
   });

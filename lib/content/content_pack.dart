@@ -542,6 +542,62 @@ class MissionTemplate {
 }
 
 /// A versioned content pack (docs/PRODUCT_ARCHITECTURE.md §6).
+/// A field of a project section, as shown to the user.
+class SectionField {
+  const SectionField({
+    required this.key,
+    required this.label,
+    this.maxLength = 1000,
+  });
+
+  final String key;
+  final LocalizedText label;
+  final int maxLength;
+
+  factory SectionField.read(JsonReader json) {
+    json.onlyKeys({'key', 'label', 'max_length'});
+    return SectionField(
+      key: json['key'].token,
+      label: LocalizedText.read(json['label']),
+      maxLength: json['max_length'].intOrNull ?? 1000,
+    );
+  }
+}
+
+/// The schema of a project section (docs/PRODUCT_ARCHITECTURE.md §7):
+/// its title and fields come from content, not from code.
+class SectionSchema {
+  const SectionSchema({
+    required this.key,
+    required this.title,
+    required this.fields,
+  });
+
+  final String key;
+  final LocalizedText title;
+  final List<SectionField> fields;
+
+  SectionField? field(String key) {
+    for (final f in fields) {
+      if (f.key == key) return f;
+    }
+    return null;
+  }
+
+  factory SectionSchema.read(JsonReader json) {
+    json.onlyKeys({'key', 'title', 'fields'});
+    final key = json['key'].token;
+    if (!projectSections.contains(key)) {
+      json['key'].fail('unknown section "$key"');
+    }
+    return SectionSchema(
+      key: key,
+      title: LocalizedText.read(json['title']),
+      fields: [for (final f in json['fields'].list) SectionField.read(f)],
+    );
+  }
+}
+
 class ContentPack {
   ContentPack({
     required this.packId,
@@ -550,6 +606,7 @@ class ContentPack {
     required this.blockTypes,
     required this.quests,
     required this.missions,
+    this.sections = const [],
   }) {
     for (final quest in quests) {
       for (final step in quest.steps) {
@@ -569,6 +626,16 @@ class ContentPack {
   final Set<BlockType> blockTypes;
   final List<Quest> quests;
   final List<MissionTemplate> missions;
+
+  /// Project sections in display order.
+  final List<SectionSchema> sections;
+
+  SectionSchema? section(String key) {
+    for (final s in sections) {
+      if (s.key == key) return s;
+    }
+    return null;
+  }
 
   final _steps = <String, Step>{};
   final _questOfStep = <String, Quest>{};
@@ -612,6 +679,7 @@ class ContentPack {
       'block_types',
       'quests',
       'missions',
+      'sections',
     });
     if (json['format'].integer != supportedPackFormat) {
       json['format'].fail('unsupported pack format');
@@ -626,6 +694,9 @@ class ContentPack {
       quests: [for (final q in json['quests'].list) Quest.read(q)],
       missions: [
         for (final m in json['missions'].listOrEmpty) MissionTemplate.read(m),
+      ],
+      sections: [
+        for (final s in json['sections'].listOrEmpty) SectionSchema.read(s),
       ],
     );
   }

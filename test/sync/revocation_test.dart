@@ -1,10 +1,12 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:drift/drift.dart' show driftRuntimeOptions;
 import 'package:eripoo/app/startup/app_services.dart';
 import 'package:eripoo/app/startup/local_data_eraser.dart';
 import 'package:eripoo/core/logging/app_logger.dart';
 import 'package:eripoo/features/account/application/account_linker.dart';
+import 'package:eripoo/features/media/data/media_store.dart';
 import 'package:eripoo/features/project/data/project_repository.dart';
 import 'package:eripoo/security/key_manager.dart';
 import 'package:eripoo/sync/engine/sync_engine.dart';
@@ -97,6 +99,19 @@ void main() {
 
     // Unsynchronised work done after the last sync.
     await a.projects.create('Brouillon non envoyé');
+    // An encrypted photo (fictitious bytes).
+    final media = MediaStore(
+      db: a.services.database,
+      crypto: a.services.crypto,
+      key: DataKeys(a.services.crypto, a.services.keys.dataKey).media,
+      umkVersion: a.services.keys.dataKeyVersion,
+      dir: a.services.mediaDirectory,
+    );
+    final photoId = await media.addPhoto(
+      Uint8List.fromList([0xff, 0xd8, 0xff, 1, 2, 3]),
+      mime: 'image/jpeg',
+    );
+    expect(media.fileOf(photoId).existsSync(), isTrue);
 
     // 2. A is revoked from another device.
     server.revoke(owner, oldDeviceId);
@@ -112,6 +127,7 @@ void main() {
       expect(File('${a.file.path}$suffix').existsSync(), isFalse);
     }
     expect(a.store.values.keys, [LocalDataEraser.reasonEntry]);
+    expect(a.services.mediaDirectory.existsSync(), isFalse);
     expect(
       a.logs.records.map((r) => r.event),
       contains('SyncRunLog.deviceRevokedLocalDataErased'),

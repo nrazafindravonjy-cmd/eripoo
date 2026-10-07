@@ -17,12 +17,16 @@ class AppServices {
     required this.keyManager,
     required this.keys,
     required this.database,
+    required this.mediaDirectory,
   });
 
   final CryptoService crypto;
   final KeyManager keyManager;
   final LocalKeys keys;
   final AppDatabase database;
+
+  /// Encrypted media files (docs/SECURITY.md §4.7).
+  final Directory mediaDirectory;
 
   static Future<File> databaseFile() async =>
       File('${(await getApplicationSupportDirectory()).path}/eripoo.sqlite');
@@ -58,6 +62,7 @@ class AppServices {
       keyManager: keyManager,
       keys: keys,
       database: database,
+      mediaDirectory: LocalDataEraser.mediaDirectoryOf(file),
     );
   }
 

@@ -3,8 +3,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/home/presentation/home_screen.dart';
+import '../../features/hypotheses/presentation/field_notes_screen.dart';
+import '../../features/hypotheses/presentation/hypotheses_screen.dart';
+import '../../features/hypotheses/presentation/hypothesis_screen.dart';
 import '../../features/missions/presentation/mission_screen.dart';
 import '../../features/onboarding/presentation/welcome_screen.dart';
+import '../../features/project/presentation/project_screen.dart';
 import '../../features/quest/presentation/quest_screens.dart';
 import '../../features/quest/presentation/step_screen.dart';
 import '../../features/settings/presentation/app_settings_controller.dart';
@@ -21,7 +25,11 @@ abstract final class AppRoutes {
   static const tools = '/tools';
   static const profile = '/profile';
 
+  static const hypotheses = '/project/hypotheses';
+  static const fieldNotes = '/project/notes';
+
   static String questDetail(String questId) => '$quest/$questId';
+  static String hypothesis(String id) => '$hypotheses/$id';
   static String step(String stepId) => '/step/$stepId';
   static String mission(String missionId) => '/mission/$missionId';
 }
@@ -87,7 +95,32 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          _placeholder(AppRoutes.project, (l10n) => l10n.navProject),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.project,
+                builder: (context, state) => const ProjectScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'hypotheses',
+                    builder: (context, state) => const HypothesesScreen(),
+                    routes: [
+                      GoRoute(
+                        path: ':hypothesisId',
+                        builder: (context, state) => HypothesisScreen(
+                          hypothesisId: state.pathParameters['hypothesisId']!,
+                        ),
+                      ),
+                    ],
+                  ),
+                  GoRoute(
+                    path: 'notes',
+                    builder: (context, state) => const FieldNotesScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
           _placeholder(AppRoutes.tools, (l10n) => l10n.navTools),
           _placeholder(AppRoutes.profile, (l10n) => l10n.navProfile),
         ],

@@ -94,12 +94,16 @@ Map<String, Object?> assemble() {
     for (final f in yamlFiles('$sourceDir/missions'))
       ...(load(f.path)! as List<Object?>),
   ];
+  final sections = File('$sourceDir/sections.yaml').existsSync()
+      ? load('$sourceDir/sections.yaml')! as List<Object?>
+      : const <Object?>[];
   return {
     'format': supportedPackFormat,
     ...meta,
     'block_types': (usedBlockTypes(quests).toList()..sort()),
     'quests': withDefaultStatus(quests, defaults),
     'missions': withDefaultStatus(missions, defaults),
+    'sections': withDefaultStatus(sections, defaults),
   };
 }
 

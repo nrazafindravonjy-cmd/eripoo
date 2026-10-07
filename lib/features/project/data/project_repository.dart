@@ -170,6 +170,30 @@ class ProjectRepository {
     );
   }
 
+  /// Every section of a project, by section key.
+  Future<Map<String, ProjectSection>> sections(String projectId) async {
+    final rows =
+        await (_db.select(_db.projectSections)..where(
+              (t) => t.projectId.equals(projectId) & t.deletedAt.isNull(),
+            ))
+            .get();
+    return {
+      for (final row in rows)
+        row.sectionKey: ProjectSection(
+          id: row.id,
+          projectId: row.projectId,
+          sectionKey: row.sectionKey,
+          fields: jsonDecode(row.fieldsJson) as Map<String, Object?>,
+          updatedAt: _time(row.updatedAt),
+        ),
+    };
+  }
+
+  /// Fires on any change of sections or their history.
+  Stream<void> watchSectionChanges() => _db.tableUpdates(
+    TableUpdateQuery.onAllTables([_db.projectSections, _db.projectRevisions]),
+  );
+
   /// History of a project, oldest first.
   Future<List<ProjectRevision>> history(String projectId) async {
     final rows =

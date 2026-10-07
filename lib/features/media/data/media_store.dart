@@ -69,10 +69,12 @@ class MediaStore {
       umkVersion: _umkVersion,
       mediaId: id,
     );
-    await _dir.create(recursive: true);
-    final part = File('${fileOf(id).path}.part');
-    await part.writeAsBytes(sealed, flush: true);
-    await part.rename(fileOf(id).path);
+    // Synchronous writes: photos are small (≈ 300 KB after resizing) and
+    // a write cannot be left half-done by a suspended future.
+    _dir.createSync(recursive: true);
+    final part = File('${fileOf(id).path}.part')
+      ..writeAsBytesSync(sealed, flush: true);
+    part.renameSync(fileOf(id).path);
     final now = _clock().millisecondsSinceEpoch;
     try {
       await _db.transaction(() async {
@@ -92,7 +94,7 @@ class MediaStore {
         await _sync.markChanged(EntityTypes.media, id);
       });
     } on Object {
-      await fileOf(id).delete().catchError((Object _) => fileOf(id));
+      if (fileOf(id).existsSync()) fileOf(id).deleteSync();
       rethrow;
     }
     return id;
@@ -108,7 +110,7 @@ class MediaStore {
     final file = fileOf(mediaId);
     if (row == null || !file.existsSync()) return null;
     final plain = _envelopes.open(
-      envelope: await file.readAsBytes(),
+      envelope: file.readAsBytesSync(),
       mediaKey: _key,
       mediaId: mediaId,
     );
@@ -128,7 +130,7 @@ class MediaStore {
       await _sync.markChanged(EntityTypes.media, mediaId);
     });
     final file = fileOf(mediaId);
-    if (file.existsSync()) await file.delete();
+    if (file.existsSync()) file.deleteSync();
   }
 
   /// Deletes files with no live row: an interrupted save (`.part`) or a
@@ -148,7 +150,7 @@ class MediaStore {
           ? name.substring(0, name.length - 4)
           : null;
       if (id == null || !live.contains(id)) {
-        await entity.delete();
+        entity.deleteSync();
         removed++;
       }
     }

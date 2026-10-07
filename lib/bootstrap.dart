@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -9,6 +11,7 @@ import 'app/startup/app_services.dart';
 import 'app/startup/startup_failure_app.dart';
 import 'content/content_pack.dart';
 import 'core/logging/app_logger.dart';
+import 'features/hypotheses/presentation/research_providers.dart';
 import 'features/quest/presentation/journey_providers.dart';
 import 'features/settings/data/settings_store.dart';
 import 'features/settings/domain/app_settings.dart';
@@ -86,6 +89,14 @@ Future<void> bootstrap() async {
     logger.error(_AppLog.uncaughtError, error, stack);
     return true;
   };
+
+  // Encrypted files left by an interrupted save (never plain bytes).
+  unawaited(
+    container
+        .read(mediaStoreProvider)
+        .purgeOrphans()
+        .catchError((Object _) => 0),
+  );
 
   runApp(
     UncontrolledProviderScope(container: container, child: const EripooApp()),

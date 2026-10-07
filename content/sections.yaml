@@ -1,0 +1,32 @@
+# Project sections shown on the Project screen (docs/PRODUCT_ARCHITECTURE.md
+# §7). Step outputs may only write declared fields (checked at build).
+- key: problem
+  title: {fr: "Le problème", mg: "Ny olana", en: "The problem"}
+  fields:
+    - key: statement
+      label: {fr: "Le problème observé", mg: "Ny olana hita", en: "The problem observed"}
+      max_length: 280
+- key: customers
+  title: {fr: "Les clients", mg: "Ny mpanjifa", en: "The customers"}
+  fields:
+    - key: first_guess
+      label: {fr: "Qui vit le problème", mg: "Iza no miaina ny olana", en: "Who has the problem"}
+      max_length: 200
+    - key: description
+      label: {fr: "Le client cible", mg: "Ny mpanjifa kendrena", en: "The target customer"}
+      max_length: 280
+    - key: where_to_meet
+      label: {fr: "Où le rencontrer", mg: "Aiza no ahitana azy", en: "Where to meet them"}
+      max_length: 200
+    - key: interview_learnings
+      label: {fr: "Ce que les rencontres ont appris", mg: "Izay nianarana tamin'ny fihaonana", en: "What the conversations taught"}
+      max_length: 400
+- key: solution
+  title: {fr: "La solution", mg: "Ny vahaolana", en: "The solution"}
+  fields:
+    - key: first_idea
+      label: {fr: "Première idée de solution", mg: "Hevitra voalohany momba ny vahaolana", en: "First solution idea"}
+      max_length: 300
+    - key: advantage
+      label: {fr: "Ce qui est mieux qu'aujourd'hui", mg: "Izay tsara kokoa noho ny ankehitriny", en: "What is better than today"}
+      max_length: 200

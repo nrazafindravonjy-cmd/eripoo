@@ -8,7 +8,8 @@ import '../../security/secure_key_store.dart';
 enum ErasureReason { userReset, deviceRevoked }
 
 /// Erases everything Eripoo keeps on this device: the encrypted database
-/// (and its WAL / shared-memory files) and every secure-storage entry
+/// (and its WAL / shared-memory files), the encrypted media files and
+/// every secure-storage entry
 /// (data key, database key, device id, account session, app lock).
 ///
 /// After this, the device cannot read old local data, cannot synchronise
@@ -21,6 +22,10 @@ class LocalDataEraser {
 
   static const reasonEntry = 'eripoo.erasure_reason';
 
+  /// Where encrypted media files live: next to the database.
+  static Directory mediaDirectoryOf(File databaseFile) =>
+      Directory('${databaseFile.parent.path}/media');
+
   Future<void> eraseAll({
     required ErasureReason reason,
     AppDatabase? openDatabase,
@@ -32,6 +37,8 @@ class LocalDataEraser {
       final file = File('${databaseFile.path}$suffix');
       if (file.existsSync()) file.deleteSync();
     }
+    final media = mediaDirectoryOf(databaseFile);
+    if (media.existsSync()) media.deleteSync(recursive: true);
     await store.deleteAll();
     await store.write(reasonEntry, reason.name);
   }

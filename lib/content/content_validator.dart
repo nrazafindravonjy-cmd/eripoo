@@ -212,7 +212,14 @@ ValidationReport validatePack(ContentPack pack) {
             if (q.answer.kind != AnswerKind.text) {
               error(where, 'the project title comes from a text answer');
             }
-          case SectionTarget():
+          case SectionTarget(:final section, :final field):
+            if (pack.sections.isNotEmpty &&
+                pack.section(section)?.field(field) == null) {
+              error(
+                where,
+                'section field $section.$field is not declared in sections',
+              );
+            }
         }
       }
       // A fast-tracked step must still collect its deliverable.
@@ -247,6 +254,19 @@ ValidationReport validatePack(ContentPack pack) {
         .length;
     if (titles != 1) {
       error(diagnostic.id, 'the diagnostic names the project once');
+    }
+  }
+
+  final sectionKeys = <String>{};
+  for (final section in pack.sections) {
+    if (!sectionKeys.add(section.key)) {
+      error('sections', 'duplicate section ${section.key}');
+    }
+    final fieldKeys = <String>{};
+    for (final f in section.fields) {
+      if (!fieldKeys.add(f.key)) {
+        error('sections', 'duplicate field ${section.key}.${f.key}');
+      }
     }
   }
 
@@ -304,6 +324,12 @@ Iterable<LocalizedText> allTexts(ContentPack pack) sync* {
           case MissionBlock():
         }
       }
+    }
+  }
+  for (final section in pack.sections) {
+    yield section.title;
+    for (final f in section.fields) {
+      yield f.label;
     }
   }
   for (final mission in pack.missions) {

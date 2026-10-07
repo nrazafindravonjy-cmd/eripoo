@@ -488,5 +488,654 @@
   "projectProvisionalTitle": "Mon projet",
   "@projectProvisionalTitle": {
     "description": "Titre provisoire du projet quand l'utilisateur ne sait pas encore le nommer."
+  },
+  "actionSave": "Enregistrer",
+  "@actionSave": {
+    "description": "Bouton d'enregistrement d'un formulaire."
+  },
+  "projectEmptyTitle": "Pas encore de projet",
+  "@projectEmptyTitle": {
+    "description": "Projet absent."
+  },
+  "projectEmptyBody": "Termine le diagnostic pour créer ton projet.",
+  "@projectEmptyBody": {
+    "description": "Projet absent : explication."
+  },
+  "projectMaturity": "Étape du projet : {stage}",
+  "@projectMaturity": {
+    "description": "Maturité du projet.",
+    "placeholders": {
+      "stage": {
+        "type": "String"
+      }
+    }
+  },
+  "maturityExploration": "Exploration",
+  "@maturityExploration": {
+    "description": "Stade de maturité."
+  },
+  "maturityValidation": "Validation",
+  "@maturityValidation": {
+    "description": "Stade de maturité."
+  },
+  "maturityConstruction": "Construction",
+  "@maturityConstruction": {
+    "description": "Stade de maturité."
+  },
+  "maturityPreparation": "Préparation",
+  "@maturityPreparation": {
+    "description": "Stade de maturité."
+  },
+  "maturityLaunch": "Lancement",
+  "@maturityLaunch": {
+    "description": "Stade de maturité."
+  },
+  "projectSectionsTitle": "Ce que ton projet contient",
+  "@projectSectionsTitle": {
+    "description": "Titre des sections."
+  },
+  "projectSectionEmpty": "Pas encore rempli : les quêtes t'aideront.",
+  "@projectSectionEmpty": {
+    "description": "Section vide."
+  },
+  "projectEditSection": "Modifier",
+  "@projectEditSection": {
+    "description": "Modifier une section."
+  },
+  "projectHistory": "Avant / Maintenant",
+  "@projectHistory": {
+    "description": "Historique d'une section."
+  },
+  "projectHistoryEmpty": "Pas encore de changement.",
+  "@projectHistoryEmpty": {
+    "description": "Historique vide."
+  },
+  "projectHistoryBefore": "Avant : {value}",
+  "@projectHistoryBefore": {
+    "description": "Ancienne valeur d'un champ.",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "projectHistoryNow": "Maintenant : {value}",
+  "@projectHistoryNow": {
+    "description": "Nouvelle valeur d'un champ.",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "projectHistoryNoValue": "(vide)",
+  "@projectHistoryNoValue": {
+    "description": "Valeur absente."
+  },
+  "projectResearchTitle": "Tester tes idées",
+  "@projectResearchTitle": {
+    "description": "Titre de la partie hypothèses."
+  },
+  "projectHypothesesEntry": "Hypothèses ({count})",
+  "@projectHypothesesEntry": {
+    "description": "Entrée vers les hypothèses.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "projectFieldNotesEntry": "Carnet de terrain ({count})",
+  "@projectFieldNotesEntry": {
+    "description": "Entrée vers les observations et rencontres.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hypothesesTitle": "Hypothèses",
+  "@hypothesesTitle": {
+    "description": "Titre de la liste."
+  },
+  "hypothesesEmpty": "Une hypothèse, c'est ce que tu crois vrai mais que tu n'as pas encore vérifié.",
+  "@hypothesesEmpty": {
+    "description": "Liste vide : explication."
+  },
+  "hypothesisNew": "Nouvelle hypothèse",
+  "@hypothesisNew": {
+    "description": "Créer une hypothèse."
+  },
+  "hypothesisStatementLabel": "Ce que tu penses",
+  "@hypothesisStatementLabel": {
+    "description": "Champ énoncé."
+  },
+  "hypothesisTemplate": "Je pense que [qui] a [quel problème] quand [quelle situation].",
+  "@hypothesisTemplate": {
+    "description": "Gabarit d'hypothèse."
+  },
+  "hypothesisCategoryLabel": "Sur quoi porte-t-elle ?",
+  "@hypothesisCategoryLabel": {
+    "description": "Champ catégorie."
+  },
+  "categoryProblem": "Le problème",
+  "@categoryProblem": {
+    "description": "Catégorie."
+  },
+  "categoryCustomer": "Les clients",
+  "@categoryCustomer": {
+    "description": "Catégorie."
+  },
+  "categorySolution": "La solution",
+  "@categorySolution": {
+    "description": "Catégorie."
+  },
+  "categoryPrice": "Le prix",
+  "@categoryPrice": {
+    "description": "Catégorie."
+  },
+  "categoryChannel": "Comment toucher les clients",
+  "@categoryChannel": {
+    "description": "Catégorie."
+  },
+  "categoryOther": "Autre",
+  "@categoryOther": {
+    "description": "Catégorie."
+  },
+  "hypothesisImportanceLabel": "Importance",
+  "@hypothesisImportanceLabel": {
+    "description": "Champ importance."
+  },
+  "importance1": "Utile à savoir",
+  "@importance1": {
+    "description": "Importance 1."
+  },
+  "importance2": "Importante",
+  "@importance2": {
+    "description": "Importance 2."
+  },
+  "importance3": "Le projet en dépend",
+  "@importance3": {
+    "description": "Importance 3."
+  },
+  "hypothesisConfidenceLabel": "Ta confiance aujourd'hui : {value} sur 5",
+  "@hypothesisConfidenceLabel": {
+    "description": "Confiance avant test.",
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "statusDraft": "Brouillon",
+  "@statusDraft": {
+    "description": "Statut d'hypothèse."
+  },
+  "statusToTest": "À tester",
+  "@statusToTest": {
+    "description": "Statut d'hypothèse."
+  },
+  "statusTesting": "En test",
+  "@statusTesting": {
+    "description": "Statut d'hypothèse."
+  },
+  "statusValidated": "Confirmée",
+  "@statusValidated": {
+    "description": "Statut d'hypothèse."
+  },
+  "statusInvalidated": "Infirmée",
+  "@statusInvalidated": {
+    "description": "Statut d'hypothèse."
+  },
+  "statusInconclusive": "Pas de réponse claire",
+  "@statusInconclusive": {
+    "description": "Statut d'hypothèse."
+  },
+  "statusAbandoned": "Abandonnée",
+  "@statusAbandoned": {
+    "description": "Statut d'hypothèse."
+  },
+  "hypothesisEdit": "Modifier",
+  "@hypothesisEdit": {
+    "description": "Modifier une hypothèse."
+  },
+  "hypothesisMarkToTest": "Elle est prête à tester",
+  "@hypothesisMarkToTest": {
+    "description": "Passer à « à tester »."
+  },
+  "hypothesisAbandon": "Abandonner",
+  "@hypothesisAbandon": {
+    "description": "Abandonner une hypothèse."
+  },
+  "hypothesisAbandonConfirmTitle": "Abandonner cette hypothèse ?",
+  "@hypothesisAbandonConfirmTitle": {
+    "description": "Confirmation."
+  },
+  "hypothesisAbandonConfirmBody": "Elle restera dans ton historique.",
+  "@hypothesisAbandonConfirmBody": {
+    "description": "Confirmation."
+  },
+  "hypothesisLockedNote": "Elle a été testée : pour la changer, prends la décision « Modifier l'hypothèse ».",
+  "@hypothesisLockedNote": {
+    "description": "Hypothèse non modifiable."
+  },
+  "hypothesisPreviousVersion": "Version précédente",
+  "@hypothesisPreviousVersion": {
+    "description": "Lien vers la version précédente."
+  },
+  "hypothesisNextVersion": "Nouvelle version",
+  "@hypothesisNextVersion": {
+    "description": "Lien vers la nouvelle version."
+  },
+  "experimentsTitle": "Tests",
+  "@experimentsTitle": {
+    "description": "Titre des expériences."
+  },
+  "experimentPlan": "Préparer un test",
+  "@experimentPlan": {
+    "description": "Créer une expérience."
+  },
+  "experimentMethodLabel": "Comment tester ?",
+  "@experimentMethodLabel": {
+    "description": "Champ méthode."
+  },
+  "methodInterview": "Discuter avec des personnes",
+  "@methodInterview": {
+    "description": "Méthode."
+  },
+  "methodObservation": "Observer",
+  "@methodObservation": {
+    "description": "Méthode."
+  },
+  "methodPrototype": "Montrer un prototype",
+  "@methodPrototype": {
+    "description": "Méthode."
+  },
+  "methodPriceTest": "Tester un prix",
+  "@methodPriceTest": {
+    "description": "Méthode."
+  },
+  "methodPreSale": "Prévendre",
+  "@methodPreSale": {
+    "description": "Méthode."
+  },
+  "methodFreeTrial": "Essai gratuit",
+  "@methodFreeTrial": {
+    "description": "Méthode."
+  },
+  "methodOther": "Autre",
+  "@methodOther": {
+    "description": "Méthode."
+  },
+  "experimentPlanLabel": "Ce que tu vas faire",
+  "@experimentPlanLabel": {
+    "description": "Champ plan."
+  },
+  "experimentCriterionLabel": "Le test est réussi si…",
+  "@experimentCriterionLabel": {
+    "description": "Champ critère."
+  },
+  "experimentCriterionHelp": "Décide-le avant de tester, par exemple « au moins 3 personnes sur 5 ».",
+  "@experimentCriterionHelp": {
+    "description": "Aide critère."
+  },
+  "experimentSampleLabel": "Combien de personnes ?",
+  "@experimentSampleLabel": {
+    "description": "Champ échantillon."
+  },
+  "experimentStart": "Commencer le test",
+  "@experimentStart": {
+    "description": "Démarrer."
+  },
+  "experimentCriterionLocked": "Fixé avant le test : {criterion}",
+  "@experimentCriterionLocked": {
+    "description": "Critère verrouillé.",
+    "placeholders": {
+      "criterion": {
+        "type": "String"
+      }
+    }
+  },
+  "experimentNoCriterion": "Pas encore de critère de réussite.",
+  "@experimentNoCriterion": {
+    "description": "Critère manquant."
+  },
+  "experimentAddResult": "Noter un résultat",
+  "@experimentAddResult": {
+    "description": "Ajouter un résultat."
+  },
+  "experimentFinish": "Le test est terminé",
+  "@experimentFinish": {
+    "description": "Terminer."
+  },
+  "experimentCancel": "Annuler le test",
+  "@experimentCancel": {
+    "description": "Annuler."
+  },
+  "experimentCancelConfirmTitle": "Annuler ce test ?",
+  "@experimentCancelConfirmTitle": {
+    "description": "Confirmation."
+  },
+  "experimentCancelConfirmBody": "Ce que tu as déjà noté est gardé.",
+  "@experimentCancelConfirmBody": {
+    "description": "Confirmation."
+  },
+  "experimentStatusPlanned": "Prévu",
+  "@experimentStatusPlanned": {
+    "description": "Statut."
+  },
+  "experimentStatusRunning": "En cours",
+  "@experimentStatusRunning": {
+    "description": "Statut."
+  },
+  "experimentStatusDone": "Terminé",
+  "@experimentStatusDone": {
+    "description": "Statut."
+  },
+  "experimentStatusCancelled": "Annulé",
+  "@experimentStatusCancelled": {
+    "description": "Statut."
+  },
+  "resultSummaryLabel": "Ce que tu as observé",
+  "@resultSummaryLabel": {
+    "description": "Champ résultat."
+  },
+  "resultYesLabel": "Combien ont dit oui",
+  "@resultYesLabel": {
+    "description": "Champ métrique."
+  },
+  "resultTotalLabel": "Sur combien",
+  "@resultTotalLabel": {
+    "description": "Champ métrique."
+  },
+  "resultMetric": "{yes} sur {total}",
+  "@resultMetric": {
+    "description": "Métrique d'un résultat.",
+    "placeholders": {
+      "yes": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "evidencesTitle": "Preuves",
+  "@evidencesTitle": {
+    "description": "Titre des preuves."
+  },
+  "evidenceAdd": "Ajouter une preuve",
+  "@evidenceAdd": {
+    "description": "Ajouter une preuve."
+  },
+  "evidenceKindNote": "Note",
+  "@evidenceKindNote": {
+    "description": "Type de preuve."
+  },
+  "evidenceKindPhoto": "Photo",
+  "@evidenceKindPhoto": {
+    "description": "Type de preuve."
+  },
+  "evidenceKindLink": "Lien",
+  "@evidenceKindLink": {
+    "description": "Type de preuve."
+  },
+  "evidenceKindNumber": "Chiffre",
+  "@evidenceKindNumber": {
+    "description": "Type de preuve."
+  },
+  "evidenceKindSale": "Vente",
+  "@evidenceKindSale": {
+    "description": "Type de preuve."
+  },
+  "evidenceNoteLabel": "Ta note",
+  "@evidenceNoteLabel": {
+    "description": "Champ note."
+  },
+  "evidenceLinkLabel": "Adresse du lien",
+  "@evidenceLinkLabel": {
+    "description": "Champ lien."
+  },
+  "evidenceNumberLabel": "Le chiffre",
+  "@evidenceNumberLabel": {
+    "description": "Champ chiffre."
+  },
+  "evidenceSaleLabel": "Montant en ariary",
+  "@evidenceSaleLabel": {
+    "description": "Champ montant."
+  },
+  "evidenceSale": "Vente : {amount}",
+  "@evidenceSale": {
+    "description": "Affichage d'une vente.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "evidencePhotoTake": "Prendre une photo",
+  "@evidencePhotoTake": {
+    "description": "Bouton caméra."
+  },
+  "evidencePhotoChoose": "Choisir une photo",
+  "@evidencePhotoChoose": {
+    "description": "Bouton galerie."
+  },
+  "evidencePhotoPrivacy": "Évite les visages et les personnes qui n'ont pas donné leur accord. La photo est chiffrée sur ton téléphone.",
+  "@evidencePhotoPrivacy": {
+    "description": "Conseil photo."
+  },
+  "evidencePhotoMissing": "Photo pas encore sur ce téléphone.",
+  "@evidencePhotoMissing": {
+    "description": "Photo absente."
+  },
+  "evidencePhotoTooLarge": "Photo trop lourde (10 Mo au maximum).",
+  "@evidencePhotoTooLarge": {
+    "description": "Photo trop grande."
+  },
+  "evidencePhotoUnreadable": "Cette photo ne peut pas être lue.",
+  "@evidencePhotoUnreadable": {
+    "description": "Photo illisible."
+  },
+  "conclude": "Conclure",
+  "@conclude": {
+    "description": "Conclure une hypothèse."
+  },
+  "conclusionOutcomeLabel": "Résultat",
+  "@conclusionOutcomeLabel": {
+    "description": "Champ issue."
+  },
+  "conclusionStatementLabel": "Ce que tu penses maintenant",
+  "@conclusionStatementLabel": {
+    "description": "Champ conclusion."
+  },
+  "conclusionConfidenceLabel": "Ta confiance maintenant : {value} sur 5",
+  "@conclusionConfidenceLabel": {
+    "description": "Confiance après test.",
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "conclusionConfidenceChange": "Confiance : {before} → {after}",
+  "@conclusionConfidenceChange": {
+    "description": "Évolution de la confiance.",
+    "placeholders": {
+      "before": {
+        "type": "String"
+      },
+      "after": {
+        "type": "int"
+      }
+    }
+  },
+  "conclusionsTitle": "Conclusions",
+  "@conclusionsTitle": {
+    "description": "Titre des conclusions."
+  },
+  "invalidatedEncouragement": "Une hypothèse infirmée est une bonne nouvelle : tu viens d'éviter de construire quelque chose d'inutile.",
+  "@invalidatedEncouragement": {
+    "description": "Message après infirmation."
+  },
+  "decisionsTitle": "Décisions",
+  "@decisionsTitle": {
+    "description": "Titre du journal."
+  },
+  "decisionTake": "Décider la suite",
+  "@decisionTake": {
+    "description": "Prendre une décision."
+  },
+  "decisionKeepGoing": "Continuer",
+  "@decisionKeepGoing": {
+    "description": "Décision."
+  },
+  "decisionModify": "Modifier l'hypothèse",
+  "@decisionModify": {
+    "description": "Décision."
+  },
+  "decisionTestMore": "Tester davantage",
+  "@decisionTestMore": {
+    "description": "Décision."
+  },
+  "decisionAbandon": "Abandonner",
+  "@decisionAbandon": {
+    "description": "Décision."
+  },
+  "decisionGoBack": "Revenir en arrière dans la quête",
+  "@decisionGoBack": {
+    "description": "Décision."
+  },
+  "decisionRationaleLabel": "Pourquoi ?",
+  "@decisionRationaleLabel": {
+    "description": "Champ justification."
+  },
+  "decisionNewStatementLabel": "La nouvelle version",
+  "@decisionNewStatementLabel": {
+    "description": "Champ nouvelle version."
+  },
+  "guardNoRunningExperiment": "Commence d'abord un test.",
+  "@guardNoRunningExperiment": {
+    "description": "Règle refusée."
+  },
+  "guardNoSuccessCriterion": "Écris d'abord quand le test sera réussi.",
+  "@guardNoSuccessCriterion": {
+    "description": "Règle refusée."
+  },
+  "guardCriterionLocked": "Le critère est fixé depuis le début du test.",
+  "@guardCriterionLocked": {
+    "description": "Règle refusée."
+  },
+  "guardNoResult": "Note d'abord au moins un résultat.",
+  "@guardNoResult": {
+    "description": "Règle refusée."
+  },
+  "guardNoEvidence": "Ajoute d'abord au moins une preuve.",
+  "@guardNoEvidence": {
+    "description": "Règle refusée."
+  },
+  "guardExperimentWithoutResult": "Note au moins un résultat avant de terminer le test.",
+  "@guardExperimentWithoutResult": {
+    "description": "Règle refusée."
+  },
+  "guardNotEditable": "On ne peut plus la modifier.",
+  "@guardNotEditable": {
+    "description": "Règle refusée."
+  },
+  "guardDecisionNotAllowed": "Cette décision n'est pas possible ici.",
+  "@guardDecisionNotAllowed": {
+    "description": "Règle refusée."
+  },
+  "guardInvalidConfidence": "Choisis une confiance de 1 à 5.",
+  "@guardInvalidConfidence": {
+    "description": "Règle refusée."
+  },
+  "guardInvalidText": "Ce texte est vide ou trop long.",
+  "@guardInvalidText": {
+    "description": "Règle refusée."
+  },
+  "guardInvalidMetrics": "Les chiffres ne vont pas ensemble.",
+  "@guardInvalidMetrics": {
+    "description": "Règle refusée."
+  },
+  "guardExperimentNotStarted": "Commence le test avant de noter un résultat.",
+  "@guardExperimentNotStarted": {
+    "description": "Règle refusée."
+  },
+  "guardIncompleteEvidence": "Il manque quelque chose à cette preuve.",
+  "@guardIncompleteEvidence": {
+    "description": "Règle refusée."
+  },
+  "guardNotFound": "Élément introuvable.",
+  "@guardNotFound": {
+    "description": "Règle refusée."
+  },
+  "fieldNotesTitle": "Carnet de terrain",
+  "@fieldNotesTitle": {
+    "description": "Titre."
+  },
+  "fieldNotesEmpty": "Note ici ce que tu vois et ce que les gens te disent.",
+  "@fieldNotesEmpty": {
+    "description": "Carnet vide."
+  },
+  "observationsTitle": "Observations",
+  "@observationsTitle": {
+    "description": "Titre."
+  },
+  "observationAdd": "Noter une observation",
+  "@observationAdd": {
+    "description": "Ajouter."
+  },
+  "observationDescriptionLabel": "Ce que tu as vu",
+  "@observationDescriptionLabel": {
+    "description": "Champ."
+  },
+  "observationContextLabel": "Où et quand",
+  "@observationContextLabel": {
+    "description": "Champ."
+  },
+  "observationProblemLabel": "Le problème que tu supposes",
+  "@observationProblemLabel": {
+    "description": "Champ."
+  },
+  "interviewsTitle": "Rencontres",
+  "@interviewsTitle": {
+    "description": "Titre."
+  },
+  "interviewAdd": "Noter une rencontre",
+  "@interviewAdd": {
+    "description": "Ajouter."
+  },
+  "interviewAliasLabel": "Surnom de la personne",
+  "@interviewAliasLabel": {
+    "description": "Champ."
+  },
+  "interviewAliasHelp": "Pas de vrai nom ni de numéro de téléphone.",
+  "@interviewAliasHelp": {
+    "description": "Aide."
+  },
+  "interviewNotesLabel": "Ce que la personne t'a dit",
+  "@interviewNotesLabel": {
+    "description": "Champ."
+  },
+  "interviewConclusionLabel": "Ce que tu en retiens",
+  "@interviewConclusionLabel": {
+    "description": "Champ."
+  },
+  "interviewNoRecording": "Pas d'enregistrement de la personne : prends des notes écrites.",
+  "@interviewNoRecording": {
+    "description": "Rappel confidentialité."
+  },
+  "projectHistoryEntry": "{field} · {date}",
+  "@projectHistoryEntry": {
+    "description": "Champ et date d'un changement.",
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
   }
 }
