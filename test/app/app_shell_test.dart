@@ -128,11 +128,12 @@ void main() {
     expect(find.widgetWithText(AppBar, 'Outils'), findsOneWidget);
   });
 
-  testWidgets('unbuilt sections say so honestly', (tester) async {
+  testWidgets('every section is built: no placeholder left', (tester) async {
     await pumpApp(tester);
     await tester.tap(find.text('Outils'));
     await tester.pumpAndSettle();
-    expect(find.text('Pas encore disponible'), findsOneWidget);
+    // Tools not built yet are announced inside the tab (docs/DEVELOPMENT_PLAN.md).
+    expect(find.text('Bientôt'), findsOneWidget);
   });
 
   for (final (language, home) in [

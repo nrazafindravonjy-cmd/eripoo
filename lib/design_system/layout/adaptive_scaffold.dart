@@ -9,12 +9,19 @@ class AdaptiveDestination {
     required this.icon,
     required this.selectedIcon,
     required this.label,
+    this.dot = false,
   });
 
   final IconData icon;
   final IconData selectedIcon;
   final String label;
+
+  /// A small dot on the icon: something new in this section.
+  final bool dot;
 }
+
+Widget _icon(IconData icon, bool dot) =>
+    dot ? Badge(smallSize: 8, child: Icon(icon)) : Icon(icon);
 
 /// App shell: bottom navigation bar on phones, navigation rail on wider
 /// windows. One widget tree for both, chosen from the available width.
@@ -43,8 +50,8 @@ class AdaptiveScaffold extends StatelessWidget {
           destinations: [
             for (final d in destinations)
               NavigationDestination(
-                icon: Icon(d.icon),
-                selectedIcon: Icon(d.selectedIcon),
+                icon: _icon(d.icon, d.dot),
+                selectedIcon: _icon(d.selectedIcon, d.dot),
                 label: d.label,
               ),
           ],
@@ -64,8 +71,8 @@ class AdaptiveScaffold extends StatelessWidget {
               destinations: [
                 for (final d in destinations)
                   NavigationRailDestination(
-                    icon: Icon(d.icon),
-                    selectedIcon: Icon(d.selectedIcon),
+                    icon: _icon(d.icon, d.dot),
+                    selectedIcon: _icon(d.selectedIcon, d.dot),
                     label: Text(d.label),
                   ),
               ],

@@ -14,10 +14,11 @@ import '../../features/project/presentation/project_screen.dart';
 import '../../features/quest/presentation/quest_screens.dart';
 import '../../features/quest/presentation/step_screen.dart';
 import '../../features/settings/presentation/app_settings_controller.dart';
+import '../../features/tools/presentation/competitors_screen.dart';
+import '../../features/tools/presentation/interview_guide_screen.dart';
+import '../../features/tools/presentation/tools_screen.dart';
 import '../../features/trash/presentation/trash_screen.dart';
-import '../../l10n/generated/app_localizations.dart';
 import '../shell/app_shell.dart';
-import '../shell/section_placeholder_screen.dart';
 
 /// Top-level route paths.
 abstract final class AppRoutes {
@@ -32,6 +33,8 @@ abstract final class AppRoutes {
   static const fieldNotes = '/project/notes';
   static const trash = '/project/trash';
   static const conflicts = '/project/versions';
+  static const interviewGuide = '/tools/interview-guide';
+  static const competitors = '/tools/competitors';
 
   static String questDetail(String questId) => '$quest/$questId';
   static String hypothesis(String id) => '$hypotheses/$id';
@@ -134,7 +137,24 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
             ],
           ),
-          _placeholder(AppRoutes.tools, (l10n) => l10n.navTools),
+          StatefulShellBranch(
+            routes: [
+              GoRoute(
+                path: AppRoutes.tools,
+                builder: (context, state) => const ToolsScreen(),
+                routes: [
+                  GoRoute(
+                    path: 'interview-guide',
+                    builder: (context, state) => const InterviewGuideScreen(),
+                  ),
+                  GoRoute(
+                    path: 'competitors',
+                    builder: (context, state) => const CompetitorsScreen(),
+                  ),
+                ],
+              ),
+            ],
+          ),
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -153,17 +173,3 @@ final routerProvider = Provider<GoRouter>((ref) {
   });
   return router;
 });
-
-/// Sections built in later phases.
-StatefulShellBranch _placeholder(
-  String path,
-  String Function(AppLocalizations) title,
-) => StatefulShellBranch(
-  routes: [
-    GoRoute(
-      path: path,
-      builder: (context, state) =>
-          SectionPlaceholderScreen(title: title(AppLocalizations.of(context))),
-    ),
-  ],
-);

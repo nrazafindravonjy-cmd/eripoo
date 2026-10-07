@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../design_system/design_system.dart';
+import '../../features/tools/presentation/tools_providers.dart';
 import '../../l10n/generated/app_localizations.dart';
 
 /// Top-level shell: the five main sections, adaptive to the window width.
-class AppShell extends StatelessWidget {
+class AppShell extends ConsumerWidget {
   const AppShell({super.key, required this.navigationShell});
 
   final StatefulNavigationShell navigationShell;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    // A dot on Tools while a newly unlocked tool has not been seen.
+    final newTools = ref.watch(newToolsProvider);
     return AdaptiveScaffold(
       selectedIndex: navigationShell.currentIndex,
       onDestinationSelected: (index) => navigationShell.goBranch(
@@ -40,6 +44,7 @@ class AppShell extends StatelessWidget {
           icon: Icons.handyman_outlined,
           selectedIcon: Icons.handyman,
           label: l10n.navTools,
+          dot: newTools > 0,
         ),
         AdaptiveDestination(
           icon: Icons.person_outline,

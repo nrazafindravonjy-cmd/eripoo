@@ -9,6 +9,7 @@ import '../../../sync/sync_cycle.dart';
 import '../../../sync/sync_scheduler.dart';
 import '../../devices/presentation/devices_screen.dart';
 import '../../quest/presentation/journey_providers.dart';
+import '../../settings/presentation/app_settings_controller.dart';
 import 'account_providers.dart';
 import 'sign_in_screen.dart';
 
@@ -73,11 +74,39 @@ class ProfileScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
+                  const SizedBox(height: EripooSpacing.xl),
+                  Text(
+                    l10n.settingsTitle,
+                    style: context.textStyles.titleMedium,
+                  ),
+                  const SizedBox(height: EripooSpacing.sm),
+                  const _PreferencesCard(),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _PreferencesCard extends ConsumerWidget {
+  const _PreferencesCard();
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final celebrations = ref.watch(
+      appSettingsProvider.select((s) => s.celebrations),
+    );
+    return EripooCard(
+      child: SwitchListTile(
+        contentPadding: EdgeInsets.zero,
+        value: celebrations,
+        title: Text(l10n.settingsCelebrations),
+        subtitle: Text(l10n.settingsCelebrationsHelp),
+        onChanged: ref.read(appSettingsProvider.notifier).setCelebrations,
       ),
     );
   }

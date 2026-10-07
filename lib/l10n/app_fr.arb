@@ -44,14 +44,6 @@
   "@stateOffline": {
     "description": "Bandeau hors ligne : jamais alarmant."
   },
-  "stateNotYetTitle": "Pas encore disponible",
-  "@stateNotYetTitle": {
-    "description": "Section d'onglet non encore développée (version de développement)."
-  },
-  "stateNotYetBody": "Cette partie sera construite dans une prochaine étape.",
-  "@stateNotYetBody": {
-    "description": "Explication honnête d'une section non encore développée."
-  },
   "actionRetry": "Réessayer",
   "@actionRetry": {
     "description": "Bouton pour réessayer."
@@ -1658,5 +1650,140 @@
   "addDeviceDone": "Le nouveau téléphone peut maintenant ouvrir tes données.",
   "@addDeviceDone": {
     "description": "Fin de l'ajout côté ancien appareil."
+  },
+  "toolsIntro": "Tes outils s'ajoutent au fur et à mesure de ce que tu fais.",
+  "@toolsIntro": {
+    "description": "Introduction de l'onglet Outils."
+  },
+  "toolsUnlockedTitle": "Tes outils",
+  "@toolsUnlockedTitle": {
+    "description": "Section des outils débloqués."
+  },
+  "toolsLockedTitle": "À débloquer",
+  "@toolsLockedTitle": {
+    "description": "Section des outils verrouillés."
+  },
+  "toolsPlannedTitle": "Bientôt",
+  "@toolsPlannedTitle": {
+    "description": "Section des outils pas encore construits."
+  },
+  "toolsPlannedNote": "Pas encore dans cette version.",
+  "@toolsPlannedNote": {
+    "description": "Outil annoncé, pas encore construit."
+  },
+  "toolsPlannedUnlocked": "Débloqué : il sera là dès qu'il existera.",
+  "@toolsPlannedUnlocked": {
+    "description": "Outil prévu mais déjà débloqué."
+  },
+  "toolsNew": "Nouveau",
+  "@toolsNew": {
+    "description": "Étiquette d'un outil tout juste débloqué."
+  },
+  "toolsHelp": "Comment s'en servir",
+  "@toolsHelp": {
+    "description": "Titre de l'aide d'un outil."
+  },
+  "toolsOpen": "Ouvrir",
+  "@toolsOpen": {
+    "description": "Ouvrir un outil."
+  },
+  "toolsLater": "Plus tard",
+  "@toolsLater": {
+    "description": "Fermer la célébration."
+  },
+  "toolsCelebrationTitle": "{count, plural, =1{Nouvel outil débloqué} other{Nouveaux outils débloqués}}",
+  "@toolsCelebrationTitle": {
+    "description": "Célébration d'un déblocage.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "toolsCelebrationBody": "Grâce à ce que tu as fait : {names}.",
+  "@toolsCelebrationBody": {
+    "description": "Liste des outils débloqués.",
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsCelebrations": "Petites célébrations",
+  "@settingsCelebrations": {
+    "description": "Réglage des célébrations."
+  },
+  "settingsCelebrationsHelp": "Un court message quand tu débloques un outil.",
+  "@settingsCelebrationsHelp": {
+    "description": "Aide du réglage des célébrations."
+  },
+  "settingsTitle": "Préférences",
+  "@settingsTitle": {
+    "description": "Section des préférences du profil."
+  },
+  "guideNoteInterview": "Noter une rencontre",
+  "@guideNoteInterview": {
+    "description": "Depuis le guide d'interview, aller noter une rencontre."
+  },
+  "competitorsEmpty": "Pas encore de concurrent noté. Commence par ce que les gens font aujourd'hui sans toi.",
+  "@competitorsEmpty": {
+    "description": "Liste de concurrents vide."
+  },
+  "competitorAdd": "Ajouter un concurrent",
+  "@competitorAdd": {
+    "description": "Ajouter un concurrent."
+  },
+  "competitorEdit": "Modifier",
+  "@competitorEdit": {
+    "description": "Modifier un concurrent."
+  },
+  "competitorKindDirect": "Fait la même chose que toi",
+  "@competitorKindDirect": {
+    "description": "Concurrent direct."
+  },
+  "competitorKindIndirect": "Répond au même besoin autrement",
+  "@competitorKindIndirect": {
+    "description": "Concurrent indirect."
+  },
+  "competitorKindAlternative": "Ce que les gens font sans acheter",
+  "@competitorKindAlternative": {
+    "description": "Alternative (faire soi-même, voisin, rien)."
+  },
+  "competitorKindQuestion": "De quel genre est-il ?",
+  "@competitorKindQuestion": {
+    "description": "Choix du type de concurrent."
+  },
+  "competitorNameLabel": "Qui ou quoi (pas de nom de personne)",
+  "@competitorNameLabel": {
+    "description": "Nom du concurrent."
+  },
+  "competitorOfferLabel": "Ce qu'il propose",
+  "@competitorOfferLabel": {
+    "description": "Offre du concurrent."
+  },
+  "competitorPriceLabel": "Prix observé en ariary",
+  "@competitorPriceLabel": {
+    "description": "Prix observé."
+  },
+  "competitorStrengthsLabel": "Pourquoi les gens le choisissent",
+  "@competitorStrengthsLabel": {
+    "description": "Forces."
+  },
+  "competitorWeaknessesLabel": "Ce qui leur manque",
+  "@competitorWeaknessesLabel": {
+    "description": "Faiblesses."
+  },
+  "competitorInvalid": "Vérifie le nom (80 caractères au plus) et le prix.",
+  "@competitorInvalid": {
+    "description": "Saisie refusée."
+  },
+  "competitorPrice": "Prix vu : {price}",
+  "@competitorPrice": {
+    "description": "Prix observé affiché.",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
   }
 }
