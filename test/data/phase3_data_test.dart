@@ -113,6 +113,11 @@ void main() {
     await v2.customStatement(
       'alter table step_progress_entries drop column deferred_until',
     );
+    // Later additions, absent from a real version 1 database.
+    await v2.customStatement('drop table media_uploads'); // v4
+    await v2.customStatement(
+      'alter table sync_meta_entries drop column purge_requested', // v5
+    );
     await v2.customStatement('pragma user_version = 1');
     await v2.close();
 
