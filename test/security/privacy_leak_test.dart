@@ -75,6 +75,11 @@ class RecordingRemote implements SyncRemote {
   @override
   Future<void> revokeDevice(String deviceId) =>
       _call({'p_device_id': deviceId}, () => _inner.revokeDevice(deviceId));
+
+  @override
+  Future<List<RemoteDevice>> listDevices({String? currentDeviceId}) => _call({
+    'p_current_device': currentDeviceId,
+  }, () => _inner.listDevices(currentDeviceId: currentDeviceId));
 }
 
 void expectNoSentinel(String where, Iterable<String> texts) {

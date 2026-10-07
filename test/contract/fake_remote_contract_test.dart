@@ -1,4 +1,5 @@
 import 'package:eripoo/core/ids/ids.dart';
+import 'package:eripoo/sync/remote/media_remote.dart';
 import 'package:eripoo/sync/remote/sync_remote.dart';
 
 import '../helpers/fake_sync_server.dart';
@@ -14,6 +15,7 @@ class _FakeHarness implements ContractHarness {
     return ContractSession(
       owner,
       server.clientFor(owner, session: session),
+      server.mediaFor(owner, session: session),
       session,
     );
   }
@@ -24,12 +26,16 @@ class _FakeHarness implements ContractHarness {
     return ContractSession(
       user.ownerId,
       server.clientFor(user.ownerId, session: session),
+      server.mediaFor(user.ownerId, session: session),
       session,
     );
   }
 
   @override
   SyncRemote anonymous() => server.anonymous();
+
+  @override
+  MediaRemote anonymousMedia() => server.mediaFor('', session: '');
 
   @override
   Future<bool> canRefresh(ContractSession session) async =>

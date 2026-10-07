@@ -4,6 +4,8 @@ library;
 import 'dart:io';
 
 import 'package:eripoo/core/ids/ids.dart';
+import 'package:eripoo/sync/remote/media_remote.dart';
+import 'package:eripoo/sync/remote/supabase_media_remote.dart';
 import 'package:eripoo/sync/remote/supabase_sync_remote.dart';
 import 'package:eripoo/sync/remote/sync_remote.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -55,6 +57,7 @@ class _SupabaseHarness implements ContractHarness {
     return ContractSession(
       response.user!.id,
       SupabaseSyncRemote(client),
+      SupabaseMediaRemote(client),
       _Login(client, email, password),
     );
   }
@@ -70,12 +73,16 @@ class _SupabaseHarness implements ContractHarness {
     return ContractSession(
       user.ownerId,
       SupabaseSyncRemote(client),
+      SupabaseMediaRemote(client),
       _Login(client, login.email, login.password),
     );
   }
 
   @override
   SyncRemote anonymous() => SupabaseSyncRemote(_client());
+
+  @override
+  MediaRemote anonymousMedia() => SupabaseMediaRemote(_client());
 
   @override
   Future<bool> canRefresh(ContractSession session) async {

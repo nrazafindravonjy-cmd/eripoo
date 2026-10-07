@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:eripoo/security/envelopes.dart';
+import 'package:eripoo/sync/remote/media_remote.dart';
 import 'package:eripoo/sync/remote/sync_remote.dart';
 
 /// In-memory test double of the server functions (supabase/migrations),
@@ -11,6 +12,8 @@ class FakeSyncServer {
   final _records = <String, Map<String, RemoteRecord>>{}; // owner → id → record
   final _heads = <String, int>{};
   final _devices = <String, Map<String, String>>{}; // owner → device → status
+  final _deviceLabels = <String, String>{}; // device → label
+  final _media = <String, Map<String, Uint8List>>{}; // owner → id → bytes
   final _wraps = <String, RecoveryWrap>{};
   // Like the SQL: each device remembers the auth session it last used; a
   // revoked device's session is refused everywhere afterwards.
@@ -47,6 +50,14 @@ class FakeSyncServer {
 
   /// A client without any session.
   FakeSyncRemote anonymous() => FakeSyncRemote(this, '', '');
+
+  /// The media files of [ownerId] signed in with [session].
+  FakeMediaRemote mediaFor(String ownerId, {String session = 'session-1'}) =>
+      FakeMediaRemote(this, ownerId, session);
+
+  Map<String, Uint8List> mediaOf(String owner) => _media[owner] ?? const {};
+
+  int mediaUploads = 0;
 
   final _wrapFetches = <String, int>{}; // owner → fetches (no clock: no reset)
 
@@ -116,7 +127,31 @@ class FakeSyncRemote implements SyncRemote {
       throw const DeviceLimitReached();
     }
     devices[deviceId] = 'active';
+    server._deviceLabels[deviceId] = label;
     server._bind(ownerId, deviceId, session);
+  }
+
+  @override
+  Future<List<RemoteDevice>> listDevices({String? currentDeviceId}) async {
+    _online();
+    final devices = server._devices[ownerId] ?? const <String, String>{};
+    final ordered = devices.keys.toList()
+      ..sort(
+        (a, b) => (devices[a] == 'revoked' ? 1 : 0).compareTo(
+          devices[b] == 'revoked' ? 1 : 0,
+        ),
+      );
+    return [
+      for (final id in ordered)
+        RemoteDevice(
+          id: id,
+          label: server._deviceLabels[id] ?? '',
+          revoked: devices[id] == 'revoked',
+          createdAt: DateTime.utc(2026),
+          lastSeenAt: null,
+          current: id == currentDeviceId,
+        ),
+    ];
   }
 
   @override
@@ -207,5 +242,50 @@ class FakeSyncRemote implements SyncRemote {
     if (fetches >= 5) throw const RateLimited();
     server._wrapFetches[ownerId] = fetches + 1;
     return server._wraps[ownerId];
+  }
+}
+
+/// Same rules as the `user-media` bucket policies: own files only, write
+/// once, size cap, nothing for a revoked device's session (its uploads are
+/// refused and its reads find nothing, like Storage behind RLS).
+class FakeMediaRemote implements MediaRemote {
+  FakeMediaRemote(this.server, this.ownerId, this.session);
+
+  final FakeSyncServer server;
+  final String ownerId;
+  final String session;
+
+  static const maxBytes = MediaEnvelopes.maxPlainBytes + 43;
+
+  void _online() {
+    if (server.offline) throw const RemoteUnavailable();
+    if (session.isEmpty) throw const NotAuthenticated();
+  }
+
+  bool get _revoked => server.isSessionRevoked(session);
+
+  @override
+  Future<void> upload(String mediaId, Uint8List sealed) async {
+    _online();
+    if (_revoked || sealed.length > maxBytes) throw const RemoteRejected();
+    final files = server._media[ownerId] ??= {};
+    if (files.containsKey(mediaId)) return;
+    files[mediaId] = Uint8List.fromList(sealed);
+    server.mediaUploads++;
+  }
+
+  @override
+  Future<Uint8List?> download(String mediaId) async {
+    _online();
+    if (_revoked) return null;
+    final bytes = server._media[ownerId]?[mediaId];
+    return bytes == null ? null : Uint8List.fromList(bytes);
+  }
+
+  @override
+  Future<void> delete(String mediaId) async {
+    _online();
+    if (_revoked) return;
+    server._media[ownerId]?.remove(mediaId);
   }
 }

@@ -82,6 +82,17 @@ class SupabaseSyncRemote implements SyncRemote {
       _rpc('revoke_device', {'p_device_id': deviceId});
 
   @override
+  Future<List<RemoteDevice>> listDevices({String? currentDeviceId}) async {
+    final result = await _rpc('list_devices', {
+      'p_current_device': currentDeviceId,
+    });
+    return [
+      for (final d in result! as List<Object?>)
+        decodeDevice(d! as Map<String, Object?>),
+    ];
+  }
+
+  @override
   Future<RecoveryWrap?> getRecoveryWrap() async {
     final result = await _rpc('get_recovery_wrap', const {});
     if (result == null) return null;
@@ -162,4 +173,16 @@ PullPage decodePullPage(Map<String, Object?> json) => PullPage(
     for (final r in json['records']! as List<Object?>)
       decodeRecord(r! as Map<String, Object?>),
   ],
+);
+
+RemoteDevice decodeDevice(Map<String, Object?> json) => RemoteDevice(
+  id: json['id']! as String,
+  label: json['label']! as String,
+  revoked: json['status'] == 'revoked',
+  createdAt: DateTime.parse(json['created_at']! as String),
+  lastSeenAt: switch (json['last_seen_at']) {
+    final String at => DateTime.parse(at),
+    _ => null,
+  },
+  current: json['current'] == true,
 );

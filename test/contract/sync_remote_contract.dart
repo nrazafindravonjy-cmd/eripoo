@@ -7,6 +7,7 @@ import 'package:eripoo/features/project/data/project_repository.dart';
 import 'package:eripoo/security/crypto_service.dart';
 import 'package:eripoo/security/envelopes.dart';
 import 'package:eripoo/sync/engine/sync_engine.dart';
+import 'package:eripoo/sync/remote/media_remote.dart';
 import 'package:eripoo/sync/remote/sync_remote.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -14,9 +15,10 @@ import '../helpers/test_database.dart';
 
 /// One signed-in session of a test user.
 class ContractSession {
-  ContractSession(this.ownerId, this.remote, this.handle);
+  ContractSession(this.ownerId, this.remote, this.media, this.handle);
   final String ownerId;
   final SyncRemote remote;
+  final MediaRemote media;
   final Object handle;
 }
 
@@ -28,6 +30,7 @@ abstract class ContractHarness {
   /// A second sign-in of the same user (another phone).
   Future<ContractSession> signInAgain(ContractSession user);
   SyncRemote anonymous();
+  MediaRemote anonymousMedia();
 
   /// Whether this session can still obtain new tokens (refresh).
   Future<bool> canRefresh(ContractSession session);
@@ -267,6 +270,87 @@ void syncRemoteContract(Future<ContractHarness> Function() create) {
     expect(await h.canRefresh(a), isFalse, reason: 'session ended');
     expect(await h.canRefresh(b), isTrue);
     expect((await b.remote.pull(dB, 0)).head, 0);
+  });
+
+  test('my devices: names and states, never the session; the asking '
+      'device is marked', () async {
+    final a = await h.newUser();
+    final dA = Ids.random();
+    await a.remote.registerDevice(dA, 'Téléphone');
+    final b = await h.signInAgain(a);
+    final dB = Ids.random();
+    await b.remote.registerDevice(dB, 'Tablette');
+    final list = await b.remote.listDevices(currentDeviceId: dB);
+    expect(
+      list.map((d) => d.label),
+      unorderedEquals(['Téléphone', 'Tablette']),
+    );
+    expect(list.singleWhere((d) => d.current).id, dB);
+    expect(list.every((d) => !d.revoked), isTrue);
+
+    await b.remote.revokeDevice(dA);
+    final after = await b.remote.listDevices(currentDeviceId: dB);
+    expect(after.first.id, dB, reason: 'active devices first');
+    expect(after.singleWhere((d) => d.id == dA).revoked, isTrue);
+    await expectLater(a.remote.listDevices(), throwsA(isA<DeviceRevoked>()));
+    final other = await h.newUser();
+    expect(await other.remote.listDevices(), isEmpty);
+  });
+
+  group('media files', () {
+    test('upload, download the same bytes, idempotent, delete', () async {
+      final u = await h.newUser();
+      final id = Ids.newId();
+      final sealed = _bytes(3, 5000);
+      expect(await u.media.download(id), isNull);
+      await u.media.upload(id, sealed);
+      await u.media.upload(id, sealed); // lost response, retried
+      expect(await u.media.download(id), sealed);
+      await u.media.delete(id);
+      expect(await u.media.download(id), isNull);
+      await u.media.delete(id);
+    });
+
+    test('accounts are isolated; no session, no file', () async {
+      final a = await h.newUser();
+      final id = Ids.newId();
+      await a.media.upload(id, _bytes(4));
+      final b = await h.newUser();
+      expect(await b.media.download(id), isNull);
+      await b.media.delete(id); // cannot delete someone else's file
+      expect(await a.media.download(id), _bytes(4));
+      await expectLater(
+        h.anonymousMedia().download(id),
+        throwsA(isA<NotAuthenticated>()),
+      );
+    });
+
+    test('files over the cap are refused', () async {
+      final u = await h.newUser();
+      await expectLater(
+        u.media.upload(Ids.newId(), Uint8List(10 * 1024 * 1024 + 44)),
+        throwsA(isA<RemoteRejected>()),
+      );
+    });
+
+    test('a removed device\'s session can neither read nor write', () async {
+      final a = await h.newUser();
+      final dA = Ids.random();
+      await a.remote.registerDevice(dA, 'Téléphone perdu');
+      final id = Ids.newId();
+      await a.media.upload(id, _bytes(5));
+      final b = await h.signInAgain(a);
+      final dB = Ids.random();
+      await b.remote.registerDevice(dB, 'Nouveau téléphone');
+      await b.remote.revokeDevice(dA);
+
+      expect(await a.media.download(id), isNull);
+      await expectLater(
+        a.media.upload(Ids.newId(), _bytes(6)),
+        throwsA(isA<RemoteRejected>()),
+      );
+      expect(await b.media.download(id), _bytes(5));
+    });
   });
 
   test('two devices converge through the real engine', () async {

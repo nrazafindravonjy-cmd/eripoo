@@ -73,6 +73,27 @@ class PullPage {
   final List<RemoteRecord> records;
 }
 
+/// One device of the account, as listed by the server (metadata only).
+class RemoteDevice {
+  const RemoteDevice({
+    required this.id,
+    required this.label,
+    required this.revoked,
+    required this.createdAt,
+    required this.lastSeenAt,
+    required this.current,
+  });
+
+  final String id;
+  final String label;
+  final bool revoked;
+  final DateTime createdAt;
+  final DateTime? lastSeenAt;
+
+  /// The device that asked for the list.
+  final bool current;
+}
+
 /// Errors reported by the server.
 sealed class SyncRemoteFailure implements Exception {
   const SyncRemoteFailure();
@@ -129,4 +150,7 @@ abstract interface class SyncRemote {
   /// Removes another device of the account (lost or stolen phone). Needs
   /// a recent sign-in ([ReauthenticationRequired] otherwise).
   Future<void> revokeDevice(String deviceId);
+
+  /// The account's devices, active first; removed ones stay 30 days.
+  Future<List<RemoteDevice>> listDevices({String? currentDeviceId});
 }
