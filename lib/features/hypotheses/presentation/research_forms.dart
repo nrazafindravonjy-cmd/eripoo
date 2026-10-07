@@ -5,6 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../trash/application/trash_service.dart';
+import '../../trash/presentation/trash_screen.dart';
 import '../domain/research.dart';
 import 'research_providers.dart';
 
@@ -338,6 +340,13 @@ class EvidenceList extends ConsumerWidget {
                 Icon(_iconOf(e.kind), size: 18),
                 const SizedBox(width: EripooSpacing.sm),
                 Expanded(child: _EvidenceBody(e)),
+                IconButton(
+                  icon: const Icon(Icons.delete_outline, size: 20),
+                  tooltip: l10n.actionDelete,
+                  visualDensity: VisualDensity.compact,
+                  onPressed: () =>
+                      deleteWithUndo(context, ref, TrashKind.evidence, e.id),
+                ),
               ],
             ),
           ),

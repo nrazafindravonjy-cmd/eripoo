@@ -1141,5 +1141,138 @@
   "stepConditionNotMet": "Ce n'est pas encore fait : termine d'abord ce que demande cette étape.",
   "@stepConditionNotMet": {
     "description": "Condition d'une étape non remplie (sans mission)."
+  },
+  "actionDelete": "Supprimer",
+  "@actionDelete": {
+    "description": "Mettre un élément à la corbeille."
+  },
+  "actionUndo": "Annuler",
+  "@actionUndo": {
+    "description": "Annuler l'action qui vient d'être faite."
+  },
+  "movedToTrash": "Mis à la corbeille.",
+  "@movedToTrash": {
+    "description": "Message après une suppression."
+  },
+  "trashTitle": "Corbeille",
+  "@trashTitle": {
+    "description": "Titre de l'écran Corbeille."
+  },
+  "projectTrashEntry": "Corbeille ({count})",
+  "@projectTrashEntry": {
+    "description": "Entrée vers la corbeille.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trashExplain": "Ce que tu supprimes reste ici 30 jours, puis disparaît pour de bon, sur tous tes appareils.",
+  "@trashExplain": {
+    "description": "Explication de la corbeille."
+  },
+  "trashEmpty": "La corbeille est vide.",
+  "@trashEmpty": {
+    "description": "Corbeille vide."
+  },
+  "trashDates": "Supprimé le {date} · effacé pour de bon le {purgeDate}",
+  "@trashDates": {
+    "description": "Dates d'un élément de la corbeille.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "purgeDate": {
+        "type": "String"
+      }
+    }
+  },
+  "trashKind": "{kind, select, observation{Observation} interview{Rencontre} evidence{Preuve} other{Élément}}",
+  "@trashKind": {
+    "description": "Type d'un élément de la corbeille.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "trashRestore": "Remettre",
+  "@trashRestore": {
+    "description": "Sortir un élément de la corbeille."
+  },
+  "trashPurge": "Supprimer pour de bon",
+  "@trashPurge": {
+    "description": "Effacer définitivement un élément."
+  },
+  "trashPurgeConfirmTitle": "Supprimer pour de bon ?",
+  "@trashPurgeConfirmTitle": {
+    "description": "Titre de la confirmation d'effacement définitif."
+  },
+  "trashPurgeConfirmBody": "Ce sera effacé de tous tes appareils et ne pourra pas être retrouvé.",
+  "@trashPurgeConfirmBody": {
+    "description": "Texte de la confirmation d'effacement définitif."
+  },
+  "trashEmptyAll": "Vider la corbeille",
+  "@trashEmptyAll": {
+    "description": "Effacer tout le contenu de la corbeille."
+  },
+  "trashEmptyAllConfirmBody": "Tout ce qui est dans la corbeille sera effacé de tous tes appareils, sans retour possible.",
+  "@trashEmptyAllConfirmBody": {
+    "description": "Confirmation pour vider la corbeille."
+  },
+  "conflictsTitle": "Versions à vérifier",
+  "@conflictsTitle": {
+    "description": "Titre de l'écran des copies de conflit."
+  },
+  "projectConflictsEntry": "Versions à vérifier ({count})",
+  "@projectConflictsEntry": {
+    "description": "Entrée vers les copies de conflit.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "conflictsExplain": "La même chose a été modifiée sur deux appareils en même temps. Les deux versions sont gardées : choisis celle qui est juste.",
+  "@conflictsExplain": {
+    "description": "Explication des copies de conflit."
+  },
+  "conflictsEmpty": "Rien à vérifier.",
+  "@conflictsEmpty": {
+    "description": "Aucune copie de conflit."
+  },
+  "conflictEntity": "{kind, select, project{Projet} project_section{Partie du projet} hypothesis{Hypothèse} experiment{Test} observation{Observation} interview{Rencontre} evidence{Preuve} profile{Profil} answer{Réponse} other{Élément}}",
+  "@conflictEntity": {
+    "description": "Type de l'élément en conflit.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "conflictCurrent": "Version gardée",
+  "@conflictCurrent": {
+    "description": "La version actuellement en place."
+  },
+  "conflictOther": "Autre version ({date})",
+  "@conflictOther": {
+    "description": "La version mise de côté.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "conflictKeepOther": "Garder l'autre version",
+  "@conflictKeepOther": {
+    "description": "Remplacer par la version mise de côté."
+  },
+  "conflictKeepCurrent": "Garder la version actuelle",
+  "@conflictKeepCurrent": {
+    "description": "Garder la version en place."
+  },
+  "conflictNoDifference": "Les deux versions disent la même chose.",
+  "@conflictNoDifference": {
+    "description": "Aucune différence visible entre les versions."
   }
 }

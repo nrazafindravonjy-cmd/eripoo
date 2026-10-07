@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/conflicts/presentation/conflicts_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/hypotheses/presentation/field_notes_screen.dart';
 import '../../features/hypotheses/presentation/hypotheses_screen.dart';
@@ -12,6 +13,7 @@ import '../../features/project/presentation/project_screen.dart';
 import '../../features/quest/presentation/quest_screens.dart';
 import '../../features/quest/presentation/step_screen.dart';
 import '../../features/settings/presentation/app_settings_controller.dart';
+import '../../features/trash/presentation/trash_screen.dart';
 import '../../l10n/generated/app_localizations.dart';
 import '../shell/app_shell.dart';
 import '../shell/section_placeholder_screen.dart';
@@ -27,6 +29,8 @@ abstract final class AppRoutes {
 
   static const hypotheses = '/project/hypotheses';
   static const fieldNotes = '/project/notes';
+  static const trash = '/project/trash';
+  static const conflicts = '/project/versions';
 
   static String questDetail(String questId) => '$quest/$questId';
   static String hypothesis(String id) => '$hypotheses/$id';
@@ -116,6 +120,14 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'notes',
                     builder: (context, state) => const FieldNotesScreen(),
+                  ),
+                  GoRoute(
+                    path: 'trash',
+                    builder: (context, state) => const TrashScreen(),
+                  ),
+                  GoRoute(
+                    path: 'versions',
+                    builder: (context, state) => const ConflictsScreen(),
                   ),
                 ],
               ),

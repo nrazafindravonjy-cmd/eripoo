@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../quest/presentation/journey_providers.dart';
+import '../../trash/application/trash_service.dart';
+import '../../trash/presentation/trash_screen.dart';
 import '../domain/research.dart';
 import 'research_forms.dart';
 import 'research_providers.dart';
@@ -97,6 +99,20 @@ class FieldNotesScreen extends ConsumerWidget {
                               subject: EvidenceSubject.observation,
                               subjectId: o.id,
                             ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: EripooButton(
+                                label: l10n.actionDelete,
+                                icon: Icons.delete_outline,
+                                variant: EripooButtonVariant.tertiary,
+                                onPressed: () => deleteWithUndo(
+                                  context,
+                                  ref,
+                                  TrashKind.observation,
+                                  o.id,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -136,6 +152,20 @@ class FieldNotesScreen extends ConsumerWidget {
                               projectId: project.id,
                               subject: EvidenceSubject.interview,
                               subjectId: i.id,
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: EripooButton(
+                                label: l10n.actionDelete,
+                                icon: Icons.delete_outline,
+                                variant: EripooButtonVariant.tertiary,
+                                onPressed: () => deleteWithUndo(
+                                  context,
+                                  ref,
+                                  TrashKind.interview,
+                                  i.id,
+                                ),
+                              ),
                             ),
                           ],
                         ),

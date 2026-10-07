@@ -6,10 +6,12 @@ import '../../../app/router/app_router.dart';
 import '../../../content/content_pack.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../conflicts/presentation/conflicts_screen.dart';
 import '../../hypotheses/presentation/research_forms.dart';
 import '../../hypotheses/presentation/research_providers.dart';
 import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
+import '../../trash/presentation/trash_screen.dart';
 import '../data/project_repository.dart';
 import '../domain/project.dart';
 
@@ -50,6 +52,8 @@ class _ProjectBody extends ConsumerWidget {
     final sections = ref.watch(projectSectionsProvider(project.id)).value;
     final hypotheses = ref.watch(hypothesesProvider(project.id)).value;
     final notes = ref.watch(fieldNotesProvider(project.id)).value;
+    final trashed = ref.watch(trashItemsProvider).value?.length ?? 0;
+    final conflicts = ref.watch(pendingConflictsProvider).value?.length ?? 0;
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
       children: [
@@ -100,6 +104,36 @@ class _ProjectBody extends ConsumerWidget {
                   ],
                 ),
               ),
+              if (conflicts > 0) ...[
+                const SizedBox(height: EripooSpacing.sm),
+                EripooCard(
+                  onTap: () => context.go(AppRoutes.conflicts),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.call_split),
+                      const SizedBox(width: EripooSpacing.md),
+                      Expanded(
+                        child: Text(l10n.projectConflictsEntry(conflicts)),
+                      ),
+                      const Icon(Icons.chevron_right),
+                    ],
+                  ),
+                ),
+              ],
+              if (trashed > 0) ...[
+                const SizedBox(height: EripooSpacing.sm),
+                EripooCard(
+                  onTap: () => context.go(AppRoutes.trash),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.delete_outline),
+                      const SizedBox(width: EripooSpacing.md),
+                      Expanded(child: Text(l10n.projectTrashEntry(trashed))),
+                      const Icon(Icons.chevron_right),
+                    ],
+                  ),
+                ),
+              ],
               const SizedBox(height: EripooSpacing.xl),
               Text(
                 l10n.projectSectionsTitle,

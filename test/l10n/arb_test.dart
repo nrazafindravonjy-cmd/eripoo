@@ -9,8 +9,13 @@ Map<String, dynamic> _readJson(String path) =>
 Set<String> _messageKeys(Map<String, dynamic> arb) =>
     arb.keys.where((k) => !k.startsWith('@')).toSet();
 
+/// `{name}` or `{name, select, …}`; not the branches of a select
+/// (`case{Text}`), which follow their case word and are translated.
 Set<String> _placeholders(String message) =>
-    RegExp(r'\{(\w+)\}').allMatches(message).map((m) => m.group(1)!).toSet();
+    RegExp(r'(?<!\w)\{(\w+)[},]')
+        .allMatches(message)
+        .map((m) => m.group(1)!)
+        .toSet();
 
 void main() {
   final fr = _readJson('lib/l10n/app_fr.arb');
