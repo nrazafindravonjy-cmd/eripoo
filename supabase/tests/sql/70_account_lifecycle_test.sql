@@ -33,6 +33,9 @@ select tests.ok((select status from public.devices
   'the phone that left is removed from the account');
 
 -- ------------------------------------------------------------- quota
+-- Undone with a savepoint: real Supabase forbids deleting Storage rows
+-- directly (only through the Storage API).
+savepoint quota;
 select tests.login('aaaaaaaa-0000-4000-8000-000000000070', interval '1 minute',
   '5e570000-0000-4000-8000-000000000002');
 insert into storage.objects (bucket_id, name)
@@ -47,7 +50,7 @@ insert into storage.objects (bucket_id, name) values
   ('user-media', 'bbbbbbbb-0000-4000-8000-000000000070/' || gen_random_uuid());
 select tests.ok(true, 'another account''s quota is its own');
 select tests.logout();
-delete from storage.objects where name like 'aaaaaaaa-0000-4000-8000-000000000070/%';
+rollback to savepoint quota;
 
 -- --------------------------------------------------- deleting the account
 select tests.login('aaaaaaaa-0000-4000-8000-000000000070', interval '1 minute',
