@@ -22,7 +22,9 @@ dependencies:
   intl: ^0.20.3
   local_auth: ^3.0.2
   path_provider: ^2.1.6
-  qr: ^4.0.0
+  pdf: ^3.13.1
+  qr: ^3.0.2
+  share_plus: ^13.3.1
   sodium: ^4.1.1+2
   sqlite3: ^3.7.0
   supabase_flutter: ^2.18.0
@@ -47,6 +49,10 @@ flutter:
   assets:
     # Built from content/ by tool/content_build.dart (do not edit by hand).
     - assets/content/base_pack.json
+    # Embedded in exported PDFs (Apache 2.0, see Roboto_LICENSE.txt).
+    - assets/fonts/Roboto-Regular.ttf
+    - assets/fonts/Roboto-Bold.ttf
+    - assets/fonts/Roboto_LICENSE.txt
 
 # Native build hooks configuration.
 hooks:

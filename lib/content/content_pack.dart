@@ -635,6 +635,11 @@ const implementedTools = {
   ToolKind.priceCalculator,
   ToolKind.marginCalculator,
   ToolKind.breakEvenCalculator,
+  ToolKind.businessModelCanvas,
+  ToolKind.marketingPlan,
+  ToolKind.businessPlan,
+  ToolKind.pitch,
+  ToolKind.pitchDeck,
 };
 
 /// A titled list of advice inside a tool (e.g. the interview guide).

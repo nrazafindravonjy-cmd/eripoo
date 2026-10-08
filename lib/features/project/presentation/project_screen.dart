@@ -167,7 +167,7 @@ class _ProjectBody extends ConsumerWidget {
               ),
               const SizedBox(height: EripooSpacing.sm),
               for (final schema in pack.sections.where(visible)) ...[
-                _SectionCard(
+                ProjectSectionCard(
                   project: project,
                   schema: schema,
                   fields: sections?[schema.key]?.fields ?? const {},
@@ -182,8 +182,10 @@ class _ProjectBody extends ConsumerWidget {
   }
 }
 
-class _SectionCard extends ConsumerWidget {
-  const _SectionCard({
+/// A project section: its fields, edit and history.
+class ProjectSectionCard extends ConsumerWidget {
+  const ProjectSectionCard({
+    super.key,
     required this.project,
     required this.schema,
     required this.fields,
@@ -197,41 +199,8 @@ class _SectionCard extends ConsumerWidget {
     (f) => (fields[f.key]?.toString() ?? '').trim().isEmpty,
   );
 
-  Future<void> _edit(BuildContext context, WidgetRef ref) async {
-    final l10n = AppLocalizations.of(context);
-    final values = await showFieldsSheet(
-      context,
-      title: contentText(context, schema.title),
-      fields: [
-        for (final f in schema.fields)
-          FieldSpec(
-            f.key,
-            contentText(context, f.label),
-            initial: fields[f.key]?.toString(),
-            maxLines: 4,
-            maxLength: f.maxLength,
-            optional: true,
-          ),
-      ],
-      submitLabel: l10n.actionSave,
-    );
-    if (values == null) return;
-    final changed = {
-      for (final e in values.entries)
-        if (e.value != (fields[e.key]?.toString() ?? '')) e.key,
-    };
-    if (changed.isEmpty) return;
-    await ProjectRepository(ref.read(appDatabaseProvider)).saveSection(
-      projectId: project.id,
-      sectionKey: schema.key,
-      fields: {
-        ...fields,
-        for (final e in values.entries) e.key: e.value.isEmpty ? null : e.value,
-      },
-      // Every change made by hand is kept in "before / now".
-      trackedFields: changed,
-    );
-  }
+  Future<void> _edit(BuildContext context, WidgetRef ref) =>
+      editProjectSection(context, ref, project.id, schema, fields);
 
   Future<void> _history(BuildContext context, WidgetRef ref) async {
     final l10n = AppLocalizations.of(context);
@@ -319,4 +288,47 @@ class _SectionCard extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// Edits a project section's fields; each change made by hand is kept in
+/// "before / now".
+Future<void> editProjectSection(
+  BuildContext context,
+  WidgetRef ref,
+  String projectId,
+  SectionSchema schema,
+  Map<String, Object?> fields,
+) async {
+  final l10n = AppLocalizations.of(context);
+  final values = await showFieldsSheet(
+    context,
+    title: contentText(context, schema.title),
+    fields: [
+      for (final f in schema.fields)
+        FieldSpec(
+          f.key,
+          contentText(context, f.label),
+          initial: fields[f.key]?.toString(),
+          maxLines: 4,
+          maxLength: f.maxLength,
+          optional: true,
+        ),
+    ],
+    submitLabel: l10n.actionSave,
+  );
+  if (values == null) return;
+  final changed = {
+    for (final e in values.entries)
+      if (e.value != (fields[e.key]?.toString() ?? '')) e.key,
+  };
+  if (changed.isEmpty) return;
+  await ProjectRepository(ref.read(appDatabaseProvider)).saveSection(
+    projectId: projectId,
+    sectionKey: schema.key,
+    fields: {
+      ...fields,
+      for (final e in values.entries) e.key: e.value.isEmpty ? null : e.value,
+    },
+    trackedFields: changed,
+  );
 }

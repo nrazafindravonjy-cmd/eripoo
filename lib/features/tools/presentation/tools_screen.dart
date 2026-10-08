@@ -21,6 +21,11 @@ String toolRoute(ToolKind kind) => switch (kind) {
   ToolKind.priceCalculator => AppRoutes.priceCalculator,
   ToolKind.marginCalculator => AppRoutes.marginCalculator,
   ToolKind.breakEvenCalculator => AppRoutes.breakEvenCalculator,
+  ToolKind.businessModelCanvas => AppRoutes.canvas,
+  ToolKind.marketingPlan => AppRoutes.marketingPlan,
+  ToolKind.businessPlan => AppRoutes.businessPlan,
+  ToolKind.pitch => AppRoutes.pitch,
+  ToolKind.pitchDeck => AppRoutes.pitchDeck,
   _ => AppRoutes.tools,
 };
 

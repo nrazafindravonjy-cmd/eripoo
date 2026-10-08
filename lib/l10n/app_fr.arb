@@ -2203,5 +2203,282 @@
         "type": "String"
       }
     }
+  },
+  "canvasTitle": "Business Model Canvas",
+  "@canvasTitle": {
+    "description": "Titre du canvas."
+  },
+  "canvasIntro": "Ton canvas se construit avec ton travail : chaque case reprend ce que tu as écrit, testé ou calculé. Rien n'y est inventé.",
+  "@canvasIntro": {
+    "description": "Introduction du canvas."
+  },
+  "canvasProgress": "Cases remplies : {progress}",
+  "@canvasProgress": {
+    "description": "Progression du canvas (ex. 4 / 9).",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasToBuild": "Encore à construire",
+  "@canvasToBuild": {
+    "description": "Cases encore vides."
+  },
+  "canvasWorkOn": "Compléter",
+  "@canvasWorkOn": {
+    "description": "Travailler une case."
+  },
+  "canvasBlock": "{kind, select, segments{Tes clients} valueProposition{Ce que tu leur apportes} channels{Comment ils te trouvent et achètent} relationships{Comment tu les gardes} revenue{Ce qui rapporte} resources{Ce qu'il te faut} activities{Ce que tu fais} partners{Qui t'aide} costs{Ce qui coûte} other{Case}}",
+  "@canvasBlock": {
+    "description": "Titre d'une case du canvas.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasBlockHint": "{kind, select, segments{Remplis « Les clients » dans ton projet.} valueProposition{Remplis « La solution » dans ton projet.} revenue{Choisis ton prix dans « Mes chiffres ».} costs{Ajoute tes frais dans « Mes chiffres ».} other{Complète « Le modèle économique ».}}",
+  "@canvasBlockHint": {
+    "description": "Où remplir une case vide.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasTested": "Vérifié par un test : {statement}",
+  "@canvasTested": {
+    "description": "Hypothèse validée dans une case.",
+    "placeholders": {
+      "statement": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasPrice": "Prix : {price}",
+  "@canvasPrice": {
+    "description": "Prix choisi.",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasVolume": "Ventes prévues : {first} puis {last} unités par mois",
+  "@canvasVolume": {
+    "description": "Ventes prévues.",
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasAmount": "{label} : {amount}",
+  "@canvasAmount": {
+    "description": "Un montant nommé.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierIntro": "Ton dossier rassemble ce que tu as fait. Il grandit avec ton travail : rien n'y est inventé, les chapitres vides restent à travailler.",
+  "@dossierIntro": {
+    "description": "Introduction du dossier."
+  },
+  "dossierProgress": "Chapitres prêts : {progress}",
+  "@dossierProgress": {
+    "description": "Progression du dossier.",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierMissing": "Encore à travailler",
+  "@dossierMissing": {
+    "description": "Chapitres vides."
+  },
+  "dossierChapter": "{key, select, summary{Résumé} problem{Le problème} customers{Les clients} solution{La solution} validation{Ce que les tests ont montré} competition{La concurrence} businessModel{Le modèle économique} finance{Les chiffres} marketing{Le marketing} launch{Le lancement} pitch{Le pitch} other{Chapitre}}",
+  "@dossierChapter": {
+    "description": "Titre d'un chapitre du dossier.",
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierChapterHint": "{key, select, summary{Écris le résumé de ton projet (section « Le résumé du projet »).} problem{Termine la quête sur le problème.} customers{Remplis « Les clients ».} solution{Remplis « La solution ».} validation{Teste une hypothèse jusqu'à sa conclusion.} competition{Note un concurrent dans l'analyse concurrentielle.} businessModel{Construis ton Business Model Canvas.} finance{Remplis « Mes chiffres ».} marketing{Remplis ton plan marketing.} launch{Remplis « Le lancement ».} pitch{Écris ton pitch.} other{}}",
+  "@dossierChapterHint": {
+    "description": "Comment remplir un chapitre vide.",
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierOutcome": "{status, select, validated{Confirmée} invalidated{Contredite} inconclusive{Pas tranchée} other{En cours}}",
+  "@dossierOutcome": {
+    "description": "Issue d'une hypothèse testée.",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierHypothesis": "{outcome} : {statement}",
+  "@dossierHypothesis": {
+    "description": "Hypothèse testée.",
+    "placeholders": {
+      "outcome": {
+        "type": "String"
+      },
+      "statement": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierHypothesisWithConclusion": "{outcome} : {statement} — {conclusion}",
+  "@dossierHypothesisWithConclusion": {
+    "description": "Hypothèse testée et sa conclusion.",
+    "placeholders": {
+      "outcome": {
+        "type": "String"
+      },
+      "statement": {
+        "type": "String"
+      },
+      "conclusion": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierCompetitor": "{name} ({kind})",
+  "@dossierCompetitor": {
+    "description": "Concurrent.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierCompetitorPrice": "{name} ({kind}) — prix vu : {price}",
+  "@dossierCompetitorPrice": {
+    "description": "Concurrent avec prix.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "kind": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierGroundwork": "Fondé sur {observations, plural, =0{aucune observation} =1{1 observation} other{{observations} observations}}, {interviews, plural, =0{aucune rencontre} =1{1 rencontre} other{{interviews} rencontres}}, {hypotheses, plural, =0{aucune hypothèse} =1{1 hypothèse} other{{hypotheses} hypothèses}} et {experiments, plural, =0{aucun test terminé} =1{1 test terminé} other{{experiments} tests terminés}}.",
+  "@dossierGroundwork": {
+    "description": "Le travail sur lequel le dossier repose.",
+    "placeholders": {
+      "observations": {
+        "type": "int"
+      },
+      "interviews": {
+        "type": "int"
+      },
+      "hypotheses": {
+        "type": "int"
+      },
+      "experiments": {
+        "type": "int"
+      }
+    }
+  },
+  "pitchSpeakingTime": "À voix haute : environ {seconds} secondes.",
+  "@pitchSpeakingTime": {
+    "description": "Durée estimée du pitch.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "pitchTooLong": "Plus d'une minute et demie : raccourcis si tu peux, on t'écoutera mieux.",
+  "@pitchTooLong": {
+    "description": "Pitch trop long."
+  },
+  "deckIntro": "Tes diapositives sont faites avec ton travail : une idée par diapositive. Une diapositive sans contenu n'apparaît pas.",
+  "@deckIntro": {
+    "description": "Introduction du pitch deck."
+  },
+  "deckCount": "{count, plural, =1{1 diapositive} other{{count} diapositives}}",
+  "@deckCount": {
+    "description": "Nombre de diapositives.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deckSlideNumber": "Diapositive {number}",
+  "@deckSlideNumber": {
+    "description": "Numéro de diapositive (lecteur d'écran).",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "deckSlide": "{key, select, problem{Le problème} customers{Pour qui} solution{Notre solution} proof{Ce que nos tests ont montré} competition{Ce qui existe déjà} model{Comment on gagne de l'argent} numbers{Les chiffres} ask{Ce que nous demandons} other{Diapositive}}",
+  "@deckSlide": {
+    "description": "Titre d'une diapositive.",
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "exportPdf": "Partager en PDF",
+  "@exportPdf": {
+    "description": "Exporter en PDF."
+  },
+  "exportWarningTitle": "Partager un PDF",
+  "@exportWarningTitle": {
+    "description": "Titre de l'avertissement d'export."
+  },
+  "exportWarningBody": "Le PDF contient ton projet en clair : une fois partagé, Eripoo ne le protège plus. Envoie-le seulement à qui tu choisis.",
+  "@exportWarningBody": {
+    "description": "Avertissement : le PDF n'est pas chiffré."
+  },
+  "exportContinue": "Continuer",
+  "@exportContinue": {
+    "description": "Confirmer l'export."
+  },
+  "exportFailed": "Le PDF n'a pas pu être créé. Réessaie.",
+  "@exportFailed": {
+    "description": "Échec de l'export."
+  },
+  "exportFooter": "Fait avec Eripoo · page {page}/{pages}",
+  "@exportFooter": {
+    "description": "Pied de page des PDF.",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "pages": {
+        "type": "int"
+      }
+    }
   }
 }

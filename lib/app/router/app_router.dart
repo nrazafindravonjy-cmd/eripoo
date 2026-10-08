@@ -2,8 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../content/content_pack.dart';
 import '../../features/account/presentation/profile_screen.dart';
 import '../../features/conflicts/presentation/conflicts_screen.dart';
+import '../../features/documents/presentation/canvas_screen.dart';
+import '../../features/documents/presentation/document_screens.dart';
 import '../../features/finance/presentation/calculators_screen.dart';
 import '../../features/finance/presentation/cash_plan_screen.dart';
 import '../../features/finance/presentation/finances_screen.dart';
@@ -41,6 +44,11 @@ abstract final class AppRoutes {
   static const priceCalculator = '/tools/price';
   static const marginCalculator = '/tools/margin';
   static const breakEvenCalculator = '/tools/break-even';
+  static const canvas = '/tools/canvas';
+  static const marketingPlan = '/tools/marketing';
+  static const businessPlan = '/tools/business-plan';
+  static const pitch = '/tools/pitch';
+  static const pitchDeck = '/tools/pitch-deck';
   static const finances = '/project/finances';
   static const cashPlan = '/project/finances/cash';
   static const financing = '/project/finances/financing';
@@ -187,6 +195,32 @@ final routerProvider = Provider<GoRouter>((ref) {
                     path: 'break-even',
                     builder: (context, state) =>
                         const BreakEvenCalculatorScreen(),
+                  ),
+                  GoRoute(
+                    path: 'canvas',
+                    builder: (context, state) => const CanvasScreen(),
+                  ),
+                  GoRoute(
+                    path: 'marketing',
+                    builder: (context, state) => const SectionToolScreen(
+                      kind: ToolKind.marketingPlan,
+                      sectionKey: 'marketing',
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'business-plan',
+                    builder: (context, state) => const DossierScreen(),
+                  ),
+                  GoRoute(
+                    path: 'pitch',
+                    builder: (context, state) => const SectionToolScreen(
+                      kind: ToolKind.pitch,
+                      sectionKey: 'pitch',
+                    ),
+                  ),
+                  GoRoute(
+                    path: 'pitch-deck',
+                    builder: (context, state) => const PitchDeckScreen(),
                   ),
                 ],
               ),

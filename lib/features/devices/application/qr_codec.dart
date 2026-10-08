@@ -12,10 +12,7 @@ abstract final class QrCodec {
   /// The modules of [text] (true = dark), medium error correction.
   static List<List<bool>> encode(String text) {
     final image = QrImage(
-      QrCode(
-        payload: QrPayload.fromString(text),
-        errorCorrectLevel: QrErrorCorrectLevel.medium,
-      ),
+      QrCode.fromData(data: text, errorCorrectLevel: QrErrorCorrectLevel.M),
     );
     return [
       for (var r = 0; r < image.moduleCount; r++)

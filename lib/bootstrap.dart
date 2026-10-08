@@ -12,6 +12,7 @@ import 'app/startup/startup_failure_app.dart';
 import 'content/content_pack.dart';
 import 'core/logging/app_logger.dart';
 import 'features/account/presentation/account_providers.dart';
+import 'features/documents/presentation/pdf_export.dart';
 import 'features/hypotheses/presentation/research_providers.dart';
 import 'features/quest/presentation/journey_providers.dart';
 import 'features/settings/data/settings_store.dart';
@@ -121,6 +122,21 @@ Future<void> bootstrap() async {
         })
         .catchError((Object _) {}),
   );
+
+  // Exported PDFs are in clear: the ones left by a share (ours and the
+  // share sheet's copy) are deleted at each start.
+  unawaited(
+    container
+        .read(exportDirProvider.future)
+        .then(purgeExports)
+        .catchError((Object _) {}),
+  );
+
+  LicenseRegistry.addLicense(() async* {
+    yield LicenseEntryWithLineBreaks(const [
+      'Roboto',
+    ], await rootBundle.loadString('assets/fonts/Roboto_LICENSE.txt'));
+  });
 
   runApp(
     UncontrolledProviderScope(container: container, child: const EripooApp()),

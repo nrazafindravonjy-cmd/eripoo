@@ -1,7 +1,7 @@
 # Tools of the Tools tab (CLAUDE.md §20), unlocked progressively by rules
 # on what the user has DONE (never on reading alone). Help is readable
-# before unlocking. Tools the app cannot open yet (finance, documents,
-# formalisation: Phases 7–8) are listed as announced, never imitated.
+# before unlocking. Tools the app cannot open yet (formalisation, Phase
+# 8) are listed as announced, never imitated.
 # DRAFT texts (see pack.yaml default_status).
 - id: tool.observation_journal
   kind: observation_journal
