@@ -919,8 +919,8 @@ récupération et du transfert.
 **Contrôles automatiques (Phase 10)** :
 
 - `test/architecture/android_release_test.dart` : permissions déclarées
-  (`INTERNET`, `USE_BIOMETRIC`, `RECORD_AUDIO` ; `WRITE_EXTERNAL_STORAGE`
-  et `POST_NOTIFICATIONS` retirées), sauvegarde Android désactivée
+  (`INTERNET`, `USE_BIOMETRIC`, `RECORD_AUDIO` ; `WRITE_EXTERNAL_STORAGE`,
+  `READ_EXTERNAL_STORAGE` et `POST_NOTIFICATIONS` retirées), sauvegarde Android désactivée
   (`allowBackup="false"` + règles d'extraction excluant tout), trafic en
   clair refusé (autorisé seulement en debug, pour Supabase local), une
   seule activité exportée, clés de signature hors Git.
@@ -931,6 +931,10 @@ récupération et du transfert.
   en HTTPS est ignorée (pas de serveur plutôt qu'un serveur en clair).
 - Scan des secrets versionnés et des SDK interdits (analytics, crash,
   IA) : `test/architecture/source_rules_test.dart`.
+
+Deuxième défaut, trouvé par `check_apk.sh` sur la première APK contrôlée :
+`READ_EXTERNAL_STORAGE` arrivait par une bibliothèque ; retirée (les photos
+passent par le sélecteur du système, sans permission).
 
 Défaut trouvé par cet audit : le manifeste principal ne déclarait pas
 `INTERNET` (seules les variantes debug et profile l'avaient) : une APK

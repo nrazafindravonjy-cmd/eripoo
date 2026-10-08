@@ -17,6 +17,9 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!-- Nothing is written to shared storage. -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove" />
+    <!-- Brought by a library; photos are chosen through the system picker,
+         which needs no storage permission (found by tool/check_apk.sh). -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:node="remove" />
     <!-- Brought by workmanager; Eripoo shows no notification (§46 not
          built), so the permission is not requested. -->
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" tools:node="remove" />
