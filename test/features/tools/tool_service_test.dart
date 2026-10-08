@@ -60,18 +60,21 @@ void main() {
       if (t.unlocked) t.tool.id,
   };
 
-  test('the 14 tools of the spec, in its order; 5 can be opened', () {
-    expect(pack.tools.map((t) => t.kind), ToolKind.values);
-    expect(
-      pack.tools.where((t) => t.implemented).map((t) => t.kind),
-      implementedTools,
-    );
-    expect(validatePack(pack).errors, isEmpty);
-    for (final t in pack.tools) {
-      expect(t.help, isNotEmpty, reason: t.id);
-      expect(t.unlockHint, isNotNull, reason: t.id);
-    }
-  });
+  test(
+    'the 14 tools of the spec, in its order; the built ones can be opened',
+    () {
+      expect(pack.tools.map((t) => t.kind), ToolKind.values);
+      expect(
+        pack.tools.where((t) => t.implemented).map((t) => t.kind),
+        implementedTools,
+      );
+      expect(validatePack(pack).errors, isEmpty);
+      for (final t in pack.tools) {
+        expect(t.help, isNotEmpty, reason: t.id);
+        expect(t.unlockHint, isNotNull, reason: t.id);
+      }
+    },
+  );
 
   test('tools unlock on what the user did, one after the other', () async {
     expect(await tools.refreshUnlocks(), isEmpty);
@@ -95,7 +98,7 @@ void main() {
     }
     expect(await tools.refreshUnlocks(), ['tool.competitor_analysis']);
 
-    // A tool not built yet unlocks too, but cannot be opened.
+    // The price calculator (Phase 7) unlocks with a first competitor.
     await CompetitorService(db).add(
       projectId: project,
       name: 'Épicerie du coin',
@@ -105,9 +108,19 @@ void main() {
     final price = (await tools.tools()).firstWhere(
       (t) => t.tool.id == 'tool.price_calculator',
     );
-    expect(price.unlocked, isTrue);
-    expect(price.usable, isFalse);
-    expect(price.isNew, isFalse, reason: 'nothing to celebrate yet');
+    expect(price.usable, isTrue);
+    expect(price.isNew, isTrue);
+
+    // A tool not built yet can be unlocked, but never opened nor
+    // celebrated.
+    final admin = ToolState(
+      tool: pack.tool('tool.admin_preparation')!,
+      unlockedAt: DateTime.utc(2026),
+      seen: false,
+    );
+    expect(admin.tool.implemented, isFalse);
+    expect(admin.usable, isFalse);
+    expect(admin.isNew, isFalse);
     expect(await tools.refreshUnlocks(), isEmpty, reason: 'stable');
   });
 

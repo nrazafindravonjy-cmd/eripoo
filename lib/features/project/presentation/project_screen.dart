@@ -11,6 +11,8 @@ import '../../hypotheses/presentation/research_forms.dart';
 import '../../hypotheses/presentation/research_providers.dart';
 import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
+import '../../tools/application/tool_service.dart';
+import '../../tools/presentation/tools_providers.dart';
 import '../../trash/presentation/trash_screen.dart';
 import '../data/project_repository.dart';
 import '../domain/project.dart';
@@ -54,6 +56,18 @@ class _ProjectBody extends ConsumerWidget {
     final notes = ref.watch(fieldNotesProvider(project.id)).value;
     final trashed = ref.watch(trashItemsProvider).value?.length ?? 0;
     final conflicts = ref.watch(pendingConflictsProvider).value?.length ?? 0;
+    final unlocked = {
+      for (final t in ref.watch(toolsProvider).value ?? const <ToolState>[])
+        if (t.unlocked) t.tool.id,
+    };
+    // A section brought by a tool appears with the tool, or as soon as it
+    // holds something: never hidden once written, never shown empty early.
+    bool visible(SectionSchema schema) {
+      if (schema.tool == null || unlocked.contains(schema.tool)) return true;
+      final fields = sections?[schema.key]?.fields ?? const {};
+      return fields.values.any((v) => (v?.toString() ?? '').trim().isNotEmpty);
+    }
+
     return ListView(
       padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
       children: [
@@ -104,6 +118,18 @@ class _ProjectBody extends ConsumerWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: EripooSpacing.sm),
+              EripooCard(
+                onTap: () => context.go(AppRoutes.finances),
+                child: Row(
+                  children: [
+                    const Icon(Icons.calculate_outlined),
+                    const SizedBox(width: EripooSpacing.md),
+                    Expanded(child: Text(l10n.projectFinanceEntry)),
+                    const Icon(Icons.chevron_right),
+                  ],
+                ),
+              ),
               if (conflicts > 0) ...[
                 const SizedBox(height: EripooSpacing.sm),
                 EripooCard(
@@ -140,7 +166,7 @@ class _ProjectBody extends ConsumerWidget {
                 style: context.textStyles.titleMedium,
               ),
               const SizedBox(height: EripooSpacing.sm),
-              for (final schema in pack.sections) ...[
+              for (final schema in pack.sections.where(visible)) ...[
                 _SectionCard(
                   project: project,
                   schema: schema,

@@ -4,6 +4,9 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/account/presentation/profile_screen.dart';
 import '../../features/conflicts/presentation/conflicts_screen.dart';
+import '../../features/finance/presentation/calculators_screen.dart';
+import '../../features/finance/presentation/cash_plan_screen.dart';
+import '../../features/finance/presentation/finances_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/hypotheses/presentation/field_notes_screen.dart';
 import '../../features/hypotheses/presentation/hypotheses_screen.dart';
@@ -35,6 +38,12 @@ abstract final class AppRoutes {
   static const conflicts = '/project/versions';
   static const interviewGuide = '/tools/interview-guide';
   static const competitors = '/tools/competitors';
+  static const priceCalculator = '/tools/price';
+  static const marginCalculator = '/tools/margin';
+  static const breakEvenCalculator = '/tools/break-even';
+  static const finances = '/project/finances';
+  static const cashPlan = '/project/finances/cash';
+  static const financing = '/project/finances/financing';
 
   static String questDetail(String questId) => '$quest/$questId';
   static String hypothesis(String id) => '$hypotheses/$id';
@@ -133,6 +142,21 @@ final routerProvider = Provider<GoRouter>((ref) {
                     path: 'versions',
                     builder: (context, state) => const ConflictsScreen(),
                   ),
+                  GoRoute(
+                    path: 'finances',
+                    builder: (context, state) => const FinancesScreen(),
+                    routes: [
+                      GoRoute(
+                        path: 'cash',
+                        builder: (context, state) => const CashPlanScreen(),
+                      ),
+                      GoRoute(
+                        path: 'financing',
+                        builder: (context, state) =>
+                            const FinancingGuideScreen(),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ],
@@ -150,6 +174,19 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'competitors',
                     builder: (context, state) => const CompetitorsScreen(),
+                  ),
+                  GoRoute(
+                    path: 'price',
+                    builder: (context, state) => const PriceCalculatorScreen(),
+                  ),
+                  GoRoute(
+                    path: 'margin',
+                    builder: (context, state) => const MarginCalculatorScreen(),
+                  ),
+                  GoRoute(
+                    path: 'break-even',
+                    builder: (context, state) =>
+                        const BreakEvenCalculatorScreen(),
                   ),
                 ],
               ),

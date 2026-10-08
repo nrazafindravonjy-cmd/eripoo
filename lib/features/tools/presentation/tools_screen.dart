@@ -18,6 +18,9 @@ String toolRoute(ToolKind kind) => switch (kind) {
   ToolKind.hypotheses || ToolKind.experiments => AppRoutes.hypotheses,
   ToolKind.interviewGuide => AppRoutes.interviewGuide,
   ToolKind.competitorAnalysis => AppRoutes.competitors,
+  ToolKind.priceCalculator => AppRoutes.priceCalculator,
+  ToolKind.marginCalculator => AppRoutes.marginCalculator,
+  ToolKind.breakEvenCalculator => AppRoutes.breakEvenCalculator,
   _ => AppRoutes.tools,
 };
 

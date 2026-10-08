@@ -262,6 +262,9 @@ ValidationReport validatePack(ContentPack pack) {
     if (!sectionKeys.add(section.key)) {
       error('sections', 'duplicate section ${section.key}');
     }
+    if (section.tool != null && pack.tool(section.tool!) == null) {
+      error('sections', 'section ${section.key}: unknown tool ${section.tool}');
+    }
     final fieldKeys = <String>{};
     for (final f in section.fields) {
       if (!fieldKeys.add(f.key)) {
@@ -367,5 +370,9 @@ Iterable<LocalizedText> allTexts(ContentPack pack) sync* {
       yield g.title;
       yield* g.items;
     }
+  }
+  for (final g in pack.financingGuide) {
+    yield g.title;
+    yield* g.items;
   }
 }

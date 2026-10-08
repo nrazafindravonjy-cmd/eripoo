@@ -1,0 +1,50 @@
+# Money: how to find it (CLAUDE.md §49) and examples for the calculators.
+# KINDS of money only. No institution, rate, amount or condition is named
+# here: such information changes and must be verified, sourced and dated
+# before it is shown (Phase 8 content, never invented).
+# DRAFT texts (see pack.yaml default_status).
+financing_guide:
+  - title: {fr: "Avant de chercher de l'argent", mg: "Alohan'ny hitadiavana vola", en: "Before looking for money"}
+    items:
+      - fr: "Commence par ce qu'il te faut vraiment : l'équipement indispensable et de quoi tenir les premiers mois. Eripoo le calcule à partir de tes chiffres."
+        mg: "Atombohy amin'izay tena ilainao: ny fitaovana tena ilaina sy izay hahatafita ny volana voalohany. Eripoo no manao ny kajy avy amin'ny isanao."
+        en: "Start with what you really need: the essential equipment and enough to last the first months. Eripoo works it out from your numbers."
+      - fr: "Moins tu empruntes, moins tu risques. Commencer petit, puis grandir avec ce que tu vends, est souvent possible."
+        mg: "Arakaraka ny tsy hindramanao be no tsy hampidi-doza. Matetika azo atao ny manomboka kely, dia mitombo amin'izay amidinao."
+        en: "The less you borrow, the less you risk. Starting small and growing with what you sell is often possible."
+  - title: {fr: "Les sources possibles", mg: "Ireo loharano azo atao", en: "Possible sources"}
+    items:
+      - fr: "Tes économies (fonds propres) : l'argent le plus simple, sans intérêt ni dette."
+        mg: "Ny tahirim-bolanao: ny vola tsotra indrindra, tsy misy zana-bola na trosa."
+        en: "Your savings (own funds): the simplest money, with no interest and no debt."
+      - fr: "La famille ou des proches : écris ce qui est convenu (montant, date et façon de rembourser) pour éviter les malentendus."
+        mg: "Ny fianakaviana na ny akaiky: soraty izay nifanarahana (vola, daty ary fomba famerenana) mba hialana amin'ny tsy fifankahazoana."
+        en: "Family or friends: write down what you agree (amount, date and how to pay back) to avoid misunderstandings."
+      - fr: "La microfinance : de petits prêts, souvent sans garantie lourde. Compare plusieurs offres avant de choisir."
+        mg: "Ny microfinance: trosa kely, matetika tsy mila antoka mavesatra. Ampitahao tolotra maromaro alohan'ny hisafidianana."
+        en: "Microfinance: small loans, often without heavy guarantees. Compare several offers before choosing."
+      - fr: "La banque : des montants plus élevés, mais des garanties et des documents demandés."
+        mg: "Ny banky: vola betsaka kokoa, saingy misy antoka sy antontan-taratasy angatahina."
+        en: "A bank: larger amounts, but guarantees and documents are asked for."
+      - fr: "Des investisseurs : ils apportent de l'argent contre une part de ton entreprise. Ils voudront voir des preuves que des clients achètent."
+        mg: "Mpampiasa vola: mitondra vola izy ireo ho takalon'ny anjara amin'ny orinasanao. Te hahita porofo fa misy mpanjifa mividy izy ireo."
+        en: "Investors: they bring money in exchange for a share of your business. They will want proof that customers buy."
+      - fr: "Concours, subventions, incubateurs : de l'argent ou un accompagnement, souvent sur dossier. Ton dossier Eripoo t'aide à le préparer."
+        mg: "Fifaninanana, fanampiana, incubateurs: vola na fanohanana, matetika amin'ny alalan'ny antontan-taratasy. Manampy anao hanomana izany ny antontan-taratasy Eripoo."
+        en: "Competitions, grants, incubators: money or support, often on application. Your Eripoo file helps you prepare it."
+  - title: {fr: "Questions à poser avant d'emprunter", mg: "Fanontaniana alohan'ny hindramana", en: "Questions to ask before borrowing"}
+    items:
+      - fr: "Combien vais-je rembourser au total, intérêts et frais compris ?"
+        mg: "Ohatrinona no haveriko amin'ny totaliny, ao anatin'izany ny zana-bola sy ny sarany?"
+        en: "How much will I pay back in total, interest and fees included?"
+      - fr: "Combien chaque mois, et à partir de quand ? Mes ventes prévues peuvent-elles le payer ?"
+        mg: "Ohatrinona isam-bolana, ary manomboka rahoviana? Ho afaka handoa izany ve ny varotra kasaiko?"
+        en: "How much each month, and from when? Can my expected sales pay for it?"
+      - fr: "Que se passe-t-il si je rembourse en retard ? Quelle garantie est demandée ?"
+        mg: "Inona no mitranga raha tara ny famerenako? Inona no antoka angatahina?"
+        en: "What happens if I pay late? What guarantee is asked for?"
+  - title: {fr: "À savoir", mg: "Tokony ho fantatra", en: "Good to know"}
+    items:
+      - fr: "Eripoo ne cite encore aucun organisme ni aucun taux : ces informations changent et seront ajoutées seulement une fois vérifiées et datées."
+        mg: "Mbola tsy manonona fikambanana na taha i Eripoo: miova ireo fampahalalana ireo ary tsy hampidirina raha tsy efa voamarina sy misy daty."
+        en: "Eripoo does not name any organisation or rate yet: this information changes and will only be added once verified and dated."

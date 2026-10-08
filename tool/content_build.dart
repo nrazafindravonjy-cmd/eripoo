@@ -100,6 +100,9 @@ Map<String, Object?> assemble() {
   final tools = File('$sourceDir/tools.yaml').existsSync()
       ? load('$sourceDir/tools.yaml')! as List<Object?>
       : const <Object?>[];
+  final finance = File('$sourceDir/finance.yaml').existsSync()
+      ? load('$sourceDir/finance.yaml')! as Map<String, Object?>
+      : const <String, Object?>{};
   return {
     'format': supportedPackFormat,
     ...meta,
@@ -108,6 +111,11 @@ Map<String, Object?> assemble() {
     'missions': withDefaultStatus(missions, defaults),
     'sections': withDefaultStatus(sections, defaults),
     'tools': withDefaultStatus(tools, defaults),
+    if (finance['financing_guide'] != null)
+      'financing_guide': withDefaultStatus(
+        finance['financing_guide'],
+        defaults,
+      ),
   };
 }
 

@@ -8,6 +8,7 @@ import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
+import 'guide_view.dart';
 
 /// The interview guide: content only (questions to ask, mistakes to
 /// avoid), then a way to write the conversation down in the notebook.
@@ -38,27 +39,7 @@ class InterviewGuideScreen extends ConsumerWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(contentText(context, tool.summary)),
-                      for (final section in tool.guide) ...[
-                        const SizedBox(height: EripooSpacing.lg),
-                        Text(
-                          contentText(context, section.title),
-                          style: context.textStyles.titleMedium,
-                        ),
-                        for (final item in section.items) ...[
-                          const SizedBox(height: EripooSpacing.sm),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Padding(
-                                padding: EdgeInsets.only(top: 2),
-                                child: Icon(Icons.check, size: 18),
-                              ),
-                              const SizedBox(width: EripooSpacing.sm),
-                              Expanded(child: Text(contentText(context, item))),
-                            ],
-                          ),
-                        ],
-                      ],
+                      GuideSectionsView(sections: tool.guide),
                       const SizedBox(height: EripooSpacing.xl),
                       EripooButton(
                         label: l10n.guideNoteInterview,

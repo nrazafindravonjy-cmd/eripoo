@@ -1785,5 +1785,423 @@
         "type": "String"
       }
     }
+  },
+  "financeTitle": "Mes chiffres",
+  "@financeTitle": {
+    "description": "Titre de l'écran des finances du projet."
+  },
+  "financeIntro": "Tous les montants sont en ariary. Commence par ce que coûte une unité de ce que tu vends.",
+  "@financeIntro": {
+    "description": "Introduction de l'écran des finances."
+  },
+  "financeNotPrediction": "Ces calculs t'aident à réfléchir. Ils ne disent pas si ton projet réussira.",
+  "@financeNotPrediction": {
+    "description": "Rappel : un calcul n'est pas une prédiction de réussite (§22)."
+  },
+  "financeKindTitle": "{kind, select, variableCost{Ce que coûte une unité} fixedCost{Ce que coûte chaque mois} investment{À acheter avant de commencer} funding{L'argent trouvé} other{Montants}}",
+  "@financeKindTitle": {
+    "description": "Titre d'une catégorie de montants.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "financeKindHelp": "{kind, select, variableCost{Par exemple : l'huile et l'emballage d'un savon.} fixedCost{Ce que tu paies chaque mois, même sans rien vendre : loyer, crédit téléphone, transport.} investment{Ce que tu achètes une fois pour commencer : moules, outils, premier stock.} funding{Tes économies, l'aide de proches, un prêt.} other{}}",
+  "@financeKindHelp": {
+    "description": "Aide d'une catégorie de montants.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "financeTotal": "Total : {amount}",
+  "@financeTotal": {
+    "description": "Total d'une catégorie.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "financeAdd": "Ajouter",
+  "@financeAdd": {
+    "description": "Ajouter un montant."
+  },
+  "financeItemLabel": "Ce que c'est",
+  "@financeItemLabel": {
+    "description": "Champ : nom d'un montant."
+  },
+  "financeItemAmount": "Montant en ariary",
+  "@financeItemAmount": {
+    "description": "Champ : montant."
+  },
+  "financeItemInvalid": "Vérifie le nom (80 caractères au plus) et le montant.",
+  "@financeItemInvalid": {
+    "description": "Montant refusé."
+  },
+  "financeSourceQuestion": "D'où vient cet argent ?",
+  "@financeSourceQuestion": {
+    "description": "Choix de la source d'un financement."
+  },
+  "fundingSource": "{source, select, own{Mes économies} family{Famille ou proches} microfinance{Microfinance} bank{Banque} investor{Investisseur} grant{Concours ou subvention} other{Autre}}",
+  "@fundingSource": {
+    "description": "Source d'un financement (sans organisme nommé).",
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "financePlanTitle": "Prix et ventes prévues",
+  "@financePlanTitle": {
+    "description": "Carte du prix et des ventes prévues."
+  },
+  "financePlanPrice": "Prix de vente : {price}",
+  "@financePlanPrice": {
+    "description": "Prix choisi.",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "financePlanVolumes": "Ventes prévues : {first} le premier mois, {last} le douzième",
+  "@financePlanVolumes": {
+    "description": "Ventes prévues.",
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "financePlanEmpty": "Pas encore de prix choisi.",
+  "@financePlanEmpty": {
+    "description": "Aucun prix choisi."
+  },
+  "financePlanEdit": "Choisir le prix et les ventes",
+  "@financePlanEdit": {
+    "description": "Bouton pour fixer prix et ventes."
+  },
+  "financePriceLabel": "Prix de vente d'une unité, en ariary",
+  "@financePriceLabel": {
+    "description": "Champ : prix."
+  },
+  "financeVolumeFirstLabel": "Unités vendues le premier mois",
+  "@financeVolumeFirstLabel": {
+    "description": "Champ : ventes du mois 1."
+  },
+  "financeVolumeLastLabel": "Unités vendues le douzième mois",
+  "@financeVolumeLastLabel": {
+    "description": "Champ : ventes du mois 12."
+  },
+  "financePlanInvalid": "Vérifie le prix et les quantités.",
+  "@financePlanInvalid": {
+    "description": "Prix ou volumes refusés."
+  },
+  "financeResultsTitle": "Ce que disent tes chiffres",
+  "@financeResultsTitle": {
+    "description": "Titre des résultats."
+  },
+  "financeMarginResult": "Sur chaque unité, il te reste {margin} ({rate} du prix).",
+  "@financeMarginResult": {
+    "description": "Marge par unité.",
+    "placeholders": {
+      "margin": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "financeMarginLoss": "Attention : chaque unité vendue te fait perdre {loss}.",
+  "@financeMarginLoss": {
+    "description": "Perte par unité.",
+    "placeholders": {
+      "loss": {
+        "type": "String"
+      }
+    }
+  },
+  "financeNeedPrice": "Choisis un prix pour voir ta marge et ton seuil de rentabilité.",
+  "@financeNeedPrice": {
+    "description": "Résultat manquant : prix."
+  },
+  "financeNeedUnitCost": "Ajoute ce que coûte une unité pour que les calculs soient justes.",
+  "@financeNeedUnitCost": {
+    "description": "Résultat incomplet : coût unitaire."
+  },
+  "financeBreakEven": "Pour payer tes frais du mois, vends au moins {units} unités par mois ({revenue} de ventes).",
+  "@financeBreakEven": {
+    "description": "Seuil de rentabilité.",
+    "placeholders": {
+      "units": {
+        "type": "String"
+      },
+      "revenue": {
+        "type": "String"
+      }
+    }
+  },
+  "financeBreakEvenZero": "Sans frais fixes, chaque vente te rapporte dès la première.",
+  "@financeBreakEvenZero": {
+    "description": "Seuil nul."
+  },
+  "financeBreakEvenImpossible": "À ce prix, aucune quantité ne paie tes frais : chaque unité ne rapporte rien ou fait perdre.",
+  "@financeBreakEvenImpossible": {
+    "description": "Seuil impossible."
+  },
+  "financeBreakEvenTooHigh": "Il faudrait vendre {units} unités par mois : revois ton prix ou tes frais.",
+  "@financeBreakEvenTooHigh": {
+    "description": "Seuil irréaliste.",
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
+  },
+  "financeNeedVolumes": "Indique tes ventes prévues pour voir ta trésorerie mois par mois.",
+  "@financeNeedVolumes": {
+    "description": "Résultat manquant : ventes prévues."
+  },
+  "financeCashNeed": "Pour ne jamais manquer d'argent la première année, il te faut {need} au départ.",
+  "@financeCashNeed": {
+    "description": "Besoin de financement.",
+    "placeholders": {
+      "need": {
+        "type": "String"
+      }
+    }
+  },
+  "financeCashMissing": "Avec l'argent trouvé, il te manque encore {missing}.",
+  "@financeCashMissing": {
+    "description": "Financement manquant.",
+    "placeholders": {
+      "missing": {
+        "type": "String"
+      }
+    }
+  },
+  "financeCashCovered": "L'argent trouvé couvre ce besoin.",
+  "@financeCashCovered": {
+    "description": "Besoin couvert."
+  },
+  "financeCashFirstShort": "{month, plural, =0{Avec l'argent trouvé, il en manque dès le départ.} other{Avec l'argent trouvé, il en manquerait au mois {month}.}}",
+  "@financeCashFirstShort": {
+    "description": "Premier mois de manque.",
+    "placeholders": {
+      "month": {
+        "type": "int"
+      }
+    }
+  },
+  "financeRecover": "Au rythme du douzième mois, ton achat de départ serait remboursé en {months, plural, =1{1 mois} other{{months} mois}}.",
+  "@financeRecover": {
+    "description": "Délai de récupération de l'investissement.",
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "financeCashOpen": "Voir mois par mois",
+  "@financeCashOpen": {
+    "description": "Ouvrir la trésorerie."
+  },
+  "financeCashTitle": "Trésorerie mois par mois",
+  "@financeCashTitle": {
+    "description": "Titre de la trésorerie."
+  },
+  "financeCashIntro": "L'argent du départ, moins ce que tu achètes, puis chaque mois tes ventes moins tes frais.",
+  "@financeCashIntro": {
+    "description": "Explication de la trésorerie."
+  },
+  "financeCashStart": "Au départ, après les achats : {amount}",
+  "@financeCashStart": {
+    "description": "Solde de départ.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "financeCashMonth": "Mois {month}",
+  "@financeCashMonth": {
+    "description": "Numéro du mois.",
+    "placeholders": {
+      "month": {
+        "type": "int"
+      }
+    }
+  },
+  "financeCashUnits": "{units} unités vendues",
+  "@financeCashUnits": {
+    "description": "Ventes du mois.",
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
+  },
+  "financeCashRow": "Ventes {sales} · frais {costs}",
+  "@financeCashRow": {
+    "description": "Ventes et frais du mois.",
+    "placeholders": {
+      "sales": {
+        "type": "String"
+      },
+      "costs": {
+        "type": "String"
+      }
+    }
+  },
+  "financeCashEnd": "Reste en fin de mois : {amount}",
+  "@financeCashEnd": {
+    "description": "Solde de fin de mois.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "financeFindMoney": "Comment trouver de l'argent",
+  "@financeFindMoney": {
+    "description": "Lien vers le guide de financement."
+  },
+  "financingGuideTitle": "Trouver de l'argent",
+  "@financingGuideTitle": {
+    "description": "Titre du guide de financement."
+  },
+  "projectFinanceEntry": "Mes chiffres",
+  "@projectFinanceEntry": {
+    "description": "Entrée Projet vers les finances."
+  },
+  "calcUnitCostLabel": "Ce que coûte une unité, en ariary",
+  "@calcUnitCostLabel": {
+    "description": "Champ calculateur : coût unitaire."
+  },
+  "calcMarginLabel": "Part du prix qui doit te rester, en %",
+  "@calcMarginLabel": {
+    "description": "Champ calculateur : marge visée."
+  },
+  "calcPriceLabel": "Prix de vente, en ariary",
+  "@calcPriceLabel": {
+    "description": "Champ calculateur : prix."
+  },
+  "calcFixedLabel": "Frais fixes d'un mois, en ariary",
+  "@calcFixedLabel": {
+    "description": "Champ calculateur : frais fixes."
+  },
+  "calcFromProject": "Pré-rempli avec les chiffres de ton projet : change-les pour essayer, rien n'est enregistré.",
+  "@calcFromProject": {
+    "description": "Calculateur pré-rempli."
+  },
+  "calcInvalid": "Nombre non valide.",
+  "@calcInvalid": {
+    "description": "Saisie refusée."
+  },
+  "calcFillIn": "Remplis les cases pour voir le résultat.",
+  "@calcFillIn": {
+    "description": "Résultat en attente."
+  },
+  "calcPriceResult": "Prix conseillé : {price}",
+  "@calcPriceResult": {
+    "description": "Prix calculé.",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "calcPriceExplain": "Sur ce prix, {margin} te restent. Cela fait +{markup} sur ton coût : la marge sur le prix et l'ajout sur le coût ne sont pas le même pourcentage.",
+  "@calcPriceExplain": {
+    "description": "Explication marge vs ajout.",
+    "placeholders": {
+      "margin": {
+        "type": "String"
+      },
+      "markup": {
+        "type": "String"
+      }
+    }
+  },
+  "calcPriceExplainNoCost": "Sur ce prix, {margin} te restent.",
+  "@calcPriceExplainNoCost": {
+    "description": "Explication sans coût.",
+    "placeholders": {
+      "margin": {
+        "type": "String"
+      }
+    }
+  },
+  "calcCompetitors": "Prix vus chez tes concurrents : de {low} à {high} (au milieu : {median}).",
+  "@calcCompetitors": {
+    "description": "Fourchette des prix concurrents.",
+    "placeholders": {
+      "low": {
+        "type": "String"
+      },
+      "high": {
+        "type": "String"
+      },
+      "median": {
+        "type": "String"
+      }
+    }
+  },
+  "calcCompetitorsBelow": "Ton prix est sous le moins cher : es-tu sûr de tes coûts ?",
+  "@calcCompetitorsBelow": {
+    "description": "Prix sous la fourchette."
+  },
+  "calcCompetitorsAbove": "Ton prix est au-dessus du plus cher : qu'apportes-tu de plus ?",
+  "@calcCompetitorsAbove": {
+    "description": "Prix au-dessus de la fourchette."
+  },
+  "calcCompetitorsInside": "Ton prix est dans la fourchette observée.",
+  "@calcCompetitorsInside": {
+    "description": "Prix dans la fourchette."
+  },
+  "calcUsePrice": "Choisir ce prix pour mon projet",
+  "@calcUsePrice": {
+    "description": "Enregistrer le prix calculé."
+  },
+  "calcPriceSaved": "Prix enregistré dans tes chiffres.",
+  "@calcPriceSaved": {
+    "description": "Prix enregistré."
+  },
+  "calcMarginResult": "Il te reste {margin} par unité.",
+  "@calcMarginResult": {
+    "description": "Marge unitaire.",
+    "placeholders": {
+      "margin": {
+        "type": "String"
+      }
+    }
+  },
+  "calcMarginRates": "Soit {onPrice} du prix de vente, ou +{onCost} sur le coût.",
+  "@calcMarginRates": {
+    "description": "Taux de marge et de marque.",
+    "placeholders": {
+      "onPrice": {
+        "type": "String"
+      },
+      "onCost": {
+        "type": "String"
+      }
+    }
+  },
+  "calcPerDay": "Environ {units} par jour sur 30 jours.",
+  "@calcPerDay": {
+    "description": "Seuil ramené au jour.",
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
   }
 }

@@ -571,11 +571,17 @@ class SectionSchema {
     required this.key,
     required this.title,
     required this.fields,
+    this.tool,
   });
 
   final String key;
   final LocalizedText title;
   final List<SectionField> fields;
+
+  /// The tool that brings this section: it appears once the tool is
+  /// unlocked (or as soon as it holds something), so the project grows
+  /// with the work instead of showing empty boxes (CLAUDE.md §16).
+  final String? tool;
 
   SectionField? field(String key) {
     for (final f in fields) {
@@ -585,7 +591,7 @@ class SectionSchema {
   }
 
   factory SectionSchema.read(JsonReader json) {
-    json.onlyKeys({'key', 'title', 'fields'});
+    json.onlyKeys({'key', 'title', 'fields', 'tool'});
     final key = json['key'].token;
     if (!projectSections.contains(key)) {
       json['key'].fail('unknown section "$key"');
@@ -594,6 +600,7 @@ class SectionSchema {
       key: key,
       title: LocalizedText.read(json['title']),
       fields: [for (final f in json['fields'].list) SectionField.read(f)],
+      tool: json.has('tool') ? json['tool'].id : null,
     );
   }
 }
@@ -625,6 +632,9 @@ const implementedTools = {
   ToolKind.hypotheses,
   ToolKind.experiments,
   ToolKind.competitorAnalysis,
+  ToolKind.priceCalculator,
+  ToolKind.marginCalculator,
+  ToolKind.breakEvenCalculator,
 };
 
 /// A titled list of advice inside a tool (e.g. the interview guide).
@@ -710,6 +720,7 @@ class ContentPack {
     required this.missions,
     this.sections = const [],
     this.tools = const [],
+    this.financingGuide = const [],
   }) {
     for (final quest in quests) {
       for (final step in quest.steps) {
@@ -735,6 +746,9 @@ class ContentPack {
 
   /// Tools in display order.
   final List<ToolDefinition> tools;
+
+  /// How to find money (CLAUDE.md §49): kinds of sources only.
+  final List<GuideSection> financingGuide;
 
   ToolDefinition? tool(String id) {
     for (final t in tools) {
@@ -794,6 +808,7 @@ class ContentPack {
       'missions',
       'sections',
       'tools',
+      'financing_guide',
     });
     if (json['format'].integer != supportedPackFormat) {
       json['format'].fail('unsupported pack format');
@@ -814,6 +829,10 @@ class ContentPack {
       ],
       tools: [
         for (final t in json['tools'].listOrEmpty) ToolDefinition.read(t),
+      ],
+      financingGuide: [
+        for (final g in json['financing_guide'].listOrEmpty)
+          GuideSection.read(g),
       ],
     );
   }
