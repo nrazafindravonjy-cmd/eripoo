@@ -335,7 +335,54 @@ Points ouverts de la Phase 6 :
 - [ ] relecture des règles de déblocage et des textes des outils par les auteurs (D14)
 - [ ] relecture native du malagasy (contenu des outils + 31 chaînes)
 - [ ] badges (§21) : à planifier
-- [ ] outils annoncés : Phase 7 (finance, canvas, documents) et Phase 8 (formalisation)
+- [x] outils annoncés de la Phase 7 (finance, canvas, documents) — faits en Phase 7 ; la préparation administrative reste pour la Phase 8
+
+## Phase 7 — Finance, business model, documents (LIVRÉE POUR REVUE, non acceptée)
+
+GO donné le 2026-10-07 (« go next phase s'il n'y a rien de bloquant ») :
+aucun point en attente ne bloquait. Le contenu réglementaire et les
+organismes de financement, qui demandent des sources, restent hors de la
+phase (Phase 8) ; rien n'est inventé à leur place.
+
+| Élément | État | Détail |
+|---|---|---|
+| Calculs (critère de sortie) | ✅ testés aux limites | prix depuis une marge sur le prix de vente (arrondi au-dessus : la marge n'est jamais sous l'objectif, vérifié sur des milliers de cas), marge et ajout sur le coût, seuil de rentabilité mensuel (impossible, nul, hors de portée), trésorerie sur 12 mois avec montée des ventes, besoin de financement, mois pour récupérer l'achat de départ. Entiers en ariary et points de base, **aucun nombre à virgule** ; bornes (10¹¹ Ar, 10⁶ ventes/mois, 200 montants par genre) qui interdisent tout dépassement, testées au maximum |
+| Données v7 | ✅ auto (deux téléphones simulés) | `finance_items` (coût d'une unité, frais du mois, achats de départ, argent trouvé avec sa source), `finance_plans` (prix et ventes prévues, un par projet) ; synchronisés chiffrés, corbeille, conflit = une version + une copie |
+| « Mes chiffres » | ✅ widget | montants par genre, prix et ventes, ce que disent les chiffres en une phrase chacun ; ce qui manque est nommé au lieu d'être deviné ; trésorerie mois par mois ; rappel : un calcul ne prédit pas la réussite (§22) |
+| Calculateurs (3) | ✅ widget | prix, marge, seuil : pré-remplis avec les chiffres du projet tant que la case n'est pas touchée, libres pour essayer, résultat annoncé au lecteur d'écran ; le prix peut être gardé pour le projet et est comparé aux prix vus chez les concurrents |
+| Guide de financement | ✅ contenu | genres d'argent (économies, proches, microfinance, banque, investisseurs, concours, incubateurs) et questions à poser avant d'emprunter ; **aucun organisme ni taux** (à sourcer et dater) |
+| Business Model Canvas | ✅ auto + widget | construit **uniquement** depuis le travail (sections, hypothèses validées, chiffres) ; les cases construites d'abord, puis « Encore à construire » avec l'endroit où le faire ; une case se complète depuis le canvas |
+| Sections amenées par les outils | ✅ widget | modèle économique, plan marketing, pitch, résumé du projet, lancement : apparaissent avec leur outil (ou dès qu'elles contiennent quelque chose), jamais en cases vides d'avance |
+| Dossier (business plan) | ✅ auto + widget | 11 chapitres ; chaque phrase est le texte de l'utilisateur ou un nombre calculé ; un chapitre vide dit où le construire ; aucun bouton ne l'écrit à sa place (§15) |
+| Plan marketing, pitch | ✅ widget | sections écrites avec l'aide de l'outil ; durée du pitch à voix haute estimée (≈ 130 mots par minute) |
+| Pitch deck | ✅ auto + widget | une couverture puis une diapositive par idée qui a du contenu |
+| Export PDF | ✅ auto + widget — ❌ partage réel NON VÉRIFIÉ | avertissement « en clair » avant tout fichier, construction sur un autre isolat avec la police embarquée, partage par le menu Android, fichier effacé ensuite, purge au démarrage (SECURITY §11.1) |
+| Outils | ✅ | 13 sur 14 s'ouvrent ; la préparation administrative reste annoncée (Phase 8) |
+| Contenu | 🟡 brouillon | fr/en à relire, mg en premier jet ; 100 nouvelles chaînes d'interface `needs_review` |
+
+Écarts et choix :
+
+- **Un seul plan de prix par projet** au lieu de la table `price_scenarios`
+  (DATA_MODEL v7) : les calculateurs permettent d'essayer d'autres
+  nombres sans rien enregistrer ; plusieurs scénarios n'apportaient rien
+  aux calculs demandés.
+- **Pas de chapitre « Marché » ni « Formalisation »** : aucune quête ne
+  recueille encore de données de marché, et la formalisation est la
+  Phase 8. Ils ne sont pas simulés.
+- **`qr` ramené de 4.0.0 à 3.0.2** : `pdf` dépend de `barcode`, qui exige
+  `qr` 3. Le QR produit est identique (tests du codec inchangés).
+- **Police Roboto embarquée** (≈ 340 Ko) : sans elle, les PDF ne
+  montrent pas tous les caractères (espaces fines, guillemets).
+- Le niveau de préparation (§23, « éventuellement ») et l'aide à la
+  recherche d'associés (§48) ne sont pas faits.
+
+Points ouverts de la Phase 7 :
+
+- [ ] partage réel du PDF et lisibilité des calculateurs sur A et B — NON VÉRIFIÉ
+- [ ] organismes et conditions de financement sourcés et datés (avec la Phase 8)
+- [ ] relecture des textes (sections amenées par les outils, guide de financement) et des 100 chaînes malagasy
+- [ ] chapitres « Marché » et « Formalisation » du dossier
+- [ ] niveau de préparation (§23), associés (§48), badges (§21)
 
 ## Phases suivantes
 
@@ -351,7 +398,7 @@ règles) posés en Phase 2.
 | **4 — Projet** | sections, historique, observations, interviews, hypothèses → décisions, preuves, médias chiffrés | machine d'états testée exhaustivement |
 | **5 — Offline + sync** | RPC, moteur, conflits, corbeille, médias, WorkManager, **transfert double QR**, révocation | 14 scénarios d'OFFLINE_SYNC §13 + scénarios de transfert (§6.7 de SECURITY) |
 | **6 — Outils** | déblocage progressif — **livrée pour revue** | 14 outils catalogués, 5 utilisables, les autres annoncés |
-| **7 — Finance, business model, documents** | calculateurs, canvas, dossier, export PDF | calculs testés aux limites |
+| **7 — Finance, business model, documents** | calculateurs, canvas, dossier, export PDF — **livrée pour revue** | calculs testés aux limites |
 | **8 — Formalisation Madagascar** | contenu réglementaire sourcé et daté | 100 % des informations sourcées |
 | **9 — Voix + IA limitée** | transcription optionnelle, proxy IA, consentements | rien n'est envoyé sans consentement |
 | **10 — Production** | **rotation de l'UMK**, localisation Material/Cupertino `mg`, budgets de performance, revue cryptographique externe, audit sécurité, accessibilité, validation juridique, back-office | checklist de release complète |
@@ -396,6 +443,8 @@ règles) posés en Phase 2.
 ## Portes
 
 ### Phase 1 — ACCEPTÉE (2026-10-06)
+
+### Phase 7 — GO donné le 2026-10-07
 
 ### Phase 6 — GO donné le 2026-10-07
 

@@ -231,7 +231,7 @@ au pull. Jamais par date.
 
 | Famille | Types | Règle |
 |---|---|---|
-| **Éditables** | projet, sections, hypothèses en brouillon, expériences avant démarrage, observations, interviews, concurrents, éléments financiers, scénarios de prix, profil, réponses | **la version de l'appareil qui résout est conservée** et repart avec `base_version = version distante` ; **la version distante est enregistrée dans `conflict_copies`** (synchronisée) |
+| **Éditables** | projet, sections, hypothèses en brouillon, expériences avant démarrage, observations, interviews, concurrents, montants (`finance_item`), prix et ventes prévues (`finance_plan`), profil, réponses | **la version de l'appareil qui résout est conservée** et repart avec `base_version = version distante` ; **la version distante est enregistrée dans `conflict_copies`** (synchronisée) |
 | **Append-only** | historique du projet, décisions, preuves, résultats, conclusions, badges, consentements, copies de conflit | jamais modifiés ⇒ pas de conflit possible (identifiants uniques) |
 | **Progression** | progression d'étape, missions | fusion par état le plus avancé (`locked < available < in_progress < completed`), dates de début = min, de fin = max ; si un texte libre (ex. réflexion de mission) diffère, la version distante va aussi en copie de conflit |
 | **Déblocage** (Phase 6) | outils débloqués | jamais reverrouillé : date de déblocage = la plus ancienne, « vu » = le plus ancien des deux, suppression ignorée ; pas de copie de conflit (aucun texte) |

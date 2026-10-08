@@ -17,7 +17,7 @@ RLS par table) — changement lourd une fois des données en production.
 
 ---
 
-## 0. État d'implémentation (Phases 2 à 6)
+## 0. État d'implémentation (Phases 2 à 7)
 
 Implémenté dans `lib/data/local/tables.dart` (schéma **v3**, **non figé**
 avant les premières données réelles) : `user_profiles`, `facts`,
@@ -47,6 +47,20 @@ d'OFFLINE_SYNC §6) et `competitors` (`project_id`, `name`, `kind` :
 `direct` / `indirect` / `alternative`, `offer?`, `price_mga?`,
 `strengths?`, `weaknesses?` ; éditable, corbeille). Migration v5 → v6
 testée sur une base chiffrée.
+
+Ajouté en v7 (Phase 7) : `finance_items` (`project_id`, `kind` :
+`variable_cost` par unité, `fixed_cost` par mois, `investment` une fois,
+`funding` ; `source` pour l'argent trouvé : `own`, `family`,
+`microfinance`, `bank`, `investor`, `grant`, `other` ; `label`,
+`amount_mga` entier ; éditable, corbeille) et `finance_plans` (un par
+projet, UUID v5 de `finance_plan:<projet>` : `price_mga`,
+`volume_first`, `volume_last`). **Écart avec le §3.3** : pas de table
+`price_scenarios` ni de `period` (la période découle du genre) ni de
+`revenue` (le chiffre d'affaires se calcule : prix × ventes) ; un seul
+plan par projet, plusieurs scénarios n'apportant rien de plus aux
+calculs demandés (anti-sur-ingénierie). Les montants sont bornés à
+10¹¹ Ar et les ventes à 10⁶ par mois pour qu'aucun calcul ne déborde.
+Migration v6 → v7 testée.
 
 Écarts avec le §3.2 (Phase 3) : `answers` porte aussi `quest_id` ; types de
 réponse implémentés `text`, `choice`, `multi_choice`, `number`, `money`,
@@ -271,8 +285,8 @@ Toutes les tables ci-dessous ont les colonnes communes du §1.1 sauf mention
 | `observations` | `title`, `description`, `category`, `observed_at`, `context`, `people_involved`, `supposed_problem`, `photo_media_id?`, `audio_media_id?`, `transcription?`, `transcription_status` |
 | `interviews` | `project_id`, `interviewee_alias` (pseudonyme recommandé), `segment_id?`, `held_at`, `quick_notes`, `structured_answers_json`, `audio_media_id?`, `transcription?`, `conclusion`, `audio_consent_recorded` |
 | `competitors` | `project_id`, `name`, `kind`, `offer?`, `price_mga?`, `strengths?`, `weaknesses?` |
-| `finance_items` | `project_id`, `kind` (`fixed_cost`,`variable_cost`,`investment`,`revenue`,`funding`), `label`, `amount_mga`, `period` |
-| `price_scenarios` | `project_id`, `unit_cost_mga`, `price_mga`, `expected_volume`, `notes` |
+| `finance_items` | `project_id`, `kind` (`fixed_cost`,`variable_cost`,`investment`,`funding`), `source?`, `label`, `amount_mga` (v7) |
+| `finance_plans` | `project_id` (unique), `price_mga?`, `volume_first?`, `volume_last?` (v7, remplace `price_scenarios`) |
 | `documents` | `project_id`, `doc_type` (`business_plan`,`pitch`,`formalization_checklist`…), `generated_from_version`, `file_media_id?` |
 
 ### 3.4 Hypothèses, expériences, preuves

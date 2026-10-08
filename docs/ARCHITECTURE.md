@@ -447,13 +447,20 @@ Résolution vérifiée dans un projet de test le 2026-10-06 (Flutter 3.47.6).
 | `connectivity_plus` | 7.3.2 | 5 | Signal de retour du réseau et Wi-Fi / données mobiles (envoi des photos), BSD-3. |
 | `camera` | 0.12.1 | 5 | Images de la caméra pour lire les QR du transfert (flutter.dev, BSD-3) ; micro jamais demandé. |
 | `zxing2` | 0.2.4 | 5 | Lecture des QR en Dart pur, sur l'appareil (BSD-3) ; préféré à `mobile_scanner` (Google ML Kit). |
-| `qr` | 4.0.0 | 5 | Génération des QR (BSD-3). |
+| `qr` | 3.0.2 | 5 → 7 | Génération des QR (BSD-3). Ramené de 4.0.0 à 3.0.2 en Phase 7 : `pdf` dépend de `barcode`, qui exige `qr` 3 ; le QR produit est le même (tests du codec inchangés). |
+| `pdf` | 3.13.1 | 7 | Génération du dossier et du pitch deck en PDF, en Dart pur, sur l'appareil (Apache 2.0, DavBfr). |
+| `share_plus` | 13.3.1 | 7 | Menu de partage Android pour le PDF (BSD-3, Flutter Community) ; aucune permission ajoutée. |
 | `connectivity_plus` | 7.3.2 | 5 | Signal de changement de réseau (jamais une preuve de connexion). |
 | `integration_test` (SDK, dev) | — | 2 | Tests d'intégration. |
 
+Police embarquée (Phase 7) : Roboto Regular et Bold (Apache 2.0, copiées
+du SDK Flutter, `assets/fonts/`, licence enregistrée dans l'application)
+pour que le PDF affiche tous les caractères du malagasy, du français et de
+l'anglais.
+
 Prévus plus tard, à justifier à l'ajout : `google_sign_in`, `record`,
 `image_picker` + compression, lecture/génération de QR (transfert entre
-appareils), `flutter_local_notifications`, `workmanager`, génération PDF,
+appareils), `flutter_local_notifications`,
 éventuellement `local_auth` (verrou applicatif). Écartés : `cryptography`
 (remplacé par libsodium), `freezed`, `riverpod_generator`,
 `shared_preferences` pour les données métier, SDK d'analytics tiers.

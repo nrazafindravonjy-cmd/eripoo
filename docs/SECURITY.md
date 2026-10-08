@@ -737,7 +737,7 @@ Vérifié automatiquement (Phase 2) :
 | journaux (mémoire et console) | `test/security/privacy_leak_test.dart` : une sentinelle saisie dans le projet, une section et le profil n'apparaît dans aucun enregistrement, ni rendu |
 | erreurs et exceptions | même test (erreurs de validation sur entrée privée, erreurs réseau) ; règle d'architecture : aucune exception de `lib/` ne porte de texte ; les erreurs Supabase sont converties en codes sans message |
 | requêtes RPC | même test : corps JSON exacts de toutes les requêtes (sync, appareil, enveloppe) ; contrat sur Supabase local |
-| fichiers temporaires | même test : seuls `eripoo.sqlite`, `-wal`, `-shm` existent, sans texte clair ; `temp_store = memory` |
+| fichiers temporaires | même test : seuls `eripoo.sqlite`, `-wal`, `-shm` existent, sans texte clair ; `temp_store = memory`. **Exception volontaire** : un PDF partagé par l'utilisateur (§11.1), effacé après le partage et au démarrage |
 | stockage sécurisé | même test : clés et identifiants seulement |
 | analytics, crash, IA | règle d'architecture : aucun SDK d'analytics, de crash ou d'IA dans `pubspec.lock` |
 | messages de debug | règle d'architecture (`print`, `debugPrint`) ; **exception connue** : en build *debug* uniquement, le gestionnaire Flutter par défaut affiche aussi le message d'erreur dans la console du développeur (données fictives seulement) |
@@ -745,6 +745,33 @@ Vérifié automatiquement (Phase 2) :
 
 Non vérifiable automatiquement : journaux système Android (`logcat`) sur
 appareil réel — l'app n'y écrit que via `developer.log` en debug.
+
+### 11.1 Export PDF (Phase 7) — seule sortie volontaire en clair
+
+Le dossier et le pitch deck peuvent être partagés en PDF. C'est la seule
+façon de faire sortir le projet **en clair** de l'application, et
+seulement sur action de l'utilisateur :
+
+- avant tout fichier, un message dit que le PDF n'est plus protégé par
+  Eripoo une fois partagé (« Envoie-le seulement à qui tu choisis ») ;
+- le PDF est construit sur l'appareil (paquet `pdf`, police Roboto
+  embarquée), jamais par un serveur ; rien n'est envoyé par Eripoo :
+  c'est le menu de partage d'Android (`share_plus`) qui le passe à
+  l'application choisie par l'utilisateur ;
+- le fichier est écrit dans le cache privé de l'application
+  (`cache/export`), puis effacé dès que le partage rend la main ;
+  `share_plus` en garde une copie dans `cache/share_plus` jusqu'au
+  partage suivant (l'application qui reçoit peut encore la lire) : les
+  deux dossiers sont effacés à chaque démarrage. Risque résiduel : la
+  copie reste dans le cache privé (inaccessible aux autres applications)
+  entre un partage et le démarrage suivant ;
+- le contenu du PDF n'est jamais journalisé ; le nom du fichier reprend
+  le titre du projet, réduit aux lettres et chiffres.
+
+Vérifié automatiquement : construction du PDF (mg, fr, en, caractères
+typographiques), avertissement avant partage, fichier effacé après le
+partage, purge des deux dossiers (`test/features/documents/`). Non
+vérifié : partage réel vers une autre application sur A et B.
 
 ## 12. Analytics anonymisés
 

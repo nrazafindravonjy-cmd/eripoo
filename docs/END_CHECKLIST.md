@@ -1,12 +1,12 @@
 # Eripoo — Vérifications et modifications à faire à la fin
 
-Liste compilée des points laissés ouverts pendant les Phases 2 à 6, pour
+Liste compilée des points laissés ouverts pendant les Phases 2 à 7, pour
 les traiter ensemble quand les appareils, le projet Supabase en ligne et
 les avis extérieurs seront disponibles. Chaque ligne renvoie à sa source.
 Rien ici n'est déclaré fait tant que la case n'est pas cochée avec une
 preuve (mesure, capture, journal de CI, avis écrit).
 
-État au 2026-10-07 (fin de la Phase 6 livrée pour revue).
+État au 2026-10-08 (fin de la Phase 7 livrée pour revue).
 
 ## 1. À fournir par le porteur du projet (bloquant)
 
@@ -24,13 +24,19 @@ preuve (mesure, capture, journal de CI, avis écrit).
     (le guide d'interview dit « n'enregistre personne ») ;
   - [ ] licence de SQLite3MultipleCiphers dans la distribution complète
     (mentions dans l'app relues par un juriste) — P3.
-- [ ] **Relecteurs natifs malagasy** — P9 / D13 : 393 chaînes d'interface
+- [ ] **Relecteurs natifs malagasy** — P9 / D13 : 493 chaînes d'interface
   `needs_review` (`lib/l10n/mg_review_status.json`) et tout le contenu
-  malagasy en `machine_draft` (quêtes, missions, sections, outils).
+  malagasy en `machine_draft` (quêtes, missions, sections, outils, guide
+  de financement).
 - [ ] **Auteurs du contenu** — D14 : relecture du français et de
   l'anglais ; validation des quêtes, missions, sections du projet, **règles
-  de déblocage des outils** et textes des outils ; avis d'entrepreneurs
-  malgaches sur les exemples.
+  de déblocage des outils** et textes des outils, sections amenées par
+  les outils (modèle économique, marketing, pitch, résumé, lancement),
+  guide de financement ; avis d'entrepreneurs malgaches sur les exemples.
+- [ ] **Informations de financement sourcées** — §18/§49 : organismes,
+  taux, conditions (microfinance, banques, concours, incubateurs) ;
+  aujourd'hui Eripoo ne cite **aucun** organisme ; à ajouter seulement
+  vérifiés, sourcés et datés (avec la Phase 8).
 - [ ] **Région Supabase de production** — P5 / D9 (après mesures depuis
   Madagascar et l'avis juridique).
 
@@ -68,6 +74,16 @@ Outils (Phase 6) :
   l'onglet (la pastille n'est pas annoncée vocalement : les cartes
   portent la mention « Nouveau »).
 
+Finance et documents (Phase 7) :
+- [ ] saisie des montants au clavier numérique (espaces, points) et
+  lisibilité des résultats sur petit écran ;
+- [ ] partage du PDF vers une vraie application (messagerie, Drive,
+  impression) ; rendu des caractères malagasy ; taille du fichier ;
+- [ ] effacement de la copie de partage au démarrage suivant (cache
+  `share_plus`) ;
+- [ ] diapositives lisibles une fois projetées ou montrées sur un
+  téléphone.
+
 ## 3. Contre le projet Supabase de développement en ligne
 
 - [ ] suite de contrat RPC et Storage (aujourd'hui passée sur Supabase
@@ -92,10 +108,17 @@ Outils (Phase 6) :
   effacé : dire clairement ce qui s'est passé) ;
 - [ ] **badges** (§21) : non faits ; mêmes règles et même validateur que
   les outils ;
-- [ ] **outils annoncés** : Business Model Canvas, calculateurs de prix,
-  de marge et de seuil de rentabilité, plan marketing, business plan,
-  pitch, pitch deck → Phase 7 ; préparation administrative → Phase 8
-  (contenu réglementaire sourcé et daté, rien de non vérifié) ;
+- [ ] **préparation administrative** (dernier outil annoncé) → Phase 8,
+  contenu réglementaire sourcé et daté, rien de non vérifié ;
+- [ ] **chapitre « Formalisation » du dossier** : absent tant que la
+  Phase 8 n'existe pas ; **chapitre « Marché »** : absent, aucune donnée
+  de marché n'est recueillie par les quêtes actuelles (à prévoir dans le
+  contenu) ;
+- [ ] **niveau de préparation** (§23, « éventuellement ») : non fait ;
+- [ ] **associés** (§48) : aide à la recherche d'associé non faite ;
+- [ ] **plusieurs scénarios de prix** : un seul plan par projet
+  aujourd'hui (DATA_MODEL v7) ; à rouvrir si les utilisateurs le
+  demandent ;
 - [ ] **16 quêtes minimum** (4 écrites à ce jour, plus le diagnostic) ;
 - [ ] édition du contenu hors du dépôt (D5) avant la production ;
 - [ ] **rotation de l'UMK** avant le lancement public (D17, Phase 10).

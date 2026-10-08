@@ -347,6 +347,13 @@ Phase 0.**
   `unlock`, `unlock_hint`, aide, sections du guide d'interview) ; un outil
   non construit est annoncé (« Bientôt »), jamais imité. Badges : pas
   encore.
+  **Phase 7** : 13 outils sur 14 s'ouvrent ; seule la préparation
+  administrative reste annoncée (Phase 8). Les sections « Le modèle
+  économique », « Le plan marketing », « Le pitch », « Le résumé du
+  projet » et « Le lancement » portent l'outil qui les amène (`tool:`) et
+  n'apparaissent qu'avec lui. Le canvas, le dossier et le pitch deck sont
+  des **vues** du travail (aucune table) : une case ou un chapitre vide
+  dit où le construire.
 
 ## 9. Voix et IA
 
