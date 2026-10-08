@@ -239,7 +239,7 @@ pseudonyme, sans nom ni numéro de téléphone.
 
 Points ouverts de la Phase 4 :
 
-- [x] chiffrer les gros fichiers hors du fil de l'interface (≈ 0,7 s de gel pour 10 Mo) — fait en Phase 5 (isolat), mesure émulateur à relever
+- [x] chiffrer les gros fichiers hors du fil de l'interface (≈ 0,7 s de gel pour 10 Mo) — fait en Phase 5 (isolat) : gel mesuré à 84 ms (API 26) et 92 ms (API 34) sur émulateur
 - [ ] avis juridique P6 (données de tiers, enregistrements) avant tout enregistrement d'une rencontre
 - [ ] relecture des textes des sections et de la quête 4 (D14)
 - [ ] appareils A et B — NON VÉRIFIÉ
@@ -265,7 +265,7 @@ fin (le projet n'existe pas encore).
 | Synchronisation automatique | ✅ auto | démarrage, retour au premier plan, retour du réseau, 5 s après une modification, toutes les 5 min au premier plan ; réessais 5 s / 15 s / 1 min / 5 min / 15 min / 1 h ± 20 % ; jamais deux cycles à la fois. **Défaut corrigé** : le cycle périodique contournait l'attente après échec |
 | WorkManager | 🟡 compilé (APK CI), ❌ exécution NON VÉRIFIÉE | tâche toutes les heures environ, réseau requis ; même cycle qu'au premier plan ; jamais lancée sur émulateur ni appareil |
 | Médias | ✅ auto + contrat Supabase local | photos envoyées après leurs métadonnées, rechiffrées pour le compte (jamais le fichier local tel quel), **en Wi-Fi seulement** sauf réglage ; récupérées à la demande et vérifiées par leur empreinte ; coupures et refus gérés |
-| Gros fichiers hors du fil de l'interface | ✅ auto ; mesure émulateur à relever | ≥ 1 Mo : chiffrement et déchiffrement sur un isolat (point ouvert de la Phase 4) ; nouvelle mesure du gel à 10 Mo dans le prochain run CI |
+| Gros fichiers hors du fil de l'interface | ✅ auto + émulateur | ≥ 1 Mo : chiffrement et déchiffrement sur un isolat (point ouvert de la Phase 4) ; gel à 10 Mo : 84 ms (API 26), 92 ms (API 34), contre ≈ 0,7 s avant (DEVICE_TESTS §2quater) |
 | Scénario 12 (version future) | ✅ auto | après mise à jour, les enregistrements écartés sont retirés et appliqués (curseur ramené au premier écarté) |
 | Corbeille 30 jours | ✅ auto + widget | supprimer (avec « Annuler »), remettre, supprimer pour de bon (pierre tombale sans contenu ; ligne locale effacée après confirmation du serveur), purge automatique après 30 jours ; une restauration sur un autre téléphone l'emporte sur une suppression définitive. Photos : fichier gardé chiffré dans la corbeille, effacé avec sa copie serveur ensuite |
 | Copies de conflit | ✅ auto + widget | écran « Versions à vérifier » : garder la version actuelle ou l'autre ; le choix se synchronise, la copie reste dans l'historique |

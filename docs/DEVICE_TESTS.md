@@ -151,10 +151,18 @@ QR1).
 
 | Mesure | Android 8.0 (API 26) | Android 14 (API 34) |
 |---|---|---|
-| Fichier 10 Mo : retard maximal de l'interface (était ≈ 0,7 s) | à relever | à relever |
-| Fichier 10 Mo : chiffrer + écrire | à relever | à relever |
-| Protocole de transfert complet (QR1 → QR2 → clé) | à relever | à relever |
-| Lecture d'un QR dans une image 640×480 (pire de 5) | à relever | à relever |
+| Fichier 10 Mo : retard maximal de l'interface (était ≈ 0,7 s) | 84 ms | 92 ms |
+| Fichier 10 Mo : chiffrer + écrire | 617 ms | 1 639 ms |
+| Protocole de transfert complet (QR1 → QR2 → clé) | 18 ms | 37 ms |
+| Lecture d'un QR dans une image 640×480 (pire de 5) | 58 ms | 87 ms |
+
+Relevé du run CI 48 (2026-10-07, commit 2384e7f, tous les tests
+d'intégration verts). Le gel à 10 Mo passe d'environ 0,7 s à moins de
+0,1 s grâce à l'isolat : le point ouvert de la Phase 4 est levé **sur
+émulateur**. Le chiffrement reste plus lent sur l'émulateur API 34
+(1,6 s) mais ne bloque plus l'interface. La lecture d'un QR (moins de
+0,1 s par image) laisse plusieurs essais par seconde avec une vraie
+caméra ; à confirmer sur A et B (lumière, mise au point).
 
 ## 3. Appareils de référence
 

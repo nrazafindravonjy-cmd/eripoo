@@ -107,9 +107,8 @@ production, analytics de production (D7), fournisseur SMS (D10),
 connexion Google et par téléphone, transcription et IA (Phase 9),
 identifiant Android définitif (D6), publication Play Console.
 
-## 6. Mesures sur émulateur à relever
+## 6. Mesures sur émulateur
 
-- [ ] DEVICE_TESTS §2quater : retard d'interface et chiffrement d'un
-  fichier de 10 Mo, protocole de transfert complet, lecture d'un QR
-  640×480 — à remplir depuis le journal du job émulateur de la CI
-  (lignes `MEASURE`).
+- [x] DEVICE_TESTS §2quater relevé (run CI 48, 2026-10-07) : gel
+  d'interface à 10 Mo sous 0,1 s, transfert complet 18–37 ms, lecture
+  d'un QR 640×480 58–87 ms. Reste à refaire sur A et B (section 2).

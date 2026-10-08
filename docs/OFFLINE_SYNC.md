@@ -410,7 +410,7 @@ précédents annonçaient 46 assertions, c'était une erreur de comptage
 | 4 | ✅ et **corbeille complète** (§7) : supprimer, remettre, supprimer pour de bon (pierre tombale sans contenu), purge après 30 jours, restauration concurrente gagnante — `test/features/trash/` |
 | 10 | ✅ + second téléphone par **double QR** (SECURITY §6.10) ou par le code, par l'interface — `test/features/account/` |
 | 12 | ✅ **complet** : après mise à jour, retrait et application des enregistrements écartés (`sync.replay_from`) — `test/sync/sync_engine_test.dart` « 12b » |
-| 14 | ✅ inchangé ; fichiers ≥ 1 Mo désormais chiffrés hors du fil de l'interface (mesure émulateur à relever) |
+| 14 | ✅ inchangé ; fichiers ≥ 1 Mo désormais chiffrés hors du fil de l'interface (gel mesuré sous 0,1 s sur émulateur, DEVICE_TESTS §2quater) |
 
 Ajouts de la Phase 5 :
 
