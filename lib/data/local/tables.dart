@@ -111,7 +111,8 @@ class Answers extends Table {
   TextColumn get stepId => text()();
   TextColumn get blockId => text()();
 
-  /// `text`, `choice`, `multi_choice`, `number`, `money`, `unknown`.
+  /// `text`, `choice`, `multi_choice`, `number`, `money`, `unknown`, or
+  /// `voice` (value: the media id of the encrypted recording, Phase 9).
   TextColumn get answerType => text()();
   TextColumn get valueJson => text().nullable()();
 
@@ -393,7 +394,7 @@ class Interviews extends Table {
 class MediaItems extends Table {
   TextColumn get id => text()();
 
-  /// `photo`.
+  /// `photo`, or `audio` (spoken answers, Phase 9).
   TextColumn get kind => text()();
   TextColumn get mime => text()();
 

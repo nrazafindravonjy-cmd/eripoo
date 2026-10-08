@@ -20,10 +20,12 @@ dependencies:
   go_router: ^18.0.2
   image_picker: ^1.2.4
   intl: ^0.20.3
+  just_audio: ^0.10.6
   local_auth: ^3.0.2
   path_provider: ^2.1.6
   pdf: ^3.13.1
   qr: ^3.0.2
+  record: ^7.1.1
   share_plus: ^13.3.1
   sodium: ^4.1.1+2
   sqlite3: ^3.7.0

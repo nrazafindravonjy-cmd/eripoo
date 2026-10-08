@@ -9,6 +9,8 @@ import '../../../content/localized_text.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../missions/domain/mission_state.dart';
+import '../../voice/presentation/voice_answer.dart';
+import '../../voice/presentation/voice_providers.dart';
 import '../application/journey_service.dart';
 import '../domain/answer.dart';
 import '../domain/step_session.dart';
@@ -29,6 +31,10 @@ class StepScreen extends ConsumerStatefulWidget {
 class _StepScreenState extends ConsumerState<StepScreen> {
   StepSession? _session;
   final _fields = <String, TextEditingController>{};
+
+  /// Media ids of the spoken answers as saved (the session already holds
+  /// a replacing answer when [_save] runs).
+  final _savedVoice = <String, String>{};
   String? _error;
   bool _busy = false;
 
@@ -60,7 +66,8 @@ class _StepScreenState extends ConsumerState<StepScreen> {
     )..resume();
     for (final q in step.questions) {
       final a = answers[q.id];
-      if (a != null && !a.isUnknown && !q.answer.isChoice) {
+      if (a != null && a.isVoice) _savedVoice[q.id] = a.value! as String;
+      if (a != null && !a.isUnknown && !a.isVoice && !q.answer.isChoice) {
         _fields[q.id] = TextEditingController(text: '${a.value}');
       }
     }
@@ -78,8 +85,38 @@ class _StepScreenState extends ConsumerState<StepScreen> {
   TextEditingController _field(String blockId) =>
       _fields.putIfAbsent(blockId, TextEditingController.new);
 
-  Future<void> _save(QuestionBlock block, Answer answer) =>
-      _journey.saveAnswer(widget.stepId, block.id, answer);
+  /// Saves an answer; a spoken answer it replaces is deleted for good.
+  Future<void> _save(QuestionBlock block, Answer answer) async {
+    final previous = _savedVoice[block.id];
+    await _journey.saveAnswer(widget.stepId, block.id, answer);
+    _savedVoice.remove(block.id);
+    if (answer.isVoice) _savedVoice[block.id] = answer.value! as String;
+    if (previous != null && previous != answer.value) {
+      await _forgetRecording(previous);
+    }
+  }
+
+  Future<void> _forgetRecording(String mediaId) async {
+    try {
+      await (await ref.read(voiceNotesProvider.future)).discard(mediaId);
+    } on Object {
+      // The answer no longer points to it; the encrypted file stays until
+      // the account or the app data is erased.
+    }
+  }
+
+  Future<void> _voiceKept(QuestionBlock block, String mediaId) async {
+    _fields[block.id]?.clear();
+    await _save(block, _session!.answerVoice(block, mediaId));
+    if (mounted) setState(() => _error = null);
+  }
+
+  Future<void> _voiceDeleted(QuestionBlock block) async {
+    final previous = _savedVoice.remove(block.id);
+    await _journey.deleteAnswer(widget.stepId, block.id);
+    if (mounted) setState(() => _session!.clear(block));
+    if (previous != null) await _forgetRecording(previous);
+  }
 
   /// Saves what is typed in the current field, if any. False if invalid.
   Future<bool> _commitField() async {
@@ -226,6 +263,8 @@ class _StepScreenState extends ConsumerState<StepScreen> {
                       },
                       onOpenMission: (id) =>
                           context.push(AppRoutes.mission(id)),
+                      onVoiceKept: _voiceKept,
+                      onVoiceDeleted: _voiceDeleted,
                     ),
                   ),
                   if (_error != null) ...[
@@ -316,6 +355,8 @@ class _BlockView extends ConsumerWidget {
     required this.field,
     required this.onChoice,
     required this.onOpenMission,
+    required this.onVoiceKept,
+    required this.onVoiceDeleted,
   });
 
   final Block block;
@@ -323,6 +364,8 @@ class _BlockView extends ConsumerWidget {
   final TextEditingController Function(String blockId) field;
   final ValueChanged<Object> onChoice;
   final ValueChanged<String> onOpenMission;
+  final Future<void> Function(QuestionBlock, String mediaId) onVoiceKept;
+  final Future<void> Function(QuestionBlock) onVoiceDeleted;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -357,6 +400,8 @@ class _BlockView extends ConsumerWidget {
         session: session,
         controller: field(block.id),
         onChoice: onChoice,
+        onVoiceKept: (id) => onVoiceKept(block as QuestionBlock, id),
+        onVoiceDeleted: () => onVoiceDeleted(block as QuestionBlock),
       ),
       SynthesisBlock() => _SynthesisView(
         block: block as SynthesisBlock,
@@ -413,12 +458,16 @@ class _QuestionView extends StatelessWidget {
     required this.session,
     required this.controller,
     required this.onChoice,
+    required this.onVoiceKept,
+    required this.onVoiceDeleted,
   });
 
   final QuestionBlock block;
   final StepSession session;
   final TextEditingController controller;
   final ValueChanged<Object> onChoice;
+  final Future<void> Function(String mediaId) onVoiceKept;
+  final Future<void> Function() onVoiceDeleted;
 
   @override
   Widget build(BuildContext context) {
@@ -506,14 +555,32 @@ class _QuestionView extends StatelessWidget {
                 ),
             ],
           ),
-          AnswerKind.text => EripooTextField(
-            label: l10n.stepYourAnswer,
-            controller: controller,
-            isOptional: block.optional,
-            minLines: 3,
-            maxLines: 8,
-            maxLength: spec.maxLength,
-            keyboardType: TextInputType.multiline,
+          AnswerKind.text => Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // A spoken answer takes the place of the written one.
+              if (answer == null || !answer.isVoice)
+                EripooTextField(
+                  label: l10n.stepYourAnswer,
+                  controller: controller,
+                  isOptional: block.optional,
+                  minLines: 3,
+                  maxLines: 8,
+                  maxLength: spec.maxLength,
+                  keyboardType: TextInputType.multiline,
+                ),
+              if (session.canAnswerByVoice(block)) ...[
+                const SizedBox(height: EripooSpacing.sm),
+                VoiceAnswer(
+                  mediaId: answer != null && answer.isVoice
+                      ? answer.value! as String
+                      : null,
+                  written: controller,
+                  onKept: onVoiceKept,
+                  onDeleted: onVoiceDeleted,
+                ),
+              ],
+            ],
           ),
           AnswerKind.number => EripooTextField(
             label: l10n.stepNumberLabel,
@@ -653,6 +720,7 @@ class _SynthesisView extends StatelessWidget {
   ) {
     if (answer == null) return l10n.stepNoAnswer;
     if (answer.isUnknown) return l10n.stepUnknownAnswer;
+    if (answer.isVoice) return l10n.voiceAnswerSummary;
     String label(String value) {
       for (final o in q.answer.options) {
         if (o.value == value) return contentText(context, o.label);

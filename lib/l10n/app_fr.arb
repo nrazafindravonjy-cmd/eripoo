@@ -2639,5 +2639,156 @@
         "type": "String"
       }
     }
+  },
+  "voiceAnswer": "Répondre à l'oral",
+  "@voiceAnswer": {
+    "description": "Button: record a spoken answer to an open question"
+  },
+  "voiceAnswerNote": "Fonctionne sans connexion. Ta voix reste chiffrée sur ton téléphone. Elle n'est pas écrite dans ton projet (pas de transcription automatique) : tu pourras l'écrire plus tard.",
+  "@voiceAnswerNote": {
+    "description": "Note under the spoken-answer button: offline, encrypted, not transcribed"
+  },
+  "voiceRecording": "Enregistrement… {time} (3 minutes au plus)",
+  "@voiceRecording": {
+    "description": "Shown while recording; time is elapsed m:ss",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "voiceKeep": "Arrêter et garder",
+  "@voiceKeep": {
+    "description": "Button: stop recording and keep it as the answer"
+  },
+  "voiceKept": "Réponse orale enregistrée",
+  "@voiceKept": {
+    "description": "Title of the card showing a spoken answer"
+  },
+  "voicePlay": "Écouter",
+  "@voicePlay": {
+    "description": "Button: play the spoken answer"
+  },
+  "voiceStopPlaying": "Arrêter l'écoute",
+  "@voiceStopPlaying": {
+    "description": "Button: stop playing"
+  },
+  "voiceRecordAgain": "Enregistrer à nouveau",
+  "@voiceRecordAgain": {
+    "description": "Button: replace the spoken answer by a new recording"
+  },
+  "voiceDelete": "Supprimer et écrire plutôt",
+  "@voiceDelete": {
+    "description": "Button: delete the spoken answer to write one"
+  },
+  "voiceDeleteTitle": "Supprimer cette réponse orale ?",
+  "@voiceDeleteTitle": {
+    "description": "Confirmation title before deleting a spoken answer"
+  },
+  "voiceDeleteBody": "L'enregistrement sera effacé pour toujours, sur tous tes téléphones.",
+  "@voiceDeleteBody": {
+    "description": "Confirmation body: deletion is permanent"
+  },
+  "voiceReplaceNote": "Une réponse orale remplace ce que tu as écrit ici.",
+  "@voiceReplaceNote": {
+    "description": "Shown when text was typed: recording replaces it"
+  },
+  "voicePermissionDenied": "Eripoo n'a pas accès au micro. Tu peux l'autoriser dans les réglages du téléphone, ou écrire ta réponse.",
+  "@voicePermissionDenied": {
+    "description": "Microphone permission refused"
+  },
+  "voiceFailed": "L'enregistrement n'a pas pu être gardé. Réessaie, ou écris ta réponse.",
+  "@voiceFailed": {
+    "description": "Recording or saving failed"
+  },
+  "voiceMaxReached": "3 minutes au plus : ta réponse a été gardée.",
+  "@voiceMaxReached": {
+    "description": "Recording stopped automatically at the limit"
+  },
+  "voiceNotHere": "Cet enregistrement n'est pas encore sur ce téléphone.",
+  "@voiceNotHere": {
+    "description": "Recording made on another phone, not downloaded yet"
+  },
+  "voiceAnswerSummary": "Réponse orale (pas écrite dans le projet)",
+  "@voiceAnswerSummary": {
+    "description": "In the step summary, in place of a written answer"
+  },
+  "voicePlayFailed": "Impossible d'écouter cet enregistrement.",
+  "@voicePlayFailed": {
+    "description": "Playing a spoken answer failed"
+  },
+  "reviewEntry": "{count, plural, =1{1 point à revoir} other{{count} points à revoir}}",
+  "@reviewEntry": {
+    "description": "Project screen entry: number of inconsistencies found by rules",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewTitle": "Points à revoir",
+  "@reviewTitle": {
+    "description": "Title of the screen listing inconsistencies"
+  },
+  "reviewIntro": "Eripoo compare ce que tu as noté avec des règles simples, toujours les mêmes, sur ton téléphone. Ce ne sont pas forcément des erreurs : regarde si c'est voulu.",
+  "@reviewIntro": {
+    "description": "Intro: deterministic rules, on device, not a verdict"
+  },
+  "reviewNone": "Rien à revoir pour l'instant.",
+  "@reviewNone": {
+    "description": "Empty state of points to review"
+  },
+  "reviewOpen": "Revoir",
+  "@reviewOpen": {
+    "description": "Button: open the screen where the point can be fixed"
+  },
+  "reviewPriceBelowCost": "Ton prix ({price}) est plus bas que ce que coûte une unité ({cost}) : chaque vente te fait perdre de l'argent.",
+  "@reviewPriceBelowCost": {
+    "description": "Price below unit cost",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "cost": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewPriceWithoutCost": "Tu as choisi un prix, mais tu n'as pas encore noté ce que coûte une unité. Sans ce coût, impossible de savoir si tu gagnes de l'argent.",
+  "@reviewPriceWithoutCost": {
+    "description": "Price set without unit cost"
+  },
+  "reviewBreakEvenUnreachable": "À ce prix, il ne reste rien sur chaque vente : aucune quantité ne couvre tes charges du mois.",
+  "@reviewBreakEvenUnreachable": {
+    "description": "Zero margin with fixed costs"
+  },
+  "reviewBreakEvenAbovePlan": "Pour couvrir tes charges du mois, il faut vendre {needed} unités par mois, mais tu prévois {planned} au mois 12.",
+  "@reviewBreakEvenAbovePlan": {
+    "description": "Break-even above planned volume",
+    "placeholders": {
+      "needed": {
+        "type": "String"
+      },
+      "planned": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFundingMissing": "Il manque encore {missing} pour que ta trésorerie ne passe jamais sous zéro.",
+  "@reviewFundingMissing": {
+    "description": "Funding gap",
+    "placeholders": {
+      "missing": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewProofWithoutTest": "Ton pitch cite une preuve, mais aucune hypothèse n'est encore validée par un test.",
+  "@reviewProofWithoutTest": {
+    "description": "Pitch proof without validated hypothesis"
+  },
+  "reviewSolutionWithoutCustomers": "Tu décris une solution, mais pas encore pour qui elle est.",
+  "@reviewSolutionWithoutCustomers": {
+    "description": "Solution without customers"
   }
 }

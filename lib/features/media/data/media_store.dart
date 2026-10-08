@@ -60,18 +60,36 @@ class MediaStore {
 
   static const photoTypes = {'image/jpeg', 'image/png', 'image/webp'};
 
+  /// Spoken answers recorded by the app (AAC in an MP4 container).
+  static const audioTypes = {'audio/mp4'};
+
   File fileOf(String mediaId) => File('${_dir.path}/$mediaId.bin');
 
   /// Encrypts and stores a photo; returns its media id.
   Future<String> addPhoto(Uint8List bytes, {required String mime}) async {
     if (!photoTypes.contains(mime)) throw const UnsupportedMedia();
+    return _add(bytes, mime: mime, kind: 'photo');
+  }
+
+  /// Encrypts and stores a spoken answer; returns its media id.
+  Future<String> addAudio(Uint8List bytes, {required String mime}) async {
+    if (!audioTypes.contains(mime)) throw const UnsupportedMedia();
+    return _add(bytes, mime: mime, kind: 'audio');
+  }
+
+  Future<String> _add(
+    Uint8List bytes, {
+    required String mime,
+    required String kind,
+  }) async {
     if (bytes.length > MediaEnvelopes.maxPlainBytes) {
       throw const MediaTooLarge();
     }
     final id = Ids.newId();
     final sealed = await _seal(bytes, id, MediaEnvelopes.localOwner);
-    // Synchronous writes: photos are small (≈ 300 KB after resizing) and
-    // a write cannot be left half-done by a suspended future.
+    // Synchronous writes: photos (≈ 300 KB after resizing) and spoken
+    // answers (≈ 250 KB a minute) are small, and a write cannot be left
+    // half-done by a suspended future.
     _dir.createSync(recursive: true);
     final part = File('${fileOf(id).path}.part')
       ..writeAsBytesSync(sealed, flush: true);
@@ -84,7 +102,7 @@ class MediaStore {
             .insert(
               MediaItemsCompanion.insert(
                 id: id,
-                kind: 'photo',
+                kind: kind,
                 mime: mime,
                 sizeBytes: bytes.length,
                 contentHash: _crypto.hashHex(bytes),

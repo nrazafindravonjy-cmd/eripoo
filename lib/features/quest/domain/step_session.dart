@@ -144,6 +144,30 @@ class StepSession {
     return a;
   }
 
+  /// Open questions can be answered aloud (CLAUDE.md §25), except the
+  /// project's name, which must be written.
+  bool canAnswerByVoice(QuestionBlock block) =>
+      block.answer.kind == AnswerKind.text &&
+      !step.outputs.any(
+        (o) => o.fromBlock == block.id && o.target is ProjectTitleTarget,
+      );
+
+  /// Forgets an answer (its recording was deleted): asked again.
+  void clear(QuestionBlock block) => _answers.remove(block.id);
+
+  /// A spoken answer to an open question: the encrypted recording's media
+  /// id.
+  Answer answerVoice(QuestionBlock block, String mediaId) {
+    if (!canAnswerByVoice(block) || mediaId.isEmpty) {
+      throw ArgumentError.value('(hidden)', 'mediaId', 'not an open question');
+    }
+    return _answers[block.id] = Answer(
+      AnswerType.voice,
+      mediaId,
+      helpUsed: help(block.id).level,
+    );
+  }
+
   /// "I don't know": a real answer, useful information.
   Answer dontKnow(QuestionBlock block) =>
       _answers[block.id] = Answer.unknown(helpUsed: help(block.id).level);

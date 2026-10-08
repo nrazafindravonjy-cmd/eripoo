@@ -1,12 +1,12 @@
 # Eripoo — Vérifications et modifications à faire à la fin
 
-Liste compilée des points laissés ouverts pendant les Phases 2 à 8, pour
+Liste compilée des points laissés ouverts pendant les Phases 2 à 9, pour
 les traiter ensemble quand les appareils, le projet Supabase en ligne et
 les avis extérieurs seront disponibles. Chaque ligne renvoie à sa source.
 Rien ici n'est déclaré fait tant que la case n'est pas cochée avec une
 preuve (mesure, capture, journal de CI, avis écrit).
 
-État au 2026-10-08 (fin de la Phase 8 livrée pour revue).
+État au 2026-10-08 (fin de la Phase 9 livrée pour revue).
 
 ## 1. À fournir par le porteur du projet (bloquant)
 
@@ -21,13 +21,15 @@ preuve (mesure, capture, journal de CI, avis écrit).
   - [ ] transferts de données hors de Madagascar (loi 2014-038) ;
   - [ ] données de tiers dans les interviews ; **aucun enregistrement
     audio** des personnes interrogées tant que l'avis n'est pas rendu
-    (le guide d'interview dit « n'enregistre personne ») ;
+    (le guide d'interview dit « n'enregistre personne » ; la réponse
+    orale de la Phase 9 n'est proposée qu'à l'utilisateur, pour ses
+    propres réponses) ;
   - [ ] **contenu réglementaire de la préparation administrative**
     (`content/formalization.yaml`, sources EDBM lues le 2026-10-08) :
     relecture complète avant publication, y compris les traductions ;
   - [ ] licence de SQLite3MultipleCiphers dans la distribution complète
     (mentions dans l'app relues par un juriste) — P3.
-- [ ] **Relecteurs natifs malagasy** — P9 / D13 : 520 chaînes d'interface
+- [ ] **Relecteurs natifs malagasy** — P9 / D13 : 550 chaînes d'interface
   `needs_review` (`lib/l10n/mg_review_status.json`) et tout le contenu
   malagasy en `machine_draft` (quêtes, missions, sections, outils, guide
   de financement, contenu réglementaire).
@@ -42,6 +44,13 @@ preuve (mesure, capture, journal de CI, avis écrit).
   vérifiés, sourcés et datés (avec la Phase 8).
 - [ ] **Région Supabase de production** — P5 / D9 (après mesures depuis
   Madagascar et l'avis juridique).
+- [ ] **Transcription et IA** — Phase 9 : décider s'il faut une
+  transcription des réponses orales, et laquelle : **sur l'appareil**
+  (modèle embarqué : taille, qualité en malagasy, vitesse sur A à
+  mesurer) ou aucune. Règle en vigueur : aucune donnée de projet privée
+  vers un modèle d'IA externe ; un fournisseur externe ne serait possible
+  que pour un texte choisi par l'utilisateur après consentement explicite,
+  avec avis juridique (transferts) et contrat sans entraînement.
 
 ## 2. Sur appareils réels A et B (NON VÉRIFIÉ à ce jour)
 
@@ -86,6 +95,18 @@ Finance et documents (Phase 7) :
   `share_plus`) ;
 - [ ] diapositives lisibles une fois projetées ou montrées sur un
   téléphone.
+
+Voix (Phase 9) :
+- [ ] micro réel : autorisation au premier enregistrement, refus puis
+  autorisation dans les réglages, qualité de la voix (bruit de marché),
+  taille d'un enregistrement de 3 minutes ;
+- [ ] interruptions : appel entrant, écran éteint, application mise en
+  arrière-plan pendant l'enregistrement (rien ne doit rester en clair
+  dans `cache/voice` après le redémarrage) ;
+- [ ] écoute au haut-parleur et au casque ; écoute d'une réponse reçue
+  d'un autre téléphone ;
+- [ ] « Points à revoir » : compréhension des messages par des
+  entrepreneurs (pas un verdict, pas anxiogène).
 
 ## 3. Contre le projet Supabase de développement en ligne
 
@@ -133,7 +154,8 @@ Finance et documents (Phase 7) :
 
 Ne pas démarrer sans décision explicite : environnement Supabase de
 production, analytics de production (D7), fournisseur SMS (D10),
-connexion Google et par téléphone, transcription et IA (Phase 9),
+connexion Google et par téléphone, transcription et tout fournisseur d'IA
+(non branchés en Phase 9, voir §1),
 identifiant Android définitif (D6), publication Play Console.
 
 ## 6. Mesures sur émulateur

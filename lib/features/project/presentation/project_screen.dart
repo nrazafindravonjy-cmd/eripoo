@@ -11,6 +11,7 @@ import '../../hypotheses/presentation/research_forms.dart';
 import '../../hypotheses/presentation/research_providers.dart';
 import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
+import '../../review/presentation/review_screen.dart';
 import '../../tools/application/tool_service.dart';
 import '../../tools/presentation/tools_providers.dart';
 import '../../trash/presentation/trash_screen.dart';
@@ -56,6 +57,7 @@ class _ProjectBody extends ConsumerWidget {
     final notes = ref.watch(fieldNotesProvider(project.id)).value;
     final trashed = ref.watch(trashItemsProvider).value?.length ?? 0;
     final conflicts = ref.watch(pendingConflictsProvider).value?.length ?? 0;
+    final toReview = ref.watch(reviewPointsProvider).value?.length ?? 0;
     final unlocked = {
       for (final t in ref.watch(toolsProvider).value ?? const <ToolState>[])
         if (t.unlocked) t.tool.id,
@@ -130,6 +132,20 @@ class _ProjectBody extends ConsumerWidget {
                   ],
                 ),
               ),
+              if (toReview > 0) ...[
+                const SizedBox(height: EripooSpacing.sm),
+                EripooCard(
+                  onTap: () => context.go(AppRoutes.review),
+                  child: Row(
+                    children: [
+                      Icon(Icons.rule, color: context.colors.warning.base),
+                      const SizedBox(width: EripooSpacing.md),
+                      Expanded(child: Text(l10n.reviewEntry(toReview))),
+                      const Icon(Icons.chevron_right),
+                    ],
+                  ),
+                ),
+              ],
               if (conflicts > 0) ...[
                 const SizedBox(height: EripooSpacing.sm),
                 EripooCard(

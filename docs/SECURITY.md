@@ -773,6 +773,35 @@ typographiques), avertissement avant partage, fichier effacé après le
 partage, purge des deux dossiers (`test/features/documents/`). Non
 vérifié : partage réel vers une autre application sur A et B.
 
+### 11.2 Réponses orales (Phase 9)
+
+Une question ouverte du parcours peut recevoir une réponse orale :
+
+- l'autorisation `RECORD_AUDIO` est demandée au premier enregistrement ;
+  un refus est expliqué et la réponse écrite reste possible ;
+- l'enregistreur du système (`record`) écrit l'audio (AAC, mono, 16 kHz,
+  32 kbit/s, 3 minutes au plus ≈ 750 Ko) dans `cache/voice`, dans le
+  stockage privé de l'application : c'est le seul moment où la voix est
+  **en clair sur le disque**, le temps de l'enregistrement ;
+- dès l'arrêt, le fichier est lu, chiffré dans le magasin de médias
+  (format §4.7, `kind = audio`) puis effacé, y compris en cas d'erreur ;
+  « Annuler », quitter la question pendant l'enregistrement ou une
+  erreur effacent aussi le fichier ; `cache/voice` est vidé à chaque
+  démarrage (fichier laissé par un arrêt brutal) ;
+- pour l'écoute, le média est déchiffré dans une copie temporaire du même
+  dossier, effacée après l'écoute (et au démarrage suivant au plus tard) ;
+- rien n'est transcrit, rien n'est envoyé à un service de reconnaissance
+  vocale ou d'IA ; l'enregistrement est synchronisé chiffré comme une
+  photo ; un enregistrement remplacé ou supprimé est effacé pour toujours,
+  sans passer par la corbeille ;
+- jamais proposé pour les personnes interrogées (avis juridique P6).
+
+Risque résiduel : le fichier en clair de l'enregistrement en cours existe
+dans le cache privé (inaccessible aux autres applications sans root)
+jusqu'à l'arrêt. Vérifié automatiquement : chiffrement, effacement du
+fichier en clair, purge, remplacement et suppression
+(`test/features/voice/`). Non vérifié : micro réel sur A et B.
+
 ## 12. Analytics anonymisés
 
 Opt-in (D7), désactivés par défaut pour les mineurs ; aucun identifiant ;
@@ -783,11 +812,27 @@ journaliser — à vérifier et à mentionner) ; brut 90 jours puis agrégats.
 
 ## 13. IA et services externes
 
-Désactivés par défaut ; fournisseur remplaçable derrière une Edge Function
-proxy ; envoi de contenu privé **uniquement après consentement explicite
-pour cet usage**, en montrant ce qui part, avec mention claire que ce contenu
-sort ponctuellement de la protection de bout en bout ; aucun stockage par le
-proxy ; contrat fournisseur excluant l'entraînement (à vérifier).
+Règle du porteur (2026-10) : **aucune donnée de projet privée n'est
+envoyée à un modèle d'IA externe.** Elle prime sur la version précédente
+de cette section (envoi après consentement).
+
+État à la Phase 9 :
+
+- aucune IA n'est branchée ; `AiAssistant` (`lib/features/ai/`) est le
+  seul point où un fournisseur pourrait l'être, et son implémentation par
+  défaut, `DisabledAiAssistant`, ne fait rien et n'envoie rien ;
+- la détection d'incohérences (« Points à revoir ») est faite par des
+  règles fixes, sur l'appareil, sans IA (§24 du cahier des charges : une
+  règle déterministe suffit) ;
+- les réponses orales ne sont **pas** transcrites (§11.2).
+
+Si une IA est un jour ajoutée : uniquement sur l'appareil, ou pour un
+texte que l'utilisateur choisit d'envoyer après un écran de consentement
+explicite montrant ce qui part, jamais pour le contenu privé du projet
+sans son geste ; fournisseur remplaçable derrière une Edge Function
+proxy sans stockage ; contrat excluant l'entraînement (à vérifier) ;
+décision du porteur et avis juridique (transferts hors de Madagascar)
+avant tout branchement.
 
 ## 14. Mineurs
 

@@ -19,6 +19,8 @@ import 'features/settings/data/settings_store.dart';
 import 'features/settings/domain/app_settings.dart';
 import 'features/settings/presentation/app_settings_controller.dart';
 import 'features/trash/application/trash_service.dart';
+import 'features/voice/application/voice_notes.dart';
+import 'features/voice/presentation/voice_providers.dart';
 import 'security/secure_key_store.dart';
 
 enum _AppLog implements LogEventCode {
@@ -129,6 +131,15 @@ Future<void> bootstrap() async {
     container
         .read(exportDirProvider.future)
         .then(purgeExports)
+        .catchError((Object _) {}),
+  );
+
+  // Spoken answers wait in clear only while being encrypted or played:
+  // any left by a crash or a closed app are deleted at each start.
+  unawaited(
+    container
+        .read(voiceTempDirProvider.future)
+        .then(VoiceNotes.purgeTemp)
         .catchError((Object _) {}),
   );
 

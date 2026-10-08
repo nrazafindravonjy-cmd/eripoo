@@ -97,10 +97,18 @@ class TrashService {
   /// Deletes forever (the user confirmed). Nothing of the content stays:
   /// the local row goes now or as soon as the server has the tombstone,
   /// the photo file now, its server copy at the next synchronisation.
-  Future<void> purge(TrashKind kind, String id) async {
+  Future<void> purge(TrashKind kind, String id) async =>
+      _purgeParts(await _parts(kind, id));
+
+  /// Deletes a recording forever without going through the trash: a
+  /// spoken answer replaced by another answer (Phase 9).
+  Future<void> purgeMedia(String mediaId) =>
+      _purgeParts([(EntityTypes.media, mediaId)]);
+
+  Future<void> _purgeParts(List<(String, String)> parts) async {
     final media = <String>[];
     await _db.transaction(() async {
-      for (final (type, partId) in await _parts(kind, id)) {
+      for (final (type, partId) in parts) {
         if (type == EntityTypes.media) media.add(partId);
         if (await _sync.requestPurge(type, partId)) {
           await _registry.delete(type, partId);

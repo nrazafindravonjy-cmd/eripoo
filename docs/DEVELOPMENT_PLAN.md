@@ -413,6 +413,34 @@ Points ouverts de la Phase 8 :
 - [ ] relire les sources tous les trois mois (`tool/check_sources.dart`), et à chaque loi de finances
 - [ ] code d'activité (NOMAC) : non repris
 
+## Phase 9 — Voix + IA limitée (LIVRÉE POUR REVUE, non acceptée)
+
+GO donné le 2026-10-08 (« si rien ne bloque pour la phase 9, procede »).
+Une règle du porteur cadre toute la phase : **aucune donnée de projet
+privée n'est envoyée à un modèle d'IA externe**. Aucun moteur de
+transcription sur l'appareil n'a été retenu à ce stade (taille des modèles,
+qualité en malagasy non mesurée) : la transcription n'est donc **pas**
+livrée, et aucune IA n'est branchée.
+
+| Élément | État | Détail |
+|---|---|---|
+| Réponse orale (§25) | ✅ widget + unitaires | aux questions ouvertes du parcours (sauf le nom du projet) : « Répondre à l'oral » ; autorisation du micro demandée au premier enregistrement ; minuteur, arrêt automatique à 3 minutes, « Arrêter et garder », « Annuler » ; écoute, « Enregistrer à nouveau », « Supprimer et écrire plutôt » (confirmation) |
+| Hors ligne, chiffré | ✅ | enregistrement AAC mono 16 kHz 32 kbit/s (`record`), fichier temporaire dans le cache privé, chiffré aussitôt dans le magasin de médias (`kind = audio`, synchronisé et envoyé comme une photo), fichier en clair effacé dans tous les cas ; lecture (`just_audio`) depuis une copie temporaire effacée après écoute ; dossier temporaire vidé à chaque démarrage |
+| Pas de transcription | ✅ dit à l'écran | « Fonctionne sans connexion… Elle n'est pas écrite dans ton projet (pas de transcription automatique) : tu pourras l'écrire plus tard. » La réponse orale complète l'étape mais n'est jamais recopiée dans les sections, ni dans les faits, ni dans le titre du projet ; la synthèse de l'étape affiche « Réponse orale (pas écrite dans le projet) » |
+| Remplacement, suppression | ✅ | un enregistrement remplacé, une réponse orale remplacée par un texte ou par « Je ne sais pas », ou supprimée : effacé pour toujours (`TrashService.purgeMedia`, fichier, envoi en attente, suppression côté serveur) ; une réponse supprimée est reposée |
+| Entretiens | — non proposé | aucune captation audio des personnes interrogées (avis juridique P6 en attente) |
+| Points à revoir (§24 « détection d'incohérences ») | ✅ unitaires + widget | **règles fixes, sans IA** : prix sans coût unitaire, prix sous le coût, aucune marge avec des charges, seuil au-dessus des ventes prévues au mois 12, argent manquant pour la trésorerie, preuve du pitch sans hypothèse validée, solution sans client. Entrée « N points à revoir » sur l'écran Projet (cachée s'il n'y en a pas), chaque point expliqué avec les chiffres de l'utilisateur et un bouton « Revoir » vers l'écran concerné |
+| Fournisseur d'IA remplaçable (§24) | ✅ | `AiAssistant` : un seul point de branchement, implémentation par défaut `DisabledAiAssistant` (rien n'est envoyé) ; aucune dépendance réseau d'IA dans l'application |
+| Chaînes | 🟡 | 30 nouvelles chaînes, mg en premier jet (à relire) |
+
+Points ouverts de la Phase 9 :
+
+- [ ] essai du micro et de la lecture sur appareils réels A et B (autorisation, refus, appel entrant pendant l'enregistrement, écran éteint, place disque faible)
+- [ ] transcription : choisir entre une transcription **sur l'appareil** (modèle embarqué, à mesurer en malagasy, en taille et sur appareil A) ou rien ; un service externe n'est possible que pour du texte que l'utilisateur choisit d'envoyer, après un écran de consentement explicite — décision du porteur
+- [ ] fournisseur d'IA (si un jour) : décision du porteur, consentement, région, contrat, pas d'entraînement sur les données
+- [ ] réponse orale lors des entretiens : seulement après l'avis juridique P6
+- [ ] l'écoute d'une réponse orale enregistrée sur un autre téléphone attend que le fichier soit reçu (même règle que les photos)
+
 ## Phases suivantes
 
 Ordre du cahier des charges conservé, avec deux ajustements déjà présentés :
@@ -429,7 +457,7 @@ règles) posés en Phase 2.
 | **6 — Outils** | déblocage progressif — **livrée pour revue** | 14 outils catalogués, 5 utilisables, les autres annoncés |
 | **7 — Finance, business model, documents** | calculateurs, canvas, dossier, export PDF — **livrée pour revue** | calculs testés aux limites |
 | **8 — Formalisation Madagascar** | contenu réglementaire sourcé et daté — **livrée pour revue** | 100 % des informations sourcées |
-| **9 — Voix + IA limitée** | transcription optionnelle, proxy IA, consentements | rien n'est envoyé sans consentement |
+| **9 — Voix + IA limitée** | réponse orale chiffrée hors ligne, points à revoir par règles, IA désactivable — **livrée pour revue** (transcription non livrée : règle « aucune donnée privée vers une IA externe ») | rien n'est envoyé : aucune IA branchée |
 | **10 — Production** | **rotation de l'UMK**, localisation Material/Cupertino `mg`, budgets de performance, revue cryptographique externe, audit sécurité, accessibilité, validation juridique, back-office | checklist de release complète |
 
 ## Décisions
@@ -472,6 +500,8 @@ règles) posés en Phase 2.
 ## Portes
 
 ### Phase 1 — ACCEPTÉE (2026-10-06)
+
+### Phase 9 — GO donné le 2026-10-08
 
 ### Phase 8 — GO donné le 2026-10-08
 

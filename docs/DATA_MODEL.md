@@ -17,7 +17,7 @@ RLS par table) — changement lourd une fois des données en production.
 
 ---
 
-## 0. État d'implémentation (Phases 2 à 7)
+## 0. État d'implémentation (Phases 2 à 9)
 
 Implémenté dans `lib/data/local/tables.dart` (schéma **v3**, **non figé**
 avant les premières données réelles) : `user_profiles`, `facts`,
@@ -66,6 +66,15 @@ Phase 8 (sans nouvelle table) : la section `formalization` (contenu)
 et une section `formalization_prep` absente du contenu, donc non
 affichée dans Projet, qui garde les pièces cochées et les chiffres de
 l'estimation des frais ; synchronisées chiffrées comme toute section.
+
+Phase 9 (sans nouvelle table ni migration) : `media_items.kind` vaut
+aussi `audio` (réponse orale, `audio/mp4`, chiffrée et synchronisée comme
+une photo) ; `answers.answer_type` vaut aussi `voice`, avec pour valeur
+l'identifiant du média (au lieu d'une colonne `audio_media_id`) ; une
+réponse supprimée (enregistrement effacé) porte `deleted_at` et est
+reposée, et une nouvelle réponse au même bloc efface `deleted_at`. Une
+réponse `voice` n'alimente ni section, ni fait, ni titre de projet (pas de
+transcription). Les interviews restent sans audio (P6).
 
 Écarts avec le §3.2 (Phase 3) : `answers` porte aussi `quest_id` ; types de
 réponse implémentés `text`, `choice`, `multi_choice`, `number`, `money`,

@@ -206,6 +206,9 @@ class JourneyService {
         answer: answer,
       );
 
+  Future<void> deleteAnswer(String stepId, String blockId) =>
+      _answers.delete(stepId, blockId);
+
   /// "Skip for now": the step comes back after its delay.
   Future<void> skipForNow(String stepId) async {
     final step = pack.step(stepId)!;
@@ -261,6 +264,7 @@ class JourneyService {
         if (answer == null) continue; // optional question left empty
         switch (output.target) {
           case FactTarget(:final key):
+            if (answer.isVoice) continue;
             await _facts.set(
               key,
               answer.isUnknown ? unknownFactValue : answer.value,
@@ -269,11 +273,12 @@ class JourneyService {
                   : FactSource.user,
             );
           case SectionTarget(:final section, :final field, :final tracked):
-            if (answer.isUnknown) continue;
+            // A spoken answer stays with the step (no transcription).
+            if (answer.isUnknown || answer.isVoice) continue;
             (sections[section] ??= {})[field] = answer.value;
             if (tracked) (trackedBySection[section] ??= {}).add(field);
           case ProjectTitleTarget():
-            if (!answer.isUnknown) {
+            if (!answer.isUnknown && !answer.isVoice) {
               projectTitle = answer.value! as String;
             } else if (!hasProject) {
               projectTitle = provisionalProjectTitle;

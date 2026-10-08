@@ -145,7 +145,7 @@ Chaque bloc `question` déclare obligatoirement ses aides :
 |---|---|
 | « Je ne comprends pas » | affiche la reformulation de niveau 1, puis niveau 2 (plus simple, avec exemple concret) |
 | « Voir un exemple » | exemple localisé (contexte malgache) |
-| « M'aider » | indices progressifs déclarés dans le contenu ; l'IA n'intervient que si activée et consentie (§9) |
+| « M'aider » | indices progressifs déclarés dans le contenu ; aucune IA (§9) |
 | Réponse vocale | enregistrement audio offline ; transcription facultative |
 | « Je ne sais pas » | réponse enregistrée comme `unknown` (information utile) ; le planificateur peut programmer une mission « va le découvrir » |
 | « Passer temporairement » | étape `deferred`, rappel ultérieur |
@@ -361,15 +361,23 @@ Phase 0.**
 
 ## 9. Voix et IA
 
-- **Capture audio offline** partout où une réponse texte est possible.
-- **Transcription** : service optionnel online via Edge Function (proxy
-  remplaçable) ; indiqué clairement « nécessite une connexion » ; le malagasy
-  peut ne pas être supporté (risque R3).
-- **IA** : interface `AiAssistant` avec implémentation `Disabled` par
-  défaut ; usages autorisés : reformuler une question, synthétiser des notes,
-  détecter des incohérences, traduire un brouillon. Avant chaque usage :
-  « une règle ou un contenu suffit-il ? ». Envoi de texte privé uniquement
-  après consentement explicite par usage (voir
+État à la Phase 9 (règle du porteur : **aucune donnée de projet privée
+vers un modèle d'IA externe**) :
+
+- **Réponse orale** aux questions ouvertes du parcours (sauf le nom du
+  projet) : enregistrée hors ligne, chiffrée aussitôt, écoutable,
+  remplaçable, supprimable ; « Fonctionne sans connexion » est dit à
+  l'écran. Jamais proposée pour les personnes interrogées (avis P6).
+- **Pas de transcription** : la réponse orale complète l'étape mais n'est
+  pas écrite dans le projet, et l'écran le dit. Une transcription ne
+  pourra venir que d'un moteur sur l'appareil, ou d'un envoi choisi par
+  l'utilisateur après consentement explicite (décision du porteur ; le
+  malagasy peut ne pas être supporté, risque R3).
+- **Incohérences** : « Points à revoir », règles fixes sur l'appareil
+  (prix et coût, seuil et ventes prévues, argent manquant, preuve sans
+  test, solution sans client) — une règle suffit, donc pas d'IA.
+- **IA** : interface `AiAssistant`, implémentation `DisabledAiAssistant`
+  par défaut et seule existante ; rien n'est envoyé (voir
   [SECURITY §13](SECURITY.md#13-ia-et-services-externes)).
 
 ## 10. Finance (principes)

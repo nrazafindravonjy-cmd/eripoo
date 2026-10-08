@@ -55,9 +55,26 @@ class AnswerRepository {
               helpUsed: Value(answer.helpUsed),
               createdAt: existing?.createdAt ?? now,
               updatedAt: now,
+              deletedAt: const Value(null),
             ),
           );
       await _sync.markChanged(EntityTypes.answer, id);
+    });
+  }
+
+  /// Removes an answer (a spoken answer deleted by the user): the step
+  /// asks the question again.
+  Future<void> delete(String stepId, String blockId) async {
+    final id = idOf(stepId, blockId);
+    final now = _clock().millisecondsSinceEpoch;
+    await _db.transaction(() async {
+      final removed =
+          await (_db.update(
+            _db.answers,
+          )..where((t) => t.id.equals(id) & t.deletedAt.isNull())).write(
+            AnswersCompanion(deletedAt: Value(now), updatedAt: Value(now)),
+          );
+      if (removed > 0) await _sync.markChanged(EntityTypes.answer, id);
     });
   }
 

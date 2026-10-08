@@ -7,10 +7,11 @@
          install the app (the recovery code works without it). -->
     <uses-feature android:name="android.hardware.camera.any" android:required="false"
         tools:replace="android:required" />
-    <!-- Declared by the camera plugin but never needed: no audio is ever
-         recorded (no recording of interviewed people), nothing is written
-         to shared storage. -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO" tools:node="remove" />
+    <!-- Microphone (Phase 9): only for the user's own spoken answers,
+         asked at the first recording, recorded offline and encrypted.
+         Never offered for interviewed people (legal opinion P6 pending). -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- Nothing is written to shared storage. -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove" />
     <application
         android:label="Eripoo"

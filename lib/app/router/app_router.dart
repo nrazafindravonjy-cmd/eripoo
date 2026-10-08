@@ -20,6 +20,7 @@ import '../../features/onboarding/presentation/welcome_screen.dart';
 import '../../features/project/presentation/project_screen.dart';
 import '../../features/quest/presentation/quest_screens.dart';
 import '../../features/quest/presentation/step_screen.dart';
+import '../../features/review/presentation/review_screen.dart';
 import '../../features/settings/presentation/app_settings_controller.dart';
 import '../../features/tools/presentation/competitors_screen.dart';
 import '../../features/tools/presentation/interview_guide_screen.dart';
@@ -54,6 +55,7 @@ abstract final class AppRoutes {
   static const finances = '/project/finances';
   static const cashPlan = '/project/finances/cash';
   static const financing = '/project/finances/financing';
+  static const review = '/project/review';
 
   static String questDetail(String questId) => '$quest/$questId';
   static String hypothesis(String id) => '$hypotheses/$id';
@@ -151,6 +153,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'versions',
                     builder: (context, state) => const ConflictsScreen(),
+                  ),
+                  GoRoute(
+                    path: 'review',
+                    builder: (context, state) => const ReviewScreen(),
                   ),
                   GoRoute(
                     path: 'finances',
