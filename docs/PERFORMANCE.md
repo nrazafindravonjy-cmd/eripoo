@@ -11,7 +11,7 @@ téléphone (NON VÉRIFIÉ).
 
 | Budget | Valeur | Vérifié par | État |
 |---|---|---|---|
-| Taille de l'APK release, une architecture | ≤ 40 Mio | CI, `tool/check_apk.sh` (x86_64) à chaque PR | ✅ automatique — mesuré **31,1 Mo** (x86_64, 2026-10-08) |
+| Taille de l'APK release, une architecture | ≤ 40 Mio | CI, `tool/check_apk.sh` (x86_64), job Android lancé à la demande | ✅ automatique — mesuré **31,1 Mo** (x86_64, 2026-10-08) |
 | Démarrage à froid, médiane de 5 — appareil A | ≤ 2,5 s | appareil A | NON VÉRIFIÉ |
 | Démarrage à froid — émulateur Android 8 (CI) | ≤ 2,5 s | CI, `tool/android_cold_start.sh` | ✅ automatique (mesuré ≈ 0,5–0,9 s) |
 | Démarrage à froid — émulateur Android 14 (CI, rendu logiciel) | ≤ 12 s | CI | ✅ automatique (mesuré ≈ 3,7–6,5 s) |

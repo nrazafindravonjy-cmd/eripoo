@@ -1,7 +1,7 @@
 # Eripoo — Checklist de release (Phase 10)
 
 À dérouler **entièrement** avant toute publication (test fermé compris).
-Chaque ligne est soit vérifiée automatiquement à chaque PR (✅ auto), soit
+Chaque ligne est soit vérifiée automatiquement par la CI (✅ auto), soit
 à faire et à prouver (capture, mesure, avis écrit) au moment de la
 release. Rien n'est coché sans preuve. État au 2026-10-08 : **la release
 n'est pas possible** — les points bloquants de la section 1 sont ouverts.
@@ -29,7 +29,12 @@ n'est pas possible** — les points bloquants de la section 1 sont ouverts.
   Material) et des textes fr/en par les auteurs.
 - [ ] **Appareils A et B** : toute la section 4 ci-dessous.
 
-## 2. Vérifié automatiquement à chaque PR (CI)
+## 2. Vérifié automatiquement par la CI
+
+À chaque PR : format, analyse, tests, tests SQL, contrat RPC. Les jobs
+Android (build, APK release, émulateurs) se lancent **à la demande**
+(Actions → CI → Run workflow) pour économiser les minutes Actions : à
+lancer au moins une fois avant toute release.
 
 | Contrôle | Où |
 |---|---|

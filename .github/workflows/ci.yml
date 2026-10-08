@@ -1,14 +1,19 @@
 name: CI
 
+# Actions minutes are limited: documentation-only changes run nothing, a
+# new push cancels the older run of the same PR, and the Android jobs
+# (≈ 70 runner-minutes) run only on demand (Actions > CI > Run workflow).
 on:
   push:
     branches: [main]
+    paths-ignore: ["docs/**", "**.md"]
   pull_request:
+    paths-ignore: ["docs/**", "**.md"]
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ github.ref }}
-  # A new push waits for the running checks (an APK build is never cut).
-  cancel-in-progress: false
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
   FLUTTER_VERSION: "3.47.6"
@@ -37,6 +42,7 @@ jobs:
 
   android-build:
     name: Android debug build
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     needs: checks
     timeout-minutes: 30
