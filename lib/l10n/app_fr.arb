@@ -2306,7 +2306,7 @@
   "@dossierMissing": {
     "description": "Chapitres vides."
   },
-  "dossierChapter": "{key, select, summary{Résumé} problem{Le problème} customers{Les clients} solution{La solution} validation{Ce que les tests ont montré} competition{La concurrence} businessModel{Le modèle économique} finance{Les chiffres} marketing{Le marketing} launch{Le lancement} pitch{Le pitch} other{Chapitre}}",
+  "dossierChapter": "{key, select, summary{Résumé} problem{Le problème} customers{Les clients} solution{La solution} validation{Ce que les tests ont montré} competition{La concurrence} businessModel{Le modèle économique} finance{Les chiffres} marketing{Le marketing} launch{Le lancement} pitch{Le pitch} formalization{Formalisation} other{Chapitre}}",
   "@dossierChapter": {
     "description": "Titre d'un chapitre du dossier.",
     "placeholders": {
@@ -2315,7 +2315,7 @@
       }
     }
   },
-  "dossierChapterHint": "{key, select, summary{Écris le résumé de ton projet (section « Le résumé du projet »).} problem{Termine la quête sur le problème.} customers{Remplis « Les clients ».} solution{Remplis « La solution ».} validation{Teste une hypothèse jusqu'à sa conclusion.} competition{Note un concurrent dans l'analyse concurrentielle.} businessModel{Construis ton Business Model Canvas.} finance{Remplis « Mes chiffres ».} marketing{Remplis ton plan marketing.} launch{Remplis « Le lancement ».} pitch{Écris ton pitch.} other{}}",
+  "dossierChapterHint": "{key, select, summary{Écris le résumé de ton projet (section « Le résumé du projet »).} problem{Termine la quête sur le problème.} customers{Remplis « Les clients ».} solution{Remplis « La solution ».} validation{Teste une hypothèse jusqu'à sa conclusion.} competition{Note un concurrent dans l'analyse concurrentielle.} businessModel{Construis ton Business Model Canvas.} finance{Remplis « Mes chiffres ».} marketing{Remplis ton plan marketing.} launch{Remplis « Le lancement ».} pitch{Écris ton pitch.} formalization{Prépare ta formalisation avec l'outil « Préparation administrative ».} other{}}",
   "@dossierChapterHint": {
     "description": "Comment remplir un chapitre vide.",
     "placeholders": {
@@ -2478,6 +2478,165 @@
       },
       "pages": {
         "type": "int"
+      }
+    }
+  },
+  "formalizationNotice": "Informations officielles lues le {date} sur le site de l'EDBM. Vérifie-les au guichet avant d'y aller : elles peuvent changer.",
+  "@formalizationNotice": {
+    "description": "Avertissement : date de lecture des sources officielles.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "formalizationNotReviewed": "Pas encore relues par un juriste.",
+  "@formalizationNotReviewed": {
+    "description": "Contenu réglementaire pas encore relu par un juriste."
+  },
+  "formalizationOutdated": "Ces informations ont plus de trois mois : elles ont peut-être changé depuis.",
+  "@formalizationOutdated": {
+    "description": "Contenu réglementaire ancien."
+  },
+  "formalizationNone": "Pas encore d'information officielle dans cette version.",
+  "@formalizationNone": {
+    "description": "Pas de contenu réglementaire."
+  },
+  "formalizationSource": "Source : {source} ({where})",
+  "@formalizationSource": {
+    "description": "Source d'une information réglementaire.",
+    "placeholders": {
+      "source": {
+        "type": "String"
+      },
+      "where": {
+        "type": "String"
+      }
+    }
+  },
+  "formalizationAdvice": "Conseil d'Eripoo : {text}",
+  "@formalizationAdvice": {
+    "description": "Conseil (pas une règle).",
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "formalizationChecklistTitle": "Pièces à préparer",
+  "@formalizationChecklistTitle": {
+    "description": "Liste des pièces."
+  },
+  "formalizationChecklistProgress": "Prêtes : {progress}",
+  "@formalizationChecklistProgress": {
+    "description": "Pièces prêtes.",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "formalizationSourcesTitle": "Sources",
+  "@formalizationSourcesTitle": {
+    "description": "Liste des sources."
+  },
+  "formalizationSourceEntry": "{source} — lu le {date}",
+  "@formalizationSourceEntry": {
+    "description": "Une source et sa date de lecture.",
+    "placeholders": {
+      "source": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "feesTitle": "Estimation des frais de création",
+  "@feesTitle": {
+    "description": "Titre de l'estimation."
+  },
+  "feesCapital": "Capital de la société, en ariary",
+  "@feesCapital": {
+    "description": "Champ : capital."
+  },
+  "feesActivity": "Ton activité (pour l'impôt synthétique)",
+  "@feesActivity": {
+    "description": "Choix de l'activité."
+  },
+  "feesActivityChoose": "Choisir ton activité",
+  "@feesActivityChoose": {
+    "description": "Bouton : choisir l'activité."
+  },
+  "feesRent": "Loyer par mois, si tu loues (ariary)",
+  "@feesRent": {
+    "description": "Champ : loyer."
+  },
+  "feesMonths": "Durée du bail, en mois",
+  "@feesMonths": {
+    "description": "Champ : durée du bail."
+  },
+  "feesRepresented": "Quelqu'un dépose le dossier à ma place",
+  "@feesRepresented": {
+    "description": "Option : procuration."
+  },
+  "feeLine": "{kind, select, statutes{Enregistrement des statuts} lease{Enregistrement du bail} proxy{Procès-verbal et procuration} rcs{Registre du commerce (RCS)} statistics{Immatriculation statistique} syntheticTax{Impôt synthétique (IS)} other{Frais}}",
+  "@feeLine": {
+    "description": "Ligne de frais.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "feesTotal": "Total estimé : {amount}",
+  "@feesTotal": {
+    "description": "Total des frais.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "feesNote": "Estimation d'après le barème de l'EDBM (version 28, juillet 2026). Le simulateur officiel de l'EDBM et le guichet font foi.",
+  "@feesNote": {
+    "description": "Limite de l'estimation."
+  },
+  "feesFillIn": "Indique le capital et choisis ton activité pour voir l'estimation.",
+  "@feesFillIn": {
+    "description": "Estimation en attente."
+  },
+  "feesRefused": "Vérifie les montants : le loyer et la durée vont ensemble.",
+  "@feesRefused": {
+    "description": "Estimation refusée."
+  },
+  "feesKeep": "Garder ces chiffres",
+  "@feesKeep": {
+    "description": "Enregistrer les paramètres de l'estimation."
+  },
+  "feesKept": "Chiffres gardés pour ta préparation.",
+  "@feesKept": {
+    "description": "Paramètres enregistrés."
+  },
+  "prepCollected": "Ce que tu as préparé",
+  "@prepCollected": {
+    "description": "Partie du PDF : informations recueillies."
+  },
+  "prepItemReady": "Prête : {item}",
+  "@prepItemReady": {
+    "description": "Pièce prête (PDF).",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "prepItemTodo": "À préparer : {item}",
+  "@prepItemTodo": {
+    "description": "Pièce à préparer (PDF).",
+    "placeholders": {
+      "item": {
+        "type": "String"
       }
     }
   }

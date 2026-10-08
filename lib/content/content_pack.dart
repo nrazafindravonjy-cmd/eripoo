@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'formalization.dart';
 import 'json_reader.dart';
 import 'localized_text.dart';
 import 'rules.dart';
@@ -640,6 +641,7 @@ const implementedTools = {
   ToolKind.businessPlan,
   ToolKind.pitch,
   ToolKind.pitchDeck,
+  ToolKind.adminPreparation,
 };
 
 /// A titled list of advice inside a tool (e.g. the interview guide).
@@ -726,6 +728,7 @@ class ContentPack {
     this.sections = const [],
     this.tools = const [],
     this.financingGuide = const [],
+    this.formalization,
   }) {
     for (final quest in quests) {
       for (final step in quest.steps) {
@@ -754,6 +757,9 @@ class ContentPack {
 
   /// How to find money (CLAUDE.md §49): kinds of sources only.
   final List<GuideSection> financingGuide;
+
+  /// Sourced regulatory content (Phase 8); null when the pack has none.
+  final FormalizationContent? formalization;
 
   ToolDefinition? tool(String id) {
     for (final t in tools) {
@@ -814,6 +820,7 @@ class ContentPack {
       'sections',
       'tools',
       'financing_guide',
+      'formalization',
     });
     if (json['format'].integer != supportedPackFormat) {
       json['format'].fail('unsupported pack format');
@@ -839,6 +846,9 @@ class ContentPack {
         for (final g in json['financing_guide'].listOrEmpty)
           GuideSection.read(g),
       ],
+      formalization: json.has('formalization')
+          ? FormalizationContent.read(json['formalization'])
+          : null,
     );
   }
 }

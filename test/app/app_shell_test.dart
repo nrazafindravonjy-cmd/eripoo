@@ -132,8 +132,9 @@ void main() {
     await pumpApp(tester);
     await tester.tap(find.text('Outils'));
     await tester.pumpAndSettle();
-    // Tools not built yet are announced inside the tab (docs/DEVELOPMENT_PLAN.md).
-    expect(find.text('Bientôt'), findsOneWidget);
+    // Every tool is built (Phase 8): none is announced as coming.
+    expect(find.text('À débloquer'), findsOneWidget);
+    expect(find.text('Bientôt'), findsNothing);
   });
 
   for (final (language, home) in [

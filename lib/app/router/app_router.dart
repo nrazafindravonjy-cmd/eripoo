@@ -10,6 +10,7 @@ import '../../features/documents/presentation/document_screens.dart';
 import '../../features/finance/presentation/calculators_screen.dart';
 import '../../features/finance/presentation/cash_plan_screen.dart';
 import '../../features/finance/presentation/finances_screen.dart';
+import '../../features/formalization/presentation/admin_preparation_screen.dart';
 import '../../features/home/presentation/home_screen.dart';
 import '../../features/hypotheses/presentation/field_notes_screen.dart';
 import '../../features/hypotheses/presentation/hypotheses_screen.dart';
@@ -49,6 +50,7 @@ abstract final class AppRoutes {
   static const businessPlan = '/tools/business-plan';
   static const pitch = '/tools/pitch';
   static const pitchDeck = '/tools/pitch-deck';
+  static const adminPreparation = '/tools/admin-preparation';
   static const finances = '/project/finances';
   static const cashPlan = '/project/finances/cash';
   static const financing = '/project/finances/financing';
@@ -221,6 +223,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'pitch-deck',
                     builder: (context, state) => const PitchDeckScreen(),
+                  ),
+                  GoRoute(
+                    path: 'admin-preparation',
+                    builder: (context, state) => const AdminPreparationScreen(),
                   ),
                 ],
               ),

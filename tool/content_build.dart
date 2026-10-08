@@ -103,6 +103,9 @@ Map<String, Object?> assemble() {
   final finance = File('$sourceDir/finance.yaml').existsSync()
       ? load('$sourceDir/finance.yaml')! as Map<String, Object?>
       : const <String, Object?>{};
+  final formalization = File('$sourceDir/formalization.yaml').existsSync()
+      ? load('$sourceDir/formalization.yaml')
+      : null;
   return {
     'format': supportedPackFormat,
     ...meta,
@@ -111,6 +114,8 @@ Map<String, Object?> assemble() {
     'missions': withDefaultStatus(missions, defaults),
     'sections': withDefaultStatus(sections, defaults),
     'tools': withDefaultStatus(tools, defaults),
+    if (formalization != null)
+      'formalization': withDefaultStatus(formalization, defaults),
     if (finance['financing_guide'] != null)
       'financing_guide': withDefaultStatus(
         finance['financing_guide'],

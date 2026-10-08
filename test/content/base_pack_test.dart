@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:eripoo/content/content_pack.dart';
 import 'package:eripoo/content/content_validator.dart';
+import 'package:eripoo/content/formalization.dart';
 import 'package:eripoo/content/localized_text.dart';
 import 'package:eripoo/content/planner.dart';
 import 'package:eripoo/core/i18n/app_language.dart';
@@ -64,7 +65,15 @@ void main() {
   test('examples and missions contain no contact data', () {
     final phone = RegExp(r'(\+?261|\b03[2-9])[\s.]?\d{2}');
     final email = RegExp(r'[\w.+-]+@[\w-]+\.\w+');
+    // Exception: an office's public contact, stated by its official source
+    // (regulatory facts only, never advice, examples or missions).
+    final sourced = {
+      for (final t
+          in pack.formalization?.topics ?? const <FormalizationTopic>[])
+        for (final f in t.facts) f.text,
+    };
     for (final text in allTexts(pack)) {
+      if (sourced.contains(text)) continue;
       for (final value in text.texts.values) {
         expect(phone.hasMatch(value), isFalse, reason: value);
         expect(email.hasMatch(value), isFalse, reason: value);

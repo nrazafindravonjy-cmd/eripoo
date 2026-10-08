@@ -1,5 +1,6 @@
 import '../core/i18n/app_language.dart';
 import 'content_pack.dart';
+import 'formalization.dart';
 import 'localized_text.dart';
 import 'progress_state.dart';
 import 'rules.dart';
@@ -292,6 +293,75 @@ ValidationReport validatePack(ContentPack pack) {
     }
   }
 
+  // ---- regulatory content (CLAUDE.md §18): 100 % sourced. Every fact,
+  // document and fee points to a declared official source; no source is
+  // declared for nothing; dates are coherent.
+  final regulatory = pack.formalization;
+  if (regulatory != null) {
+    final ids = <String>{};
+    for (final s in regulatory.sources) {
+      if (!ids.add(s.id)) error('formalization', 'duplicate source ${s.id}');
+      if (!regulatory.reviewAfter.isAfter(s.consulted)) {
+        error('formalization', 'review_after must follow ${s.id} consultation');
+      }
+      if (s.sha256 != null && !RegExp(r'^[0-9a-f]{64}$').hasMatch(s.sha256!)) {
+        error('formalization', 'source ${s.id}: sha256 must be 64 hex digits');
+      }
+    }
+    final used = <String>{};
+    for (final ref in regulatory.refs) {
+      used.add(ref.sourceId);
+      if (regulatory.source(ref.sourceId) == null) {
+        error('formalization', 'unknown source ${ref.sourceId}');
+      }
+      if (ref.where.trim().isEmpty) {
+        error('formalization', 'a reference needs its place in the source');
+      }
+    }
+    for (final s in regulatory.sources) {
+      if (!used.contains(s.id)) {
+        error('formalization', 'source ${s.id} is never cited');
+      }
+    }
+    final topicIds = <String>{};
+    for (final t in regulatory.topics) {
+      if (!topicIds.add(t.id)) {
+        error('formalization', 'duplicate topic ${t.id}');
+      }
+      if (t.facts.isEmpty && t.advice.isEmpty) {
+        error('formalization', 'topic ${t.id} is empty');
+      }
+    }
+    final itemIds = <String>{};
+    for (final c in regulatory.checklist) {
+      if (!itemIds.add(c.id)) error('formalization', 'duplicate item ${c.id}');
+    }
+    final fees = regulatory.fees;
+    if (fees != null) {
+      if (fees.syntheticTax.isEmpty) {
+        error('formalization', 'the synthetic tax needs its amounts');
+      }
+      final taxIds = <String>{};
+      for (final t in fees.syntheticTax) {
+        if (!taxIds.add(t.id)) error('formalization', 'duplicate tax ${t.id}');
+        if (t.amountMga <= 0) error('formalization', 'tax ${t.id} amount');
+      }
+      for (final r in [
+        fees.statutes,
+        fees.lease,
+        fees.proxy,
+        fees.rcs,
+        fees.statistics,
+      ]) {
+        if ((r.amountMga ?? 0) < 0 ||
+            (r.rateBp ?? 0) < 0 ||
+            (r.minimumMga ?? 0) < 0) {
+          error('formalization', 'a fee cannot be negative');
+        }
+      }
+    }
+  }
+
   for (final type in usedTypes) {
     if (!pack.blockTypes.contains(type)) {
       error('pack', 'block type ${type.name} used but not declared');
@@ -374,5 +444,25 @@ Iterable<LocalizedText> allTexts(ContentPack pack) sync* {
   for (final g in pack.financingGuide) {
     yield g.title;
     yield* g.items;
+  }
+  final regulatory = pack.formalization;
+  if (regulatory != null) {
+    for (final s in regulatory.sources) {
+      yield s.scope;
+    }
+    for (final t in regulatory.topics) {
+      yield t.title;
+      for (final f in t.facts) {
+        yield f.text;
+      }
+      yield* t.advice;
+    }
+    for (final c in regulatory.checklist) {
+      yield c.text;
+      if (c.when != null) yield c.when!;
+    }
+    for (final t in regulatory.fees?.syntheticTax ?? const <ActivityTax>[]) {
+      yield t.label;
+    }
   }
 }

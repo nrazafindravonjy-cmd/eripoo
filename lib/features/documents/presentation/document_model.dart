@@ -4,6 +4,7 @@ import '../../../core/format/eripoo_formatter.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../finance/application/finance_service.dart';
 import '../../finance/presentation/finances_screen.dart';
+import '../../formalization/application/preparation_service.dart';
 import '../../hypotheses/domain/hypothesis_states.dart';
 import '../../tools/presentation/competitors_screen.dart';
 import '../application/canvas.dart';
@@ -178,6 +179,19 @@ class DocumentBuilder {
     ),
   );
 
+  /// "Ready: 3 / 13", once a document of the checklist is marked ready.
+  String? _preparationReady() {
+    final items = pack.formalization?.checklist ?? const [];
+    final ready = Preparation.fromFields(
+      _s.sections[PreparationService.sectionKey] ?? const {},
+    ).ready;
+    final done = items.where((i) => ready.contains(i.id)).length;
+    if (done == 0) return null;
+    return l10n.formalizationChecklistProgress(
+      formatter.fraction(done, items.length),
+    );
+  }
+
   DocPart _part(String key, List<DocItem> items) =>
       DocPart(key: key, title: l10n.dossierChapter(key), items: items);
 
@@ -200,6 +214,10 @@ class DocumentBuilder {
     _part('finance', _finance()),
     _part('marketing', _section('marketing')),
     _part('launch', _section('launch')),
+    _part('formalization', [
+      ..._section('formalization'),
+      if (_preparationReady() case final ready?) DocParagraph(ready),
+    ]),
     _part('pitch', _section('pitch')),
   ];
 

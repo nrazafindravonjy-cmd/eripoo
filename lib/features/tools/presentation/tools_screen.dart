@@ -26,7 +26,7 @@ String toolRoute(ToolKind kind) => switch (kind) {
   ToolKind.businessPlan => AppRoutes.businessPlan,
   ToolKind.pitch => AppRoutes.pitch,
   ToolKind.pitchDeck => AppRoutes.pitchDeck,
-  _ => AppRoutes.tools,
+  ToolKind.adminPreparation => AppRoutes.adminPreparation,
 };
 
 /// The Tools tab (CLAUDE.md §20): tools appear as the user acts; locked

@@ -116,14 +116,14 @@ void main() {
     matching: find.byType(Badge),
   );
 
-  testWidgets('a new user: everything locked or planned, each with its '
-      'help and how to unlock it', (tester) async {
+  testWidgets('a new user: everything locked, each with its help and how '
+      'to unlock it; no tool is left announced', (tester) async {
     await launch(tester, AppRoutes.tools);
     expect(find.widgetWithText(AppBar, 'Outils'), findsOneWidget);
     expect(find.text('Tes outils'), findsNothing);
     expect(find.text('À débloquer'), findsOneWidget);
-    expect(find.text('Bientôt'), findsOneWidget);
-    expect(find.text('Pas encore dans cette version.'), findsWidgets);
+    expect(find.text('Bientôt'), findsNothing);
+    expect(find.text('Pas encore dans cette version.'), findsNothing);
     expect(toolsDot(), findsNothing);
 
     await tap(tester, find.text('Analyse concurrentielle'));

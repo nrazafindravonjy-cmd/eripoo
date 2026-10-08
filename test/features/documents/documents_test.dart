@@ -13,6 +13,7 @@ import 'package:eripoo/features/documents/application/project_synthesis.dart';
 import 'package:eripoo/features/documents/presentation/document_model.dart';
 import 'package:eripoo/features/documents/presentation/pdf_export.dart';
 import 'package:eripoo/features/finance/application/finance_service.dart';
+import 'package:eripoo/features/formalization/application/preparation_service.dart';
 import 'package:eripoo/features/hypotheses/application/research_service.dart';
 import 'package:eripoo/features/hypotheses/domain/hypothesis_states.dart';
 import 'package:eripoo/features/hypotheses/domain/research.dart';
@@ -242,6 +243,25 @@ void main() {
       'model',
       'numbers',
     ]);
+  });
+
+  test('the formalization chapter: what was collected and the documents '
+      'ready', () async {
+    await ProjectRepository(db).saveSection(
+      projectId: project,
+      sectionKey: 'formalization',
+      fields: {'business_name': 'Savon Tsara'},
+    );
+    await PreparationService(db).setReady(project, 'statutes', true);
+    final chapter = builder(await synthesis())
+        .dossier()
+        .firstWhere((p) => p.key == 'formalization');
+    expect(chapter.filled, isTrue);
+    expect(chapter.items.whereType<DocLabeled>().single.text, 'Savon Tsara');
+    expect(
+      chapter.items.whereType<DocParagraph>().single.text,
+      'Prêtes : 1\u00A0/\u00A013',
+    );
   });
 
   group('PDF', () {

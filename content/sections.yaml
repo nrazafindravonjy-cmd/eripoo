@@ -106,3 +106,27 @@
     - key: when
       label: {fr: "Quand tu veux commencer", mg: "Rahoviana no tianao hanombohana", en: "When you want to start"}
       max_length: 100
+# Phase 8: brought by the administrative preparation tool. What the user
+# collects for the counter; nothing is filed by Eripoo.
+- key: formalization
+  tool: tool.admin_preparation
+  title: {fr: "Ma préparation administrative", mg: "Ny fanomanana ara-pitantanana", en: "My administrative preparation"}
+  fields:
+    - key: business_name
+      label: {fr: "Nom envisagé pour l'entreprise", mg: "Anarana kasaina ho an'ny orinasa", en: "Name considered for the business"}
+      max_length: 120
+    - key: form_considered
+      label: {fr: "Forme envisagée (à confirmer au guichet)", mg: "Karazana kasaina (hamarinina any amin'ny varavarankely)", en: "Form considered (to confirm at the counter)"}
+      max_length: 120
+    - key: activity
+      label: {fr: "Activité principale, en une phrase", mg: "Asa fototra, amin'ny fehezanteny iray", en: "Main activity, in one sentence"}
+      max_length: 200
+    - key: premises
+      label: {fr: "Où tu exerceras (adresse, Fokontany)", mg: "Aiza no hiasanao (adiresy, Fokontany)", en: "Where you will work (address, Fokontany)"}
+      max_length: 200
+    - key: partners
+      label: {fr: "Associés éventuels et leur rôle", mg: "Ireo mety ho tompon'anjara sy ny anjara asany", en: "Possible partners and their role"}
+      max_length: 300
+    - key: questions
+      label: {fr: "Tes questions pour le guichet", mg: "Ireo fanontanianao ho an'ny varavarankely", en: "Your questions for the counter"}
+      max_length: 500

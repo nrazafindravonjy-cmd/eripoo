@@ -111,14 +111,13 @@ void main() {
     expect(price.usable, isTrue);
     expect(price.isNew, isTrue);
 
-    // A tool not built yet can be unlocked, but never opened nor
-    // celebrated.
+    // A locked tool is never usable, even once built.
     final admin = ToolState(
       tool: pack.tool('tool.admin_preparation')!,
-      unlockedAt: DateTime.utc(2026),
+      unlockedAt: null,
       seen: false,
     );
-    expect(admin.tool.implemented, isFalse);
+    expect(admin.tool.implemented, isTrue, reason: 'Phase 8');
     expect(admin.usable, isFalse);
     expect(admin.isNew, isFalse);
     expect(await tools.refreshUnlocks(), isEmpty, reason: 'stable');
