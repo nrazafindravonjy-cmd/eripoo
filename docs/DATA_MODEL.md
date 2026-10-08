@@ -62,6 +62,11 @@ calculs demandés (anti-sur-ingénierie). Les montants sont bornés à
 10¹¹ Ar et les ventes à 10⁶ par mois pour qu'aucun calcul ne déborde.
 Migration v6 → v7 testée.
 
+Phase 8 (sans nouvelle table) : la section `formalization` (contenu)
+et une section `formalization_prep` absente du contenu, donc non
+affichée dans Projet, qui garde les pièces cochées et les chiffres de
+l'estimation des frais ; synchronisées chiffrées comme toute section.
+
 Écarts avec le §3.2 (Phase 3) : `answers` porte aussi `quest_id` ; types de
 réponse implémentés `text`, `choice`, `multi_choice`, `number`, `money`,
 `unknown` (`audio` en Phase 4/9) ; `mission_instances` porte

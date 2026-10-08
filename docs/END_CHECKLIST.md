@@ -1,12 +1,12 @@
 # Eripoo — Vérifications et modifications à faire à la fin
 
-Liste compilée des points laissés ouverts pendant les Phases 2 à 7, pour
+Liste compilée des points laissés ouverts pendant les Phases 2 à 8, pour
 les traiter ensemble quand les appareils, le projet Supabase en ligne et
 les avis extérieurs seront disponibles. Chaque ligne renvoie à sa source.
 Rien ici n'est déclaré fait tant que la case n'est pas cochée avec une
 preuve (mesure, capture, journal de CI, avis écrit).
 
-État au 2026-10-08 (fin de la Phase 7 livrée pour revue).
+État au 2026-10-08 (fin de la Phase 8 livrée pour revue).
 
 ## 1. À fournir par le porteur du projet (bloquant)
 
@@ -22,12 +22,15 @@ preuve (mesure, capture, journal de CI, avis écrit).
   - [ ] données de tiers dans les interviews ; **aucun enregistrement
     audio** des personnes interrogées tant que l'avis n'est pas rendu
     (le guide d'interview dit « n'enregistre personne ») ;
+  - [ ] **contenu réglementaire de la préparation administrative**
+    (`content/formalization.yaml`, sources EDBM lues le 2026-10-08) :
+    relecture complète avant publication, y compris les traductions ;
   - [ ] licence de SQLite3MultipleCiphers dans la distribution complète
     (mentions dans l'app relues par un juriste) — P3.
-- [ ] **Relecteurs natifs malagasy** — P9 / D13 : 493 chaînes d'interface
+- [ ] **Relecteurs natifs malagasy** — P9 / D13 : 520 chaînes d'interface
   `needs_review` (`lib/l10n/mg_review_status.json`) et tout le contenu
   malagasy en `machine_draft` (quêtes, missions, sections, outils, guide
-  de financement).
+  de financement, contenu réglementaire).
 - [ ] **Auteurs du contenu** — D14 : relecture du français et de
   l'anglais ; validation des quêtes, missions, sections du projet, **règles
   de déblocage des outils** et textes des outils, sections amenées par
@@ -108,10 +111,13 @@ Finance et documents (Phase 7) :
   effacé : dire clairement ce qui s'est passé) ;
 - [ ] **badges** (§21) : non faits ; mêmes règles et même validateur que
   les outils ;
-- [ ] **préparation administrative** (dernier outil annoncé) → Phase 8,
-  contenu réglementaire sourcé et daté, rien de non vérifié ;
-- [ ] **chapitre « Formalisation » du dossier** : absent tant que la
-  Phase 8 n'existe pas ; **chapitre « Marché »** : absent, aucune donnée
+- [ ] **préparation administrative** — construite en Phase 8 ; à
+  compléter : liste officielle pour l'entreprise individuelle, autres
+  régions que l'Analamanga, sources fiscales et sociales directes
+  (`impots.mg`, `cnaps.mg` injoignables pendant la collecte), codes
+  d'activité (NOMAC) ; relire les sources tous les trois mois et à chaque
+  loi de finances (`dart run tool/check_sources.dart`) ;
+- [ ] **chapitre « Marché »** du dossier : absent, aucune donnée
   de marché n'est recueillie par les quêtes actuelles (à prévoir dans le
   contenu) ;
 - [ ] **niveau de préparation** (§23, « éventuellement ») : non fait ;

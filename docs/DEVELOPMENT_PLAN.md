@@ -381,8 +381,37 @@ Points ouverts de la Phase 7 :
 - [ ] partage réel du PDF et lisibilité des calculateurs sur A et B — NON VÉRIFIÉ
 - [ ] organismes et conditions de financement sourcés et datés (avec la Phase 8)
 - [ ] relecture des textes (sections amenées par les outils, guide de financement) et des 100 chaînes malagasy
-- [ ] chapitres « Marché » et « Formalisation » du dossier
+- [ ] chapitre « Marché » du dossier (« Formalisation » fait en Phase 8)
 - [ ] niveau de préparation (§23), associés (§48), badges (§21)
+
+## Phase 8 — Formalisation Madagascar (LIVRÉE POUR REVUE, non acceptée)
+
+GO donné le 2026-10-08 (« si rien ne bloque la phase 8 lance le »). Un
+blocage a d'abord été signalé : le réseau de l'environnement refusait les
+sites officiels malgaches. Après l'ouverture de l'accès à internet par le
+porteur, l'EDBM et l'INSTAT répondent ; `impots.mg` et `cnaps.mg` ne
+répondent pas, l'Assemblée nationale refuse la connexion, et la
+plateforme Orinasa a cessé de répondre (DNS) pendant la collecte.
+
+| Élément | État | Détail |
+|---|---|---|
+| Format « sourcé et daté » (critère de sortie : 100 % sourcé) | ✅ auto | `content/formalization.yaml` : sources officielles (éditeur, titre, version, URL https, date de lecture, empreinte sha256), chaque fait, pièce et frais renvoie à une source **et** à l'endroit dans la source ; les conseils d'Eripoo sont séparés et n'énoncent aucune règle ; date de revue (2027-01-08) ; relecture juridique « en attente ». Le build refuse une source inconnue ou jamais citée, une référence sans endroit, une adresse http, des dates incohérentes |
+| Contenu | ✅ sourcé — 🟡 non relu par un juriste ; 27 nouvelles chaînes d'interface et le contenu mg en premier jet | lu le 8 octobre 2026, **EDBM uniquement** : « Création de société, Version 28 : Juillet 2026 » (pièces, frais, documents délivrés, services, horaires, adresse), la page « Création de société », les modèles officiels de statuts SARL et SARLU. Où et comment, formes de société (SARL, SARLU et responsabilité de l'associé unique), ce que l'on reçoit, l'impôt au démarrage, 13 pièces à préparer |
+| Écarté volontairement | — | tout ce qui vient de sites secondaires (contradictoires : capital minimum, nombre d'exemplaires, l'un affirmant à tort que Madagascar applique l'OHADA) ; **aucun capital minimum** n'est affiché ; l'entreprise individuelle est déclarée « pas encore couverte par une source officielle vérifiée » |
+| Estimation des frais | ✅ testée aux limites | barème EDBM lu dans le contenu (statuts 0,5 % min. 20 000 Ar, bail 2 % du loyer total min. 20 000 Ar, procuration 2 000 Ar, RCS 16 000 Ar, STAT 40 000 Ar, impôt synthétique selon l'activité) ; entiers, arrondi au-dessus, minimums ; le simulateur officiel et le guichet font foi |
+| Outil « Préparation administrative » | ✅ widget | avertissement daté (« lues le 8 octobre 2026… pas encore relues par un juriste », « plus de trois mois » après la date de revue), informations recueillies (section du projet), sujets avec la source de chaque phrase, pièces à cocher (synchronisées), estimation gardée, liste des sources, export PDF. **Eripoo ne fait aucune démarche** et le dit |
+| Dossier | ✅ auto | chapitre « Formalisation » (informations recueillies, pièces prêtes) |
+| Vérification des sources | ✅ outil | `dart run tool/check_sources.dart` télécharge les documents et compare leur empreinte (réseau nécessaire, hors CI) ; dernière exécution : 3 documents identiques |
+| Outils | ✅ | les 14 outils de la spécification s'ouvrent ; plus aucun n'est annoncé « Bientôt » |
+
+Points ouverts de la Phase 8 :
+
+- [ ] **relecture par un juriste malgache** du contenu réglementaire (fr, puis mg et en) avant publication
+- [ ] entreprise individuelle : liste officielle des pièces et des frais (Orinasa « Documents par forme juridique », non lisible pendant la collecte)
+- [ ] autres régions que l'Analamanga (antennes de l'EDBM, services présents) — non couvertes
+- [ ] sources fiscales et sociales directes (`impots.mg`, `cnaps.mg`) — sites injoignables pendant la collecte
+- [ ] relire les sources tous les trois mois (`tool/check_sources.dart`), et à chaque loi de finances
+- [ ] code d'activité (NOMAC) : non repris
 
 ## Phases suivantes
 
@@ -399,7 +428,7 @@ règles) posés en Phase 2.
 | **5 — Offline + sync** | RPC, moteur, conflits, corbeille, médias, WorkManager, **transfert double QR**, révocation | 14 scénarios d'OFFLINE_SYNC §13 + scénarios de transfert (§6.7 de SECURITY) |
 | **6 — Outils** | déblocage progressif — **livrée pour revue** | 14 outils catalogués, 5 utilisables, les autres annoncés |
 | **7 — Finance, business model, documents** | calculateurs, canvas, dossier, export PDF — **livrée pour revue** | calculs testés aux limites |
-| **8 — Formalisation Madagascar** | contenu réglementaire sourcé et daté | 100 % des informations sourcées |
+| **8 — Formalisation Madagascar** | contenu réglementaire sourcé et daté — **livrée pour revue** | 100 % des informations sourcées |
 | **9 — Voix + IA limitée** | transcription optionnelle, proxy IA, consentements | rien n'est envoyé sans consentement |
 | **10 — Production** | **rotation de l'UMK**, localisation Material/Cupertino `mg`, budgets de performance, revue cryptographique externe, audit sécurité, accessibilité, validation juridique, back-office | checklist de release complète |
 
@@ -443,6 +472,8 @@ règles) posés en Phase 2.
 ## Portes
 
 ### Phase 1 — ACCEPTÉE (2026-10-06)
+
+### Phase 8 — GO donné le 2026-10-08
 
 ### Phase 7 — GO donné le 2026-10-07
 

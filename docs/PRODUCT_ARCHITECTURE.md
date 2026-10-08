@@ -354,6 +354,10 @@ Phase 0.**
   n'apparaissent qu'avec lui. Le canvas, le dossier et le pitch deck sont
   des **vues** du travail (aucune table) : une case ou un chapitre vide
   dit où le construire.
+  **Phase 8** : la préparation administrative s'ouvre ; son contenu
+  réglementaire (`content/formalization.yaml`) est une forme à part du
+  pack : chaque fait cite une source officielle datée, les conseils
+  d'Eripoo sont séparés. Les 14 outils sont construits.
 
 ## 9. Voix et IA
 
