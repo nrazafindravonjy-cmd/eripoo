@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../app/di/core_providers.dart';
 import '../../../app/router/app_router.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../../sync/remote/sync_remote.dart';
 import '../../../sync/sync_cycle.dart';
 import '../../../sync/sync_scheduler.dart';
+import '../../auth/domain/auth_repository.dart';
 import '../../devices/presentation/devices_screen.dart';
 import '../../quest/presentation/journey_providers.dart';
 import '../../settings/presentation/app_settings_controller.dart';
+import 'account_messages.dart';
 import 'account_providers.dart';
+import 'key_rotation_screen.dart';
 import 'sign_in_screen.dart';
 
 /// Profile: the account, the backup and the devices. Without a server in
@@ -57,6 +62,27 @@ class ProfileScreen extends ConsumerWidget {
                           const Icon(Icons.devices),
                           const SizedBox(width: EripooSpacing.md),
                           Expanded(child: Text(l10n.devicesTitle)),
+                          const Icon(Icons.chevron_right),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: EripooSpacing.xl),
+                    Text(
+                      l10n.securityTitle,
+                      style: context.textStyles.titleMedium,
+                    ),
+                    const SizedBox(height: EripooSpacing.sm),
+                    EripooCard(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => const KeyRotationScreen(),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.key),
+                          const SizedBox(width: EripooSpacing.md),
+                          Expanded(child: Text(l10n.rotationEntry)),
                           const Icon(Icons.chevron_right),
                         ],
                       ),
@@ -155,11 +181,85 @@ class _AccountCard extends ConsumerWidget {
           OtherAccount() => [Text(l10n.accountMismatch)],
           Linked(:final user) => [
             Text(l10n.accountSignedInAs(user.email ?? '')),
+            const SizedBox(height: EripooSpacing.md),
+            EripooButton(
+              label: l10n.accountSignOut,
+              icon: Icons.logout,
+              variant: EripooButtonVariant.secondary,
+              onPressed: () => _signOut(context, ref),
+            ),
+            const SizedBox(height: EripooSpacing.sm),
+            EripooButton(
+              label: l10n.accountDelete,
+              icon: Icons.delete_forever_outlined,
+              variant: EripooButtonVariant.tertiary,
+              onPressed: () => _deleteAccount(context, ref),
+            ),
           ],
         },
       ),
     );
   }
+}
+
+Future<void> _signOut(BuildContext context, WidgetRef ref) async {
+  final l10n = AppLocalizations.of(context);
+  final lifecycle = ref.read(accountLifecycleProvider);
+  if (lifecycle == null) return;
+  final pending = await ref.read(pendingChangesProvider.future);
+  if (!context.mounted) return;
+  final ok = await showEripooConfirmDialog(
+    context,
+    title: l10n.accountSignOutTitle,
+    message: pending == 0
+        ? l10n.accountSignOutBody
+        : '${l10n.accountSignOutBody}\n\n${l10n.accountSignOutUnsaved(pending)}',
+    confirmLabel: l10n.accountErase,
+    destructive: true,
+  );
+  if (!ok) return;
+  await lifecycle.signOutAndErase(
+    deviceId: ref.read(appServicesProvider).keys.deviceId,
+  );
+  await ref.read(appRestartProvider)();
+}
+
+Future<void> _deleteAccount(BuildContext context, WidgetRef ref) async {
+  final l10n = AppLocalizations.of(context);
+  final lifecycle = ref.read(accountLifecycleProvider);
+  final backend = ref.read(accountBackendProvider).value;
+  final email = ref.read(authUserProvider).value?.email;
+  if (lifecycle == null || backend == null) return;
+  final messenger = ScaffoldMessenger.of(context);
+  final ok = await showEripooConfirmDialog(
+    context,
+    title: l10n.accountDeleteTitle,
+    message: l10n.accountDeleteBody,
+    confirmLabel: l10n.accountDeleteConfirm,
+    destructive: true,
+  );
+  if (!ok || !context.mounted) return;
+  // A sign-in of less than 10 minutes, before anything is deleted.
+  if (email != null) {
+    final password = await askPassword(context);
+    if (password == null) return;
+    try {
+      await backend.auth.signInWithEmail(email, password);
+    } on AuthFailure catch (e) {
+      messenger.showSnackBar(SnackBar(content: Text(authMessage(l10n, e))));
+      return;
+    }
+  }
+  messenger.showSnackBar(SnackBar(content: Text(l10n.accountDeleteWorking)));
+  try {
+    await lifecycle.deleteAccount();
+  } on SyncRemoteFailure {
+    messenger
+      ..hideCurrentSnackBar()
+      ..showSnackBar(SnackBar(content: Text(l10n.accountDeleteFailed)));
+    return;
+  }
+  await ref.read(appRestartProvider)();
 }
 
 class _SyncCard extends ConsumerWidget {
@@ -179,7 +279,10 @@ class _SyncCard extends ConsumerWidget {
       SyncState.saved || SyncState.waiting => l10n.syncStateWaiting(pending),
       SyncState.signInNeeded => l10n.syncStateSignIn,
       SyncState.removed => l10n.syncStateRemoved,
+      SyncState.keyOutdated => l10n.syncStateKeyOutdated,
+      SyncState.restartNeeded => l10n.syncStateRestart,
     };
+    final rekeying = ref.watch(rotationInProgressProvider).value ?? false;
     return EripooCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -195,11 +298,21 @@ class _SyncCard extends ConsumerWidget {
               Expanded(child: Text(text)),
             ],
           ),
+          if (rekeying) ...[
+            const SizedBox(height: EripooSpacing.sm),
+            Text(l10n.rotationRunning, style: context.textStyles.bodySmall),
+          ],
           const SizedBox(height: EripooSpacing.sm),
-          if (state == SyncState.removed)
+          if (state == SyncState.removed || state == SyncState.restartNeeded)
             EripooButton(
               label: l10n.actionRestart,
               onPressed: () => ref.read(appRestartProvider)(),
+            )
+          else if (state == SyncState.keyOutdated)
+            EripooButton(
+              label: l10n.syncUseNewCode,
+              icon: Icons.password,
+              onPressed: () => openWithNewKey(context, ref),
             )
           else ...[
             EripooButton(

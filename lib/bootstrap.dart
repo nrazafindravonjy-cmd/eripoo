@@ -11,6 +11,7 @@ import 'app/startup/app_services.dart';
 import 'app/startup/startup_failure_app.dart';
 import 'content/content_pack.dart';
 import 'core/logging/app_logger.dart';
+import 'features/account/application/key_rotation.dart';
 import 'features/account/presentation/account_providers.dart';
 import 'features/documents/presentation/pdf_export.dart';
 import 'features/hypotheses/presentation/research_providers.dart';
@@ -118,8 +119,13 @@ Future<void> bootstrap() async {
         .then((_) async {
           if (services.previousDataKey == null) return;
           // Files opened by neither key are left as they are; the previous key
-          // is erased only when every readable file uses the new one.
+          // is erased only when every readable file uses the new one — and,
+          // after a key rotation on this phone, once the server copies are
+          // sealed again too (KeyRotation.continueRekey erases it then).
           await media.resealAll();
+          if (await services.database.readValue(KeyRotation.stageKey) != null) {
+            return;
+          }
           await services.keyManager.forgetPreviousDataKey();
         })
         .catchError((Object _) {}),

@@ -181,8 +181,11 @@ class MediaStore {
   /// The media key as bytes for a background isolate (which loads its own
   /// libsodium), zeroed afterwards: a best effort, as the Dart VM may keep
   /// copies (same trade-off as the recovery code, KeyManager).
-  Future<T> _withKeyBytes<T>(Future<T> Function(Uint8List key) run) async {
-    final key = _key.extractBytes();
+  Future<T> _withKeyBytes<T>(
+    Future<T> Function(Uint8List key) run, [
+    SecureKey? of,
+  ]) async {
+    final key = (of ?? _key).extractBytes();
     try {
       return await run(key);
     } finally {
@@ -217,20 +220,7 @@ class MediaStore {
       _db.mediaItems,
     )..where((t) => t.id.equals(mediaId))).getSingleOrNull();
     if (row == null) throw const MediaCorrupted();
-    final Uint8List plain;
-    if (sealed.length < backgroundThreshold) {
-      plain = _envelopes.open(
-        envelope: sealed,
-        mediaKey: _key,
-        mediaId: mediaId,
-        ownerId: ownerId,
-      );
-    } else {
-      plain = await _withKeyBytes(
-        (key) =>
-            Isolate.run(() => _openInIsolate(key, sealed, mediaId, ownerId)),
-      );
-    }
+    final plain = await _openFromAccount(sealed, mediaId, ownerId);
     try {
       if (_crypto.hashHex(plain) != row.contentHash) {
         throw const MediaCorrupted();
@@ -244,6 +234,47 @@ class MediaStore {
       plain.fillRange(0, plain.length, 0);
     }
   }
+
+  /// Opens a server copy with the current key, or with the previous one
+  /// while a key rotation re-encrypts the server copies.
+  Future<Uint8List> _openFromAccount(
+    Uint8List sealed,
+    String mediaId,
+    String ownerId,
+  ) async {
+    Future<Uint8List> openWith(SecureKey key) async {
+      if (sealed.length < backgroundThreshold) {
+        return _envelopes.open(
+          envelope: sealed,
+          mediaKey: key,
+          mediaId: mediaId,
+          ownerId: ownerId,
+        );
+      }
+      return _withKeyBytes(
+        (bytes) => _openAccountCopyInIsolate(bytes, sealed, mediaId, ownerId),
+        key,
+      );
+    }
+
+    try {
+      return await openWith(_key);
+    } on DecryptionFailed {
+      final previous = _previousKey;
+      if (previous == null) rethrow;
+      return openWith(previous);
+    }
+  }
+
+  /// Static, so that the closure sent to the isolate holds plain values
+  /// only (a closure made inside a method may carry `this`, whose native
+  /// keys cannot cross isolates).
+  static Future<Uint8List> _openAccountCopyInIsolate(
+    Uint8List key,
+    Uint8List sealed,
+    String mediaId,
+    String ownerId,
+  ) => Isolate.run(() => _openInIsolate(key, sealed, mediaId, ownerId));
 
   /// Whether the file is on this phone (it may be only on the server).
   bool hasFile(String mediaId) => fileOf(mediaId).existsSync();

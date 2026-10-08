@@ -6,8 +6,10 @@ Application Android (Flutter) d'accompagnement à la construction de projets
 entrepreneuriaux, pensée pour Madagascar, offline-first, en malagasy,
 français et anglais.
 
-**État : Phase 9 (« Voix + IA limitée ») livrée pour revue, non acceptée.**
-Phase 1 acceptée ; Phases 2 à 8 en attente de validation (appareils réels
+**État : Phase 10 (« Optimisation, sécurité, accessibilité, production »)
+livrée pour revue, non acceptée ; release bloquée par les points ouverts de
+la [checklist de release](docs/RELEASE_CHECKLIST.md).**
+Phase 1 acceptée ; Phases 2 à 9 en attente de validation (appareils réels
 et projet Supabase de développement non vérifiés). La sauvegarde en ligne
 ne s'active que dans une version construite avec un serveur de
 développement ; sans serveur, tout reste sur le téléphone. Le contenu pédagogique est un **brouillon non
@@ -24,6 +26,8 @@ relu** (malagasy à réécrire par des auteurs natifs). Détail :
 - [Sécurité et confidentialité](docs/SECURITY.md)
 - [Plan de développement et décisions ouvertes](docs/DEVELOPMENT_PLAN.md)
 - [Liste des vérifications et modifications à faire à la fin](docs/END_CHECKLIST.md)
+- [Checklist de release](docs/RELEASE_CHECKLIST.md)
+- [Budgets de performance](docs/PERFORMANCE.md)
 
 ## Démarrer
 

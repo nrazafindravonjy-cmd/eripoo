@@ -8,6 +8,7 @@ import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
+import 'erasure_notice.dart';
 
 /// Home: the one recommended next action, and missions in progress.
 class HomeScreen extends ConsumerWidget {
@@ -31,6 +32,7 @@ class HomeScreen extends ConsumerWidget {
           return ListView(
             padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
             children: [
+              const ErasureNotice(),
               ReadableColumn(
                 child: !plan.diagnosticDone
                     ? EripooCard(

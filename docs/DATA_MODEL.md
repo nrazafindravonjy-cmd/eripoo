@@ -76,6 +76,15 @@ reposée, et une nouvelle réponse au même bloc efface `deleted_at`. Une
 réponse `voice` n'alimente ni section, ni fait, ni titre de projet (pas de
 transcription). Les interviews restent sans audio (P6).
 
+Phase 10 (serveur) : `sync_heads.umk_version` (version courante de la
+clé de données du compte, 1 par défaut) ; RPC `rotate_data_key`,
+`leave_device`, `delete_account` ; `sync_push` refuse une enveloppe d'une
+autre version (`stale_key`), `sync_pull` renvoie la version du compte,
+`set_recovery_wrap` exige la version courante ; événement
+`data_key_rotated` ; quota de 2 000 fichiers par compte dans
+`user-media`. Local : aucune table nouvelle (état de rotation dans
+`local_key_values`, clé en attente dans le stockage sécurisé).
+
 Écarts avec le §3.2 (Phase 3) : `answers` porte aussi `quest_id` ; types de
 réponse implémentés `text`, `choice`, `multi_choice`, `number`, `money`,
 `unknown` (`audio` en Phase 4/9) ; `mission_instances` porte

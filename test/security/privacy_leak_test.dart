@@ -73,6 +73,34 @@ class RecordingRemote implements SyncRemote {
       _call(const {}, _inner.getRecoveryWrap);
 
   @override
+  Future<int> rotateDataKey({
+    required String deviceId,
+    required int fromVersion,
+    required RecoveryWrap wrap,
+  }) => _call(
+    {
+      'p_device_id': deviceId,
+      'p_from_version': fromVersion,
+      'p_wrap_id': wrap.wrapId,
+      'p_salt': base64.encode(wrap.salt),
+      'p_kdf_params': wrap.params.toJson(),
+      'p_wrapped': base64.encode(wrap.wrapped),
+    },
+    () => _inner.rotateDataKey(
+      deviceId: deviceId,
+      fromVersion: fromVersion,
+      wrap: wrap,
+    ),
+  );
+
+  @override
+  Future<void> leaveDevice(String deviceId) =>
+      _call({'p_device_id': deviceId}, () => _inner.leaveDevice(deviceId));
+
+  @override
+  Future<void> deleteAccount() => _call(const {}, _inner.deleteAccount);
+
+  @override
   Future<void> revokeDevice(String deviceId) =>
       _call({'p_device_id': deviceId}, () => _inner.revokeDevice(deviceId));
 

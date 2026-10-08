@@ -143,6 +143,20 @@ class _LiveSyncRemote implements SyncRemote {
   @override
   Future<RecoveryWrap?> getRecoveryWrap() => _r.getRecoveryWrap();
   @override
+  Future<int> rotateDataKey({
+    required String deviceId,
+    required int fromVersion,
+    required RecoveryWrap wrap,
+  }) => _r.rotateDataKey(
+    deviceId: deviceId,
+    fromVersion: fromVersion,
+    wrap: wrap,
+  );
+  @override
+  Future<void> leaveDevice(String deviceId) => _r.leaveDevice(deviceId);
+  @override
+  Future<void> deleteAccount() => _r.deleteAccount();
+  @override
   Future<void> revokeDevice(String deviceId) => _r.revokeDevice(deviceId);
   @override
   Future<List<RemoteDevice>> listDevices({String? currentDeviceId}) =>

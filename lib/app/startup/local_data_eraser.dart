@@ -5,7 +5,16 @@ import '../../security/secure_key_store.dart';
 
 /// Why this device's local data was erased; kept after the erasure so the
 /// next start can say it simply (no data, only the reason).
-enum ErasureReason { userReset, deviceRevoked }
+enum ErasureReason {
+  userReset,
+  deviceRevoked,
+
+  /// "Sign out and erase this phone" (Profile).
+  signedOut,
+
+  /// The account was deleted from this phone.
+  accountDeleted,
+}
 
 /// Erases everything Eripoo keeps on this device: the encrypted database
 /// (and its WAL / shared-memory files), the encrypted media files and

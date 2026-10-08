@@ -245,6 +245,84 @@ void syncRemoteContract(Future<ContractHarness> Function() create) {
     );
   });
 
+  test('key rotation: one step from the current version; old-key '
+      'envelopes and old-key recovery copies refused after', () async {
+    final (u, d) = await registered();
+    final crypto = await CryptoService.init();
+    RecoveryWrap wrap(int version) => RecoveryWrap(
+      wrapId: Ids.random(),
+      umkVersion: version,
+      salt: crypto.randomBytes(16),
+      params: KdfParams.recoveryDefault,
+      wrapped: _bytes(5, 73),
+    );
+    final id = Ids.newId();
+    await u.remote.push(d, [_put(id)]);
+    expect((await u.remote.pull(d, 0)).keyVersion, 1);
+
+    await expectLater(
+      u.remote.rotateDataKey(deviceId: d, fromVersion: 2, wrap: wrap(2)),
+      throwsA(isA<KeyVersionMismatch>()),
+    );
+    final next = wrap(2);
+    expect(
+      await u.remote.rotateDataKey(deviceId: d, fromVersion: 1, wrap: next),
+      2,
+    );
+    final page = await u.remote.pull(d, 0);
+    expect(page.keyVersion, 2);
+    final back = (await u.remote.getRecoveryWrap())!;
+    expect(back.umkVersion, 2);
+    expect(back.wrapId, next.wrapId);
+
+    final stale = await u.remote.push(d, [_put(Ids.newId())]);
+    expect((stale.single as PushRejected).reason, 'stale_key');
+    final rekeyed = await u.remote.push(d, [
+      RemotePut(
+        id: id,
+        changeId: Ids.random(),
+        baseVersion: page.records.single.version,
+        deleted: false,
+        umkVersion: 2,
+        payload: _bytes(6),
+      ),
+    ]);
+    expect(rekeyed.single, isA<PushApplied>());
+    await expectLater(
+      u.remote.setRecoveryWrap(wrap(1)),
+      throwsA(isA<KeyVersionMismatch>()),
+    );
+    await expectLater(
+      u.remote.rotateDataKey(deviceId: d, fromVersion: 1, wrap: wrap(2)),
+      throwsA(isA<KeyVersionMismatch>()),
+    );
+  });
+
+  test('a phone leaves (only itself); the account is deleted with '
+      'everything the server holds', () async {
+    final (u, d) = await registered();
+    final second = await h.signInAgain(u);
+    final d2 = Ids.random();
+    await second.remote.registerDevice(d2, 'Tablette');
+
+    // Another session cannot make this phone leave.
+    await second.remote.leaveDevice(d);
+    await u.remote.pull(d, 0);
+    await u.remote.leaveDevice(d);
+    await expectLater(u.remote.pull(d, 0), throwsA(isA<DeviceRevoked>()));
+
+    final file = Ids.newId();
+    await second.media.upload(file, _bytes(3, 120));
+    await second.remote.push(d2, [_put(Ids.newId())]);
+    await second.media.deleteAll();
+    expect(await second.media.download(file), isNull);
+    await second.remote.deleteAccount();
+    await expectLater(
+      second.remote.pull(d2, 0),
+      throwsA(anyOf(isA<DeviceUnknown>(), isA<NotAuthenticated>())),
+    );
+  });
+
   test('13. revocation: the revoked session is refused everywhere and can '
       'no longer refresh; other devices continue', () async {
     final a = await h.newUser();

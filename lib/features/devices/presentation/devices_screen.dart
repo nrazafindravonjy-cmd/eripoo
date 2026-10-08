@@ -105,7 +105,7 @@ class _DeviceCard extends ConsumerWidget {
         // Removing a device needs a sign-in of less than 10 minutes.
         final email = ref.read(authUserProvider).value?.email;
         if (!context.mounted || email == null) return;
-        final password = await _askPassword(context);
+        final password = await askPassword(context);
         if (password == null) return;
         await backend.auth.signInWithEmail(email, password);
         await backend.sync.revokeDevice(device.id);
@@ -164,12 +164,35 @@ class _DeviceCard extends ConsumerWidget {
   }
 }
 
-Future<String?> _askPassword(BuildContext context) {
-  final l10n = AppLocalizations.of(context);
-  final controller = TextEditingController();
-  return showDialog<String>(
-    context: context,
-    builder: (context) => AlertDialog(
+/// Asks the account password again (actions that need a recent sign-in).
+Future<String?> askPassword(BuildContext context) => showDialog<String>(
+  context: context,
+  builder: (context) => const _PasswordDialog(),
+);
+
+/// Owns its field: the controller lives until the dialog has finished
+/// closing (disposing it when the dialog's future completed broke the
+/// closing animation).
+class _PasswordDialog extends StatefulWidget {
+  const _PasswordDialog();
+
+  @override
+  State<_PasswordDialog> createState() => _PasswordDialogState();
+}
+
+class _PasswordDialogState extends State<_PasswordDialog> {
+  final _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return AlertDialog(
       title: Text(l10n.devicesReauthTitle),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -177,7 +200,7 @@ Future<String?> _askPassword(BuildContext context) {
         children: [
           Text(l10n.devicesReauthBody),
           TextField(
-            controller: controller,
+            controller: _controller,
             obscureText: true,
             autofocus: true,
             decoration: InputDecoration(labelText: l10n.accountPasswordLabel),
@@ -192,11 +215,11 @@ Future<String?> _askPassword(BuildContext context) {
         ),
         EripooButton(
           label: l10n.actionConfirm,
-          onPressed: () => Navigator.of(context).pop(controller.text),
+          onPressed: () => Navigator.of(context).pop(_controller.text),
         ),
       ],
-    ),
-  ).whenComplete(controller.dispose);
+    );
+  }
 }
 
 /// The old phone (A) of a double-QR transfer (docs/SECURITY.md §6.3):

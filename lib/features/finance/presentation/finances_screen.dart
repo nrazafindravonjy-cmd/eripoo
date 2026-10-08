@@ -298,11 +298,17 @@ class _KindCard extends ConsumerWidget {
               padding: const EdgeInsets.only(top: EripooSpacing.sm),
               child: Row(
                 children: [
+                  // The amount under the label: with large text, a row of
+                  // label, amount and two buttons does not fit a small phone.
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(item.label),
+                        Text(
+                          context.formatter.money(item.amountMga),
+                          style: context.textStyles.titleSmall,
+                        ),
                         if (item.source != null)
                           Text(
                             fundingSourceLabel(l10n, item.source!),
@@ -310,10 +316,6 @@ class _KindCard extends ConsumerWidget {
                           ),
                       ],
                     ),
-                  ),
-                  Text(
-                    context.formatter.money(item.amountMga),
-                    style: context.textStyles.titleSmall,
                   ),
                   IconButton(
                     icon: const Icon(Icons.edit_outlined),

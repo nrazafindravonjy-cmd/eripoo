@@ -67,10 +67,18 @@ final class PushRejected extends PushResult {
 }
 
 class PullPage {
-  const PullPage({required this.head, required this.records});
+  const PullPage({
+    required this.head,
+    required this.records,
+    this.keyVersion = 1,
+  });
 
   final int head;
   final List<RemoteRecord> records;
+
+  /// The account's current data key version (docs/SECURITY.md §4.10): a
+  /// phone with an older key must get the new one before going on.
+  final int keyVersion;
 }
 
 /// One device of the account, as listed by the server (metadata only).
@@ -128,6 +136,12 @@ final class ReauthenticationRequired extends SyncRemoteFailure {
   const ReauthenticationRequired();
 }
 
+/// The data key changed meanwhile (another phone rotated it): what was
+/// asked was based on an older key version.
+final class KeyVersionMismatch extends SyncRemoteFailure {
+  const KeyVersionMismatch();
+}
+
 /// Permanent refusal (invalid input): not retried.
 final class RemoteRejected extends SyncRemoteFailure {
   const RemoteRejected();
@@ -147,10 +161,30 @@ abstract interface class SyncRemote {
   Future<void> setRecoveryWrap(RecoveryWrap wrap);
   Future<RecoveryWrap?> getRecoveryWrap();
 
+  /// Moves the account to the next data key version, with the recovery
+  /// copy of the new key ([wrap], whose version is ignored: the server
+  /// sets it). Returns the new version. Needs a recent sign-in
+  /// ([ReauthenticationRequired]); [KeyVersionMismatch] if the account is
+  /// no longer at [fromVersion].
+  Future<int> rotateDataKey({
+    required String deviceId,
+    required int fromVersion,
+    required RecoveryWrap wrap,
+  });
+
   /// Removes another device of the account (lost or stolen phone). Needs
   /// a recent sign-in ([ReauthenticationRequired] otherwise).
   Future<void> revokeDevice(String deviceId);
 
   /// The account's devices, active first; removed ones stay 30 days.
   Future<List<RemoteDevice>> listDevices({String? currentDeviceId});
+
+  /// This phone leaves the account (sign out and erase): only the device
+  /// bound to the current session; idempotent.
+  Future<void> leaveDevice(String deviceId);
+
+  /// Deletes the account and everything the server holds for it, except
+  /// the files (MediaRemote.deleteAll first). Needs a recent sign-in
+  /// ([ReauthenticationRequired]).
+  Future<void> deleteAccount();
 }

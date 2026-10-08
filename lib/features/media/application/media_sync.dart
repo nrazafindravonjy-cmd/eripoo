@@ -159,6 +159,64 @@ class MediaSync {
     return deleted;
   }
 
+  /// Key prefix of the files to seal again with a new data key (rotation,
+  /// docs/SECURITY.md §4.10).
+  static const rekeyPrefix = 'media.rekey.';
+
+  /// Every media of the account, trashed ones included (they can be
+  /// restored), to be sealed again with the new key.
+  Future<void> queueAllForRekey() async {
+    final rows = await _db.select(_db.mediaItems).get();
+    await _db.transaction(() async {
+      for (final row in rows) {
+        await _db.writeValue('$rekeyPrefix${row.id}', '1');
+      }
+    });
+  }
+
+  Future<int> rekeyWaiting() async => (await (_db.select(
+    _db.localKeyValues,
+  )..where((k) => k.key.like('$rekeyPrefix%'))).get()).length;
+
+  /// Replaces each queued server copy by one sealed with the current key:
+  /// fetched first if it is not on this phone (opened with the previous
+  /// key), then deleted and sent again (server files are never
+  /// overwritten). A cut leaves the file on this phone and the item
+  /// queued. Returns how many are still waiting; throws
+  /// [RemoteUnavailable] offline.
+  Future<int> rekeyQueued() async {
+    final queued = await (_db.select(
+      _db.localKeyValues,
+    )..where((k) => k.key.like('$rekeyPrefix%'))).get();
+    for (final entry in queued) {
+      final id = entry.key.substring(rekeyPrefix.length);
+      try {
+        if (!_store.hasFile(id)) {
+          final sealed = await _remote.download(id);
+          if (sealed != null) {
+            await _store.storeFromAccount(id, _ownerId, sealed);
+          }
+        }
+        final fresh = await _store.sealedForAccount(id, _ownerId);
+        if (fresh != null) {
+          await _remote.delete(id);
+          await _remote.upload(id, fresh);
+          await (_db.update(_db.mediaUploads)
+                ..where((u) => u.mediaId.equals(id)))
+              .write(MediaUploadsCompanion(uploadedAt: Value(_now())));
+        }
+      } on RemoteRejected {
+        continue; // kept queued, tried again at the next pass
+      } on MediaCorrupted {
+        // Damaged before the rotation: nothing to seal again.
+      } on DecryptionFailed {
+        // Opened by neither key: nothing to seal again.
+      }
+      await _db.deleteValue(entry.key);
+    }
+    return rekeyWaiting();
+  }
+
   /// Fetches a file known by its metadata only (taken on another phone).
   /// Returns false when the server does not have it yet (the other phone
   /// has not sent it). Throws [RemoteUnavailable] offline, and

@@ -90,6 +90,7 @@ class KeyManager {
   static const _dbkEntry = 'eripoo.dbk';
   static const _deviceEntry = 'eripoo.device_id';
   static const _previousUmkEntry = 'eripoo.umk.previous';
+  static const _pendingUmkEntry = 'eripoo.umk.pending';
   static const _storedFormat = 0x01;
 
   /// Loads the keys of this device, creating them on first launch (before
@@ -172,6 +173,35 @@ class KeyManager {
   /// Every local file uses the current key: the previous one is erased.
   Future<void> forgetPreviousDataKey() => _store.delete(_previousUmkEntry);
 
+  /// A new data key created for a rotation (docs/SECURITY.md §4.10),
+  /// kept here **before** asking the server to switch: if the answer is
+  /// lost, the server may have switched, and this key is then the only
+  /// one that opens what is sealed from now on.
+  Future<void> storePendingDataKey(SecureKey key, int version) async {
+    final bytes = key.extractBytes();
+    await _store.write(
+      _pendingUmkEntry,
+      _encodeStored(bytes, version: version),
+    );
+    bytes.fillRange(0, bytes.length, 0);
+  }
+
+  Future<({SecureKey key, int version})?> pendingDataKey() async {
+    final value = await _store.read(_pendingUmkEntry);
+    if (value == null) return null;
+    final ({Uint8List bytes, int version}) stored;
+    try {
+      stored = _decodeStored(value, withVersion: true);
+    } on LocalKeysLost {
+      return null;
+    }
+    final key = _crypto.keyFromBytes(stored.bytes);
+    stored.bytes.fillRange(0, stored.bytes.length, 0);
+    return (key: key, version: stored.version);
+  }
+
+  Future<void> forgetPendingDataKey() => _store.delete(_pendingUmkEntry);
+
   /// Removes every key from this device (sign-out of a shared phone,
   /// account deletion, revoked device). Irreversible for local data.
   Future<void> wipe() async {
@@ -179,6 +209,7 @@ class KeyManager {
     await _store.delete(_dbkEntry);
     await _store.delete(_deviceEntry);
     await _store.delete(_previousUmkEntry);
+    await _store.delete(_pendingUmkEntry);
   }
 
   /// A new recovery code: 35 uniform random digits + Damm check digit.

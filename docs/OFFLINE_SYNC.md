@@ -303,6 +303,19 @@ connectivité (signal seulement, confirmé par une requête légère), 5 s aprè
 une écriture, toutes les 5 min au premier plan, WorkManager en arrière-plan
 (réseau disponible).
 
+### 8.1 Rotation de la clé de données (Phase 10)
+
+Voir SECURITY §4.10. Côté synchronisation : `sync_pull` renvoie la
+version de clé du compte ; si elle dépasse celle du téléphone, le cycle
+s'arrête **avant** d'appliquer quoi que ce soit (`DataKeyOutdated`) et
+l'état devient « nouvelle clé nécessaire » (rien n'est effacé, rien n'est
+envoyé). Sur le téléphone qui a fait la rotation, chaque cycle complet
+enchaîne un passage de rechiffrement (curseur propre,
+`sync.rekey_cursor`) : les enregistrements encore sous l'ancienne version
+sont scellés à nouveau et renvoyés sur leur version de base ; la base
+locale suit (même contenu, pas de conflit). Pendant la transition, un
+enregistrement est ouvert avec la clé courante, sinon avec la précédente.
+
 ## 9. Médias
 
 Stockés localement chiffrés dès la capture (fonctionne hors ligne). L'entité

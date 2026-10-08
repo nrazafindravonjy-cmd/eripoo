@@ -2,6 +2,8 @@ import 'package:drift/drift.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../app/di/core_providers.dart';
+import '../../../app/startup/app_services.dart';
+import '../../../app/startup/local_data_eraser.dart';
 import '../../../app/sync/background_sync.dart';
 import '../../../app/sync/sync_setup.dart';
 import '../../../core/config/app_config.dart';
@@ -14,6 +16,7 @@ import '../../app_lock/domain/app_lock_service.dart';
 import '../../auth/domain/auth_repository.dart';
 import '../../hypotheses/presentation/research_providers.dart';
 import '../../quest/presentation/journey_providers.dart';
+import '../application/account_lifecycle.dart';
 import '../application/account_linker.dart';
 import '../application/device_transfer_service.dart';
 
@@ -123,6 +126,23 @@ final accountLinkerProvider = Provider<AccountLinker?>((ref) {
     db: ref.watch(appDatabaseProvider),
     keyManager: ref.watch(appServicesProvider).keyManager,
     remote: backend.sync,
+  );
+});
+
+/// Null without a server.
+final accountLifecycleProvider = Provider<AccountLifecycle?>((ref) {
+  final backend = ref.watch(accountBackendProvider).value;
+  if (backend == null) return null;
+  final services = ref.watch(appServicesProvider);
+  final store = ref.watch(secureKeyStoreProvider);
+  return AccountLifecycle(
+    remote: backend.sync,
+    media: backend.media,
+    auth: backend.auth,
+    eraseLocal: (reason) async => LocalDataEraser(
+      store: store,
+      databaseFile: await AppServices.databaseFile(),
+    ).eraseAll(reason: reason, openDatabase: services.database),
   );
 });
 

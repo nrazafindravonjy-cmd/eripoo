@@ -21,6 +21,33 @@ enum SyncLog implements LogEventCode {
   undecryptableRecord,
   unknownSchema,
   remoteUnavailable,
+  rekeyPass,
+}
+
+/// The account's data key changed on another phone (docs/SECURITY.md
+/// §4.10): this phone must get the new key (recovery code or transfer)
+/// before synchronising again. Nothing local is lost meanwhile.
+class DataKeyOutdated implements Exception {
+  const DataKeyOutdated(this.serverVersion);
+  final int serverVersion;
+}
+
+/// What a re-encryption pass did after a key rotation.
+class RekeyReport {
+  const RekeyReport({
+    required this.rekeyed,
+    required this.unreadable,
+    required this.complete,
+  });
+
+  /// Records sealed again with the new key.
+  final int rekeyed;
+
+  /// Records that neither key opens (damaged): left as they are.
+  final int unreadable;
+
+  /// Every record on the server has been seen.
+  final bool complete;
 }
 
 /// What a sync cycle achieved.
@@ -53,12 +80,17 @@ class SyncSession {
     required this.deviceId,
     required this.recordKey,
     required this.umkVersion,
+    this.previousRecordKey,
   });
 
   final String ownerId;
   final String deviceId;
   final SecureKey recordKey;
   final int umkVersion;
+
+  /// The record sub-key of the data key replaced by a rotation, while the
+  /// server still holds records sealed with it.
+  final SecureKey? previousRecordKey;
 }
 
 /// Pull → push cycle (docs/OFFLINE_SYNC.md §4–8).
@@ -353,6 +385,10 @@ class SyncEngine {
             }
           });
           conflicts++;
+        case PushRejected(reason: 'stale_key'):
+          // Rotated on another phone meanwhile: kept as it is, sent again
+          // with the new key once this phone has it.
+          throw DataKeyOutdated(session.umkVersion + 1);
         case PushRejected(:final reason):
           _logger.warning(SyncLog.pushRejected);
           await _markRejected([meta], reason);
@@ -458,6 +494,9 @@ class SyncEngine {
         since,
         limit: pullPageSize,
       );
+      if (page.keyVersion > session.umkVersion) {
+        throw DataKeyOutdated(page.keyVersion);
+      }
       if (page.records.isEmpty) break;
       // The page and the cursor are committed together, or not at all.
       await _db.transaction(() async {
@@ -484,12 +523,7 @@ class SyncEngine {
 
     final Map<String, Object?> envelope;
     try {
-      final plain = _envelopes.open(
-        envelope: record.payload!,
-        recordKey: session.recordKey,
-        ownerId: session.ownerId,
-        recordId: record.id,
-      );
+      final plain = _open(session, record);
       envelope = jsonDecode(utf8.decode(plain)) as Map<String, Object?>;
     } on DecryptionFailed {
       // Wrong key (another key version) or tampered data: the record stays
@@ -626,6 +660,130 @@ class SyncEngine {
           ),
         );
   }
+
+  /// Opens with the current key, or the previous one during a rotation.
+  Uint8List _open(SyncSession session, RemoteRecord record) {
+    try {
+      return _envelopes.open(
+        envelope: record.payload!,
+        recordKey: session.recordKey,
+        ownerId: session.ownerId,
+        recordId: record.id,
+      );
+    } on DecryptionFailed {
+      final previous = session.previousRecordKey;
+      if (previous == null) rethrow;
+      return _envelopes.open(
+        envelope: record.payload!,
+        recordKey: previous,
+        ownerId: session.ownerId,
+        recordId: record.id,
+      );
+    }
+  }
+
+  // ----------------------------------------------------------------- rekey
+
+  static const rekeyCursorKey = 'sync.rekey_cursor';
+
+  /// After a rotation (docs/SECURITY.md §4.10): seals again with the new
+  /// key every record the server still holds under an older one, without
+  /// reading what it contains (records written by a newer app included).
+  /// Resumes where it stopped; throws [RemoteUnavailable] offline.
+  ///
+  /// The server refuses old-key envelopes once rotated, so no old record
+  /// can appear behind the cursor: one pass to the head is enough.
+  Future<RekeyReport> rekeyAll(SyncSession session) async {
+    var rekeyed = 0;
+    var unreadable = 0;
+    await _ensureRegistered(session);
+    for (var guard = 0; guard < 10000; guard++) {
+      final since =
+          int.tryParse(await _db.readValue(rekeyCursorKey) ?? '') ?? 0;
+      final page = await _remote.pull(
+        session.deviceId,
+        since,
+        limit: batchSize,
+      );
+      if (page.keyVersion > session.umkVersion) {
+        throw DataKeyOutdated(page.keyVersion);
+      }
+      if (page.records.isEmpty) {
+        return _rekeyed(rekeyed, unreadable, complete: true);
+      }
+      final puts = <RemotePut>[];
+      final bases = <String, int>{};
+      for (final record in page.records) {
+        if (record.payload == null || record.umkVersion >= session.umkVersion) {
+          continue;
+        }
+        final Uint8List plain;
+        try {
+          plain = _open(session, record);
+        } on DecryptionFailed {
+          unreadable++;
+          continue;
+        }
+        puts.add(
+          RemotePut(
+            id: record.id,
+            changeId: Ids.random(),
+            baseVersion: record.version,
+            deleted: record.deleted,
+            umkVersion: session.umkVersion,
+            payload: _envelopes.seal(
+              plaintext: plain,
+              recordKey: session.recordKey,
+              umkVersion: session.umkVersion,
+              ownerId: session.ownerId,
+              recordId: record.id,
+            ),
+          ),
+        );
+        bases[record.id] = record.version;
+      }
+      if (puts.isNotEmpty) {
+        for (final result in await _remote.push(session.deviceId, puts)) {
+          switch (result) {
+            case PushApplied(:final id, :final version):
+              rekeyed++;
+              await _advanceBase(id, from: bases[id]!, to: version);
+            case PushConflict():
+              // Changed meanwhile, necessarily with the new key.
+              continue;
+            case PushRejected(reason: 'stale_key'):
+              throw DataKeyOutdated(session.umkVersion + 1);
+            case PushRejected():
+              unreadable++;
+          }
+        }
+      }
+      await _db.writeValue(rekeyCursorKey, '${page.records.last.version}');
+      if (page.records.last.version >= page.head) {
+        return _rekeyed(rekeyed, unreadable, complete: true);
+      }
+    }
+    return _rekeyed(rekeyed, unreadable, complete: false);
+  }
+
+  RekeyReport _rekeyed(int rekeyed, int unreadable, {required bool complete}) {
+    _logger.info(SyncLog.rekeyPass, {
+      'rekeyed': LogInt(rekeyed),
+      'unreadable': LogInt(unreadable),
+    });
+    return RekeyReport(
+      rekeyed: rekeyed,
+      unreadable: unreadable,
+      complete: complete,
+    );
+  }
+
+  /// The same content, sealed again: the local copy is still current, so
+  /// its base follows (no conflict at the next pull or push).
+  Future<void> _advanceBase(String id, {required int from, required int to}) =>
+      (_db.update(_db.syncMetaEntries)
+            ..where((t) => t.entityId.equals(id) & t.baseVersion.equals(from)))
+          .write(SyncMetaEntriesCompanion(baseVersion: Value(to)));
 
   // --------------------------------------------------------------- helpers
 

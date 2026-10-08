@@ -1,5 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <!-- Account, synchronisation and encrypted media (Supabase over TLS).
+         Missing until Phase 10: only debug and profile builds had it, so a
+         release build could not reach the server. -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <!-- Optional biometric unlock of the app lock (local_auth). -->
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
     <!-- Camera: only to read the QR codes of a device transfer (camera
@@ -13,9 +17,13 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!-- Nothing is written to shared storage. -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove" />
+    <!-- Brought by workmanager; Eripoo shows no notification (§46 not
+         built), so the permission is not requested. -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" tools:node="remove" />
     <application
         android:label="Eripoo"
         android:allowBackup="false"
+        android:usesCleartextTraffic="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">

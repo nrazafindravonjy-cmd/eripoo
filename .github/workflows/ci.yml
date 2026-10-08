@@ -76,12 +76,18 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          # Budgets (docs/PERFORMANCE.md): generous on shared CI machines,
+          # to catch regressions, not to measure (phones A and B do that).
           - api: 34
             ram: 2048M
             target: google_apis
+            start_budget: 12000
+            pss_budget: 204800
           - api: 26
             ram: 1024M
             target: default
+            start_budget: 2500
+            pss_budget: 153600
     steps:
       - uses: actions/checkout@v4
       # The emulator's data partition needs several GB; the runner's disk
@@ -117,6 +123,8 @@ jobs:
         run: sed -i 's/^org.gradle.jvmargs=.*/org.gradle.jvmargs=-Xmx3g -XX:MaxMetaspaceSize=1g/' android/gradle.properties
       - name: Release APK for start-up measurements (x86_64, AOT)
         run: flutter build apk --release --target-platform android-x64
+      - name: Release APK checks (permissions, clear text, size budget)
+        run: tool/check_apk.sh build/app/outputs/flutter-apk/app-release.apk
       - name: Debug APK of the integration test (built before the emulator)
         run: |
           mkdir -p build/release-apk
@@ -125,6 +133,9 @@ jobs:
           (cd android && ./gradlew --stop)
       - name: Foundations on the emulator
         uses: reactivecircus/android-emulator-runner@v2
+        env:
+          COLD_START_BUDGET_MS: ${{ matrix.start_budget }}
+          PSS_BUDGET_KIB: ${{ matrix.pss_budget }}
         with:
           api-level: ${{ matrix.api }}
           arch: x86_64

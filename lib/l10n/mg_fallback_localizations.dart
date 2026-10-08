@@ -1,29 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+
+import 'mg_material_localizations.dart';
 
 /// Flutter ships no Material/Cupertino localizations for Malagasy (`mg`).
 ///
-/// Until reviewed Malagasy translations of the framework strings exist,
-/// framework widgets (date pickers, tooltips, a11y labels) fall back to
-/// French when the app locale is `mg`. App strings are unaffected: they come
-/// from `app_mg.arb`. See docs/ARCHITECTURE.md, section i18n.
+/// Material: the strings Eripoo shows or a screen reader reads are in
+/// Malagasy (first draft, [MgMaterialLocalizations]); the rest falls back
+/// to French. Cupertino (iOS-style widgets, not used on Android) falls
+/// back to French. App strings come from `app_mg.arb`. See
+/// docs/DESIGN_SYSTEM.md §5.
 const fallbackLocaleForMg = Locale('fr');
-
-class MgFallbackMaterialLocalizationsDelegate
-    extends LocalizationsDelegate<MaterialLocalizations> {
-  const MgFallbackMaterialLocalizationsDelegate();
-
-  @override
-  bool isSupported(Locale locale) => locale.languageCode == 'mg';
-
-  @override
-  Future<MaterialLocalizations> load(Locale locale) =>
-      GlobalMaterialLocalizations.delegate.load(fallbackLocaleForMg);
-
-  @override
-  bool shouldReload(MgFallbackMaterialLocalizationsDelegate old) => false;
-}
 
 class MgFallbackCupertinoLocalizationsDelegate
     extends LocalizationsDelegate<CupertinoLocalizations> {
@@ -43,7 +30,7 @@ class MgFallbackCupertinoLocalizationsDelegate
 /// Delegates to register on the app, in order: app strings, Malagasy
 /// fallbacks, then the global framework delegates.
 const List<LocalizationsDelegate<dynamic>> frameworkLocalizationsDelegates = [
-  MgFallbackMaterialLocalizationsDelegate(),
+  MgMaterialLocalizationsDelegate(),
   MgFallbackCupertinoLocalizationsDelegate(),
   GlobalMaterialLocalizations.delegate,
   GlobalCupertinoLocalizations.delegate,

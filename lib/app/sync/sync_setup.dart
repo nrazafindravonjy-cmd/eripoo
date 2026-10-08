@@ -4,6 +4,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../core/logging/app_logger.dart';
+import '../../features/account/application/key_rotation.dart';
 import '../../features/media/application/media_sync.dart';
 import '../../features/media/data/media_store.dart';
 import '../../security/key_manager.dart';
@@ -50,12 +51,34 @@ class SyncSetup {
     required AppLogger logger,
     required MediaStore mediaStore,
     Future<NetworkKind> Function() network = currentNetwork,
-  }) : _keys = DataKeys(services.crypto, services.keys.dataKey) {
+  }) : _keys = DataKeys(services.crypto, services.keys.dataKey),
+       _previousKeys = services.previousDataKey == null
+           ? null
+           : DataKeys(services.crypto, services.previousDataKey!) {
     final engine = SyncEngine(
       db: services.database,
       remote: backend.sync,
       crypto: services.crypto,
       logger: logger,
+    );
+    rotation = KeyRotation(
+      db: services.database,
+      crypto: services.crypto,
+      keyManager: services.keyManager,
+      remote: backend.sync,
+    );
+    final media = MediaSync(
+      db: services.database,
+      store: mediaStore,
+      remote: backend.media,
+      ownerId: ownerId,
+    );
+    SyncSession session() => SyncSession(
+      ownerId: ownerId,
+      deviceId: services.keys.deviceId,
+      recordKey: _keys.records,
+      umkVersion: services.keys.dataKeyVersion,
+      previousRecordKey: _previousKeys?.records,
     );
     cycle = SyncCycle(
       db: services.database,
@@ -70,27 +93,32 @@ class SyncSetup {
               openDatabase: services.database,
             ),
         logger: logger,
+        settleKey: (serverVersion) => rotation.settle(
+          serverVersion: serverVersion,
+          localVersion: services.keys.dataKeyVersion,
+        ),
       ),
-      session: () => SyncSession(
-        ownerId: ownerId,
-        deviceId: services.keys.deviceId,
-        recordKey: _keys.records,
-        umkVersion: services.keys.dataKeyVersion,
-      ),
-      media: MediaSync(
-        db: services.database,
-        store: mediaStore,
-        remote: backend.media,
-        ownerId: ownerId,
-      ),
+      session: session,
+      media: media,
       network: network,
+      rekey: ({required mediaAllowed}) => rotation.continueRekey(
+        engine: engine,
+        session: session(),
+        media: media,
+        mediaAllowed: mediaAllowed,
+      ),
     );
   }
 
   final DataKeys _keys;
+  final DataKeys? _previousKeys;
+  late final KeyRotation rotation;
   late final SyncCycle cycle;
 
-  void dispose() => _keys.dispose();
+  void dispose() {
+    _keys.dispose();
+    _previousKeys?.dispose();
+  }
 }
 
 /// Foreground synchronisation: the scheduler fed by the app's life cycle,

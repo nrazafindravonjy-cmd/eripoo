@@ -2790,5 +2790,142 @@
   "reviewSolutionWithoutCustomers": "Tu décris une solution, mais pas encore pour qui elle est.",
   "@reviewSolutionWithoutCustomers": {
     "description": "Solution without customers"
+  },
+  "securityTitle": "Sécurité",
+  "@securityTitle": {
+    "description": "Profile section title"
+  },
+  "rotationEntry": "Changer la clé de mes données",
+  "@rotationEntry": {
+    "description": "Profile entry to rotate the data key"
+  },
+  "rotationTitle": "Nouvelle clé",
+  "@rotationTitle": {
+    "description": "Key rotation screen title"
+  },
+  "rotationBody": "Fais-le si un téléphone qui avait tes données est perdu, volé ou donné. Retire-le d'abord de « Mes appareils ».\n\nEripoo crée une nouvelle clé et un nouveau code de récupération. Ton ancien code ne marchera plus. Tes autres téléphones te demanderont le nouveau code (ou un transfert depuis ce téléphone).",
+  "@rotationBody": {
+    "description": "Explains when and what a key rotation does"
+  },
+  "rotationNeedsSaved": "Attends que tout soit sauvegardé (connexion nécessaire), puis recommence.",
+  "@rotationNeedsSaved": {
+    "description": "Rotation blocked: unsynced changes"
+  },
+  "rotationRunning": "Tes données sont en train d'être protégées par la nouvelle clé. Garde la connexion ; les photos attendent le Wi-Fi si tu l'as choisi.",
+  "@rotationRunning": {
+    "description": "Rotation re-encryption in progress"
+  },
+  "rotationStart": "Créer une nouvelle clé",
+  "@rotationStart": {
+    "description": "Button: start the rotation"
+  },
+  "rotationConfirmTitle": "Changer la clé maintenant ?",
+  "@rotationConfirmTitle": {
+    "description": "Rotation confirmation title"
+  },
+  "rotationConfirmBody": "Tu vas recevoir un nouveau code à écrire sur papier. Ton ancien code ne marchera plus.",
+  "@rotationConfirmBody": {
+    "description": "Rotation confirmation body"
+  },
+  "rotationWorking": "Création de la nouvelle clé…",
+  "@rotationWorking": {
+    "description": "Rotation in progress"
+  },
+  "rotationReauth": "Reconnecte-toi puis recommence. Rien n'a changé : ton ancien code marche encore.",
+  "@rotationReauth": {
+    "description": "Rotation refused: recent sign-in needed"
+  },
+  "rotationMismatch": "La clé a déjà été changée sur un autre téléphone. Ouvre tes données ici avec le nouveau code.",
+  "@rotationMismatch": {
+    "description": "Rotation refused: rotated elsewhere"
+  },
+  "rotationUnknown": "La connexion a été coupée. Garde l'ancien et le nouveau code : Eripoo saura au retour du réseau si la nouvelle clé est en place, et te le dira ici.",
+  "@rotationUnknown": {
+    "description": "Rotation outcome unknown (network cut)"
+  },
+  "rotationBusy": "Un changement de clé est déjà en cours sur ce téléphone.",
+  "@rotationBusy": {
+    "description": "Rotation refused: already in progress"
+  },
+  "rotationFailed": "La nouvelle clé n'a pas pu être créée. Rien n'a changé.",
+  "@rotationFailed": {
+    "description": "Rotation failed for another reason"
+  },
+  "syncStateKeyOutdated": "La clé de tes données a été changée sur un autre téléphone. Ouvre-les ici avec ton nouveau code, ou avec l'autre téléphone. Ce que tu as fait ici est gardé.",
+  "@syncStateKeyOutdated": {
+    "description": "Sync state: this phone has an outdated key"
+  },
+  "syncStateRestart": "La nouvelle clé est en place. Redémarre Eripoo pour continuer.",
+  "@syncStateRestart": {
+    "description": "Sync state: restart to load the new key"
+  },
+  "syncUseNewCode": "Ouvrir avec le nouveau code",
+  "@syncUseNewCode": {
+    "description": "Button: unlock with the new recovery code"
+  },
+  "accountSignOut": "Me déconnecter et effacer ce téléphone",
+  "@accountSignOut": {
+    "description": "Profile button: leave the account on this phone"
+  },
+  "accountSignOutTitle": "Effacer ce téléphone ?",
+  "@accountSignOutTitle": {
+    "description": "Sign-out confirmation title"
+  },
+  "accountSignOutBody": "Tes données restent sur ton compte et sur tes autres téléphones. Sur celui-ci, tout sera effacé.",
+  "@accountSignOutBody": {
+    "description": "Sign-out confirmation body"
+  },
+  "accountSignOutUnsaved": "{count, plural, =1{Attention : 1 modification n'est pas encore sauvegardée et sera perdue.} other{Attention : {count} modifications ne sont pas encore sauvegardées et seront perdues.}}",
+  "@accountSignOutUnsaved": {
+    "description": "Sign-out warning: unsynced changes",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "accountErase": "Effacer",
+  "@accountErase": {
+    "description": "Button: confirm erasing this phone"
+  },
+  "accountDelete": "Supprimer mon compte",
+  "@accountDelete": {
+    "description": "Profile button: delete the account"
+  },
+  "accountDeleteTitle": "Supprimer ton compte pour toujours ?",
+  "@accountDeleteTitle": {
+    "description": "Account deletion confirmation title"
+  },
+  "accountDeleteBody": "Ton projet, tes photos, tes réponses et la copie chiffrée de ta clé seront effacés du serveur, puis de ce téléphone. Personne ne pourra les retrouver, pas même Eripoo. Tes autres téléphones gardent leur copie jusqu'à ce que tu les effaces.",
+  "@accountDeleteBody": {
+    "description": "Account deletion confirmation body"
+  },
+  "accountDeleteConfirm": "Supprimer pour toujours",
+  "@accountDeleteConfirm": {
+    "description": "Button: confirm account deletion"
+  },
+  "accountDeleteWorking": "Suppression du compte…",
+  "@accountDeleteWorking": {
+    "description": "Account deletion in progress"
+  },
+  "accountDeleteFailed": "Le compte n'a pas pu être supprimé (connexion ?). Rien n'a été effacé sur ce téléphone ; réessaie.",
+  "@accountDeleteFailed": {
+    "description": "Account deletion failed"
+  },
+  "erasedSignedOut": "Tu t'es déconnecté : les données de ce téléphone ont été effacées. Elles restent sur ton compte.",
+  "@erasedSignedOut": {
+    "description": "Notice after a sign-out with erasure"
+  },
+  "erasedAccountDeleted": "Ton compte a été supprimé, et les données de ce téléphone effacées.",
+  "@erasedAccountDeleted": {
+    "description": "Notice after account deletion"
+  },
+  "erasedRevoked": "Ce téléphone a été retiré de ton compte depuis un autre appareil : ses données ont été effacées. Tu peux te reconnecter pour les retrouver.",
+  "@erasedRevoked": {
+    "description": "Notice after this device was revoked"
+  },
+  "erasedReset": "Les données de ce téléphone ont été effacées à ta demande.",
+  "@erasedReset": {
+    "description": "Notice after a user reset"
   }
 }

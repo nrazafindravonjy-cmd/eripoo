@@ -1,6 +1,7 @@
 import '../data/local/app_database.dart';
 import '../features/media/application/media_sync.dart';
 import 'engine/sync_engine.dart';
+import 'remote/sync_remote.dart';
 import 'sync_runner.dart';
 import 'sync_scheduler.dart';
 
@@ -25,6 +26,7 @@ class SyncCycle {
     required this._session,
     required this._media,
     required this._network,
+    this._rekey,
   });
 
   final AppDatabase _db;
@@ -32,6 +34,10 @@ class SyncCycle {
   final SyncSession Function() _session;
   final MediaSync? _media;
   final Future<NetworkKind> Function() _network;
+
+  /// After a key rotation on this phone: seals the server copies again
+  /// (files only when allowed on this network); true once finished.
+  final Future<bool> Function({required bool mediaAllowed})? _rekey;
 
   /// Local setting (this phone only).
   static const mediaOnMobileDataKey = 'sync.media_on_mobile_data';
@@ -52,17 +58,35 @@ class SyncCycle {
         return SyncAttempt.signInNeeded;
       case DeviceRemoved():
         return SyncAttempt.removed;
+      case KeyOutdated():
+        return SyncAttempt.keyOutdated;
+      case KeyAdopted():
+        return SyncAttempt.restartNeeded;
       case SyncRan(:final report):
         lastReport = report;
         if (!report.complete) return SyncAttempt.incomplete;
+    }
+
+    final mobileData = await _db.readValue(mediaOnMobileDataKey) == '1';
+    final mediaAllowed = network != NetworkKind.metered || mobileData;
+    final rekey = _rekey;
+    if (rekey != null) {
+      try {
+        final done = await rekey(mediaAllowed: mediaAllowed);
+        // Waiting for Wi-Fi is not a failure.
+        if (!done && mediaAllowed) return SyncAttempt.incomplete;
+      } on RemoteUnavailable {
+        return SyncAttempt.incomplete;
+      } on DataKeyOutdated {
+        return SyncAttempt.keyOutdated;
+      }
     }
 
     final media = _media;
     if (media == null) return SyncAttempt.complete;
     // Deleting server copies costs a few bytes: on any network.
     await media.deleteRemoved();
-    final mobileData = await _db.readValue(mediaOnMobileDataKey) == '1';
-    if (network == NetworkKind.metered && !mobileData) {
+    if (!mediaAllowed) {
       // Records are saved; photos wait for Wi-Fi. Not a failure: no retry
       // storm on mobile data.
       return SyncAttempt.complete;

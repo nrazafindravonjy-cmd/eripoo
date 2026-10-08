@@ -19,6 +19,13 @@ enum SyncState {
 
   /// This phone was removed from the account; its data is erased.
   removed,
+
+  /// The data key was changed on another phone: this one needs the new
+  /// key (code or transfer); its data is kept.
+  keyOutdated,
+
+  /// This phone switched to a new data key: restart to load it.
+  restartNeeded,
 }
 
 /// The result of one attempt, as the scheduler needs it.
@@ -34,6 +41,12 @@ enum SyncAttempt {
 
   /// This phone was removed from the account: stop for good.
   removed,
+
+  /// A newer data key exists elsewhere: stop until this phone has it.
+  keyOutdated,
+
+  /// A new data key is in use: stop until the app restarts.
+  restartNeeded,
 }
 
 /// Decides **when** to synchronise (docs/OFFLINE_SYNC.md §8): at start,
@@ -169,17 +182,21 @@ class SyncScheduler {
         _failures++;
         _set(SyncState.waiting);
         _planRetry();
-      case SyncAttempt.signInNeeded || SyncAttempt.removed:
+      case SyncAttempt.signInNeeded ||
+          SyncAttempt.removed ||
+          SyncAttempt.keyOutdated ||
+          SyncAttempt.restartNeeded:
         _stopped = true;
         _again = false;
         _retry?.cancel();
         _write?.cancel();
         _periodic?.cancel();
-        _set(
-          result == SyncAttempt.removed
-              ? SyncState.removed
-              : SyncState.signInNeeded,
-        );
+        _set(switch (result) {
+          SyncAttempt.removed => SyncState.removed,
+          SyncAttempt.keyOutdated => SyncState.keyOutdated,
+          SyncAttempt.restartNeeded => SyncState.restartNeeded,
+          _ => SyncState.signInNeeded,
+        });
         return;
     }
     if (_again) {

@@ -56,6 +56,27 @@ class SupabaseMediaRemote implements MediaRemote {
   }
 
   @override
+  Future<void> deleteAll() async {
+    final uid = _client.auth.currentUser?.id;
+    if (uid == null) throw const NotAuthenticated();
+    try {
+      // Listed and removed page by page until the folder is empty.
+      for (var guard = 0; guard < 100; guard++) {
+        final page = await _files.list(
+          path: uid,
+          searchOptions: const SearchOptions(limit: 100),
+        );
+        if (page.isEmpty) return;
+        await _files.remove([for (final f in page) '$uid/${f.name}']);
+      }
+    } on StorageException catch (e) {
+      throw mapStorageError(e);
+    } on Exception {
+      throw const RemoteUnavailable();
+    }
+  }
+
+  @override
   Future<void> delete(String mediaId) async {
     final path = _path(mediaId);
     try {

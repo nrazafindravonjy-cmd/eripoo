@@ -441,6 +441,36 @@ Points ouverts de la Phase 9 :
 - [ ] réponse orale lors des entretiens : seulement après l'avis juridique P6
 - [ ] l'écoute d'une réponse orale enregistrée sur un autre téléphone attend que le fichier soit reçu (même règle que les photos)
 
+## Phase 10 — Optimisation, sécurité, accessibilité, production (LIVRÉE POUR REVUE, non acceptée)
+
+Demande du porteur le 2026-10-08 (« construis la phase 10 »). Ce qui
+dépend de la production ou d'acteurs extérieurs n'est **pas** fait et ne
+peut pas l'être ici : environnement de production (non créé, sur
+décision), revue cryptographique externe, audit de sécurité par un tiers,
+validation juridique, back-office (décision D5), publication Play.
+Critère de sortie : la [checklist de release](RELEASE_CHECKLIST.md) existe
+et tout ce qui peut être automatisé l'est ; la release elle-même reste
+bloquée par ses points ouverts.
+
+| Élément | État | Détail |
+|---|---|---|
+| **Rotation de l'UMK** (D17) | ✅ unitaires + deux appareils + widget + SQL + contrat | nouvelle clé et nouveau code, bascule atomique côté serveur (`rotate_data_key`), clé en attente si la réponse se perd, rechiffrement progressif des enregistrements (sans les interpréter) et des fichiers, ancienne clé effacée à la fin ; le serveur refuse ensuite les enveloppes et les copies de récupération d'une autre version ; les autres téléphones sont prévenus et reprennent avec le nouveau code. SECURITY §4.10 |
+| Audit de sécurité automatisé | ✅ | **défaut trouvé : pas de permission `INTERNET` en release** (le serveur était injoignable depuis une APK release) — corrigé ; clair refusé (sauf debug), sauvegarde Android désactivée et testée, `POST_NOTIFICATIONS` retirée, signature release hors Git (`key.properties`), HTTPS exigé hors local, contrôle de l'APK fusionnée en CI. SECURITY §17 |
+| Se déconnecter et effacer ce téléphone | ✅ unitaires + widget + SQL + contrat | le téléphone se retire lui-même (`leave_device`), fin de session, effacement local ; hors ligne, effacement quand même |
+| Supprimer le compte | ✅ unitaires + widget + SQL + contrat | mot de passe redemandé, fichiers puis compte (cascade complète côté serveur), puis effacement local ; hors ligne, rien n'est effacé. Avis juridique sur la conservation : en attente |
+| Message après effacement | ✅ widget | au redémarrage, l'Accueil dit pourquoi le téléphone est vide (révoqué, déconnecté, compte supprimé, réinitialisé), une fois |
+| Quota de fichiers | ✅ SQL | 2 000 fichiers par compte (politique Storage) ; quota en octets NON VÉRIFIÉ sur le vrai Storage |
+| Localisation Material en malagasy | ✅ test | menu des champs, boutons et libellés lus, dialogues, compteur, licences ; premier jet à relire ; dates et sélecteurs (non utilisés) en français |
+| Accessibilité | ✅ auto | 13 écrans × clair/sombre × mg/fr : cibles ≥ 48 dp, cibles libellées, contraste ; texte à 200 % sans débordement (un débordement trouvé et corrigé dans Finances) ; mot de passe redemandé : champ libéré trop tôt (bug, corrigé) |
+| Budgets de performance | ✅ auto (CI) | [PERFORMANCE.md](PERFORMANCE.md) : taille de l'APK, démarrage et mémoire sur émulateurs ; appareils A et B NON VÉRIFIÉS |
+| Checklist de release | ✅ document | [RELEASE_CHECKLIST.md](RELEASE_CHECKLIST.md) |
+| Chaînes | 🟡 | 33 nouvelles chaînes d'interface, mg en premier jet ; ~40 chaînes Material mg |
+
+Points ouverts de la Phase 10 : ceux de la section 1 de la checklist de
+release (avis juridique, revue cryptographique externe, audit de
+sécurité, production, identifiant Android, clé Play, relecture malagasy,
+appareils A et B), plus le back-office (D5) et un quota en octets.
+
 ## Phases suivantes
 
 Ordre du cahier des charges conservé, avec deux ajustements déjà présentés :
@@ -458,7 +488,7 @@ règles) posés en Phase 2.
 | **7 — Finance, business model, documents** | calculateurs, canvas, dossier, export PDF — **livrée pour revue** | calculs testés aux limites |
 | **8 — Formalisation Madagascar** | contenu réglementaire sourcé et daté — **livrée pour revue** | 100 % des informations sourcées |
 | **9 — Voix + IA limitée** | réponse orale chiffrée hors ligne, points à revoir par règles, IA désactivable — **livrée pour revue** (transcription non livrée : règle « aucune donnée privée vers une IA externe ») | rien n'est envoyé : aucune IA branchée |
-| **10 — Production** | **rotation de l'UMK**, localisation Material/Cupertino `mg`, budgets de performance, revue cryptographique externe, audit sécurité, accessibilité, validation juridique, back-office | checklist de release complète |
+| **10 — Production** | **rotation de l'UMK**, localisation Material `mg`, budgets de performance, accessibilité, audit automatisé, déconnexion et suppression de compte — **livrée pour revue** ; revue cryptographique externe, audit tiers, validation juridique, production et back-office **non faits** (extérieurs ou sur décision) | checklist de release complète (écrite ; release bloquée par ses points ouverts) |
 
 ## Décisions
 
@@ -495,11 +525,13 @@ règles) posés en Phase 2.
 | **D13** | Relecteurs natifs malagasy | dès la Phase 1 | — (améliore la Phase 1) |
 | **D14** | Langue de rédaction du contenu | co-rédaction mg + fr par des auteurs natifs | Phase 3 |
 | **D15** | Plafond de 10 Mo par média | oui | Phase 4 |
-| **D17** | Rotation de l'UMK avant le lancement public | oui (Phase 10) | lancement public |
+| ~~D17~~ | **Rotation de l'UMK : implémentée en Phase 10** (SECURITY §4.10) | — | — |
 
 ## Portes
 
 ### Phase 1 — ACCEPTÉE (2026-10-06)
+
+### Phase 10 — demandée le 2026-10-08 (« construis la phase 10 »)
 
 ### Phase 9 — GO donné le 2026-10-08
 

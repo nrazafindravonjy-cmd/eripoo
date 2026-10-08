@@ -80,4 +80,37 @@ void main() {
     expect(config.hasBackend, isFalse);
     expect(config.environment, AppEnvironment.local);
   });
+
+  test('outside the local environment, only an HTTPS server is used', () {
+    AppConfig config(AppEnvironment env, String url) => AppConfig(
+      environment: env,
+      supabaseUrl: url,
+      supabaseAnonKey: 'public-anon-key',
+    );
+    expect(
+      config(AppEnvironment.local, 'http://127.0.0.1:54321').hasBackend,
+      isTrue,
+    );
+    expect(
+      config(
+        AppEnvironment.development,
+        'http://dev.example.invalid',
+      ).hasBackend,
+      isFalse,
+    );
+    expect(
+      config(
+        AppEnvironment.production,
+        'http://api.example.invalid',
+      ).hasBackend,
+      isFalse,
+    );
+    expect(
+      config(
+        AppEnvironment.production,
+        'https://api.example.invalid',
+      ).hasBackend,
+      isTrue,
+    );
+  });
 }

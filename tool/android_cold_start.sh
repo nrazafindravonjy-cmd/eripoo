@@ -3,6 +3,9 @@
 # connected device (adb). Prints `MEASURE <name> <value>` lines.
 #
 #   tool/android_cold_start.sh build/app/outputs/flutter-apk/app-release.apk
+#
+# Budgets (docs/PERFORMANCE.md), optional: COLD_START_BUDGET_MS (median)
+# and PSS_BUDGET_KIB (memory after start). Exceeding one fails the run.
 set -euo pipefail
 apk="$1"
 pkg=mg.eripoo.eripoo
@@ -28,10 +31,18 @@ done
 echo "MEASURE cold_start_runs_ms $(IFS=,; echo "${runs[*]}")"
 sorted=$(printf '%s\n' "${runs[@]}" | sort -n | sed -n 3p)
 echo "MEASURE cold_start_median_ms $sorted"
+if [ -n "${COLD_START_BUDGET_MS:-}" ] && [ "$sorted" -gt "$COLD_START_BUDGET_MS" ]; then
+  echo "FAIL: cold start median $sorted ms over budget $COLD_START_BUDGET_MS ms"
+  exit 1
+fi
 
 sleep 5
 pss=$(adb shell dumpsys meminfo "$pkg" | awk '/TOTAL PSS:/ {print $3; exit} /TOTAL:/ {print $2; exit}')
 echo "MEASURE memory_total_pss_kib_after_start $pss"
+if [ -n "${PSS_BUDGET_KIB:-}" ] && [ "$pss" -gt "$PSS_BUDGET_KIB" ]; then
+  echo "FAIL: memory after start $pss KiB over budget $PSS_BUDGET_KIB KiB"
+  exit 1
+fi
 
 # The app must still be alive (no crash at start-up).
 if adb shell pidof "$pkg" >/dev/null; then

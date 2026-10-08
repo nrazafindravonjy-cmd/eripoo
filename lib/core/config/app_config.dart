@@ -30,6 +30,12 @@ class AppConfig {
 
   /// Without a backend, the app runs fully offline as a guest (accounts
   /// and synchronisation unavailable). This is a normal state, not an
-  /// error.
-  bool get hasBackend => supabaseUrl.isNotEmpty && supabaseAnonKey.isNotEmpty;
+  /// error. Outside the local environment the server must be reached over
+  /// HTTPS: a plain-HTTP address is treated as no backend at all (release
+  /// builds also refuse clear text at the Android level).
+  bool get hasBackend =>
+      supabaseUrl.isNotEmpty &&
+      supabaseAnonKey.isNotEmpty &&
+      (environment == AppEnvironment.local ||
+          supabaseUrl.startsWith('https://'));
 }

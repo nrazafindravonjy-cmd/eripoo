@@ -19,4 +19,7 @@ abstract interface class MediaRemote {
 
   /// Idempotent.
   Future<void> delete(String mediaId);
+
+  /// Every file of the account (before deleting the account). Idempotent.
+  Future<void> deleteAll();
 }

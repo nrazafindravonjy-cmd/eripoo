@@ -1,12 +1,14 @@
 # Eripoo — Vérifications et modifications à faire à la fin
 
-Liste compilée des points laissés ouverts pendant les Phases 2 à 9, pour
+Liste compilée des points laissés ouverts pendant les Phases 2 à 10, pour
 les traiter ensemble quand les appareils, le projet Supabase en ligne et
 les avis extérieurs seront disponibles. Chaque ligne renvoie à sa source.
 Rien ici n'est déclaré fait tant que la case n'est pas cochée avec une
 preuve (mesure, capture, journal de CI, avis écrit).
 
-État au 2026-10-08 (fin de la Phase 9 livrée pour revue).
+État au 2026-10-08 (fin de la Phase 10 livrée pour revue). La
+[checklist de release](RELEASE_CHECKLIST.md) reprend, dans l'ordre d'une
+publication, ce qui reste à prouver.
 
 ## 1. À fournir par le porteur du projet (bloquant)
 
@@ -28,9 +30,17 @@ preuve (mesure, capture, journal de CI, avis écrit).
     (`content/formalization.yaml`, sources EDBM lues le 2026-10-08) :
     relecture complète avant publication, y compris les traductions ;
   - [ ] licence de SQLite3MultipleCiphers dans la distribution complète
-    (mentions dans l'app relues par un juriste) — P3.
-- [ ] **Relecteurs natifs malagasy** — P9 / D13 : 550 chaînes d'interface
-  `needs_review` (`lib/l10n/mg_review_status.json`) et tout le contenu
+    (mentions dans l'app relues par un juriste) — P3 ;
+  - [ ] durées de conservation après suppression de compte (sauvegardes
+    de la plateforme), politique de confidentialité et conditions
+    d'utilisation (à rédiger) — Phase 10.
+- [ ] **Revue cryptographique externe** et **audit de sécurité** par un
+  tiers (assemblage SECURITY §4, transfert §6, rotation §4.10) — Phase 10.
+- [ ] **Identifiant Android définitif** (D6) et **clé d'envoi Play** (hors
+  Git) — Phase 10, avant toute publication.
+- [ ] **Relecteurs natifs malagasy** — P9 / D13 : 583 chaînes d'interface
+  `needs_review` (`lib/l10n/mg_review_status.json`), les ~40 chaînes
+  Material malagasy (`lib/l10n/mg_material_localizations.dart`) et tout le contenu
   malagasy en `machine_draft` (quêtes, missions, sections, outils, guide
   de financement, contenu réglementaire).
 - [ ] **Auteurs du contenu** — D14 : relecture du français et de
@@ -96,6 +106,19 @@ Finance et documents (Phase 7) :
 - [ ] diapositives lisibles une fois projetées ou montrées sur un
   téléphone.
 
+Clé, compte et accessibilité (Phase 10) :
+- [ ] **rotation de clé** sur deux téléphones réels : l'autre téléphone
+  prévenu, rouvert avec le nouveau code, photos relisibles ; coupure
+  réseau pendant la bascule ;
+- [ ] **se déconnecter et effacer**, **supprimer le compte** contre le
+  projet Supabase de développement (la suppression de l'utilisateur Auth
+  par une fonction SQL n'est vérifiée que sur Supabase local) ;
+- [ ] APK release : **synchronisation réelle** (la permission `INTERNET`
+  manquait en release jusqu'à la Phase 10) ;
+- [ ] TalkBack sur les écrans principaux ; localisations Material en
+  malagasy (menu copier/coller, boutons lus) relues par un natif ;
+- [ ] tailles réelles des APK arm64 et armv7 (budget 40 Mio).
+
 Voix (Phase 9) :
 - [ ] micro réel : autorisation au premier enregistrement, refus puis
   autorisation dans les réglages, qualité de la voix (bruit de marché),
@@ -119,17 +142,18 @@ Voix (Phase 9) :
 
 ## 4. Fonctionnalités à construire avant la production
 
-- [ ] **déconnexion avec effacement local** — Phase 5, non faite ;
-- [ ] **suppression de compte** (Edge Function, effacement serveur et
-  local) — Phase 2, non faite ;
+- [x] **déconnexion avec effacement local** — faite en Phase 10 ;
+- [x] **suppression de compte** — faite en Phase 10 (fonction SQL,
+  fichiers puis compte, effacement local) ; reste : vérification sur le
+  projet de développement en ligne (§3) et avis juridique (§1) ;
 - [ ] **notification « Nouvel appareil ajouté »** aux autres appareils et
   par e-mail (SECURITY §6.8) — l'événement est enregistré côté serveur,
   rien n'est envoyé ;
-- [ ] **quota de stockage des médias** par utilisateur — non appliqué ;
+- [x] **quota de stockage des médias** — 2 000 fichiers par compte
+  (Phase 10) ; [ ] quota en octets à vérifier sur le vrai Storage ;
 - [ ] **confirmation d'identité par le verrou Eripoo** quand le téléphone
   n'a pas de verrouillage (aujourd'hui : verrouillage du téléphone) ;
-- [ ] **message après effacement** au redémarrage (appareil révoqué ou
-  effacé : dire clairement ce qui s'est passé) ;
+- [x] **message après effacement** au redémarrage — fait en Phase 10 ;
 - [ ] **badges** (§21) : non faits ; mêmes règles et même validateur que
   les outils ;
 - [ ] **préparation administrative** — construite en Phase 8 ; à
@@ -148,7 +172,12 @@ Voix (Phase 9) :
   demandent ;
 - [ ] **16 quêtes minimum** (4 écrites à ce jour, plus le diagnostic) ;
 - [ ] édition du contenu hors du dépôt (D5) avant la production ;
-- [ ] **rotation de l'UMK** avant le lancement public (D17, Phase 10).
+- [x] **rotation de l'UMK** — faite en Phase 10 (SECURITY §4.10) ;
+- [ ] **back-office** (§44 : contenu, traductions, statistiques agrégées,
+  santé technique) — non construit, lié à D5 (édition du contenu hors du
+  dépôt) et à la production ;
+- [ ] **proposition d'export** (PDF) dans le flux de suppression de
+  compte — non ajoutée.
 
 ## 5. Pas encore commencé, volontairement
 

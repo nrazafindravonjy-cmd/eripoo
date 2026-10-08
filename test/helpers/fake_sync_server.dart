@@ -15,6 +15,9 @@ class FakeSyncServer {
   final _deviceLabels = <String, String>{}; // device → label
   final _media = <String, Map<String, Uint8List>>{}; // owner → id → bytes
   final _wraps = <String, RecoveryWrap>{};
+  final _keyVersions = <String, int>{}; // owner → current data key version
+
+  int keyVersionOf(String owner) => _keyVersions[owner] ?? 1;
   // Like the SQL: each device remembers the auth session it last used; a
   // revoked device's session is refused everywhere afterwards.
   final _deviceSessions = <String, Map<String, String>>{};
@@ -58,6 +61,10 @@ class FakeSyncServer {
   Map<String, Uint8List> mediaOf(String owner) => _media[owner] ?? const {};
 
   int mediaUploads = 0;
+  int rotations = 0;
+
+  /// The next rotation is applied, but its answer is lost.
+  bool loseNextRotationResponse = false;
 
   final _wrapFetches = <String, int>{}; // owner → fetches (no clock: no reset)
 
@@ -73,6 +80,20 @@ class FakeSyncServer {
   }
 
   bool isSessionRevoked(String session) => _revokedSessions.contains(session);
+
+  final deletedAccounts = <String>{};
+
+  /// Like the SQL cascade: everything of [owner] goes, except the files
+  /// (removed through Storage by the app first).
+  void deleteAccount(String owner) {
+    _records.remove(owner);
+    _heads.remove(owner);
+    _devices.remove(owner);
+    _wraps.remove(owner);
+    _keyVersions.remove(owner);
+    _deviceSessions.remove(owner);
+    deletedAccounts.add(owner);
+  }
 
   String? deviceStatus(String owner, String deviceId) =>
       _devices[owner]?[deviceId];
@@ -174,6 +195,11 @@ class FakeSyncRemote implements SyncRemote {
         results.add(PushRejected(put.id, 'invalid_put'));
         continue;
       }
+      if (put.payload != null &&
+          put.umkVersion != server.keyVersionOf(ownerId)) {
+        results.add(PushRejected(put.id, 'stale_key'));
+        continue;
+      }
       final row = records[put.id];
       if (row != null && row.changeId == put.changeId) {
         results.add(PushApplied(put.id, row.version));
@@ -221,6 +247,7 @@ class FakeSyncRemote implements SyncRemote {
       ..sort((a, b) => a.version.compareTo(b.version));
     return PullPage(
       head: server._heads[ownerId] ?? 0,
+      keyVersion: server.keyVersionOf(ownerId),
       records: records.where((r) => r.version > since).take(limit).toList(),
     );
   }
@@ -232,7 +259,62 @@ class FakeSyncRemote implements SyncRemote {
       throw const RemoteRejected();
     }
     if (wrap.salt.length != 16) throw const RemoteRejected();
+    if (wrap.umkVersion != server.keyVersionOf(ownerId)) {
+      throw const KeyVersionMismatch();
+    }
     server._wraps[ownerId] = wrap;
+  }
+
+  @override
+  Future<void> leaveDevice(String deviceId) async {
+    _online();
+    // Only the device bound to this session.
+    if (server._deviceSessions[ownerId]?[deviceId] != session) return;
+    if (server._devices[ownerId]?[deviceId] case final status?
+        when status != 'revoked') {
+      server.revoke(ownerId, deviceId);
+    }
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    _online();
+    if (requireReauthentication) throw const ReauthenticationRequired();
+    server.deleteAccount(ownerId);
+  }
+
+  /// Set to make the next rotation need a new sign-in.
+  bool requireReauthentication = false;
+
+  @override
+  Future<int> rotateDataKey({
+    required String deviceId,
+    required int fromVersion,
+    required RecoveryWrap wrap,
+  }) async {
+    _online();
+    if (requireReauthentication) throw const ReauthenticationRequired();
+    server._requireDevice(ownerId, deviceId);
+    if (wrap.params.opsLimit < 2 || wrap.params.memLimit < 32 << 20) {
+      throw const RemoteRejected();
+    }
+    final current = server.keyVersionOf(ownerId);
+    if (current != fromVersion) throw const KeyVersionMismatch();
+    final next = current + 1;
+    server._wraps[ownerId] = RecoveryWrap(
+      wrapId: wrap.wrapId,
+      umkVersion: next,
+      salt: wrap.salt,
+      params: wrap.params,
+      wrapped: wrap.wrapped,
+    );
+    server._keyVersions[ownerId] = next;
+    server.rotations++;
+    if (server.loseNextRotationResponse) {
+      server.loseNextRotationResponse = false;
+      throw const RemoteUnavailable();
+    }
+    return next;
   }
 
   @override
@@ -287,5 +369,12 @@ class FakeMediaRemote implements MediaRemote {
     _online();
     if (_revoked) return;
     server._media[ownerId]?.remove(mediaId);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    _online();
+    if (_revoked) return;
+    server._media.remove(ownerId);
   }
 }

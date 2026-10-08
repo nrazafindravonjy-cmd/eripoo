@@ -78,6 +78,30 @@ class SupabaseSyncRemote implements SyncRemote {
   });
 
   @override
+  Future<int> rotateDataKey({
+    required String deviceId,
+    required int fromVersion,
+    required RecoveryWrap wrap,
+  }) async {
+    final result = await _rpc('rotate_data_key', {
+      'p_device_id': deviceId,
+      'p_from_version': fromVersion,
+      'p_wrap_id': wrap.wrapId,
+      'p_salt': base64.encode(wrap.salt),
+      'p_kdf_params': wrap.params.toJson(),
+      'p_wrapped': base64.encode(wrap.wrapped),
+    });
+    return (result! as num).toInt();
+  }
+
+  @override
+  Future<void> leaveDevice(String deviceId) =>
+      _rpc('leave_device', {'p_device_id': deviceId});
+
+  @override
+  Future<void> deleteAccount() => _rpc('delete_account', const {});
+
+  @override
   Future<void> revokeDevice(String deviceId) =>
       _rpc('revoke_device', {'p_device_id': deviceId});
 
@@ -116,6 +140,7 @@ SyncRemoteFailure mapRemoteError(String message) {
     ('device_limit', DeviceLimitReached()),
     ('rate_limited', RateLimited()),
     ('reauthentication_required', ReauthenticationRequired()),
+    ('key_version_mismatch', KeyVersionMismatch()),
     ('batch_too_large', RemoteRejected()),
     ('invalid_batch', RemoteRejected()),
     ('invalid_base64', RemoteRejected()),
@@ -169,6 +194,7 @@ PushResult decodePushResult(Map<String, Object?> json) {
 
 PullPage decodePullPage(Map<String, Object?> json) => PullPage(
   head: (json['head']! as num).toInt(),
+  keyVersion: (json['umk_version'] as num?)?.toInt() ?? 1,
   records: [
     for (final r in json['records']! as List<Object?>)
       decodeRecord(r! as Map<String, Object?>),

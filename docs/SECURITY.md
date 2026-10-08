@@ -335,12 +335,60 @@ du code.
 
 ### 4.10 Rotation de l'UMK
 
-`umk_version` figure dans chaque format dès la v1. Rotation : nouvelle UMK,
-nouveau code de récupération, rechiffrement progressif des enregistrements
-et médias, distribution aux appareils restants (§6), suppression des
-anciennes enveloppes. **Recommandé : implémentée avant le lancement public
-(Phase 10)**, car c'est la seule réponse à un appareil autorisé compromis
-(D17).
+`umk_version` figure dans chaque format dès la v1. **Implémentée en
+Phase 10** (D17) : c'est la seule réponse à un appareil autorisé qui ne
+l'est plus (perdu, volé, donné), une fois retiré de « Mes appareils ».
+
+Déroulé (`lib/features/account/application/key_rotation.dart`, migration
+`20261009000001_data_key_rotation.sql`) :
+
+1. **Sur l'appareil** : nouvelle UMK (`randombytes_buf(32)`, version
+   `v + 1`) et nouveau code de récupération, affiché une fois et vérifié
+   (4 derniers chiffres) ; enveloppe de récupération de la nouvelle UMK
+   (Argon2id, nouveau sel, §4.8), vérifiée avant tout envoi. Le mot de
+   passe du compte est redemandé juste avant (connexion de moins de
+   10 minutes exigée par le serveur).
+2. **Clé en attente** : la nouvelle UMK est d'abord rangée dans le
+   stockage sécurisé (entrée `eripoo.umk.pending`), puis le serveur bascule
+   **en une seule transaction** (`rotate_data_key`) : version du compte
+   `v → v + 1` (seulement depuis `v`), ancienne enveloppe supprimée et
+   nouvelle enregistrée, événement `data_key_rotated` (métadonnée seule).
+   Dès cet instant, l'ancien code n'ouvre plus rien et le serveur **refuse
+   toute enveloppe scellée avec une autre version** (`stale_key`), ainsi
+   qu'une enveloppe de récupération d'une autre version
+   (`key_version_mismatch`). Si la réponse se perd, la synchronisation
+   suivante apprend la version du compte (`sync_pull` la renvoie) et
+   termine la bascule avec la clé en attente, ou l'abandonne si le serveur
+   n'a pas basculé (après 10 minutes, au cas où la requête serait encore
+   en route).
+3. **Bascule locale** : l'UMK `v + 1` devient la clé courante ; l'ancienne
+   est gardée comme *clé précédente* ; l'app redémarre.
+4. **Rechiffrement** à chaque synchronisation : chaque enregistrement du
+   serveur encore en version `v` est ouvert avec la clé précédente et
+   scellé à nouveau avec la nouvelle, **sans être interprété** (y compris
+   ceux d'une version plus récente de l'app) ; chaque fichier est relu (ou
+   téléchargé), scellé à nouveau, supprimé puis renvoyé (fichiers jamais
+   écrasés), en Wi-Fi seulement si l'utilisateur l'a choisi. Un passage
+   jusqu'à la tête suffit : le serveur refusant l'ancienne version, aucun
+   ancien enregistrement ne peut réapparaître derrière le curseur.
+5. **Fin** : la clé précédente est effacée quand plus rien n'en a besoin.
+
+**Autres appareils** : à leur synchronisation suivante, ils apprennent
+qu'une clé plus récente existe et s'arrêtent (« La clé de tes données a
+été changée sur un autre téléphone… ») ; rien de local n'est perdu ; ils
+reprennent avec le nouveau code ou un transfert depuis un appareil à jour,
+puis envoient leurs modifications avec la nouvelle clé (celles-ci peuvent
+donner des copies de conflit, jamais de perte).
+
+**Limites connues** : l'ancien appareil a pu lire, avant d'être retiré,
+tout ce qui existait — la rotation protège ce qui vient **après**. Un
+fichier envoyé par un appareil resté sur l'ancienne clé pendant les
+quelques secondes de la bascule (fichiers non versionnés côté serveur)
+resterait illisible pour les autres appareils (fenêtre très courte, non
+couverte). Tests : `test/sync/key_rotation_test.dart` (deux appareils),
+`test/features/account/key_rotation_screen_test.dart` (écrans),
+`supabase/tests/sql/60_key_rotation_test.sql`, contrat RPC sur Supabase
+local.
 
 ### 4.11 Verrou Eripoo (accès à l'application)
 
@@ -674,7 +722,8 @@ locales.
 | **Authentification Google** | jeton d'identité du SDK Google natif ⇒ `signInWithIdToken` ; pas de mot de passe Eripoo | aucun effet ; Google ne voit aucune clé. Compte Google compromis ⇒ l'attaquant obtient une session, donc du chiffré, et peut demander l'enveloppe (limitée, notifiée) — inutile sans le code |
 | **Authentification téléphone** | OTP par SMS ; changement de numéro via la mise à jour du téléphone du compte (OTP sur le nouveau numéro) | aucun effet. *SIM swap* ⇒ session seulement ; d'où l'invitation à lier une seconde méthode (`linkIdentity`) |
 | **Récupération du compte** (toutes les méthodes perdues) | procédure manuelle d'identification par le support, limitée à l'accès au compte | le support **ne peut pas** rendre les données : il faut un appareil ou le code |
-| **Suppression du compte** | depuis l'app, réauthentification récente, proposition d'export ; Edge Function `delete-account` (suppression des médias, puis de l'utilisateur Auth et en cascade de `sync_records`, `user_keys`, `devices`, `profiles`, `consents`, `sync_heads`) | effacement local de la base, des médias, de l'UMK et de la DBK après confirmation serveur. Les sauvegardes de la plateforme peuvent garder du chiffré pendant leur rétention : illisible sans appareil ni code, qui n'existent plus |
+| **Suppression du compte** (Phase 10) | Profil → « Supprimer mon compte » : avertissement, mot de passe redemandé (connexion de moins de 10 minutes), puis suppression des fichiers chiffrés (Storage), puis RPC `delete_account` (suppression de l'utilisateur Auth et, en cascade, de `sync_records`, `sync_heads`, `user_keys`, `devices`, `profiles`, `consents`, `security_events`) — fonction SQL plutôt qu'Edge Function : rien à exécuter hors de la base | effacement local (base, médias, UMK, DBK) après confirmation du serveur ; hors ligne, rien n'est effacé et on peut réessayer. Les autres téléphones gardent leur copie locale jusqu'à « Me déconnecter et effacer ce téléphone ». Proposition d'export (PDF du dossier) : non ajoutée à ce flux. Les sauvegardes de la plateforme peuvent garder du chiffré pendant leur rétention : illisible sans appareil ni code. **Avis juridique** (durées de conservation, loi 2014-038) : en attente |
+| **Se déconnecter et effacer ce téléphone** (Phase 10) | le téléphone se retire lui-même du compte (`leave_device`, seulement l'appareil lié à la session appelante), puis fin de session | tout ce qu'Eripoo garde sur ce téléphone est effacé ; le compte et les autres téléphones ne changent pas ; hors ligne, l'effacement local a lieu quand même (retirer l'appareil plus tard depuis un autre) |
 | **Perte de tous les appareils, code conservé** | connexion sur un nouvel appareil | saisie du code (§5.4) ⇒ UMK ⇒ enregistrement de l'appareil ⇒ téléchargement complet |
 | **Perte de tous les appareils et du code** | compte accessible | **données en ligne définitivement illisibles**, pour tout le monde. Option « Recommencer » : nouvelle UMK, ancien chiffré supprimé après confirmation explicite |
 | **Perte du code, un appareil restant** | — | « Créer un nouveau code » : confirmation d'identité + réauthentification ⇒ nouveau code, nouveau sel, nouvelle enveloppe vérifiée ⇒ **ancienne enveloppe supprimée immédiatement** (un ancien code retrouvé n'ouvre plus rien) ⇒ notification |
@@ -866,6 +915,29 @@ taille, versions, appareil, quotas et débit ; URL Supabase et clé `anon`
 clé privée dans l'app ; trafic en clair interdit ; release obfusquée ;
 permissions au moment de l'usage ; `FLAG_SECURE` sur les écrans du code de
 récupération et du transfert.
+
+**Contrôles automatiques (Phase 10)** :
+
+- `test/architecture/android_release_test.dart` : permissions déclarées
+  (`INTERNET`, `USE_BIOMETRIC`, `RECORD_AUDIO` ; `WRITE_EXTERNAL_STORAGE`
+  et `POST_NOTIFICATIONS` retirées), sauvegarde Android désactivée
+  (`allowBackup="false"` + règles d'extraction excluant tout), trafic en
+  clair refusé (autorisé seulement en debug, pour Supabase local), une
+  seule activité exportée, clés de signature hors Git.
+- `tool/check_apk.sh` sur l'APK release en CI : permissions **fusionnées**
+  (aucune permission « dangereuse » hors caméra et micro), drapeaux
+  `usesCleartextTraffic`, `allowBackup`, `debuggable`, budget de taille.
+- `AppConfig.hasBackend` : hors environnement local, une URL qui n'est pas
+  en HTTPS est ignorée (pas de serveur plutôt qu'un serveur en clair).
+- Scan des secrets versionnés et des SDK interdits (analytics, crash,
+  IA) : `test/architecture/source_rules_test.dart`.
+
+Défaut trouvé par cet audit : le manifeste principal ne déclarait pas
+`INTERNET` (seules les variantes debug et profile l'avaient) : une APK
+release n'aurait jamais pu joindre le serveur. Corrigé.
+
+Quota : 2 000 fichiers par compte (politique Storage). Un quota en octets
+demande une vérification sur le vrai Storage (NON VÉRIFIÉ).
 
 ## 18. Dépendances cryptographiques
 

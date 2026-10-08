@@ -108,9 +108,11 @@ dépendre des symboles `intl` (absents pour `mg`).
 
 ## 5. Chaînes du framework Flutter visibles (inventaire)
 
-Pour un utilisateur en malagasy, ces chaînes s'affichent ou sont lues en
-**français** tant que les localisations Material `mg` n'existent pas
-(ARCHITECTURE §5.4).
+**Phase 10** : ces chaînes ont une version malagasy (premier jet, à
+relire) dans `lib/l10n/mg_material_localizations.dart` ; le reste des
+chaînes Material (sélecteurs de date et d'heure, tableaux, noms de
+touches — non utilisés) et les formats de date restent en **français**.
+Cupertino (non utilisé sur Android) reste en français.
 
 | Chaîne (`MaterialLocalizations`) | Où | Visible / lue |
 |---|---|---|
@@ -122,8 +124,9 @@ Pour un utilisateur en malagasy, ces chaînes s'affichent ou sont lues en
 | `closeButtonTooltip` | bouton fermer (si utilisé) | lue |
 | Sélecteurs de date et d'heure | non utilisés à ce stade | — |
 
-À traduire en priorité dans les futures localisations `mg` : le menu
-contextuel des champs (visible), puis les libellés lus.
+Traduits en Phase 10 : menu contextuel des champs, boutons et libellés
+lus, dialogues et feuilles (dont `bottomSheetLabel`), compteur de
+caractères, page des licences.
 
 ## 6. Traductions malagasy
 
