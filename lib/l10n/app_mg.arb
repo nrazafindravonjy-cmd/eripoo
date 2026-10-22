@@ -602,5 +602,9 @@
   "ownerPinBody": "Tsy misy hidy efijery ny findainao: ampidiro ny kaody amin'ny hidin'ny Eripoo.",
   "ownerPinLabel": "Kaodin'ny hidin'ny Eripoo",
   "ownerReason": "Hamafiso fa tena ianao io alohan'ny hanohizana.",
-  "ownerFailed": "Tsy voamarina ny maha-izy anao."
+  "ownerFailed": "Tsy voamarina ny maha-izy anao.",
+  "accountDeleteExportTitle": "Hitahiry kopian'ny antontan-taratasinao ve?",
+  "accountDeleteExportBody": "Mamafa ny asanao rehetra ny famafana, eto amin'ity finday ity sy ao amin'ny mpizara. Alohan'izay, azonao avoaka ho PDF ny antontan-taratasinao ary tehirizina.",
+  "accountDeleteExport": "Avoahy ny PDF",
+  "accountDeleteSkipExport": "Tohizo tsy misy"
 }

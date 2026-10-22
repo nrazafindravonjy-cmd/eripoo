@@ -12,6 +12,9 @@ import '../../../sync/sync_scheduler.dart';
 import '../../app_lock/presentation/confirm_owner.dart';
 import '../../auth/domain/auth_repository.dart';
 import '../../devices/presentation/devices_screen.dart';
+import '../../documents/presentation/document_screens.dart';
+import '../../documents/presentation/documents_providers.dart';
+import '../../documents/presentation/pdf_export.dart';
 import '../../quest/presentation/journey_providers.dart';
 import '../../settings/presentation/app_settings_controller.dart';
 import 'account_messages.dart';
@@ -225,6 +228,47 @@ Future<void> _signOut(BuildContext context, WidgetRef ref) async {
   await ref.read(appRestartProvider)();
 }
 
+/// Before deleting the account: offers to export the file as a PDF first
+/// (only when the project has a chapter to export). False when cancelled.
+Future<bool> _offerExport(BuildContext context, WidgetRef ref) async {
+  final l10n = AppLocalizations.of(context);
+  final synthesis = await ref.read(synthesisProvider.future);
+  if (synthesis == null || !context.mounted) return true;
+  final parts = documentBuilder(context, ref, synthesis).dossier();
+  final ready = parts.where((p) => p.filled).toList();
+  if (ready.isEmpty) return true;
+  final export = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(l10n.accountDeleteExportTitle),
+      content: Text(l10n.accountDeleteExportBody),
+      actions: [
+        EripooButton(
+          label: l10n.accountDeleteSkipExport,
+          variant: EripooButtonVariant.tertiary,
+          onPressed: () => Navigator.of(context).pop(false),
+        ),
+        EripooButton(
+          label: l10n.accountDeleteExport,
+          onPressed: () => Navigator.of(context).pop(true),
+        ),
+      ],
+    ),
+  );
+  if (export == null) return false;
+  if (export && context.mounted) {
+    await exportPdf(
+      context,
+      ref,
+      kind: PdfKind.dossier,
+      title: synthesis.project.title,
+      parts: ready,
+      missing: parts.where((p) => !p.filled).toList(),
+    );
+  }
+  return true;
+}
+
 Future<void> _deleteAccount(BuildContext context, WidgetRef ref) async {
   final l10n = AppLocalizations.of(context);
   final lifecycle = ref.read(accountLifecycleProvider);
@@ -232,6 +276,7 @@ Future<void> _deleteAccount(BuildContext context, WidgetRef ref) async {
   final email = ref.read(authUserProvider).value?.email;
   if (lifecycle == null || backend == null) return;
   final messenger = ScaffoldMessenger.of(context);
+  if (!await _offerExport(context, ref) || !context.mounted) return;
   final ok = await showEripooConfirmDialog(
     context,
     title: l10n.accountDeleteTitle,

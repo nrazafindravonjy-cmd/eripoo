@@ -602,5 +602,9 @@
   "ownerPinBody": "Your phone has no screen lock: enter your Eripoo lock code.",
   "ownerPinLabel": "Eripoo lock code",
   "ownerReason": "Confirm it's really you before continuing.",
-  "ownerFailed": "Identity not confirmed."
+  "ownerFailed": "Identity not confirmed.",
+  "accountDeleteExportTitle": "Keep a copy of your file?",
+  "accountDeleteExportBody": "Deleting erases all your work, on this phone and on the server. First, you can export your file as a PDF and keep it.",
+  "accountDeleteExport": "Export the PDF",
+  "accountDeleteSkipExport": "Continue without"
 }

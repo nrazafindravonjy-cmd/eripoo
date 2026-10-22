@@ -603,6 +603,10 @@
     "ownerPinBody": "needs_review",
     "ownerPinLabel": "needs_review",
     "ownerReason": "needs_review",
-    "ownerFailed": "needs_review"
+    "ownerFailed": "needs_review",
+    "accountDeleteExportTitle": "needs_review",
+    "accountDeleteExportBody": "needs_review",
+    "accountDeleteExport": "needs_review",
+    "accountDeleteSkipExport": "needs_review"
   }
 }
