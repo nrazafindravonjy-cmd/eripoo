@@ -19,8 +19,10 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "mg.eripoo.eripoo"
+        // Final Play identifier (decision D6, 2026-10-22); never changes once
+        // the app exists in the Play Console. The namespace (Kotlin package)
+        // stays mg.eripoo.eripoo: it is internal and not seen by Play.
+        applicationId = "com.eripoo.app"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

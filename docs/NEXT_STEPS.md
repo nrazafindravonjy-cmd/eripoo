@@ -130,7 +130,7 @@ liste du cahier des charges ; reste la validation du contenu (P-5).
 > POST_NOTIFICATIONS a été retirée exprès ; mettre à jour
 > `tool/check_apk.sh` et `test/architecture/android_release_test.dart`.
 
-### C-11. Pipeline de release (P-6 : D6 et clé Play ; moyen)
+### C-11. Pipeline de release (P-6 : D6 et clé Play ; moyen) — workflow fait le 2026-10-22 (identifiant `com.eripoo.app`), clé Play à créer
 > Lis CLAUDE.md et docs/RELEASE_CHECKLIST.md. Crée un workflow manuel qui
 > construit l'App Bundle signé (clé depuis les secrets GitHub d'un
 > environnement protégé), obfusqué, symboles archivés en artefact privé,

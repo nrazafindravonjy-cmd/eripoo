@@ -409,8 +409,9 @@ pour l'utilisateur (seule la sync est suspendue).
 
 ## 15. Identifiant de l'application Android
 
-`mg.eripoo.eripoo` est **une valeur provisoire générée à l'initialisation**,
-pas une décision.
+**Décision D6 (2026-10-22)** : `com.eripoo.app`. L'ancienne valeur
+`mg.eripoo.eripoo`, générée à l'initialisation, reste le paquet Kotlin
+interne (`namespace`), invisible pour Play.
 
 - L'identifiant (`applicationId`) devient **définitif dès que l'application
   est créée dans la Play Console** (y compris pour un test interne) ; il ne
