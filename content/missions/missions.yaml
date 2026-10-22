@@ -203,3 +203,32 @@
     fr: "« 18 lots vendus, tout payé ; une cliente veut un parfum citron. » (Exemple inventé.)"
     mg: "« Fehezana 18 lafo, voaloa daholo; mpanjifa iray te hanana fofona voasarimakirana. » (Ohatra noforonina.)"
     en: "\"18 packs sold, all paid; one customer wants a lemon scent.\" (Invented example.)"
+- id: m.observation_walk
+  title:
+    fr: "Une promenade pour observer"
+    mg: "Fitsangatsanganana handinihana"
+    en: "A walk to observe"
+  objective:
+    fr: "Repérer cinq petits problèmes que les gens vivent autour de toi."
+    mg: "Mahita olana kely dimy iainan'ny olona manodidina anao."
+    en: "Spot five small problems people live with around you."
+  instructions:
+    - fr: "Marche 30 minutes dans ton quartier, au marché ou à un arrêt de taxi-be."
+      mg: "Mandehana tongotra 30 minitra ao amin'ny fokontaninao, eny an-tsena na eo amin'ny fiantsonan'ny taxi-be."
+      en: "Walk for 30 minutes in your neighbourhood, at the market or at a minibus stop."
+    - fr: "Cherche les plaintes, les files d'attente, les longs trajets et les solutions bricolées."
+      mg: "Tadiavo ny fitarainana, ny filaharana, ny dia lavitra ary ny vahaolana vonjimaika."
+      en: "Look for complaints, queues, long trips and improvised fixes."
+    - fr: "Note ce que tu vois, sans nom, sans numéro et sans photo de visage."
+      mg: "Soraty izay hitanao, tsy misy anarana, tsy misy laharana ary tsy misy sarin-tarehy."
+      en: "Write what you see, without names, numbers or photos of faces."
+  deliverable:
+    fr: "Cinq problèmes observés, chacun en une phrase."
+    mg: "Olana dimy hita, fehezanteny iray avy."
+    en: "Five problems observed, one sentence each."
+  duration_minutes: 30
+  difficulty: 1
+  example:
+    fr: "« Arrêt de taxi-be : 20 minutes d'attente sous la pluie, aucun abri. » (Exemple inventé.)"
+    mg: "« Fiantsonan'ny taxi-be: 20 minitra fiandrasana ao anaty orana, tsy misy fialofana. » (Ohatra noforonina.)"
+    en: "\"Minibus stop: 20 minutes waiting in the rain, no shelter.\" (Invented example.)"

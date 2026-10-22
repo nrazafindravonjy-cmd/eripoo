@@ -1,0 +1,86 @@
+# Quest 14: observe your surroundings to collect hassles worth solving
+# (observation journal), before choosing one.
+id: q14
+order: 2
+maturity: exploration
+priority: 41
+title:
+  fr: "Observer ton environnement"
+  mg: "Mandinika ny manodidina anao"
+  en: "Observe your surroundings"
+summary:
+  fr: "Les idées sont autour de toi : dans les plaintes, les files d'attente et les débrouilles."
+  mg: "Manodidina anao ny hevitra: ao amin'ny fitarainana, ny filaharana ary ny tetika fanaovana."
+  en: "Ideas are around you: in complaints, queues and workarounds."
+available_when: {quest: q13, is: completed}
+steps:
+  - id: q14.s01
+    type: learn
+    title:
+      fr: "Regarder avec des yeux neufs"
+      mg: "Mijery amin'ny maso vaovao"
+      en: "Look with fresh eyes"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Chaque fois que quelqu'un râle, attend, se déplace loin ou bricole une solution, il y a peut-être un problème que des gens paieraient pour régler."
+          mg: "Isaky ny misy olona mitaraina, miandry, mandeha lavitra na manao tetika vonjimaika, mety misy olana ho voavaha raha mandoa vola ny olona."
+          en: "Every time someone complains, waits, travels far or improvises a fix, there may be a problem people would pay to solve."
+      - id: term
+        type: term
+        plain:
+          fr: "Une solution maison faute de mieux"
+          mg: "Vahaolana vonjimaika noho ny tsy fisian'ny tsara kokoa"
+          en: "A home-made fix for lack of better"
+        term:
+          fr: "Débrouille (contournement)"
+          mg: "Tetika vonjimaika"
+          en: "Workaround"
+        definition:
+          fr: "Ce que les gens font aujourd'hui pour s'en sortir. C'est le signe d'un besoin réel."
+          mg: "Izay ataon'ny olona ankehitriny mba hialana amin'ny olana. Mariky ny filana tena misy izany."
+          en: "What people do today to get by. It is a sign of a real need."
+      - id: example
+        type: example
+        body:
+          fr: "Au marché, Hery voit des vendeuses recharger leur téléphone chez un voisin contre quelques pièces : un besoin d'électricité que personne n'organise. (Exemple inventé.)"
+          mg: "Eny an-tsena, hitan'i Hery ireo mpivarotra mampiditra herinaratra amin'ny findainy any amin'ny mpifanolo-bodirindrina amin'ny vola madinika: filana herinaratra tsy misy mikarakara. (Ohatra noforonina.)"
+          en: "At the market, Hery sees sellers charging their phones at a neighbour's for a few coins: a need for electricity nobody organises. (Invented example.)"
+      - id: tip
+        type: tip
+        body:
+          fr: "Note des faits (qui, où, quoi), pas encore des idées. Les idées viendront ensuite."
+          mg: "Soraty ny zava-misy (iza, aiza, inona), fa tsy mbola hevitra. Ho avy any aoriana ny hevitra."
+          en: "Write facts (who, where, what), not ideas yet. Ideas will come next."
+  - id: q14.s02
+    type: act
+    title:
+      fr: "Une promenade d'observation"
+      mg: "Fitsangatsanganana fandinihana"
+      en: "An observation walk"
+    blocks:
+      - id: why
+        type: text
+        body:
+          fr: "Une demi-heure dans ton quartier ou au marché suffit pour trouver plusieurs problèmes réels."
+          mg: "Antsasak'adiny ao amin'ny fokontaninao na eny an-tsena dia ampy hahitana olana maro tena misy."
+          en: "Half an hour in your neighbourhood or at the market is enough to find several real problems."
+      - id: go
+        type: mission
+        mission: m.observation_walk
+    complete_when: {mission: m.observation_walk, is: completed}
+  - id: q14.s03
+    type: act
+    title:
+      fr: "Note tes observations"
+      mg: "Soraty ny fandinihanao"
+      en: "Write down your observations"
+    blocks:
+      - id: how
+        type: text
+        body:
+          fr: "Ouvre l'onglet Outils, puis « Journal d'observation ». Note au moins trois choses que tu as vues. Reviens ensuite ici."
+          mg: "Sokafy ny tabilao Fitaovana, avy eo « Diary fandinihana ». Soraty zavatra telo farafahakeliny hitanao. Miverena eto avy eo."
+          en: "Open the Tools tab, then \"Observation journal\". Note at least three things you saw. Then come back here."
+    complete_when: {count: observations, gte: 3}

@@ -1,7 +1,7 @@
 # Quest 6: build an offer (what, for whom, at what price), from what the
 # tests and the competitors showed. The price calculator does the maths.
 id: q06
-order: 6
+order: 9
 maturity: construction
 priority: 6
 title:
