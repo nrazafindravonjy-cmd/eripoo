@@ -11,6 +11,7 @@ import 'package:eripoo/design_system/design_system.dart';
 import 'package:eripoo/features/account/application/account_linker.dart';
 import 'package:eripoo/features/account/application/key_rotation.dart';
 import 'package:eripoo/features/account/presentation/account_providers.dart';
+import 'package:eripoo/features/app_lock/domain/app_lock_service.dart';
 import 'package:eripoo/features/settings/domain/app_settings.dart';
 import 'package:eripoo/features/settings/presentation/app_settings_controller.dart';
 import 'package:eripoo/security/crypto_service.dart';
@@ -28,6 +29,19 @@ import '../../helpers/test_host.dart';
 
 const email = 'tiana@example.com';
 const password = 'mot-de-passe-de-test';
+
+/// A phone without screen lock (and no Eripoo lock): nothing more to ask.
+class _NoScreenLock implements DeviceAuthenticator {
+  @override
+  Future<bool> authenticate({
+    required String reason,
+    required bool biometricOnly,
+  }) async => true;
+  @override
+  Future<bool> canUseBiometrics() async => false;
+  @override
+  Future<bool> isDeviceSecured() async => false;
+}
 
 void main() {
   late CryptoService crypto;
@@ -106,6 +120,7 @@ void main() {
         ),
         accountBackendProvider.overrideWith((ref) async => backend),
         backgroundSyncEnabledProvider.overrideWithValue(false),
+        deviceAuthenticatorProvider.overrideWithValue(_NoScreenLock()),
         appRestartProvider.overrideWithValue(() async => restarts++),
       ],
     );

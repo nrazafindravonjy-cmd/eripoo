@@ -9,6 +9,7 @@ import '../../../l10n/generated/app_localizations.dart';
 import '../../../sync/remote/sync_remote.dart';
 import '../../../sync/sync_cycle.dart';
 import '../../../sync/sync_scheduler.dart';
+import '../../app_lock/presentation/confirm_owner.dart';
 import '../../auth/domain/auth_repository.dart';
 import '../../devices/presentation/devices_screen.dart';
 import '../../quest/presentation/journey_providers.dart';
@@ -239,6 +240,11 @@ Future<void> _deleteAccount(BuildContext context, WidgetRef ref) async {
     destructive: true,
   );
   if (!ok || !context.mounted) return;
+  if (!await confirmOwner(context, ref, reason: l10n.ownerReason)) {
+    messenger.showSnackBar(SnackBar(content: Text(l10n.ownerFailed)));
+    return;
+  }
+  if (!context.mounted) return;
   // A sign-in of less than 10 minutes, before anything is deleted.
   if (email != null) {
     final password = await askPassword(context);

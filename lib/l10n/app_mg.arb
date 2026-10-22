@@ -597,5 +597,10 @@
   "newDeviceItem": "« {label} », nampiana tamin'ny {date}",
   "newDeviceBody": "Raha tsy ianao izany, esory avy hatrany ary ovay ny tenimiafinao.",
   "newDeviceItsMe": "Izaho io",
-  "newDeviceReview": "Jereo ireo fitaovako"
+  "newDeviceReview": "Jereo ireo fitaovako",
+  "ownerPinTitle": "Hamafiso fa tena ianao io",
+  "ownerPinBody": "Tsy misy hidy efijery ny findainao: ampidiro ny kaody amin'ny hidin'ny Eripoo.",
+  "ownerPinLabel": "Kaodin'ny hidin'ny Eripoo",
+  "ownerReason": "Hamafiso fa tena ianao io alohan'ny hanohizana.",
+  "ownerFailed": "Tsy voamarina ny maha-izy anao."
 }

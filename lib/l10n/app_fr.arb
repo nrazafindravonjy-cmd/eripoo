@@ -2997,5 +2997,25 @@
   "newDeviceReview": "Voir mes appareils",
   "@newDeviceReview": {
     "description": "Bouton qui ouvre l'écran Mes appareils depuis l'alerte."
+  },
+  "ownerPinTitle": "Confirme que c'est bien toi",
+  "@ownerPinTitle": {
+    "description": "Titre de la demande du code du verrou Eripoo avant une action sensible."
+  },
+  "ownerPinBody": "Ton téléphone n'a pas de verrouillage d'écran : saisis le code de ton verrou Eripoo.",
+  "@ownerPinBody": {
+    "description": "Explication : le verrou Eripoo remplace le verrouillage absent du téléphone."
+  },
+  "ownerPinLabel": "Code du verrou Eripoo",
+  "@ownerPinLabel": {
+    "description": "Libellé du champ du code."
+  },
+  "ownerReason": "Confirme que c'est bien toi avant de continuer.",
+  "@ownerReason": {
+    "description": "Raison affichée par le verrouillage du téléphone avant une action sensible."
+  },
+  "ownerFailed": "Identité non confirmée.",
+  "@ownerFailed": {
+    "description": "Message quand la confirmation d'identité échoue ou est annulée."
   }
 }

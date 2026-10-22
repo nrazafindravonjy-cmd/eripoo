@@ -597,5 +597,10 @@
   "newDeviceItem": "\"{label}\", added on {date}",
   "newDeviceBody": "If it wasn't you, remove it right away and change your password.",
   "newDeviceItsMe": "It's me",
-  "newDeviceReview": "See my devices"
+  "newDeviceReview": "See my devices",
+  "ownerPinTitle": "Confirm it's really you",
+  "ownerPinBody": "Your phone has no screen lock: enter your Eripoo lock code.",
+  "ownerPinLabel": "Eripoo lock code",
+  "ownerReason": "Confirm it's really you before continuing.",
+  "ownerFailed": "Identity not confirmed."
 }

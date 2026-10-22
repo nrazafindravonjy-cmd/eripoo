@@ -12,6 +12,7 @@ import '../../../sync/remote/sync_remote.dart';
 import '../../account/application/device_transfer_service.dart';
 import '../../account/presentation/account_messages.dart';
 import '../../account/presentation/account_providers.dart';
+import '../../app_lock/presentation/confirm_owner.dart';
 import '../../auth/domain/auth_repository.dart';
 import 'qr_widgets.dart';
 import 'receive_key_screen.dart';
@@ -98,6 +99,11 @@ class _DeviceCard extends ConsumerWidget {
     final backend = ref.read(accountBackendProvider).value;
     if (backend == null) return;
     final messenger = ScaffoldMessenger.of(context);
+    if (!await confirmOwner(context, ref, reason: l10n.ownerReason)) {
+      messenger.showSnackBar(SnackBar(content: Text(l10n.ownerFailed)));
+      return;
+    }
+    if (!context.mounted) return;
     try {
       try {
         await backend.sync.revokeDevice(device.id);
@@ -253,16 +259,13 @@ class _AddDeviceScreenState extends ConsumerState<AddDeviceScreen> {
 
   Future<void> _scan() async {
     final l10n = AppLocalizations.of(context);
-    final authenticator = ref.read(deviceAuthenticatorProvider);
-    if (await authenticator.isDeviceSecured()) {
-      final ok = await authenticator.authenticate(
-        reason: l10n.addDeviceIdentityReason,
-        biometricOnly: false,
-      );
-      if (!ok) {
-        setState(() => _error = l10n.addDeviceIdentityFailed);
-        return;
-      }
+    if (!await confirmOwner(
+      context,
+      ref,
+      reason: l10n.addDeviceIdentityReason,
+    )) {
+      if (mounted) setState(() => _error = l10n.addDeviceIdentityFailed);
+      return;
     }
     if (!mounted) return;
     final qr1 = await ref.read(qrScanProvider)(

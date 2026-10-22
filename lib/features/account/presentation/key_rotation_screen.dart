@@ -7,6 +7,7 @@ import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../../sync/remote/sync_remote.dart';
 import '../../../sync/sync_scheduler.dart';
+import '../../app_lock/presentation/confirm_owner.dart';
 import '../../auth/domain/auth_repository.dart';
 import '../../devices/presentation/devices_screen.dart';
 import '../../quest/presentation/journey_providers.dart';
@@ -69,6 +70,11 @@ class _KeyRotationScreenState extends ConsumerState<KeyRotationScreen> {
       confirmLabel: l10n.rotationStart,
     );
     if (!ok || !mounted) return;
+    if (!await confirmOwner(context, ref, reason: l10n.ownerReason)) {
+      if (mounted) setState(() => _message = l10n.ownerFailed);
+      return;
+    }
+    if (!mounted) return;
     // The server asks for a sign-in of less than 10 minutes: asked first,
     // before the new code is shown.
     final email = user.email;
