@@ -711,6 +711,17 @@ PostgreSQL 16 avec un schéma `auth` simulé, **signalés comme partiels**.
 
 ### P5 — D9 : région Supabase de production 🟡
 
+**Outil de mesure (chantier C-8, 2026-10-22)** : dans l'APK de
+développement seulement (`ERIPOO_ENV=development`), Profil → « Mesure de
+latence (développement) » lance 100 allers-retours vers
+`/auth/v1/health` du projet de développement, affiche médiane, 95ᵉ
+centile, min, max, échecs et type de réseau (Wi-Fi ou données mobiles),
+puis copie un rapport texte (`eripoo-latency v1`, toutes les mesures
+brutes, lieu et opérateur notés par la personne). Jamais proposé en
+production (testé). Le projet de développement n'étant que dans une seule
+région, une série par région candidate demande un projet de test dans
+chacune.
+
 | | |
 |---|---|
 | **Décision** | Choisir la région du projet de production parmi les candidates d'[ARCHITECTURE §14](ARCHITECTURE.md#14-région-dhébergement-supabase) (présélection pour mesures : Paris, Francfort ; Mumbai en témoin). |

@@ -606,5 +606,16 @@
   "accountDeleteExportTitle": "Keep a copy of your file?",
   "accountDeleteExportBody": "Deleting erases all your work, on this phone and on the server. First, you can export your file as a PDF and keep it.",
   "accountDeleteExport": "Export the PDF",
-  "accountDeleteSkipExport": "Continue without"
+  "accountDeleteSkipExport": "Continue without",
+  "latencyTitle": "Latency measurement (development)",
+  "latencyIntro": "Measures the round trip to the development server: 100 measures. Note the place and the operator, then copy the result for the measurement report.",
+  "latencyNoteLabel": "Place and operator (e.g. Antananarivo, 4G)",
+  "latencyStart": "Run 100 measures",
+  "latencyProgress": "Measure {done} of {total}",
+  "latencyResult": "Median: {median} ms · 95th percentile: {p95} ms · min {min} ms · max {max} ms",
+  "latencyFailures": "{count, plural, =0{No failure} =1{1 failure} other{{count} failures}}",
+  "latencyNetwork": "{kind, select, wifi{Wi-Fi} mobile{Mobile data} none{Offline} other{Unknown}}",
+  "latencyCopy": "Copy the result",
+  "latencyCopied": "Result copied.",
+  "latencyNoServer": "No server is configured in this build."
 }

@@ -607,6 +607,17 @@
     "accountDeleteExportTitle": "needs_review",
     "accountDeleteExportBody": "needs_review",
     "accountDeleteExport": "needs_review",
-    "accountDeleteSkipExport": "needs_review"
+    "accountDeleteSkipExport": "needs_review",
+    "latencyTitle": "needs_review",
+    "latencyIntro": "needs_review",
+    "latencyNoteLabel": "needs_review",
+    "latencyStart": "needs_review",
+    "latencyProgress": "needs_review",
+    "latencyResult": "needs_review",
+    "latencyFailures": "needs_review",
+    "latencyNetwork": "needs_review",
+    "latencyCopy": "needs_review",
+    "latencyCopied": "needs_review",
+    "latencyNoServer": "needs_review"
   }
 }

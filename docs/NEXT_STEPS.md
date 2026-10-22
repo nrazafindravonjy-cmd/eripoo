@@ -110,7 +110,7 @@ liste du cahier des charges ; reste la validation du contenu (P-5).
 > (`lib/features/account/`), propose d'exporter le dossier en PDF avant de
 > confirmer. Tests de widget.
 
-### C-8. Mesure de latence pour choisir la région (C-1 ; petit)
+### C-8. Mesure de latence pour choisir la région (C-1 ; petit) — fait le 2026-10-22
 > Lis CLAUDE.md et docs/DEVELOPMENT_PLAN.md P5. Ajoute à l'APK de
 > développement seulement un écran de mesure de latence vers le projet
 > Supabase (≥ 100 mesures, médiane, 95ᵉ centile, type de réseau) exportable,
