@@ -17,6 +17,7 @@ import '../../documents/presentation/documents_providers.dart';
 import '../../documents/presentation/pdf_export.dart';
 import '../../latency/presentation/latency_screen.dart';
 import '../../quest/presentation/journey_providers.dart';
+import '../../reminders/presentation/reminder_providers.dart';
 import '../../settings/presentation/app_settings_controller.dart';
 import 'account_messages.dart';
 import 'account_providers.dart';
@@ -149,13 +150,44 @@ class _PreferencesCard extends ConsumerWidget {
     final celebrations = ref.watch(
       appSettingsProvider.select((s) => s.celebrations),
     );
+    final reminders = ref.watch(
+      appSettingsProvider.select((s) => s.missionReminders),
+    );
+    Future<void> setReminders(bool on) async {
+      final platform = ref.read(reminderPlatformProvider);
+      final settings = ref.read(appSettingsProvider.notifier);
+      final messenger = ScaffoldMessenger.of(context);
+      if (!on) {
+        settings.setMissionReminders(false);
+        await platform.cancel().catchError((Object _) {});
+        return;
+      }
+      if (!await platform.requestPermission()) {
+        messenger.showSnackBar(SnackBar(content: Text(l10n.remindersDenied)));
+        return;
+      }
+      settings.setMissionReminders(true);
+      await platform.schedule().catchError((Object _) {});
+    }
+
     return EripooCard(
-      child: SwitchListTile(
-        contentPadding: EdgeInsets.zero,
-        value: celebrations,
-        title: Text(l10n.settingsCelebrations),
-        subtitle: Text(l10n.settingsCelebrationsHelp),
-        onChanged: ref.read(appSettingsProvider.notifier).setCelebrations,
+      child: Column(
+        children: [
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            value: celebrations,
+            title: Text(l10n.settingsCelebrations),
+            subtitle: Text(l10n.settingsCelebrationsHelp),
+            onChanged: ref.read(appSettingsProvider.notifier).setCelebrations,
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            value: reminders,
+            title: Text(l10n.settingsReminders),
+            subtitle: Text(l10n.settingsRemindersHelp),
+            onChanged: setReminders,
+          ),
+        ],
       ),
     );
   }

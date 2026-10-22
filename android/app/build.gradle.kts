@@ -12,6 +12,8 @@ android {
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
+        // Required by flutter_local_notifications (mission reminders).
+        isCoreLibraryDesugaringEnabled = true
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
@@ -76,4 +78,6 @@ dependencies {
     // Theme.AppCompat for the launch theme, required by local_auth on
     // Android 8 and below.
     implementation("androidx.appcompat:appcompat:1.7.0")
+    // Java 8+ APIs on older Android, for flutter_local_notifications.
+    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
 }

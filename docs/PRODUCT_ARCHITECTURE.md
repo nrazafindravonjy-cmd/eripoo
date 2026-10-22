@@ -240,6 +240,12 @@ Une mission est un **gabarit de contenu** instancié pour un projet.
 - Rappels : notifications **locales** planifiées à partir des missions
   acceptées, plafonnées (au plus une par jour, désactivables), jamais de
   rappel de « série » culpabilisant.
+  **Fait (C-10, 2026-10-22)** : désactivés par défaut ; Profil → « Rappels
+  de missions » demande la permission de notification puis planifie une
+  vérification WorkManager toutes les 4 h (sans réseau). Un rappel au plus
+  par 20 h, entre 9 h et 20 h, seulement si une mission acceptée ou en
+  cours n'a pas bougé depuis 2 jours ; texte générique (ni mission ni
+  projet). Non vérifié sur appareil.
 
 ## 6. Contenu multilingue fr / mg / en
 

@@ -4,6 +4,8 @@ import '../../core/config/app_config.dart';
 import '../../core/logging/app_logger.dart';
 import '../../features/account/application/account_linker.dart';
 import '../../features/media/data/media_store.dart';
+import '../../features/reminders/application/mission_reminders.dart';
+import '../../features/reminders/data/reminder_platform.dart';
 import '../../security/key_manager.dart';
 import '../../security/secure_key_store.dart';
 import '../../services/backend/backend.dart';
@@ -16,6 +18,7 @@ import 'sync_setup.dart';
 void backgroundSyncDispatcher() {
   Workmanager().executeTask((task, _) async {
     if (task == BackgroundSync.taskName) await BackgroundSync.runOnce();
+    if (task == AndroidReminderPlatform.taskName) await runMissionReminders();
     // Always "done": WorkManager's own retries would add calls on top of
     // the hourly period; the next period (or the app) tries again.
     return true;
@@ -90,5 +93,24 @@ abstract final class BackgroundSync {
       await services.database.close().catchError((Object _) {});
       services.keys.dispose();
     }
+  }
+}
+
+/// The mission reminder check (CLAUDE.md §46), in the background task's
+/// isolate. Reads only the local database; any failure ends quietly.
+Future<void> runMissionReminders({SecureKeyStore? store}) async {
+  final AppServices services;
+  try {
+    services = await AppServices.start(store ?? KeystoreSecureKeyStore());
+  } on Object {
+    return;
+  }
+  try {
+    await MissionReminders(services.database).run(AndroidReminderPlatform.show);
+  } on Object {
+    // Tried again at the next period.
+  } finally {
+    await services.database.close().catchError((Object _) {});
+    services.keys.dispose();
   }
 }

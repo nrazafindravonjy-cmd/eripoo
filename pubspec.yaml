@@ -32,6 +32,7 @@ dependencies:
   supabase_flutter: ^2.18.0
   uuid: ^4.6.0
   workmanager: ^0.10.10
+  flutter_local_notifications: 22.3.1
   zxing2: ^0.2.4
 
 dev_dependencies:

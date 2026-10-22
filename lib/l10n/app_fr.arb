@@ -3109,5 +3109,29 @@
   "latencyNoServer": "Aucun serveur n'est configuré dans cette version.",
   "@latencyNoServer": {
     "description": "Message quand l'APK n'a pas de serveur."
+  },
+  "settingsReminders": "Rappels de missions",
+  "@settingsReminders": {
+    "description": "Réglage : rappels locaux pour les missions en cours."
+  },
+  "settingsRemindersHelp": "Au plus un rappel par jour, entre 9 h et 20 h, quand une mission attend depuis deux jours. Rien de ton projet n'apparaît sur l'écran verrouillé.",
+  "@settingsRemindersHelp": {
+    "description": "Explication du réglage des rappels."
+  },
+  "remindersDenied": "Les notifications sont refusées : autorise-les dans les réglages du téléphone pour recevoir les rappels.",
+  "@remindersDenied": {
+    "description": "Message quand la permission de notification est refusée."
+  },
+  "reminderTitle": "Une mission t'attend",
+  "@reminderTitle": {
+    "description": "Titre de la notification de rappel (aucun contenu du projet)."
+  },
+  "reminderBody": "Ouvre Eripoo quand tu as un moment pour avancer sur le terrain.",
+  "@reminderBody": {
+    "description": "Texte de la notification de rappel (aucun contenu du projet)."
+  },
+  "reminderChannel": "Rappels de missions",
+  "@reminderChannel": {
+    "description": "Nom du canal de notification Android."
   }
 }
