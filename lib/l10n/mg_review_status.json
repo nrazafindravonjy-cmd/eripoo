@@ -630,6 +630,9 @@
     "legalAcceptTitle": "needs_review",
     "legalAcceptIntro": "needs_review",
     "legalAccept": "needs_review",
-    "legalVersion": "needs_review"
+    "legalVersion": "needs_review",
+    "settingsUsageStats": "needs_review",
+    "settingsUsageStatsHelp": "needs_review",
+    "welcomeUsageStats": "needs_review"
   }
 }

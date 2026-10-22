@@ -629,5 +629,8 @@
   "legalAcceptTitle": "Before you continue",
   "legalAcceptIntro": "Read the privacy policy and the terms of use. They explain what Eripoo does with your data and what it never does.",
   "legalAccept": "I have read and accept",
-  "legalVersion": "Version {version}"
+  "legalVersion": "Version {version}",
+  "settingsUsageStats": "Anonymous statistics",
+  "settingsUsageStatsHelp": "Sends only daily totals (app opened, quests and missions finished, PDFs exported), with no identifier and nothing from your project. Off by default.",
+  "welcomeUsageStats": "Help improve Eripoo with anonymous statistics (can be changed any time in Profile)"
 }

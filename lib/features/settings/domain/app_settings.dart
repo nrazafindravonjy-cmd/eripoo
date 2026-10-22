@@ -10,6 +10,7 @@ class AppSettings {
     this.reducedMotion = false,
     this.celebrations = true,
     this.missionReminders = false,
+    this.usageStats = false,
   });
 
   final ThemePreference theme;
@@ -26,18 +27,23 @@ class AppSettings {
   /// Local mission reminders (CLAUDE.md §46); off until the user asks.
   final bool missionReminders;
 
+  /// Opt-in anonymous usage statistics (decision D7); off by default.
+  final bool usageStats;
+
   AppSettings copyWith({
     ThemePreference? theme,
     AppLanguage? Function()? language,
     bool? reducedMotion,
     bool? celebrations,
     bool? missionReminders,
+    bool? usageStats,
   }) => AppSettings(
     theme: theme ?? this.theme,
     language: language == null ? this.language : language(),
     reducedMotion: reducedMotion ?? this.reducedMotion,
     celebrations: celebrations ?? this.celebrations,
     missionReminders: missionReminders ?? this.missionReminders,
+    usageStats: usageStats ?? this.usageStats,
   );
 
   @override
@@ -47,7 +53,8 @@ class AppSettings {
       other.language == language &&
       other.reducedMotion == reducedMotion &&
       other.celebrations == celebrations &&
-      other.missionReminders == missionReminders;
+      other.missionReminders == missionReminders &&
+      other.usageStats == usageStats;
 
   @override
   int get hashCode => Object.hash(
@@ -56,5 +63,6 @@ class AppSettings {
     reducedMotion,
     celebrations,
     missionReminders,
+    usageStats,
   );
 }

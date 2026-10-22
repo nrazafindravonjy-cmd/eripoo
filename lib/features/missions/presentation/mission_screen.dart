@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +9,8 @@ import '../../../l10n/generated/app_localizations.dart';
 import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
 import '../../quest/presentation/step_screen.dart' show missionStatusLabel;
+import '../../usage/domain/usage_event.dart';
+import '../../usage/presentation/usage_providers.dart';
 import '../domain/mission_state.dart';
 
 /// Longest reflection kept for a mission (free text, stays on the device
@@ -59,6 +63,9 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
       messenger.showSnackBar(
         SnackBar(content: Text(missionStatusLabel(l10n, status))),
       );
+      if (status == MissionStatus.completed) {
+        unawaited(ref.read(usageRecorderProvider)(UsageEvent.missionCompleted));
+      }
       // Back to the step that proposed it, which can now be finished.
       if (status == MissionStatus.completed && mounted && context.canPop()) {
         context.pop();

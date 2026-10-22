@@ -829,8 +829,13 @@ Dans `mg_review_status.json`, `reviewed` correspond à « validé » et
 
 ### Autres décisions ouvertes à prendre pendant la Phase 2
 
-- **D7** — analytics opt-in sans identifiant : nécessaire pour l'écran de
-  consentement de l'onboarding.
+- **D7** — analytics opt-in sans identifiant : **décidé par le porteur le
+  2026-10-22** — « analytics opt-in minimal » : désactivés par défaut, case
+  à cocher (décochée) à l'accueil et réglage du Profil ; seulement des
+  totaux par jour et par version pour 5 événements (ouverture, diagnostic,
+  quête et mission terminés, PDF exporté), envoyés au Supabase de l'app
+  (`record_usage`, appel anonyme) ; aucun identifiant, aucun contenu.
+  Fait au chantier C-13.
 - **D10** — fournisseur SMS : sans lui, la Phase 2 livre l'e-mail et Google ;
   la connexion par téléphone reste désactivée.
 - **D6** — identifiant Android : seulement avant la création dans la Play

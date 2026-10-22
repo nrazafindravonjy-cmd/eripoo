@@ -3162,5 +3162,17 @@
         "type": "String"
       }
     }
+  },
+  "settingsUsageStats": "Statistiques anonymes",
+  "@settingsUsageStats": {
+    "description": "Réglage : statistiques d'usage anonymes (opt-in)."
+  },
+  "settingsUsageStatsHelp": "Envoie seulement des totaux par jour (ouvertures, quêtes et missions terminées, PDF exportés), sans identifiant ni contenu de ton projet. Désactivé par défaut.",
+  "@settingsUsageStatsHelp": {
+    "description": "Explication du réglage des statistiques anonymes."
+  },
+  "welcomeUsageStats": "Aider à améliorer Eripoo avec des statistiques anonymes (modifiable à tout moment dans le Profil)",
+  "@welcomeUsageStats": {
+    "description": "Case à cocher de l'écran d'accueil, décochée par défaut."
   }
 }

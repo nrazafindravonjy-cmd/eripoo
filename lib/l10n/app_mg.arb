@@ -629,5 +629,8 @@
   "legalAcceptTitle": "Alohan'ny hanohizana",
   "legalAcceptIntro": "Vakio ny politikan'ny fiainana manokana sy ny fepetra fampiasana. Manazava izay ataon'ny Eripoo amin'ny angon-drakitrao sy izay tsy ataony mihitsy izy ireo.",
   "legalAccept": "Novakiako ary ekeko",
-  "legalVersion": "Dikan-teny {version}"
+  "legalVersion": "Dikan-teny {version}",
+  "settingsUsageStats": "Antontan'isa tsy mitonona anarana",
+  "settingsUsageStatsHelp": "Mandefa isa fitambarany isan'andro ihany (fanokafana, dia sy iraka vita, PDF navoaka), tsy misy famantarana na votoatin'ny tetikasanao. Tsy mandeha raha tsy ekenao.",
+  "welcomeUsageStats": "Manampy hanatsarana ny Eripoo amin'ny antontan'isa tsy mitonona anarana (azo ovaina amin'ny fotoana rehetra ao amin'ny Mombamomba)"
 }

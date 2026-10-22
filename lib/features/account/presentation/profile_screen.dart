@@ -20,6 +20,7 @@ import '../../legal/presentation/legal_screens.dart';
 import '../../quest/presentation/journey_providers.dart';
 import '../../reminders/presentation/reminder_providers.dart';
 import '../../settings/presentation/app_settings_controller.dart';
+import '../../usage/presentation/usage_providers.dart';
 import 'account_messages.dart';
 import 'account_providers.dart';
 import 'key_rotation_screen.dart';
@@ -170,6 +171,9 @@ class _PreferencesCard extends ConsumerWidget {
     final reminders = ref.watch(
       appSettingsProvider.select((s) => s.missionReminders),
     );
+    final usageStats = ref.watch(
+      appSettingsProvider.select((s) => s.usageStats),
+    );
     Future<void> setReminders(bool on) async {
       final platform = ref.read(reminderPlatformProvider);
       final settings = ref.read(appSettingsProvider.notifier);
@@ -196,6 +200,16 @@ class _PreferencesCard extends ConsumerWidget {
             title: Text(l10n.settingsCelebrations),
             subtitle: Text(l10n.settingsCelebrationsHelp),
             onChanged: ref.read(appSettingsProvider.notifier).setCelebrations,
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            value: usageStats,
+            title: Text(l10n.settingsUsageStats),
+            subtitle: Text(l10n.settingsUsageStatsHelp),
+            onChanged: (on) {
+              ref.read(appSettingsProvider.notifier).setUsageStats(on);
+              if (!on) ref.read(usageCounterProvider).forgetPending();
+            },
           ),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,

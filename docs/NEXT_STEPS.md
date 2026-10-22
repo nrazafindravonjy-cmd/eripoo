@@ -152,7 +152,7 @@ enregistrement du consentement côté serveur (`consents`) pour les comptes.
 > par le juriste (mg/fr/en), l'acceptation à l'onboarding et à la mise à
 > jour des textes, et les valeurs de `jurisdiction_policies`.
 
-### C-13. Analytics opt-in et rapports d'erreurs (P-6 : D7 ; moyen)
+### C-13. Analytics opt-in et rapports d'erreurs (P-6 : D7 ; moyen) — statistiques faites le 2026-10-22 (D7 décidée) ; rapports d'erreurs (D8) pas faits
 > Lis CLAUDE.md et docs/DEVELOPMENT_PLAN.md (D7, D8). Analytics opt-in,
 > sans identifiant, sans contenu privé, auto-hébergés, et rapports d'erreurs
 > maison. Ne pas commencer sans la décision D7 écrite.

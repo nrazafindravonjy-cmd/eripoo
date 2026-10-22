@@ -18,6 +18,9 @@ class WelcomeScreen extends ConsumerStatefulWidget {
 class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   AppLanguage _language = AppLanguage.mg;
 
+  /// Anonymous statistics: off unless ticked (decision D7).
+  bool _usageStats = false;
+
   @override
   Widget build(BuildContext context) {
     // The screen is shown in the language being chosen.
@@ -83,13 +86,23 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                       Expanded(child: Text(l10n.welcomePrivacy)),
                     ],
                   ),
+                  const SizedBox(height: EripooSpacing.md),
+                  CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    controlAffinity: ListTileControlAffinity.leading,
+                    value: _usageStats,
+                    title: Text(l10n.welcomeUsageStats),
+                    onChanged: (v) => setState(() => _usageStats = v ?? false),
+                  ),
                   const SizedBox(height: EripooSpacing.xl),
                   EripooButton(
                     label: l10n.welcomeStart,
                     expand: true,
-                    onPressed: () => ref
-                        .read(appSettingsProvider.notifier)
-                        .setLanguage(_language),
+                    onPressed: () {
+                      final settings = ref.read(appSettingsProvider.notifier);
+                      if (_usageStats) settings.setUsageStats(true);
+                      settings.setLanguage(_language);
+                    },
                   ),
                 ],
               ),
