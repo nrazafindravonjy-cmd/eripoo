@@ -18,6 +18,8 @@ relu** (malagasy à réécrire par des auteurs natifs). Détail :
 
 ## Documentation
 
+- **[Reprise du projet : ce qui reste à faire](docs/NEXT_STEPS.md)** et
+  [consignes pour Claude Code](CLAUDE.md)
 - [Architecture technique](docs/ARCHITECTURE.md)
 - [Design system](docs/DESIGN_SYSTEM.md)
 - [Architecture produit (quêtes, missions, hypothèses, contenu)](docs/PRODUCT_ARCHITECTURE.md)
@@ -36,8 +38,7 @@ Prérequis : Flutter 3.47.6 (stable), JDK 17, Android SDK.
 ```sh
 flutter pub get                 # génère aussi lib/l10n/generated
 dart run build_runner build     # génère le code Drift (*.g.dart)
-flutter analyze
-flutter test
+tool/check.sh                   # format, analyse, contenu, tests (avant chaque commit)
 flutter run
 ```
 
