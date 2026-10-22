@@ -378,7 +378,7 @@
   "toolsCelebrationTitle": "{count, plural, =1{New tool unlocked} other{New tools unlocked}}",
   "toolsCelebrationBody": "Thanks to what you did: {names}.",
   "settingsCelebrations": "Small celebrations",
-  "settingsCelebrationsHelp": "A short message when you unlock a tool.",
+  "settingsCelebrationsHelp": "A short message when you unlock a tool or earn a badge.",
   "settingsTitle": "Preferences",
   "guideNoteInterview": "Write a conversation",
   "competitorsEmpty": "No competitor noted yet. Start with what people do today without you.",
@@ -584,5 +584,13 @@
   "erasedSignedOut": "You signed out: this phone's data was erased. It stays in your account.",
   "erasedAccountDeleted": "Your account was deleted, and this phone's data erased.",
   "erasedRevoked": "This phone was removed from your account from another device: its data was erased. Sign in again to get it back.",
-  "erasedReset": "This phone's data was erased at your request."
+  "erasedReset": "This phone's data was erased at your request.",
+  "badgesTitle": "My badges",
+  "badgesIntro": "Badges reward what you do in the field, not what you read. No ranking: only your own path.",
+  "badgesEarned": "Earned",
+  "badgesToEarn": "To earn",
+  "badgesNone": "No badge yet. The first one comes with your first action in the field.",
+  "badgesCelebrationTitle": "{count, plural, =1{New badge} other{New badges}}",
+  "badgesCelebrationBody": "Thanks to what you did: {names}.",
+  "badgesSee": "See my badges"
 }

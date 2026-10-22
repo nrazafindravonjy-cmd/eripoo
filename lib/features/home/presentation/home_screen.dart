@@ -6,6 +6,7 @@ import '../../../app/router/app_router.dart';
 import '../../../content/progress_state.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../badges/presentation/badges_screen.dart';
 import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
 import 'erasure_notice.dart';
@@ -33,6 +34,7 @@ class HomeScreen extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
             children: [
               const ErasureNotice(),
+              const BadgeCelebration(),
               ReadableColumn(
                 child: !plan.diagnosticDone
                     ? EripooCard(

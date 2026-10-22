@@ -378,7 +378,7 @@
   "toolsCelebrationTitle": "{count, plural, =1{Fitaovana vaovao voasokatra} other{Fitaovana vaovao voasokatra}}",
   "toolsCelebrationBody": "Noho izay nataonao: {names}.",
   "settingsCelebrations": "Fankalazana kely",
-  "settingsCelebrationsHelp": "Hafatra fohy rehefa manokatra fitaovana ianao.",
+  "settingsCelebrationsHelp": "Hafatra fohy rehefa manokatra fitaovana na mahazo mari-pankasitrahana ianao.",
   "settingsTitle": "Safidy",
   "guideNoteInterview": "Soraty ny fihaonana",
   "competitorsEmpty": "Mbola tsy misy mpifaninana voasoratra. Atombohy amin'izay ataon'ny olona ankehitriny raha tsy misy anao.",
@@ -584,5 +584,13 @@
   "erasedSignedOut": "Nivoaka ianao : voafafa ny angona tamin'ity finday ity. Mijanona ao amin'ny kaontinao izy ireo.",
   "erasedAccountDeleted": "Voafafa ny kaontinao, ary voafafa koa ny angona tamin'ity finday ity.",
   "erasedRevoked": "Nesorina tamin'ny kaontinao avy amin'ny fitaovana hafa ity finday ity : voafafa ny angony. Afaka miditra indray ianao mba hahitana azy ireo.",
-  "erasedReset": "Voafafa araka ny nangatahinao ny angona tamin'ity finday ity."
+  "erasedReset": "Voafafa araka ny nangatahinao ny angona tamin'ity finday ity.",
+  "badgesTitle": "Ireo mari-pankasitrahako",
+  "badgesIntro": "Ny mari-pankasitrahana dia valisoa ho an'izay ataonao eny an-tsehatra, fa tsy izay vakianao. Tsy misy filaharana: ny lalanao ihany.",
+  "badgesEarned": "Azo",
+  "badgesToEarn": "Mbola ho azo",
+  "badgesNone": "Mbola tsy misy mari-pankasitrahana. Ho tonga miaraka amin'ny hetsika voalohany ataonao eny an-tsehatra ny voalohany.",
+  "badgesCelebrationTitle": "{count, plural, =1{Mari-pankasitrahana vaovao} other{Mari-pankasitrahana vaovao}}",
+  "badgesCelebrationBody": "Noho izay nataonao: {names}.",
+  "badgesSee": "Jereo ireo mari-pankasitrahako"
 }

@@ -154,8 +154,8 @@ Voix (Phase 9) :
 - [ ] **confirmation d'identité par le verrou Eripoo** quand le téléphone
   n'a pas de verrouillage (aujourd'hui : verrouillage du téléphone) ;
 - [x] **message après effacement** au redémarrage — fait en Phase 10 ;
-- [ ] **badges** (§21) : non faits ; mêmes règles et même validateur que
-  les outils ;
+- [x] **badges** (§21) — faits (C-3) : 8 badges dans `content/badges.yaml`,
+  mêmes règles et même validateur que les outils, table `badge_awards` ;
 - [ ] **préparation administrative** — construite en Phase 8 ; à
   compléter : liste officielle pour l'entreprise individuelle, autres
   régions que l'Analamanga, sources fiscales et sociales directes

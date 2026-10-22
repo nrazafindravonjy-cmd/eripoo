@@ -8,7 +8,8 @@ enum EntityFamily {
   appendOnly,
   progress,
 
-  /// Unlocked tools: never re-locked, the earliest unlock is kept.
+  /// Unlocked tools and earned badges: never taken back, the earliest
+  /// unlock is kept.
   unlock,
 }
 
@@ -18,7 +19,7 @@ EntityFamily familyOf(String entityType) => switch (entityType) {
   EntityTypes.decision ||
   EntityTypes.conflictCopy => EntityFamily.appendOnly,
   EntityTypes.stepProgress => EntityFamily.progress,
-  EntityTypes.toolUnlock => EntityFamily.unlock,
+  EntityTypes.toolUnlock || EntityTypes.badgeAward => EntityFamily.unlock,
   _ => EntityFamily.editable,
 };
 

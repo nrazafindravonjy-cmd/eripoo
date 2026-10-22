@@ -31,6 +31,7 @@ class EntityRegistry {
         EntityTypes.competitor: _db.competitors,
         EntityTypes.financeItem: _db.financeItems,
         EntityTypes.financePlan: _db.financePlans,
+        EntityTypes.badgeAward: _db.badgeAwards,
         EntityTypes.conflictCopy: _db.conflictCopies,
       };
 

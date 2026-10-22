@@ -40,6 +40,11 @@ juridique P6), `media_items` (`content_hash` BLAKE2b-256 ; pas de chemin
 stocké, il se déduit de l'identifiant). Migration v2 → v3 testée sur une
 base chiffrée.
 
+Ajouté en v8 (chantier C-3, 2026-10-22) : `badge_awards` (`badge_id`
+unique, `unlocked_at`, `seen_at?` ; identifiant UUID v5 de
+`eripoo:badge:<id>` ; même famille « déblocage » que `tool_unlocks` :
+jamais retiré, date la plus ancienne gardée). Migration v7 → v8 testée.
+
 Ajouté en v6 (Phase 6) : `tool_unlocks` (`tool_id` unique, `unlocked_at`,
 `seen_at?` ; identifiant UUID v5 de `eripoo:tool:<id>`, un seul
 enregistrement par outil sur tous les téléphones ; famille « déblocage »
@@ -294,7 +299,7 @@ Toutes les tables ci-dessous ont les colonnes communes du §1.1 sauf mention
 | `step_progress` | `quest_id`, `step_id`, `status`, `started_at`, `completed_at`, `deferred_until?`, `content_version` |
 | `answers` | `step_id`, `block_id`, `answer_type` (`text`,`choice`,`number`,`money`,`audio`,`unknown`,`skipped`), `value_json`, `audio_media_id?`, `help_used` (niveau d'aide) |
 | `mission_instances` | `mission_template_id`, `status`, `accepted_at`, `due_at?`, `completed_at?`, `reflection`, `experiment_id?` |
-| `badges_earned` | `badge_id`, `earned_at`, `trigger_entity_id?` |
+| `badge_awards` | `badge_id`, `unlocked_at`, `seen_at?` |
 | `tool_unlocks` | `tool_id`, `unlocked_at`, `seen_at?` |
 
 ### 3.3 Projet

@@ -578,6 +578,7 @@ void main() {
     await v3.customStatement('drop table competitors'); // v6
     await v3.customStatement('drop table finance_items'); // v7
     await v3.customStatement('drop table finance_plans'); // v7
+    await v3.customStatement('drop table badge_awards'); // v8
     await v3.customStatement('pragma user_version = 2');
     await v3.close();
 
@@ -590,6 +591,7 @@ void main() {
     final s = ResearchService(migrated);
     final h = await s.createHypothesis(projectId: project, statement: 'H');
     expect(h.status, HypothesisStatus.draft);
+    expect(await migrated.select(migrated.badgeAwards).get(), isEmpty);
     final version = await migrated
         .customSelect('pragma user_version')
         .getSingle();

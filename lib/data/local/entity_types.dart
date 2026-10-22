@@ -24,6 +24,7 @@ abstract final class EntityTypes {
   static const competitor = 'competitor';
   static const financeItem = 'finance_item';
   static const financePlan = 'finance_plan';
+  static const badgeAward = 'badge_award';
 
   static const all = [
     profile,
@@ -48,6 +49,7 @@ abstract final class EntityTypes {
     competitor,
     financeItem,
     financePlan,
+    badgeAward,
     conflictCopy,
   ];
 }
