@@ -2969,5 +2969,33 @@
   "badgesSee": "Voir mes badges",
   "@badgesSee": {
     "description": "Bouton de la célébration qui ouvre l'écran des badges."
+  },
+  "newDeviceTitle": "Nouvel appareil sur ton compte",
+  "@newDeviceTitle": {
+    "description": "Titre de l'alerte affichée sur les autres appareils quand un appareil est ajouté au compte."
+  },
+  "newDeviceItem": "« {label} », ajouté le {date}",
+  "@newDeviceItem": {
+    "description": "Un appareil ajouté : son nom et sa date d'ajout.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "newDeviceBody": "Si ce n'est pas toi, retire-le tout de suite et change ton mot de passe.",
+  "@newDeviceBody": {
+    "description": "Conseil de l'alerte de nouvel appareil."
+  },
+  "newDeviceItsMe": "C'est moi",
+  "@newDeviceItsMe": {
+    "description": "Bouton : l'utilisateur reconnaît l'appareil ajouté."
+  },
+  "newDeviceReview": "Voir mes appareils",
+  "@newDeviceReview": {
+    "description": "Bouton qui ouvre l'écran Mes appareils depuis l'alerte."
   }
 }

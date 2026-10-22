@@ -592,5 +592,10 @@
   "badgesNone": "Mbola tsy misy mari-pankasitrahana. Ho tonga miaraka amin'ny hetsika voalohany ataonao eny an-tsehatra ny voalohany.",
   "badgesCelebrationTitle": "{count, plural, =1{Mari-pankasitrahana vaovao} other{Mari-pankasitrahana vaovao}}",
   "badgesCelebrationBody": "Noho izay nataonao: {names}.",
-  "badgesSee": "Jereo ireo mari-pankasitrahako"
+  "badgesSee": "Jereo ireo mari-pankasitrahako",
+  "newDeviceTitle": "Fitaovana vaovao ao amin'ny kaontinao",
+  "newDeviceItem": "« {label} », nampiana tamin'ny {date}",
+  "newDeviceBody": "Raha tsy ianao izany, esory avy hatrany ary ovay ny tenimiafinao.",
+  "newDeviceItsMe": "Izaho io",
+  "newDeviceReview": "Jereo ireo fitaovako"
 }

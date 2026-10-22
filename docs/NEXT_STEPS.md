@@ -85,7 +85,7 @@ liste du cahier des charges ; reste la validation du contenu (P-5).
 > validateur que les outils (`content/tools.yaml`), une table synchronisée
 > comme `tool_unlocks`, jamais retirés, célébration désactivable.
 
-### C-4. Notification « Nouvel appareil ajouté » (C-1 ; moyen)
+### C-4. Notification « Nouvel appareil ajouté » (C-1 ; moyen) — partie app faite le 2026-10-22, e-mail en attente d'un fournisseur
 > Lis CLAUDE.md et docs/SECURITY.md §6.8. L'événement est enregistré côté
 > serveur mais rien n'est envoyé. Affiche-le dans l'app sur les autres
 > appareils (à la synchronisation, sans contenu privé) et prépare l'envoi

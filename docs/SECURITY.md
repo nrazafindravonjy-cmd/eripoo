@@ -660,6 +660,15 @@ Indépendante de l'horloge du téléphone (souvent fausse) :
   (dont « la session révoquée ne peut plus se rafraîchir »), test de bout
   en bout sur base chiffrée réelle (`test/sync/revocation_test.dart`).
 
+**Fait au chantier C-4 (2026-10-22)** : sur chaque autre téléphone,
+l'Accueil signale « Nouvel appareil sur ton compte » (nom et date d'ajout
+seulement, lus par `list_devices`), avec « C'est moi » et « Voir mes
+appareils ». Chaque téléphone retient localement la date serveur du plus
+récent appareil déjà vu (pas son horloge) ; la première fois, les appareils
+existants sont considérés comme connus. Hors ligne ou sans compte : rien.
+**Reste** : l'e-mail (Edge Function ou hook Supabase, avec un fournisseur
+d'envoi à choisir par le porteur) ; pas de SMS sans décision.
+
 **Fait en Phase 5** : écran « Mes appareils » (liste par `list_devices`,
 métadonnées seulement) et retrait avec mot de passe redemandé quand le
 serveur l'exige ; synchronisation automatique (le téléphone retiré
