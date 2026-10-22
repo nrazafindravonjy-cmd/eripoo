@@ -3017,5 +3017,21 @@
   "ownerFailed": "Identité non confirmée.",
   "@ownerFailed": {
     "description": "Message quand la confirmation d'identité échoue ou est annulée."
+  },
+  "accountDeleteExportTitle": "Garder une copie de ton dossier ?",
+  "@accountDeleteExportTitle": {
+    "description": "Titre de la proposition d'export PDF avant la suppression du compte."
+  },
+  "accountDeleteExportBody": "La suppression efface tout ton travail, sur ce téléphone et sur le serveur. Avant, tu peux exporter ton dossier en PDF et le garder.",
+  "@accountDeleteExportBody": {
+    "description": "Texte de la proposition d'export PDF avant la suppression du compte."
+  },
+  "accountDeleteExport": "Exporter le PDF",
+  "@accountDeleteExport": {
+    "description": "Bouton : exporter le dossier avant la suppression."
+  },
+  "accountDeleteSkipExport": "Continuer sans",
+  "@accountDeleteSkipExport": {
+    "description": "Bouton : supprimer sans exporter."
   }
 }

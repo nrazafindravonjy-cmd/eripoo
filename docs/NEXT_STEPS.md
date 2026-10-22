@@ -105,7 +105,7 @@ liste du cahier des charges ; reste la validation du contenu (P-5).
 > réutilisant l'analyse concurrentielle existante) et le chapitre au
 > dossier et au PDF, sans chiffre de marché inventé.
 
-### C-7. Proposer l'export PDF avant la suppression du compte (petit)
+### C-7. Proposer l'export PDF avant la suppression du compte (petit) — fait le 2026-10-22
 > Lis CLAUDE.md. Dans le flux de suppression de compte
 > (`lib/features/account/`), propose d'exporter le dossier en PDF avant de
 > confirmer. Tests de widget.

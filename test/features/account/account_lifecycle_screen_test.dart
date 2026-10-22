@@ -10,6 +10,7 @@ import 'package:eripoo/features/account/application/account_lifecycle.dart';
 import 'package:eripoo/features/account/application/account_linker.dart';
 import 'package:eripoo/features/account/presentation/account_providers.dart';
 import 'package:eripoo/features/app_lock/domain/app_lock_service.dart';
+import 'package:eripoo/features/project/data/project_repository.dart';
 import 'package:eripoo/features/settings/domain/app_settings.dart';
 import 'package:eripoo/features/settings/presentation/app_settings_controller.dart';
 import 'package:eripoo/security/crypto_service.dart';
@@ -218,6 +219,41 @@ void main() {
     await waitFor(tester, () => restarts == 1);
     expect(server.deletedAccounts, contains(owner));
     expect(erased, [ErasureReason.accountDeleted]);
+    await close(tester, container);
+  });
+
+  testWidgets('with a file to keep, a PDF export is offered before the '
+      'deletion', (tester) async {
+    final services = await phone(tester);
+    final backend = await linked(tester, services, 'a', create: true);
+    await tester.runAsync(() async {
+      final projects = ProjectRepository(services.database);
+      final project = await projects.create('Savon du quartier');
+      await projects.saveSection(
+        projectId: project.id,
+        sectionKey: 'problem',
+        fields: {'statement': 'Le savon est loin.'},
+      );
+    });
+    final container = await launch(
+      tester,
+      services,
+      backend,
+      lifecycle: AccountLifecycle(
+        remote: backend.sync,
+        media: backend.media,
+        auth: backend.auth,
+        eraseLocal: (_) async {},
+      ),
+    );
+    await tap(tester, find.text('Supprimer mon compte'));
+    expect(find.text('Garder une copie de ton dossier ?'), findsOneWidget);
+    await tap(tester, find.text('Exporter le PDF'));
+    // The usual export warning: the file leaves Eripoo's protection.
+    expect(find.text('Continuer'), findsWidgets);
+    await tap(tester, find.text('Annuler'));
+    // Then the deletion goes on, still asking for confirmation.
+    expect(find.text('Supprimer ton compte pour toujours ?'), findsOneWidget);
     await close(tester, container);
   });
 
