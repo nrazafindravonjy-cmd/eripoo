@@ -29,7 +29,12 @@ class SupabaseMediaRemote implements MediaRemote {
       await _files.uploadBinary(
         path,
         sealed,
-        fileOptions: const FileOptions(contentType: 'application/octet-stream'),
+        // Not cached: the hosted CDN kept serving a deleted file (contract
+        // test against the development project, 2026-10-22).
+        fileOptions: const FileOptions(
+          contentType: 'application/octet-stream',
+          cacheControl: '0',
+        ),
       );
     } on StorageException catch (e) {
       // Already there: a previous upload whose response was lost.

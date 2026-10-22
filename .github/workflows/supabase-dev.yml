@@ -75,17 +75,24 @@ jobs:
           jq -n --arg url "$SUPABASE_URL" --arg key "$SUPABASE_ANON_KEY" \
             '{ERIPOO_ENV: "development", SUPABASE_URL: $url, SUPABASE_ANON_KEY: $key}' > env/dev.json
       # Signed with the debug key (no key.properties): Play refuses it.
-      - run: flutter build apk --release --dart-define-from-file=env/dev.json
+      # One APK per ABI: the size budget is per ABI (docs/PERFORMANCE.md);
+      # armeabi-v7a for entry-level 32-bit phones, arm64-v8a for the rest.
+      - run: flutter build apk --release --split-per-abi --target-platform android-arm,android-arm64 --dart-define-from-file=env/dev.json
       - name: Release APK checks (permissions, clear text, size budget)
-        run: tool/check_apk.sh build/app/outputs/flutter-apk/app-release.apk
+        run: |
+          for abi in armeabi-v7a arm64-v8a; do
+            tool/check_apk.sh build/app/outputs/flutter-apk/app-$abi-release.apk
+          done
       - name: Rename and fingerprint
         run: |
-          mv build/app/outputs/flutter-apk/app-release.apk eripoo-dev.apk
-          sha256sum eripoo-dev.apk
+          for abi in armeabi-v7a arm64-v8a; do
+            mv build/app/outputs/flutter-apk/app-$abi-release.apk eripoo-dev-$abi.apk
+          done
+          sha256sum eripoo-dev-*.apk
       - uses: actions/upload-artifact@v4
         with:
           name: eripoo-dev-apk
-          path: eripoo-dev.apk
+          path: eripoo-dev-*.apk
           retention-days: 14
 
   contract:
