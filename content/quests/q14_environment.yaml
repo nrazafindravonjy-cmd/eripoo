@@ -13,6 +13,7 @@ summary:
   mg: "Manodidina anao ny hevitra: ao amin'ny fitarainana, ny filaharana ary ny tetika fanaovana."
   en: "Ideas are around you: in complaints, queues and workarounds."
 available_when: {quest: q13, is: completed}
+hide_when_locked: true
 steps:
   - id: q14.s01
     type: learn

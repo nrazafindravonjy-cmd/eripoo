@@ -109,6 +109,12 @@ void main() {
     ).next;
     expect(next('no_idea')!.step.id, 'q13.s01');
     expect(next('vague_idea')!.step.id, 'q01.s01');
+    // Not listed while locked, so other profiles never see a dead end.
+    expect(pack.journey.where((q) => q.hideWhenLocked).map((q) => q.id), [
+      'q13',
+      'q14',
+      'q15',
+    ]);
   });
 
   test('the asset is the build of content/ (JSON, stable form)', () {

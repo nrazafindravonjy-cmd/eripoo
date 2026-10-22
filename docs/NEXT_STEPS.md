@@ -61,8 +61,8 @@ l'offre (prévente), q10 préparer le lancement, q11 formalités (renvoie à
 l'outil sourcé, aucune règle énoncée), q12 lancement réel, et 2 missions.
 **Lot 3 fait (2026-10-22)** : q13 comprendre l'entrepreneuriat, q14 observer
 son environnement, q15 découvrir une opportunité (affichées en premier,
-ouvertes au seul profil « Je n'ai pas encore d'idée » : verrouillées pour
-les autres profils), et 1 mission. Les 15 quêtes du parcours couvrent la
+ouvertes au seul profil « Je n'ai pas encore d'idée » ; `hide_when_locked`
+les masque aux autres profils), et 1 mission. Les 15 quêtes du parcours couvrent la
 liste du cahier des charges ; reste la validation du contenu (P-5).
 > Lis CLAUDE.md, docs/PRODUCT_ARCHITECTURE.md et content/. Écris le lot
 > suivant de quêtes manquantes parmi les 16 du cahier des charges (§7) :

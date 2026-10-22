@@ -82,6 +82,8 @@ Pack ─► Quête (16 grandes quêtes minimum) ─► Étape ─► Blocs
 - **Quête** : `id` stable, ordre, stade de maturité visé, règle
   `available_when`, règle `fast_track_when` (pour profils avancés), liste
   d'étapes, résultat attendu dans le projet.
+  `hide_when_locked` : quête absente de la liste tant qu'elle est
+  verrouillée (quêtes réservées à certains profils).
 - **Étape** : type (`learn`, `reflect`, `act`, `checkpoint`, `tool`), blocs,
   règle de complétion, **sorties** (quels champs du projet ou quels faits elle
   écrit), éventuelles missions.
