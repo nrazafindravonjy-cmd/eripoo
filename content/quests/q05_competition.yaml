@@ -2,7 +2,7 @@
 # Only what the user saw or heard: no market figure is given here (the
 # "Market" chapter of the dossier is NEXT_STEPS C-6).
 id: q05
-order: 5
+order: 8
 maturity: validation
 priority: 8
 title:

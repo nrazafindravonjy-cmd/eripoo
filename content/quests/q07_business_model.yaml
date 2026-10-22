@@ -2,7 +2,7 @@
 # sections (business_model.*); the canvas view assembles them with the
 # customers, solution and finance parts already in the project.
 id: q07
-order: 7
+order: 10
 maturity: construction
 priority: 4
 title:

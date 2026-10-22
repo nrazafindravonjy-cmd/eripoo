@@ -1,7 +1,7 @@
 # Quest 4: test a first hypothesis in the Project tab. Steps complete when
 # the project holds the work (count rules on statuses, never on text).
 id: q04
-order: 4
+order: 7
 maturity: validation
 priority: 5
 title:

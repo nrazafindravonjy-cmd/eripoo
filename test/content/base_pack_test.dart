@@ -9,6 +9,7 @@ import 'package:eripoo/content/content_validator.dart';
 import 'package:eripoo/content/formalization.dart';
 import 'package:eripoo/content/localized_text.dart';
 import 'package:eripoo/content/planner.dart';
+import 'package:eripoo/content/progress_state.dart';
 import 'package:eripoo/core/i18n/app_language.dart';
 import 'package:eripoo/features/quest/presentation/journey_providers.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -92,6 +93,22 @@ void main() {
       ),
     );
     expect(p.next!.step.id, pack.diagnostic!.steps.first.id);
+  });
+
+  test('without an idea, the journey starts with the introductory quests', () {
+    PlannedStep? next(String profile) => plan(
+      PlannerInput(
+        pack: pack,
+        now: DateTime.utc(2026, 10, 6),
+        facts: {'diag.entry_profile': profile},
+        steps: {
+          for (final s in pack.diagnostic!.steps)
+            s.id: const StepRecord(StepStatus.completed),
+        },
+      ),
+    ).next;
+    expect(next('no_idea')!.step.id, 'q13.s01');
+    expect(next('vague_idea')!.step.id, 'q01.s01');
   });
 
   test('the asset is the build of content/ (JSON, stable form)', () {

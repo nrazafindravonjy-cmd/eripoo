@@ -1,7 +1,7 @@
 # Quest 8: first figures in "My numbers" (finance_items, counted by kind,
 # never by amount). Real prices first; nothing here predicts success.
 id: q08
-order: 8
+order: 11
 maturity: construction
 priority: 3
 title:

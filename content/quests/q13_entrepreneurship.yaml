@@ -1,0 +1,116 @@
+# Quest 13 (shown first): for people without an idea yet. What starting
+# a small business means, and what the user already has to start with.
+id: q13
+order: 1
+maturity: exploration
+priority: 42
+title:
+  fr: "Comprendre l'entrepreneuriat"
+  mg: "Mahatakatra ny fandraharahana"
+  en: "Understand entrepreneurship"
+summary:
+  fr: "Entreprendre, c'est d'abord résoudre un problème pour des gens. Tu as déjà des atouts pour commencer."
+  mg: "Ny fandraharahana dia mamaha olana ho an'ny olona aloha. Efa manana fahaiza-manao hanombohana ianao."
+  en: "Starting a business is first about solving a problem for people. You already have assets to start."
+available_when: {fact: diag.entry_profile, eq: no_idea}
+steps:
+  - id: q13.s01
+    type: learn
+    title:
+      fr: "Entreprendre, c'est quoi ?"
+      mg: "Inona ny fandraharahana?"
+      en: "What is starting a business?"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Entreprendre, ce n'est pas avoir beaucoup d'argent ou une idée géniale. C'est trouver un problème que des gens vivent, leur proposer une réponse, et vérifier pas à pas qu'ils sont prêts à payer."
+          mg: "Tsy fananana vola be na hevitra mahagaga ny fandraharahana. Fitadiavana olana iainan'ny olona, fanolorana valiny ho azy, ary fanamarinana dingana tsirairay fa vonona handoa vola izy ireo."
+          en: "Starting a business is not about having a lot of money or a brilliant idea. It is finding a problem people live with, offering them an answer, and checking step by step that they are ready to pay."
+      - id: term
+        type: term
+        plain:
+          fr: "Quelqu'un qui crée une activité pour répondre à un besoin"
+          mg: "Olona mamorona asa hamaliana filana iray"
+          en: "Someone who creates an activity to meet a need"
+        term:
+          fr: "Entrepreneur"
+          mg: "Mpandraharaha"
+          en: "Entrepreneur"
+        definition:
+          fr: "Une personne qui prend l'initiative d'une activité, en assume les risques et apprend en testant."
+          mg: "Olona mandray andraikitra amin'ny asa iray, miantoka ny loza mety hitranga ary mianatra amin'ny fitsapana."
+          en: "A person who takes the initiative of an activity, bears its risks and learns by testing."
+      - id: example
+        type: example
+        body:
+          fr: "Hery, à Fianarantsoa, n'avait pas d'idée. En écoutant ses voisins se plaindre de leurs téléphones en panne, il a commencé par réparer chez lui, le soir. (Exemple inventé.)"
+          mg: "Tsy nanana hevitra i Hery, any Fianarantsoa. Nony nihaino ny mpifanolo-bodirindriny nitaraina noho ny findainy simba, dia nanomboka nanamboatra tao an-tranony izy, ny hariva. (Ohatra noforonina.)"
+          en: "Hery, in Fianarantsoa, had no idea. Hearing his neighbours complain about broken phones, he started repairing at home, in the evening. (Invented example.)"
+      - id: tip
+        type: tip
+        body:
+          fr: "Commencer petit est une force : tu apprends vite, tu risques peu, et tu peux changer de direction."
+          mg: "Hery ny manomboka kely: mianatra haingana ianao, kely ny loza, ary afaka manova lalana."
+          en: "Starting small is a strength: you learn fast, risk little, and can change direction."
+  - id: q13.s02
+    type: reflect
+    title:
+      fr: "Ce que tu as déjà"
+      mg: "Izay efa anananao"
+      en: "What you already have"
+    blocks:
+      - id: skills
+        type: question
+        prompt:
+          fr: "Que sais-tu bien faire, ou qu'est-ce qu'on te demande souvent ?"
+          mg: "Inona no hainao tsara, na inona no angatahin'ny olona aminao matetika?"
+          en: "What are you good at, or what do people often ask you for?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Pour quoi tes proches viennent-ils te voir ?"
+              mg: "Amin'ny inona no itadiavan'ny havanao anao?"
+              en: "What do people close to you come to you for?"
+            - fr: "Qu'est-ce que tu fais avec plaisir, même sans être payé ?"
+              mg: "Inona no ataonao amim-pifaliana, na dia tsy karamaina aza?"
+              en: "What do you enjoy doing, even unpaid?"
+          example:
+            fr: "« Je cuisine bien, et on me demande souvent de préparer les repas de fête. »"
+            mg: "« Mahay mahandro aho, ary matetika no angatahina hanomana ny sakafo fety. »"
+            en: "\"I cook well, and people often ask me to prepare party meals.\""
+          hints:
+            - fr: "Pense à l'école, au travail, à la maison, à l'église ou au quartier."
+              mg: "Eritrereto ny sekoly, ny asa, ny tokantrano, ny fiangonana na ny fokontany."
+              en: "Think of school, work, home, church or the neighbourhood."
+      - id: means
+        type: question
+        prompt:
+          fr: "De quoi disposes-tu déjà pour commencer (matériel, lieu, contacts) ?"
+          mg: "Inona no efa anananao hanombohana (fitaovana, toerana, olona fantatra)?"
+          en: "What do you already have to start (equipment, place, contacts)?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Qu'est-ce que tu pourrais utiliser dès demain, sans rien acheter ?"
+              mg: "Inona no azonao ampiasaina rahampitso, tsy mividy na inona na inona?"
+              en: "What could you use tomorrow, without buying anything?"
+          example:
+            fr: "« Une grande marmite, un coin devant la maison, et beaucoup de voisins. »"
+            mg: "« Vilany lehibe, zoro eo anoloan'ny trano, ary mpifanolo-bodirindrina maro. »"
+            en: "\"A big pot, a spot in front of the house, and many neighbours.\""
+          hints:
+            - fr: "Les personnes que tu connais comptent aussi : clients, conseils, aide."
+              mg: "Manan-danja koa ireo olona fantatrao: mpanjifa, torohevitra, fanampiana."
+              en: "The people you know count too: customers, advice, help."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici tes atouts. Garde-les en tête : ils t'aideront à repérer une bonne opportunité."
+          mg: "Ireto ny fahaiza-manao sy fananananao. Tadidio ireo: hanampy anao hahita fahafahana tsara izy ireo."
+          en: "Here are your assets. Keep them in mind: they will help you spot a good opportunity."
+        shows: [skills, means]

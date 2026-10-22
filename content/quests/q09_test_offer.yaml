@@ -1,7 +1,7 @@
 # Quest 9: test the offer by selling before launching (pre-sale or price
 # test). Completion counts records by category and status, never text.
 id: q09
-order: 9
+order: 12
 maturity: construction
 priority: 2
 title:

@@ -3,7 +3,7 @@
 # (content/formalization.yaml). The quest only collects what the user
 # takes to the counter (formalization.*). Nothing is filed by Eripoo.
 id: q11
-order: 11
+order: 14
 maturity: preparation
 priority: 0
 title:
