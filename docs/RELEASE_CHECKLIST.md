@@ -20,11 +20,27 @@ n'est pas possible** — les points bloquants de la section 1 sont ouverts.
   l'environnement de production** (non créé, sur décision du porteur) :
   migrations versionnées appliquées, RLS testées sur cet environnement,
   confirmation d'e-mail activée, limites de débit Auth.
-- [ ] **Identifiant Android définitif** (D6, domaine possédé) — aujourd'hui
-  `mg.eripoo.eripoo`.
-- [ ] **Clé d'envoi Play** créée, gardée hors Git (`android/key.properties`,
-  ignoré ; ou secrets de CI), sauvegardée hors ligne ; Play App Signing
-  activé.
+- [x] **Identifiant Android définitif** (D6) — `com.eripoo.app`, décidé le
+  2026-10-22 (le domaine `eripoo.com` doit appartenir au porteur ; à
+  vérifier avant de créer l'application dans la Play Console, après quoi il
+  ne change plus). Le paquet Kotlin interne reste `mg.eripoo.eripoo`.
+- [ ] **Clé d'envoi Play** créée, gardée hors Git, sauvegardée hors ligne ;
+  Play App Signing activé. Procédure (poste du porteur, Java installé) :
+  1. `keytool -genkeypair -v -keystore eripoo-upload.jks -keyalg RSA
+     -keysize 4096 -validity 10000 -alias upload` (noter les deux mots de
+     passe ; garder le fichier et les mots de passe dans un coffre hors
+     ligne : sans eux, plus aucune mise à jour ne peut être envoyée tant
+     que Google n'a pas réinitialisé la clé d'envoi) ;
+  2. GitHub → Settings → Environments → **New environment** `production`,
+     avec **Required reviewers** (le porteur) ;
+  3. dans cet environnement, secrets `PLAY_UPLOAD_KEYSTORE_BASE64`
+     (`base64 -w0 eripoo-upload.jks`), `PLAY_UPLOAD_STORE_PASSWORD`,
+     `PLAY_UPLOAD_KEY_ALIAS` (`upload`), `PLAY_UPLOAD_KEY_PASSWORD`,
+     `RELEASE_ARCHIVE_PASSPHRASE` (phrase longue, gardée au coffre) ;
+  4. Actions → **Release** → Run workflow, puis approuver ; télécharger
+     `eripoo-release-encrypted` et le déchiffrer :
+     `gpg -d eripoo-release.tar.gpg > release.tar && tar -xf release.tar`
+     (bundle, empreinte SHA-256, symboles de débogage).
 - [ ] **Relecture native du malagasy** (interface, contenu, localisations
   Material) et des textes fr/en par les auteurs.
 - [ ] **Appareils A et B** : toute la section 4 ci-dessous.
@@ -51,9 +67,13 @@ lancer au moins une fois avant toute release.
 ## 3. Construction de la release
 
 - [ ] `pubspec.yaml` : `version` incrémentée (nom et code).
-- [ ] `flutter build appbundle --release --obfuscate
-  --split-debug-info=<dossier hors Git> --dart-define-from-file=env/production.json`
-  (fichier non versionné, URL **https** et clé `anon` uniquement).
+- [ ] Bundle construit par le workflow **Release**
+  (`.github/workflows/release.yml`, chantier C-11) : obfusqué, symboles à
+  part, signé avec la clé d'envoi (refusé s'il l'est avec la clé de
+  debug), `tool/check_apk.sh` sur les APK arm64 et armv7 de même
+  configuration, bundle et symboles chiffrés avant l'artefact (dépôt
+  public). Sans `PROD_SUPABASE_URL`, la version est hors ligne (invité
+  seulement) : la production n'est pas créée.
 - [ ] Symboles de débogage archivés hors du dépôt (jamais publiés).
 - [ ] `tool/check_apk.sh` sur les APK extraites du bundle (arm64, armv7) :
   tailles réelles notées dans PERFORMANCE.md.

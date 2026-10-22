@@ -10,6 +10,7 @@ import '../../badges/presentation/badges_screen.dart';
 import '../../devices/presentation/new_device_notice.dart';
 import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
+import '../../usage/presentation/usage_opened_tracker.dart';
 import 'erasure_notice.dart';
 
 /// Home: the one recommended next action, and missions in progress.
@@ -37,6 +38,7 @@ class HomeScreen extends ConsumerWidget {
               const ErasureNotice(),
               const NewDeviceNotice(),
               const BadgeCelebration(),
+              const UsageOpenedTracker(),
               ReadableColumn(
                 child: !plan.diagnosticDone
                     ? EripooCard(

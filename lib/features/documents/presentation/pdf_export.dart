@@ -11,6 +11,8 @@ import 'package:share_plus/share_plus.dart';
 
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../usage/domain/usage_event.dart';
+import '../../usage/presentation/usage_providers.dart';
 import 'document_model.dart';
 
 enum PdfKind { dossier, pitchDeck }
@@ -238,7 +240,9 @@ Future<void> exportPdf(
     await dir.create(recursive: true);
     file = File('${dir.path}/${exportFileName(title, kind)}');
     await file.writeAsBytes(bytes, flush: true);
+    final record = ref.read(usageRecorderProvider);
     await sharer.share(file, title);
+    await record(UsageEvent.pdfExported);
   } on Exception {
     messenger.showSnackBar(SnackBar(content: Text(l10n.exportFailed)));
   } finally {

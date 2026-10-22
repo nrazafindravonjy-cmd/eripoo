@@ -1,6 +1,7 @@
 import '../../../core/i18n/app_language.dart';
 import '../../../data/local/app_database.dart';
 import '../../reminders/application/mission_reminders.dart';
+import '../../usage/application/usage_counter.dart';
 import '../domain/app_settings.dart';
 
 /// Display preferences kept in the local database (technical key/values,
@@ -15,6 +16,7 @@ class SettingsStore {
   static const _reducedMotion = 'settings.reduced_motion';
   static const _celebrations = 'settings.celebrations';
   static const _missionReminders = MissionReminders.enabledKey;
+  static const _usageStats = UsageCounter.enabledKey;
 
   Future<AppSettings> load() async {
     final theme = await _db.readValue(_theme);
@@ -27,6 +29,7 @@ class SettingsStore {
       reducedMotion: await _db.readValue(_reducedMotion) == 'true',
       celebrations: await _db.readValue(_celebrations) != 'false',
       missionReminders: await _db.readValue(_missionReminders) == 'true',
+      usageStats: await _db.readValue(_usageStats) == 'true',
     );
   }
 
@@ -37,5 +40,6 @@ class SettingsStore {
     await _db.writeValue(_reducedMotion, '${settings.reducedMotion}');
     await _db.writeValue(_celebrations, '${settings.celebrations}');
     await _db.writeValue(_missionReminders, '${settings.missionReminders}');
+    await _db.writeValue(_usageStats, '${settings.usageStats}');
   }
 }

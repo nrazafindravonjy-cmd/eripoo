@@ -624,6 +624,15 @@
     "remindersDenied": "needs_review",
     "reminderTitle": "needs_review",
     "reminderBody": "needs_review",
-    "reminderChannel": "needs_review"
+    "reminderChannel": "needs_review",
+    "legalTitle": "needs_review",
+    "legalPending": "needs_review",
+    "legalAcceptTitle": "needs_review",
+    "legalAcceptIntro": "needs_review",
+    "legalAccept": "needs_review",
+    "legalVersion": "needs_review",
+    "settingsUsageStats": "needs_review",
+    "settingsUsageStatsHelp": "needs_review",
+    "welcomeUsageStats": "needs_review"
   }
 }

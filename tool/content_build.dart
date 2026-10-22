@@ -100,6 +100,9 @@ Map<String, Object?> assemble() {
   final tools = File('$sourceDir/tools.yaml').existsSync()
       ? load('$sourceDir/tools.yaml')! as List<Object?>
       : const <Object?>[];
+  final legal = File('$sourceDir/legal.yaml').existsSync()
+      ? load('$sourceDir/legal.yaml')
+      : null;
   final badges = File('$sourceDir/badges.yaml').existsSync()
       ? load('$sourceDir/badges.yaml')! as List<Object?>
       : const <Object?>[];
@@ -118,6 +121,7 @@ Map<String, Object?> assemble() {
     'sections': withDefaultStatus(sections, defaults),
     'tools': withDefaultStatus(tools, defaults),
     if (badges.isNotEmpty) 'badges': withDefaultStatus(badges, defaults),
+    if (legal != null) 'legal': withDefaultStatus(legal, defaults),
     if (formalization != null)
       'formalization': withDefaultStatus(formalization, defaults),
     if (finance['financing_guide'] != null)

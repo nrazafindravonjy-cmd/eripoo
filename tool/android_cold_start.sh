@@ -8,8 +8,8 @@
 # and PSS_BUDGET_KIB (memory after start). Exceeding one fails the run.
 set -euo pipefail
 apk="$1"
-pkg=mg.eripoo.eripoo
-activity="$pkg/.MainActivity"
+pkg=com.eripoo.app
+activity="$pkg/mg.eripoo.eripoo.MainActivity" # namespace (Kotlin package) unchanged
 
 adb uninstall "$pkg" >/dev/null 2>&1 || true
 adb install -r "$apk" >/dev/null

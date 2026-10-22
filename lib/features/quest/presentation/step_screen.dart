@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -6,9 +8,11 @@ import 'package:go_router/go_router.dart' hide Block;
 import '../../../app/router/app_router.dart';
 import '../../../content/content_pack.dart';
 import '../../../content/localized_text.dart';
+import '../../../content/progress_state.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
-import '../../missions/domain/mission_state.dart';
+import '../../usage/domain/usage_event.dart';
+import '../../usage/presentation/usage_providers.dart';
 import '../../voice/presentation/voice_answer.dart';
 import '../../voice/presentation/voice_providers.dart';
 import '../application/journey_service.dart';
@@ -155,6 +159,7 @@ class _StepScreenState extends ConsumerState<StepScreen> {
     final l10n = AppLocalizations.of(context);
     if (!await _commitField()) return;
     setState(() => _busy = true);
+    final questDoneBefore = await _questDone();
     final result = await _journey.complete(
       widget.stepId,
       fastTrack: _session!.fastTrack,
@@ -164,6 +169,19 @@ class _StepScreenState extends ConsumerState<StepScreen> {
     setState(() => _busy = false);
     switch (result) {
       case StepCompleted():
+        if (!questDoneBefore && await _questDone()) {
+          final diagnostic =
+              _journey.pack.questOfStep(widget.stepId)?.kind ==
+              QuestKind.diagnostic;
+          unawaited(
+            ref.read(usageRecorderProvider)(
+              diagnostic
+                  ? UsageEvent.diagnosticCompleted
+                  : UsageEvent.questCompleted,
+            ),
+          );
+        }
+        if (!mounted) return;
         _leave(l10n.stepCompleted);
       case MissingAnswers(:final blockIds):
         final session = _session!;
@@ -182,6 +200,16 @@ class _StepScreenState extends ConsumerState<StepScreen> {
               : l10n.stepConditionNotMet,
         );
     }
+  }
+
+  /// Whether the step's quest is complete (for the opt-in statistics).
+  Future<bool> _questDone() async {
+    final questId = _journey.pack.questOfStep(widget.stepId)?.id;
+    final plan = await _journey.currentPlan();
+    return [
+      ?plan.diagnostic,
+      ...plan.quests,
+    ].any((q) => q.quest.id == questId && q.state == QuestState.completed);
   }
 
   void _leave(String message) {

@@ -13,7 +13,7 @@ que selon la Definition of Done du cahier des charges (§56).
 | Élément | État |
 |---|---|
 | Documents d'architecture (6 fichiers dans `docs/`) | ✅ validés (GO Phase 1 donné) |
-| Projet Flutter Android (Flutter 3.47.6, minSdk 24) | ✅ créé — identifiant `mg.eripoo.eripoo` **provisoire** (D6) |
+| Projet Flutter Android (Flutter 3.47.6, minSdk 24) | ✅ créé — identifiant `com.eripoo.app` **définitif** (D6, 2026-10-22) |
 | Lints stricts | ✅ `flutter analyze` : 0 problème |
 | i18n de l'interface mg/fr/en + repli français des composants Flutter pour `mg` | ✅ testé (4 tests) |
 | Sauvegarde Android et transfert d'appareil désactivés | ✅ écrit — **non vérifié par un build Android** (pas de SDK Android dans l'environnement de développement) |
@@ -778,7 +778,7 @@ les tests d'intégration.
 
 | Paramètre | Valeur actuelle (proposée) | Où il vit | Modifiable après données réelles ? | À figer |
 |---|---|---|---|---|
-| Identifiant Android (D6) | `mg.eripoo.eripoo` (provisoire) | Gradle | **non** après création dans la Play Console | avant création Play |
+| Identifiant Android (D6) | `com.eripoo.app` (décidé le 2026-10-22) | Gradle | **non** après création dans la Play Console | avant création Play |
 | Région Supabase (D9) | — | projet | très coûteux | avant production (P5) |
 | Formats chiffrés v1 (enveloppes, données associées, enveloppe de clé, QR) | SECURITY §4 | dans chaque donnée | oui par nouvelle version (lecture N et N-1), coûteux | avant les premières données réelles |
 | Argon2id | 3 passes, 64 Mio | stocké avec chaque enveloppe | oui pour les nouvelles enveloppes | après mesures P7 |
@@ -829,8 +829,13 @@ Dans `mg_review_status.json`, `reviewed` correspond à « validé » et
 
 ### Autres décisions ouvertes à prendre pendant la Phase 2
 
-- **D7** — analytics opt-in sans identifiant : nécessaire pour l'écran de
-  consentement de l'onboarding.
+- **D7** — analytics opt-in sans identifiant : **décidé par le porteur le
+  2026-10-22** — « analytics opt-in minimal » : désactivés par défaut, case
+  à cocher (décochée) à l'accueil et réglage du Profil ; seulement des
+  totaux par jour et par version pour 5 événements (ouverture, diagnostic,
+  quête et mission terminés, PDF exporté), envoyés au Supabase de l'app
+  (`record_usage`, appel anonyme) ; aucun identifiant, aucun contenu.
+  Fait au chantier C-13.
 - **D10** — fournisseur SMS : sans lui, la Phase 2 livre l'e-mail et Google ;
   la connexion par téléphone reste désactivée.
 - **D6** — identifiant Android : seulement avant la création dans la Play

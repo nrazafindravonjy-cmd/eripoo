@@ -3133,5 +3133,46 @@
   "reminderChannel": "Rappels de missions",
   "@reminderChannel": {
     "description": "Nom du canal de notification Android."
+  },
+  "legalTitle": "Confidentialité et conditions",
+  "@legalTitle": {
+    "description": "Titre de l'écran des textes juridiques et entrée du Profil."
+  },
+  "legalPending": "Ces textes sont en attente de rédaction par un juriste. Rien ne t'est demandé tant qu'ils ne sont pas prêts.",
+  "@legalPending": {
+    "description": "Bandeau tant que les textes juridiques ne sont pas validés."
+  },
+  "legalAcceptTitle": "Avant de continuer",
+  "@legalAcceptTitle": {
+    "description": "Titre de l'écran d'acceptation des textes juridiques."
+  },
+  "legalAcceptIntro": "Lis la politique de confidentialité et les conditions d'utilisation. Elles expliquent ce qu'Eripoo fait de tes données et ce qu'il ne fait jamais.",
+  "@legalAcceptIntro": {
+    "description": "Introduction de l'écran d'acceptation."
+  },
+  "legalAccept": "J'ai lu et j'accepte",
+  "@legalAccept": {
+    "description": "Bouton d'acceptation des textes juridiques."
+  },
+  "legalVersion": "Version {version}",
+  "@legalVersion": {
+    "description": "Version des textes juridiques.",
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsUsageStats": "Statistiques anonymes",
+  "@settingsUsageStats": {
+    "description": "Réglage : statistiques d'usage anonymes (opt-in)."
+  },
+  "settingsUsageStatsHelp": "Envoie seulement des totaux par jour (ouvertures, quêtes et missions terminées, PDF exportés), sans identifiant ni contenu de ton projet. Désactivé par défaut.",
+  "@settingsUsageStatsHelp": {
+    "description": "Explication du réglage des statistiques anonymes."
+  },
+  "welcomeUsageStats": "Aider à améliorer Eripoo avec des statistiques anonymes (modifiable à tout moment dans le Profil)",
+  "@welcomeUsageStats": {
+    "description": "Case à cocher de l'écran d'accueil, décochée par défaut."
   }
 }

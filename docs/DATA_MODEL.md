@@ -40,6 +40,11 @@ juridique P6), `media_items` (`content_hash` BLAKE2b-256 ; pas de chemin
 stocké, il se déduit de l'identifiant). Migration v2 → v3 testée sur une
 base chiffrée.
 
+Serveur, migration `20261022000001_usage_stats.sql` (C-13, D7) :
+`usage_daily` (`day`, `event` parmi 5 valeurs, `app_version`, `count`) —
+ni identifiant, ni appareil, ni heure ; écrite seulement par
+`record_usage` (anonyme), illisible par l'API.
+
 Ajouté en v8 (chantier C-3, 2026-10-22) : `badge_awards` (`badge_id`
 unique, `unlocked_at`, `seen_at?` ; identifiant UUID v5 de
 `eripoo:badge:<id>` ; même famille « déblocage » que `tool_unlocks` :
