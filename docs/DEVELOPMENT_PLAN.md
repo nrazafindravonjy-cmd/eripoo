@@ -693,7 +693,7 @@ Aucune décision de cette liste ne peut remettre en cause :
 (2026-10-22, ref `xqybntszqedpykdzcfwb`). Le workflow manuel
 `.github/workflows/supabase-dev.yml` (Actions → Supabase dev → Run
 workflow) applique `supabase/migrations/` (`supabase link` + `supabase db
-push`), puis, au choix, construit l'APK release `eripoo-dev.apk`
+push`), puis, au choix, construit les APK release `eripoo-dev-armeabi-v7a.apk` et `eripoo-dev-arm64-v8a.apk`
 (`ERIPOO_ENV=development`, signée avec la clé de debug, artefact 14 jours)
 et lance les tests de contrat RPC contre le projet. Secrets GitHub du
 dépôt : `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_REF`,
