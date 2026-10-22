@@ -1,0 +1,113 @@
+name: Supabase dev
+
+# Development project only (docs/DEVELOPMENT_PLAN.md P4), never production.
+# Manual: Actions > Supabase dev > Run workflow. Repository secrets:
+# SUPABASE_ACCESS_TOKEN, SUPABASE_PROJECT_REF, SUPABASE_DB_PASSWORD,
+# SUPABASE_URL, SUPABASE_ANON_KEY. Nothing secret is written to Git.
+on:
+  workflow_dispatch:
+    inputs:
+      build_apk:
+        description: Build the release APK wired to the dev project
+        type: boolean
+        default: true
+      contract_tests:
+        description: Run the RPC contract tests against the dev project
+        type: boolean
+        default: true
+
+# Two runs must never push migrations at the same time.
+concurrency:
+  group: supabase-dev
+  cancel-in-progress: false
+
+env:
+  FLUTTER_VERSION: "3.47.6"
+
+jobs:
+  migrate:
+    name: Apply migrations
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+      PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+    steps:
+      - uses: actions/checkout@v4
+      # Same pinned version as the CI job "Supabase local".
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.120.0
+      - run: supabase link --project-ref "$PROJECT_REF"
+      - name: Pending migrations
+        run: supabase migration list --linked
+      - run: supabase db push --linked --yes
+      - name: Applied migrations
+        run: supabase migration list --linked
+
+  apk:
+    name: Release APK (development)
+    if: inputs.build_apk
+    runs-on: ubuntu-latest
+    needs: migrate
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - run: flutter pub get
+      - run: dart run build_runner build
+      # Public values only (URL and anon key), in an ignored file.
+      - name: Write env/dev.json
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          case "$SUPABASE_URL" in https://*) ;; *) echo "SUPABASE_URL must be https" >&2; exit 1 ;; esac
+          jq -n --arg url "$SUPABASE_URL" --arg key "$SUPABASE_ANON_KEY" \
+            '{ERIPOO_ENV: "development", SUPABASE_URL: $url, SUPABASE_ANON_KEY: $key}' > env/dev.json
+      # Signed with the debug key (no key.properties): Play refuses it.
+      - run: flutter build apk --release --dart-define-from-file=env/dev.json
+      - name: Release APK checks (permissions, clear text, size budget)
+        run: tool/check_apk.sh build/app/outputs/flutter-apk/app-release.apk
+      - name: Rename and fingerprint
+        run: |
+          mv build/app/outputs/flutter-apk/app-release.apk eripoo-dev.apk
+          sha256sum eripoo-dev.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: eripoo-dev-apk
+          path: eripoo-dev.apk
+          retention-days: 14
+
+  contract:
+    name: RPC contract (dev project)
+    if: inputs.contract_tests
+    runs-on: ubuntu-latest
+    needs: migrate
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - run: flutter pub get
+      - run: dart run build_runner build
+      # Creates fictitious accounts (random @example.com addresses): the
+      # project must have e-mail confirmation disabled.
+      - name: RPC contract tests against the dev project
+        env:
+          ERIPOO_TEST_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          ERIPOO_TEST_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          ERIPOO_TEST_SUPABASE_ALLOW_REMOTE: dev
+        run: flutter test --tags supabase test/contract/supabase_remote_contract_test.dart
