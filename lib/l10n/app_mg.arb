@@ -617,5 +617,11 @@
   "latencyNetwork": "{kind, select, wifi{Wi-Fi} mobile{Angona finday} none{Tsy misy tambajotra} other{Tsy fantatra}}",
   "latencyCopy": "Adikao ny valiny",
   "latencyCopied": "Voadika ny valiny.",
-  "latencyNoServer": "Tsy misy mpizara voalamina amin'ity dikan-teny ity."
+  "latencyNoServer": "Tsy misy mpizara voalamina amin'ity dikan-teny ity.",
+  "settingsReminders": "Fampahatsiahivana iraka",
+  "settingsRemindersHelp": "Fampahatsiahivana iray farafahabetsany isan'andro, eo anelanelan'ny 9 ora sy 20 ora, rehefa misy iraka miandry hatramin'ny roa andro. Tsy misy na inona na inona avy amin'ny tetikasanao miseho eo amin'ny efijery mihidy.",
+  "remindersDenied": "Nolavina ny fampandrenesana: avelao ao amin'ny fikirakirana ny finday mba hahazoana ny fampahatsiahivana.",
+  "reminderTitle": "Misy iraka miandry anao",
+  "reminderBody": "Sokafy ny Eripoo rehefa manam-potoana ianao mba handrosoana eny an-tsehatra.",
+  "reminderChannel": "Fampahatsiahivana iraka"
 }

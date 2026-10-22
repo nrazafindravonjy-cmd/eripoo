@@ -617,5 +617,11 @@
   "latencyNetwork": "{kind, select, wifi{Wi-Fi} mobile{Mobile data} none{Offline} other{Unknown}}",
   "latencyCopy": "Copy the result",
   "latencyCopied": "Result copied.",
-  "latencyNoServer": "No server is configured in this build."
+  "latencyNoServer": "No server is configured in this build.",
+  "settingsReminders": "Mission reminders",
+  "settingsRemindersHelp": "At most one reminder a day, between 9 am and 8 pm, when a mission has been waiting for two days. Nothing from your project shows on the lock screen.",
+  "remindersDenied": "Notifications are refused: allow them in the phone settings to get reminders.",
+  "reminderTitle": "A mission is waiting for you",
+  "reminderBody": "Open Eripoo when you have a moment to move forward in the field.",
+  "reminderChannel": "Mission reminders"
 }

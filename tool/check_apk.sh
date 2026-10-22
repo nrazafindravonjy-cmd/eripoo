@@ -13,9 +13,10 @@ echo "== permissions (merged manifest)"
 perms="$("$aapt2" dump permissions "$apk" | sed -n "s/^uses-permission: name='\([^']*\)'.*/\1/p" | sort -u)"
 echo "$perms"
 
-# Runtime ("dangerous") permissions: only the camera (QR transfer) and the
-# microphone (spoken answers) may be requested.
-allowed_dangerous='android.permission.CAMERA android.permission.RECORD_AUDIO'
+# Runtime ("dangerous") permissions: only the camera (QR transfer), the
+# microphone (spoken answers) and notifications (optional mission
+# reminders) may be requested.
+allowed_dangerous='android.permission.CAMERA android.permission.RECORD_AUDIO android.permission.POST_NOTIFICATIONS'
 dangerous='READ_CALENDAR WRITE_CALENDAR CAMERA READ_CONTACTS WRITE_CONTACTS
 GET_ACCOUNTS ACCESS_FINE_LOCATION ACCESS_COARSE_LOCATION
 ACCESS_BACKGROUND_LOCATION RECORD_AUDIO READ_PHONE_STATE READ_PHONE_NUMBERS

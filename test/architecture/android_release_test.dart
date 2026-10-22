@@ -22,11 +22,11 @@ void main() {
       'INTERNET',
       'USE_BIOMETRIC',
       'RECORD_AUDIO',
+      'POST_NOTIFICATIONS',
     });
     expect(permissions(manifest, removed: true), {
       'WRITE_EXTERNAL_STORAGE',
       'READ_EXTERNAL_STORAGE',
-      'POST_NOTIFICATIONS',
     });
   });
 

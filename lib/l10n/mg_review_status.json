@@ -618,6 +618,12 @@
     "latencyNetwork": "needs_review",
     "latencyCopy": "needs_review",
     "latencyCopied": "needs_review",
-    "latencyNoServer": "needs_review"
+    "latencyNoServer": "needs_review",
+    "settingsReminders": "needs_review",
+    "settingsRemindersHelp": "needs_review",
+    "remindersDenied": "needs_review",
+    "reminderTitle": "needs_review",
+    "reminderBody": "needs_review",
+    "reminderChannel": "needs_review"
   }
 }

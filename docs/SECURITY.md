@@ -928,8 +928,9 @@ récupération et du transfert.
 **Contrôles automatiques (Phase 10)** :
 
 - `test/architecture/android_release_test.dart` : permissions déclarées
-  (`INTERNET`, `USE_BIOMETRIC`, `RECORD_AUDIO` ; `WRITE_EXTERNAL_STORAGE`,
-  `READ_EXTERNAL_STORAGE` et `POST_NOTIFICATIONS` retirées), sauvegarde Android désactivée
+  (`INTERNET`, `USE_BIOMETRIC`, `RECORD_AUDIO`, `POST_NOTIFICATIONS` —
+  demandée seulement à l'activation des rappels de missions, chantier
+  C-10 ; `WRITE_EXTERNAL_STORAGE` et `READ_EXTERNAL_STORAGE` retirées), sauvegarde Android désactivée
   (`allowBackup="false"` + règles d'extraction excluant tout), trafic en
   clair refusé (autorisé seulement en debug, pour Supabase local), une
   seule activité exportée, clés de signature hors Git.

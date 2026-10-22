@@ -123,7 +123,7 @@ liste du cahier des charges ; reste la validation du contenu (P-5).
 > qu'Analamanga, sources fiscales et CNaPS, codes d'activité. Tout ce qui
 > n'est pas sourcé reste NON VÉRIFIÉ. Lance `dart run tool/check_sources.dart`.
 
-### C-10. Rappels locaux (§46 ; moyen, facultatif pour la v1)
+### C-10. Rappels locaux (§46 ; moyen, facultatif pour la v1) — fait le 2026-10-22 (non vérifié sur appareil)
 > Lis CLAUDE.md. Ajoute des rappels locaux facultatifs pour les missions
 > en cours (sans serveur, sans harcèlement, désactivables, sans contenu
 > privé sur l'écran verrouillé). Attention : la permission
