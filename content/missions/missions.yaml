@@ -58,3 +58,90 @@
     fr: "« Personne 1 : vend au marché, achète son savon le dimanche, trouve la boutique trop loin. »"
     mg: "« Olona 1: mivarotra eny an-tsena, mividy savony ny alahady, mahita fa lavitra loatra ny magazay. »"
     en: "\"Person 1: sells at the market, buys soap on Sundays, finds the shop too far.\""
+- id: m.observe_competitors
+  title:
+    fr: "Visiter deux concurrents"
+    mg: "Mitsidika mpifaninana roa"
+    en: "Visit two competitors"
+  objective:
+    fr: "Voir où tes clients achètent aujourd'hui, à quel prix et comment ils sont servis."
+    mg: "Mahita hoe aiza no ividianan'ny mpanjifanao ankehitriny, amin'ny vidiny ohatrinona ary ahoana no fikarakarana azy."
+    en: "See where your customers buy today, at what price and how they are served."
+  instructions:
+    - fr: "Choisis deux endroits où tes clients règlent leur problème : une boutique, un marchand, ou ce qu'ils font sans acheter."
+      mg: "Mifidiana toerana roa amahan'ny mpanjifanao ny olany: magazay, mpivarotra, na izay ataony tsy mividy."
+      en: "Pick two places where your customers deal with their problem: a shop, a seller, or what they do without buying."
+    - fr: "Regarde les prix affichés ou demande-les comme un client. Observe la file, le service, ce qui manque."
+      mg: "Jereo ny vidiny voasoratra na anontanio toy ny mpanjifa. Jereo ny filaharana, ny fikarakarana, izay tsy ampy."
+      en: "Look at the displayed prices or ask like a customer. Watch the queue, the service, what is missing."
+    - fr: "Ne prends pas de photo des personnes et ne note ni nom ni numéro."
+      mg: "Aza maka sarin'olona ary aza manoratra anarana na laharana."
+      en: "Don't photograph people and don't note names or numbers."
+  deliverable:
+    fr: "Pour chaque endroit : le prix vu, ce qui plaît et ce qui manque."
+    mg: "Ho an'ny toerana tsirairay: ny vidiny hita, izay tiana ary izay tsy ampy."
+    en: "For each place: the price seen, what people like and what is missing."
+  duration_minutes: 60
+  difficulty: 1
+  example:
+    fr: "« Boutique du centre : savon vendu à l'unité, prix affiché, fermée le dimanche, rien n'est livré. » (Exemple inventé.)"
+    mg: "« Magazay afovoan-tanàna: savony amidy tsirairay, misy vidiny voasoratra, mihidy ny alahady, tsy misy aterina. » (Ohatra noforonina.)"
+    en: "\"Town-centre shop: soap sold by the piece, price displayed, closed on Sundays, nothing is delivered.\" (Invented example.)"
+- id: m.present_offer
+  title:
+    fr: "Présenter ton offre à cinq personnes"
+    mg: "Atolory olona dimy ny tolotrao"
+    en: "Present your offer to five people"
+  objective:
+    fr: "Voir comment de vrais clients réagissent à ton offre et à ton prix."
+    mg: "Mahita ny fihetsiky ny mpanjifa tena izy manoloana ny tolotrao sy ny vidinao."
+    en: "See how real customers react to your offer and your price."
+  instructions:
+    - fr: "Présente ton offre en une phrase, avec son prix, à cinq personnes qui correspondent à ton client."
+      mg: "Atolory amin'ny fehezanteny iray ny tolotrao, miaraka amin'ny vidiny, amin'olona dimy mifanaraka amin'ny mpanjifanao."
+      en: "Present your offer in one sentence, with its price, to five people who match your customer."
+    - fr: "Propose-leur de commander ou de réserver. Une commande vaut plus qu'un « c'est bien »."
+      mg: "Asao izy ireo hanafatra na hitahiry. Mihoatra lavitra noho ny « tsara izany » ny baiko iray."
+      en: "Offer them to order or book. An order is worth more than a \"that's nice\"."
+    - fr: "N'enregistre personne et ne note ni nom ni numéro de téléphone."
+      mg: "Aza mandrakitra feon'olona ary aza manoratra anarana na laharana finday."
+      en: "Don't record anyone and don't note names or phone numbers."
+  deliverable:
+    fr: "Combien ont commandé ou réservé, et ce qu'ont dit les autres."
+    mg: "Firy no nanafatra na nitahiry, ary izay nolazain'ny hafa."
+    en: "How many ordered or booked, and what the others said."
+  duration_minutes: 90
+  difficulty: 2
+  example:
+    fr: "« 2 commandes sur 5. Deux trouvent le prix trop haut, une veut une livraison le vendredi. » (Exemple inventé.)"
+    mg: "« Baiko 2 amin'ny 5. Roa no mahita fa lafo loatra ny vidiny, iray te haterina ny zoma. » (Ohatra noforonina.)"
+    en: "\"2 orders out of 5. Two find the price too high, one wants delivery on Friday.\" (Invented example.)"
+- id: m.check_costs
+  title:
+    fr: "Demander les prix à deux fournisseurs"
+    mg: "Manontany vidiny amin'ny mpamatsy roa"
+    en: "Ask two suppliers for prices"
+  objective:
+    fr: "Remplacer les prix devinés par des prix vérifiés."
+    mg: "Manolo ny vidiny vinavinaina amin'ny vidiny voamarina."
+    en: "Replace guessed prices with checked ones."
+  instructions:
+    - fr: "Fais la liste de ce que tu dois acheter pour produire et pour commencer."
+      mg: "Ataovy ny lisitr'izay tsy maintsy vidianao hamokarana sy hanombohana."
+      en: "List what you must buy to produce and to start."
+    - fr: "Demande le prix de chaque chose à deux fournisseurs (boutique, grossiste, marché)."
+      mg: "Anontanio amin'ny mpamatsy roa (magazay, mpivarotra ambongadiny, tsena) ny vidin'ny zavatra tsirairay."
+      en: "Ask two suppliers (shop, wholesaler, market) the price of each thing."
+    - fr: "Note la date : les prix changent."
+      mg: "Soraty ny daty: miova ny vidiny."
+      en: "Note the date: prices change."
+  deliverable:
+    fr: "Une liste : chaque chose, les deux prix demandés, et la date."
+    mg: "Lisitra iray: ny zavatra tsirairay, ireo vidiny roa nanontaniana, ary ny daty."
+    en: "A list: each thing, the two prices asked, and the date."
+  duration_minutes: 60
+  difficulty: 1
+  example:
+    fr: "« Huile, 1 litre : grossiste du port et marché du Bazary Be, prix notés le 3 mars. » (Exemple inventé.)"
+    mg: "« Menaka, 1 litatra: mpivarotra ambongadiny eo amin'ny seranana sy tsena Bazary Be, voasoratra ny vidiny tamin'ny 3 martsa. » (Ohatra noforonina.)"
+    en: "\"Oil, 1 litre: port wholesaler and Bazary Be market, prices noted on 3 March.\" (Invented example.)"
