@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../content/content_pack.dart';
 import '../../features/account/presentation/profile_screen.dart';
+import '../../features/badges/presentation/badges_screen.dart';
 import '../../features/conflicts/presentation/conflicts_screen.dart';
 import '../../features/documents/presentation/canvas_screen.dart';
 import '../../features/documents/presentation/document_screens.dart';
@@ -53,6 +54,7 @@ abstract final class AppRoutes {
   static const pitchDeck = '/tools/pitch-deck';
   static const adminPreparation = '/tools/admin-preparation';
   static const finances = '/project/finances';
+  static const badges = '/project/badges';
   static const cashPlan = '/project/finances/cash';
   static const financing = '/project/finances/financing';
   static const review = '/project/review';
@@ -157,6 +159,10 @@ final routerProvider = Provider<GoRouter>((ref) {
                   GoRoute(
                     path: 'review',
                     builder: (context, state) => const ReviewScreen(),
+                  ),
+                  GoRoute(
+                    path: 'badges',
+                    builder: (context, state) => const BadgesScreen(),
                   ),
                   GoRoute(
                     path: 'finances',

@@ -132,6 +132,18 @@ class _ProjectBody extends ConsumerWidget {
                   ],
                 ),
               ),
+              const SizedBox(height: EripooSpacing.sm),
+              EripooCard(
+                onTap: () => context.go(AppRoutes.badges),
+                child: Row(
+                  children: [
+                    const Icon(Icons.military_tech_outlined),
+                    const SizedBox(width: EripooSpacing.md),
+                    Expanded(child: Text(l10n.badgesTitle)),
+                    const Icon(Icons.chevron_right),
+                  ],
+                ),
+              ),
               if (toReview > 0) ...[
                 const SizedBox(height: EripooSpacing.sm),
                 EripooCard(

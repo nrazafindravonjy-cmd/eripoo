@@ -723,6 +723,40 @@ class ToolDefinition {
   }
 }
 
+/// A badge (CLAUDE.md §21): rewards what the user did (a test, a
+/// conversation, an honest conclusion), never reading alone. Earned once,
+/// never taken back.
+class BadgeDefinition {
+  const BadgeDefinition({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.hint,
+    required this.earnedWhen,
+  });
+
+  final String id;
+  final LocalizedText title;
+
+  /// Why this action matters.
+  final LocalizedText description;
+
+  /// How to earn it, shown before it is earned.
+  final LocalizedText hint;
+  final Rule earnedWhen;
+
+  factory BadgeDefinition.read(JsonReader json) {
+    json.onlyKeys({'id', 'title', 'description', 'hint', 'earned_when'});
+    return BadgeDefinition(
+      id: json['id'].id,
+      title: LocalizedText.read(json['title']),
+      description: LocalizedText.read(json['description']),
+      hint: LocalizedText.read(json['hint']),
+      earnedWhen: Rule.read(json['earned_when']),
+    );
+  }
+}
+
 class ContentPack {
   ContentPack({
     required this.packId,
@@ -735,6 +769,7 @@ class ContentPack {
     this.tools = const [],
     this.financingGuide = const [],
     this.formalization,
+    this.badges = const [],
   }) {
     for (final quest in quests) {
       for (final step in quest.steps) {
@@ -766,6 +801,9 @@ class ContentPack {
 
   /// Sourced regulatory content (Phase 8); null when the pack has none.
   final FormalizationContent? formalization;
+
+  /// Badges in display order.
+  final List<BadgeDefinition> badges;
 
   ToolDefinition? tool(String id) {
     for (final t in tools) {
@@ -827,6 +865,7 @@ class ContentPack {
       'tools',
       'financing_guide',
       'formalization',
+      'badges',
     });
     if (json['format'].integer != supportedPackFormat) {
       json['format'].fail('unsupported pack format');
@@ -855,6 +894,9 @@ class ContentPack {
       formalization: json.has('formalization')
           ? FormalizationContent.read(json['formalization'])
           : null,
+      badges: [
+        for (final b in json['badges'].listOrEmpty) BadgeDefinition.read(b),
+      ],
     );
   }
 }

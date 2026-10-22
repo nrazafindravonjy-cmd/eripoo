@@ -46,13 +46,14 @@ class LocalKeyValues extends Table {
     SyncMetaEntries,
     FinanceItems,
     FinancePlans,
+    BadgeAwards,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.executor);
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration => MigrationStrategy(
@@ -105,6 +106,10 @@ class AppDatabase extends _$AppDatabase {
         // Phase 7: project money.
         await m.createTable(financeItems);
         await m.createTable(financePlans);
+      }
+      if (from < 8) {
+        // Badges earned.
+        await m.createTable(badgeAwards);
       }
     },
   );

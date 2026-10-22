@@ -100,6 +100,9 @@ Map<String, Object?> assemble() {
   final tools = File('$sourceDir/tools.yaml').existsSync()
       ? load('$sourceDir/tools.yaml')! as List<Object?>
       : const <Object?>[];
+  final badges = File('$sourceDir/badges.yaml').existsSync()
+      ? load('$sourceDir/badges.yaml')! as List<Object?>
+      : const <Object?>[];
   final finance = File('$sourceDir/finance.yaml').existsSync()
       ? load('$sourceDir/finance.yaml')! as Map<String, Object?>
       : const <String, Object?>{};
@@ -114,6 +117,7 @@ Map<String, Object?> assemble() {
     'missions': withDefaultStatus(missions, defaults),
     'sections': withDefaultStatus(sections, defaults),
     'tools': withDefaultStatus(tools, defaults),
+    if (badges.isNotEmpty) 'badges': withDefaultStatus(badges, defaults),
     if (formalization != null)
       'formalization': withDefaultStatus(formalization, defaults),
     if (finance['financing_guide'] != null)

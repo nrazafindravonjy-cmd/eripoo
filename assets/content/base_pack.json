@@ -8245,6 +8245,319 @@
    }
   }
  ],
+ "badges": [
+  {
+   "id": "badge.first_observation",
+   "title": {
+    "fr": "Œil ouvert",
+    "mg": "Maso mivoha",
+    "en": "Open eye",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "description": {
+    "fr": "Tu as noté ce que tu as vu sur le terrain. Les bonnes idées partent de là.",
+    "mg": "Nosoratanao izay hitanao teny an-tsehatra. Avy amin'izany no iaingan'ny hevitra tsara.",
+    "en": "You wrote down what you saw in the field. Good ideas start there.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "hint": {
+    "fr": "Note une première observation dans le journal d'observation.",
+    "mg": "Soraty ny fandinihana voalohany ao amin'ny diary fandinihana.",
+    "en": "Write a first observation in the observation journal.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "earned_when": {
+    "count": "observations",
+    "gte": 1
+   }
+  },
+  {
+   "id": "badge.first_mission",
+   "title": {
+    "fr": "Sur le terrain",
+    "mg": "Eny an-tsehatra",
+    "en": "In the field",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "description": {
+    "fr": "Tu as terminé une mission dans le monde réel, hors de l'application.",
+    "mg": "Vitanao ny iraka iray teo amin'ny tontolo tena izy, ivelan'ny rindranasa.",
+    "en": "You finished a mission in the real world, outside the app.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "hint": {
+    "fr": "Termine une première mission.",
+    "mg": "Vitao ny iraka voalohany.",
+    "en": "Finish a first mission.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "earned_when": {
+    "count": "missions",
+    "where": {
+     "status": "completed"
+    },
+    "gte": 1
+   }
+  },
+  {
+   "id": "badge.good_listener",
+   "title": {
+    "fr": "À l'écoute",
+    "mg": "Mihaino tsara",
+    "en": "Good listener",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "description": {
+    "fr": "Cinq rencontres : tu connais tes clients mieux que la plupart des débutants.",
+    "mg": "Fihaonana dimy: fantatrao tsara kokoa noho ny ankamaroan'ny vao manomboka ny mpanjifanao.",
+    "en": "Five conversations: you know your customers better than most beginners.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "hint": {
+    "fr": "Note cinq rencontres dans le carnet de terrain.",
+    "mg": "Soraty fihaonana dimy ao amin'ny kahie an-tsehatra.",
+    "en": "Record five conversations in the field notebook.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "earned_when": {
+    "count": "interviews",
+    "gte": 5
+   }
+  },
+  {
+   "id": "badge.first_test",
+   "title": {
+    "fr": "Expérimentateur",
+    "mg": "Mpanandrana",
+    "en": "Experimenter",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "description": {
+    "fr": "Tu as mené un test jusqu'au bout au lieu de supposer.",
+    "mg": "Notanterahinao hatramin'ny farany ny fitsapana iray fa tsy niantehitra tamin'ny vinavina.",
+    "en": "You ran a test to the end instead of assuming.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "hint": {
+    "fr": "Termine un premier test d'hypothèse.",
+    "mg": "Vitao ny fitsapana vinavina voalohany.",
+    "en": "Finish a first hypothesis test.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "earned_when": {
+    "count": "experiments",
+    "where": {
+     "status": "done"
+    },
+    "gte": 1
+   }
+  },
+  {
+   "id": "badge.truth_seeker",
+   "title": {
+    "fr": "Chercheur de vérité",
+    "mg": "Mpitady ny marina",
+    "en": "Truth seeker",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "description": {
+    "fr": "Tu as reconnu qu'une hypothèse était fausse. C'est une vraie réussite : tu as évité une erreur coûteuse.",
+    "mg": "Neken'ny fonao fa diso ny vinavina iray. Fahombiazana tena izy izany: nisoroka fahadisoana lafo ianao.",
+    "en": "You admitted a hypothesis was wrong. That is a real success: you avoided a costly mistake.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "hint": {
+    "fr": "Conclus honnêtement une hypothèse que le terrain a infirmée.",
+    "mg": "Famarano amim-pahatsorana ny vinavina iray nolavin'ny zava-misy.",
+    "en": "Honestly conclude a hypothesis the field disproved.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "earned_when": {
+    "count": "hypotheses",
+    "where": {
+     "status": "invalidated"
+    },
+    "gte": 1
+   }
+  },
+  {
+   "id": "badge.proof_in_hand",
+   "title": {
+    "fr": "Preuve en main",
+    "mg": "Porofo eny an-tanana",
+    "en": "Proof in hand",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "description": {
+    "fr": "Une hypothèse confirmée par le terrain, avec ses preuves.",
+    "mg": "Vinavina iray nohamafisin'ny zava-misy, miaraka amin'ny porofony.",
+    "en": "A hypothesis confirmed in the field, with its evidence.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "hint": {
+    "fr": "Valide une hypothèse avec au moins une preuve.",
+    "mg": "Hamafiso ny vinavina iray miaraka amin'ny porofo iray farafahakeliny.",
+    "en": "Validate a hypothesis with at least one piece of evidence.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "earned_when": {
+    "count": "hypotheses",
+    "where": {
+     "status": "validated"
+    },
+    "gte": 1
+   }
+  },
+  {
+   "id": "badge.clear_eyed",
+   "title": {
+    "fr": "Regard lucide",
+    "mg": "Mijery mazava",
+    "en": "Clear-eyed",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "description": {
+    "fr": "Trois concurrents analysés : tu sais ce que tes clients choisissent aujourd'hui.",
+    "mg": "Mpifaninana telo voadinika: fantatrao izay safidian'ny mpanjifanao ankehitriny.",
+    "en": "Three competitors analysed: you know what your customers choose today.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "hint": {
+    "fr": "Note trois concurrents dans l'analyse concurrentielle.",
+    "mg": "Soraty mpifaninana telo ao amin'ny fandalinana ny mpifaninana.",
+    "en": "Note three competitors in the competitor analysis.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "earned_when": {
+    "count": "competitors",
+    "gte": 3
+   }
+  },
+  {
+   "id": "badge.first_sale",
+   "title": {
+    "fr": "Première vente",
+    "mg": "Varotra voalohany",
+    "en": "First sale",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "description": {
+    "fr": "Quelqu'un a payé pour ce que tu proposes. Ton projet existe pour de vrai.",
+    "mg": "Nisy nandoa vola ho an'izay atolotrao. Tena misy tokoa ny tetikasanao.",
+    "en": "Someone paid for what you offer. Your project exists for real.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "hint": {
+    "fr": "Ajoute une preuve de type « Vente ».",
+    "mg": "Ampio porofo karazana « Varotra ».",
+    "en": "Add a \"Sale\" piece of evidence.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "earned_when": {
+    "count": "evidences",
+    "where": {
+     "kind": "sale"
+    },
+    "gte": 1
+   }
+  }
+ ],
  "formalization": {
   "review_after": "2027-01-08",
   "legal_review": "pending",

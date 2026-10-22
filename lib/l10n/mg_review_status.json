@@ -585,6 +585,14 @@
     "erasedSignedOut": "needs_review",
     "erasedAccountDeleted": "needs_review",
     "erasedRevoked": "needs_review",
-    "erasedReset": "needs_review"
+    "erasedReset": "needs_review",
+    "badgesTitle": "needs_review",
+    "badgesIntro": "needs_review",
+    "badgesEarned": "needs_review",
+    "badgesToEarn": "needs_review",
+    "badgesNone": "needs_review",
+    "badgesCelebrationTitle": "needs_review",
+    "badgesCelebrationBody": "needs_review",
+    "badgesSee": "needs_review"
   }
 }

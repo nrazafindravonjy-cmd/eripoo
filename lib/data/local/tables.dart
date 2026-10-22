@@ -454,6 +454,27 @@ class ToolUnlocks extends Table {
   Set<Column<Object>> get primaryKey => {id};
 }
 
+/// Badges earned (CLAUDE.md §21), same life as [ToolUnlocks]: stored,
+/// synchronised, never taken back; concurrent versions keep the earliest.
+@DataClassName('BadgeAwardRow')
+class BadgeAwards extends Table {
+  /// UUID v5 of [badgeId]: one record even if two phones award it offline.
+  TextColumn get id => text()();
+
+  /// The badge id from the content pack (`badge.truth_seeker`).
+  TextColumn get badgeId => text().unique()();
+  IntColumn get unlockedAt => integer()();
+
+  /// When the badge was shown to the user (celebration), once.
+  IntColumn get seenAt => integer().nullable()();
+  IntColumn get createdAt => integer()();
+  IntColumn get updatedAt => integer()();
+  IntColumn get deletedAt => integer().nullable()();
+
+  @override
+  Set<Column<Object>> get primaryKey => {id};
+}
+
 /// What people already use instead of the project (competitor analysis):
 /// the user's own observations, no personal data.
 @DataClassName('CompetitorRow')

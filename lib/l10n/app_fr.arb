@@ -1713,7 +1713,7 @@
   "@settingsCelebrations": {
     "description": "Réglage des célébrations."
   },
-  "settingsCelebrationsHelp": "Un court message quand tu débloques un outil.",
+  "settingsCelebrationsHelp": "Un court message quand tu débloques un outil ou gagnes un badge.",
   "@settingsCelebrationsHelp": {
     "description": "Aide du réglage des célébrations."
   },
@@ -2927,5 +2927,47 @@
   "erasedReset": "Les données de ce téléphone ont été effacées à ta demande.",
   "@erasedReset": {
     "description": "Notice after a user reset"
+  },
+  "badgesTitle": "Mes badges",
+  "@badgesTitle": {
+    "description": "Titre de l'écran des badges et entrée dans l'onglet Projet."
+  },
+  "badgesIntro": "Les badges récompensent ce que tu fais sur le terrain, pas ce que tu lis. Pas de classement : seulement ton chemin.",
+  "@badgesIntro": {
+    "description": "Introduction de l'écran des badges."
+  },
+  "badgesEarned": "Gagnés",
+  "@badgesEarned": {
+    "description": "Titre de la liste des badges gagnés."
+  },
+  "badgesToEarn": "À gagner",
+  "@badgesToEarn": {
+    "description": "Titre de la liste des badges pas encore gagnés."
+  },
+  "badgesNone": "Pas encore de badge. Le premier arrive avec ta première action sur le terrain.",
+  "@badgesNone": {
+    "description": "Message quand aucun badge n'est encore gagné."
+  },
+  "badgesCelebrationTitle": "{count, plural, =1{Nouveau badge} other{Nouveaux badges}}",
+  "@badgesCelebrationTitle": {
+    "description": "Titre de la célébration d'un badge gagné.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "badgesCelebrationBody": "Grâce à ce que tu as fait : {names}.",
+  "@badgesCelebrationBody": {
+    "description": "Texte de la célébration : noms des badges gagnés.",
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "badgesSee": "Voir mes badges",
+  "@badgesSee": {
+    "description": "Bouton de la célébration qui ouvre l'écran des badges."
   }
 }

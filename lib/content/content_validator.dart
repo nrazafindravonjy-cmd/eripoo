@@ -293,6 +293,24 @@ ValidationReport validatePack(ContentPack pack) {
     }
   }
 
+  // ---- badges (CLAUDE.md §21): rules valid, and each rewards an action
+  // (a counted record, a mission, a quest or a step that is not reading).
+  bool rewardsAction(Rule r) => switch (r) {
+    AllRule(:final rules) || AnyRule(:final rules) => rules.any(rewardsAction),
+    NotRule() => false,
+    CountRule() || MissionRule() || QuestRule() => true,
+    StepRule(:final stepId) => pack.step(stepId)?.type != StepType.learn,
+    _ => false,
+  };
+  final badgeIds = <String>{};
+  for (final badge in pack.badges) {
+    if (!badgeIds.add(badge.id)) error(badge.id, 'duplicate badge id');
+    checkRule('${badge.id}.earned_when', badge.earnedWhen);
+    if (!rewardsAction(badge.earnedWhen)) {
+      error(badge.id, 'a badge rewards an action, never reading alone');
+    }
+  }
+
   // ---- regulatory content (CLAUDE.md §18): 100 % sourced. Every fact,
   // document and fee points to a declared official source; no source is
   // declared for nothing; dates are coherent.
@@ -430,6 +448,11 @@ Iterable<LocalizedText> allTexts(ContentPack pack) sync* {
     yield* mission.instructions;
     yield mission.deliverable;
     if (mission.example != null) yield mission.example!;
+  }
+  for (final badge in pack.badges) {
+    yield badge.title;
+    yield badge.description;
+    yield badge.hint;
   }
   for (final tool in pack.tools) {
     yield tool.title;

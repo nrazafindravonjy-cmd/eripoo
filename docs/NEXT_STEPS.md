@@ -76,7 +76,7 @@ liste du cahier des charges ; reste la validation du contenu (P-5).
 > relire. Aucune information réglementaire non sourcée. Valide avec
 > `dart run tool/content_build.dart` et les tests de contenu.
 
-### C-3. Badges (§21 ; moyen)
+### C-3. Badges (§21 ; moyen) — fait le 2026-10-22
 > Lis CLAUDE.md et docs/END_CHECKLIST.md §4. Construis les badges du
 > cahier des charges §21 : récompenser l'action, l'expérimentation, la
 > validation (une hypothèse invalidée peut être récompensée, ex. « Chercheur

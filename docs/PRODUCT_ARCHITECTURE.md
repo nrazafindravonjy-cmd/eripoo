@@ -347,8 +347,13 @@ Phase 0.**
   accessibles en lecture d'aide.
   **Implémenté en Phase 6** : catalogue dans `content/tools.yaml` (règle
   `unlock`, `unlock_hint`, aide, sections du guide d'interview) ; un outil
-  non construit est annoncé (« Bientôt »), jamais imité. Badges : pas
-  encore.
+  non construit est annoncé (« Bientôt »), jamais imité.
+  **Badges (C-3, 2026-10-22)** : catalogue dans `content/badges.yaml`
+  (règle `earned_when`, description, indice) ; le validateur exige qu'une
+  règle récompense une action (compteur, mission, quête ou étape autre que
+  `learn`) ; table synchronisée `badge_awards`, jamais retirée ; écran
+  « Mes badges » (onglet Projet) ; célébration sur l'Accueil, coupée avec
+  les « Petites célébrations ».
   **Phase 7** : 13 outils sur 14 s'ouvrent ; seule la préparation
   administrative reste annoncée (Phase 8). Les sections « Le modèle
   économique », « Le plan marketing », « Le pitch », « Le résumé du
