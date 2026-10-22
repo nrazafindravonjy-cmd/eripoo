@@ -623,5 +623,11 @@
   "remindersDenied": "Nolavina ny fampandrenesana: avelao ao amin'ny fikirakirana ny finday mba hahazoana ny fampahatsiahivana.",
   "reminderTitle": "Misy iraka miandry anao",
   "reminderBody": "Sokafy ny Eripoo rehefa manam-potoana ianao mba handrosoana eny an-tsehatra.",
-  "reminderChannel": "Fampahatsiahivana iraka"
+  "reminderChannel": "Fampahatsiahivana iraka",
+  "legalTitle": "Fiainana manokana sy fepetra",
+  "legalPending": "Mbola andrasana ny fanoratan'ny mpahay lalàna ireto lahatsoratra ireto. Tsy misy angatahina aminao raha mbola tsy vonona izy ireo.",
+  "legalAcceptTitle": "Alohan'ny hanohizana",
+  "legalAcceptIntro": "Vakio ny politikan'ny fiainana manokana sy ny fepetra fampiasana. Manazava izay ataon'ny Eripoo amin'ny angon-drakitrao sy izay tsy ataony mihitsy izy ireo.",
+  "legalAccept": "Novakiako ary ekeko",
+  "legalVersion": "Dikan-teny {version}"
 }

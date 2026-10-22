@@ -16,6 +16,7 @@ import '../../documents/presentation/document_screens.dart';
 import '../../documents/presentation/documents_providers.dart';
 import '../../documents/presentation/pdf_export.dart';
 import '../../latency/presentation/latency_screen.dart';
+import '../../legal/presentation/legal_screens.dart';
 import '../../quest/presentation/journey_providers.dart';
 import '../../reminders/presentation/reminder_providers.dart';
 import '../../settings/presentation/app_settings_controller.dart';
@@ -131,6 +132,22 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: EripooSpacing.sm),
                   const _PreferencesCard(),
+                  const SizedBox(height: EripooSpacing.sm),
+                  EripooCard(
+                    onTap: () => Navigator.of(context).push(
+                      MaterialPageRoute<void>(
+                        builder: (_) => const LegalScreen(),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.policy_outlined),
+                        const SizedBox(width: EripooSpacing.md),
+                        Expanded(child: Text(l10n.legalTitle)),
+                        const Icon(Icons.chevron_right),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),

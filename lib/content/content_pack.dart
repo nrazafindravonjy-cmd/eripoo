@@ -757,6 +757,56 @@ class BadgeDefinition {
   }
 }
 
+/// Privacy policy and terms of use (NEXT_STEPS C-12), written by a lawyer.
+/// While [validated] is false the texts are placeholders: shown as such,
+/// never offered for acceptance.
+class LegalContent {
+  const LegalContent({
+    required this.version,
+    required this.validated,
+    required this.documents,
+  });
+
+  final String version;
+  final bool validated;
+  final List<LegalDocument> documents;
+
+  factory LegalContent.read(JsonReader json) {
+    json.onlyKeys({'version', 'status', 'documents'});
+    return LegalContent(
+      version: json['version'].string,
+      validated:
+          json['status'].oneOf(LegalStatus.values) == LegalStatus.validated,
+      documents: [
+        for (final d in json['documents'].list) LegalDocument.read(d),
+      ],
+    );
+  }
+}
+
+enum LegalStatus { pending, validated }
+
+class LegalDocument {
+  const LegalDocument({
+    required this.id,
+    required this.title,
+    required this.body,
+  });
+
+  final String id;
+  final LocalizedText title;
+  final List<LocalizedText> body;
+
+  factory LegalDocument.read(JsonReader json) {
+    json.onlyKeys({'id', 'title', 'body'});
+    return LegalDocument(
+      id: json['id'].id,
+      title: LocalizedText.read(json['title']),
+      body: [for (final b in json['body'].list) LocalizedText.read(b)],
+    );
+  }
+}
+
 class ContentPack {
   ContentPack({
     required this.packId,
@@ -770,6 +820,7 @@ class ContentPack {
     this.financingGuide = const [],
     this.formalization,
     this.badges = const [],
+    this.legal,
   }) {
     for (final quest in quests) {
       for (final step in quest.steps) {
@@ -804,6 +855,9 @@ class ContentPack {
 
   /// Badges in display order.
   final List<BadgeDefinition> badges;
+
+  /// Privacy policy and terms of use; null when the pack has none.
+  final LegalContent? legal;
 
   ToolDefinition? tool(String id) {
     for (final t in tools) {
@@ -866,6 +920,7 @@ class ContentPack {
       'financing_guide',
       'formalization',
       'badges',
+      'legal',
     });
     if (json['format'].integer != supportedPackFormat) {
       json['format'].fail('unsupported pack format');
@@ -897,6 +952,7 @@ class ContentPack {
       badges: [
         for (final b in json['badges'].listOrEmpty) BadgeDefinition.read(b),
       ],
+      legal: json.has('legal') ? LegalContent.read(json['legal']) : null,
     );
   }
 }

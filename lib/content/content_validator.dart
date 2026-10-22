@@ -311,6 +311,21 @@ ValidationReport validatePack(ContentPack pack) {
     }
   }
 
+  // ---- legal texts (C-12): once validated, both documents are there.
+  final legal = pack.legal;
+  if (legal != null) {
+    final ids = {for (final d in legal.documents) d.id};
+    if (ids.length != legal.documents.length) {
+      error('legal', 'duplicate legal document');
+    }
+    if (legal.validated && !ids.containsAll(const {'privacy', 'terms'})) {
+      error('legal', 'validated texts need the privacy policy and the terms');
+    }
+    for (final d in legal.documents) {
+      if (d.body.isEmpty) error('legal', 'document ${d.id} is empty');
+    }
+  }
+
   // ---- regulatory content (CLAUDE.md §18): 100 % sourced. Every fact,
   // document and fee points to a declared official source; no source is
   // declared for nothing; dates are coherent.
@@ -448,6 +463,10 @@ Iterable<LocalizedText> allTexts(ContentPack pack) sync* {
     yield* mission.instructions;
     yield mission.deliverable;
     if (mission.example != null) yield mission.example!;
+  }
+  for (final d in pack.legal?.documents ?? const <LegalDocument>[]) {
+    yield d.title;
+    yield* d.body;
   }
   for (final badge in pack.badges) {
     yield badge.title;

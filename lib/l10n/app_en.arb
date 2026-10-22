@@ -623,5 +623,11 @@
   "remindersDenied": "Notifications are refused: allow them in the phone settings to get reminders.",
   "reminderTitle": "A mission is waiting for you",
   "reminderBody": "Open Eripoo when you have a moment to move forward in the field.",
-  "reminderChannel": "Mission reminders"
+  "reminderChannel": "Mission reminders",
+  "legalTitle": "Privacy and terms",
+  "legalPending": "These texts are waiting to be written by a lawyer. Nothing is asked of you until they are ready.",
+  "legalAcceptTitle": "Before you continue",
+  "legalAcceptIntro": "Read the privacy policy and the terms of use. They explain what Eripoo does with your data and what it never does.",
+  "legalAccept": "I have read and accept",
+  "legalVersion": "Version {version}"
 }

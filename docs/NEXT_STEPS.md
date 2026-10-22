@@ -137,7 +137,17 @@ liste du cahier des charges ; reste la validation du contenu (P-5).
 > avec `tool/check_apk.sh` sur les APK extraites. Change l'identifiant
 > Android pour la valeur décidée.
 
-### C-12. Textes légaux dans l'app (P-3 ; petit)
+### C-12. Textes légaux dans l'app (P-3 ; petit) — mécanisme fait le 2026-10-22, textes du juriste à déposer
+
+Mécanisme en place : `content/legal.yaml` (version, statut `pending` ou
+`validated`, politique de confidentialité et CGU en mg/fr/en), écran
+Profil → « Confidentialité et conditions », barrière d'acceptation au
+démarrage et à chaque nouvelle version **seulement pour des textes
+validés** (aucun consentement recueilli sur les textes d'attente).
+Reste : coller les textes du juriste, passer `status: validated`,
+incrémenter `version` ; valeurs de `jurisdiction_policies` ;
+enregistrement du consentement côté serveur (`consents`) pour les comptes.
+
 > Lis CLAUDE.md. Intègre la politique de confidentialité et les CGU fournies
 > par le juriste (mg/fr/en), l'acceptation à l'onboarding et à la mise à
 > jour des textes, et les valeurs de `jurisdiction_policies`.

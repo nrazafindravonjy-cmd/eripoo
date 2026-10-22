@@ -1,7 +1,7 @@
 {
  "format": 1,
  "pack_id": "base",
- "version": "2026.10.5",
+ "version": "2026.10.6",
  "min_app_version": 1,
  "block_types": [
   "example",
@@ -8921,6 +8921,62 @@
    }
   }
  ],
+ "legal": {
+  "version": "0",
+  "status": "pending",
+  "documents": [
+   {
+    "id": "privacy",
+    "title": {
+     "fr": "Politique de confidentialité",
+     "mg": "Politikan'ny fiainana manokana",
+     "en": "Privacy policy",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    },
+    "body": [
+     {
+      "fr": "Ce texte est en attente de rédaction par un juriste. Il sera publié ici avant l'ouverture d'Eripoo au public.",
+      "mg": "Mbola andrasana ny fanoratan'ny mpahay lalàna ity lahatsoratra ity. Havoaka eto izy alohan'ny hanokafana ny Eripoo ho an'ny besinimaro.",
+      "en": "This text is waiting to be written by a lawyer. It will be published here before Eripoo opens to the public.",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     }
+    ]
+   },
+   {
+    "id": "terms",
+    "title": {
+     "fr": "Conditions d'utilisation",
+     "mg": "Fepetra fampiasana",
+     "en": "Terms of use",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    },
+    "body": [
+     {
+      "fr": "Ce texte est en attente de rédaction par un juriste. Il sera publié ici avant l'ouverture d'Eripoo au public.",
+      "mg": "Mbola andrasana ny fanoratan'ny mpahay lalàna ity lahatsoratra ity. Havoaka eto izy alohan'ny hanokafana ny Eripoo ho an'ny besinimaro.",
+      "en": "This text is waiting to be written by a lawyer. It will be published here before Eripoo opens to the public.",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     }
+    ]
+   }
+  ]
+ },
  "formalization": {
   "review_after": "2027-01-08",
   "legal_review": "pending",
