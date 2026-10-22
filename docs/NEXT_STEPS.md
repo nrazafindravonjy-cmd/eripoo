@@ -56,9 +56,12 @@ Le cahier des charges (§7) demande au moins 16 quêtes ; il y en a 4
 (`content/missions/missions.yaml`). À faire par lots de 3 ou 4 quêtes.
 **Lot 1 fait (2026-10-22)** : q05 concurrence, q06 offre (nouvelle section
 `offer`, absente du dossier PDF pour l'instant), q07 modèle économique, q08
-premiers chiffres, et 3 missions. Restent : comprendre l'entrepreneuriat,
-observer son environnement, découvrir une opportunité, tester l'offre,
-préparer le lancement, formalisation, lancement réel.
+premiers chiffres, et 3 missions. **Lot 2 fait (2026-10-22)** : q09 tester
+l'offre (prévente), q10 préparer le lancement, q11 formalités (renvoie à
+l'outil sourcé, aucune règle énoncée), q12 lancement réel, et 2 missions.
+Restent (lot 3, quêtes d'avant q01 pour les profils « aucune idée », à
+placer dans l'ordre) : comprendre l'entrepreneuriat, observer son
+environnement, découvrir une opportunité.
 > Lis CLAUDE.md, docs/PRODUCT_ARCHITECTURE.md et content/. Écris le lot
 > suivant de quêtes manquantes parmi les 16 du cahier des charges (§7) :
 > comprendre l'entrepreneuriat, observer son environnement, découvrir une

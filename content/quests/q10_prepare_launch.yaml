@@ -1,0 +1,189 @@
+# Quest 10: prepare the launch: how people will hear about the project
+# (marketing.*) and the first steps in order (launch.*).
+id: q10
+order: 10
+maturity: preparation
+priority: 1
+title:
+  fr: "Préparer ton lancement"
+  mg: "Omano ny fanombohanao"
+  en: "Prepare your launch"
+summary:
+  fr: "Décide comment les clients entendront parler de toi et ce que tu feras en premier."
+  mg: "Tapaho ny fomba handrenesan'ny mpanjifa momba anao sy izay hataonao voalohany."
+  en: "Decide how customers will hear about you and what you will do first."
+available_when:
+  all:
+    - {quest: q07, is: completed}
+    - {quest: q09, is: completed}
+steps:
+  - id: q10.s01
+    type: learn
+    title:
+      fr: "Un lancement se prépare"
+      mg: "Omanina ny fanombohana"
+      en: "A launch is prepared"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Lancer, ce n'est pas attendre que les clients arrivent. C'est aller vers eux avec un message simple, aux bons endroits, et savoir quoi faire chaque jour de la première semaine."
+          mg: "Tsy fiandrasana ho avy ny mpanjifa ny fanombohana. Fandehanana mankany aminy miaraka amin'ny hafatra tsotra, any amin'ny toerana mety, sy fahafantarana izay hatao isan'andro amin'ny herinandro voalohany."
+          en: "Launching is not waiting for customers to come. It is going to them with a simple message, in the right places, and knowing what to do each day of the first week."
+      - id: example
+        type: example
+        body:
+          fr: "Fara dit : « Du savon livré au marché le lundi, moins cher que la boutique. » Elle le dit aux vendeuses du marché et le poste dans le groupe du quartier."
+          mg: "Milaza i Fara hoe: « Savony aterina eny an-tsena ny alatsinainy, mora kokoa noho ny an'ny magazay. » Lazainy amin'ireo mpivarotra eny an-tsena izany ary apetrany ao amin'ny vondrona ao amin'ny fokontany."
+          en: "Fara says: \"Soap delivered to the market on Mondays, cheaper than the shop.\" She tells market sellers and posts it in the neighbourhood group."
+      - id: tip
+        type: tip
+        body:
+          fr: "Commence par les personnes qui ont déjà réservé ou montré de l'intérêt : ce sont tes premiers ambassadeurs."
+          mg: "Manomboka amin'ireo efa nitahiry na naneho fahalianana: izy ireo no solontenanao voalohany."
+          en: "Start with the people who already booked or showed interest: they are your first ambassadors."
+  - id: q10.s02
+    type: reflect
+    title:
+      fr: "Ton message"
+      mg: "Ny hafatrao"
+      en: "Your message"
+    blocks:
+      - id: target
+        type: question
+        prompt:
+          fr: "À qui parles-tu en premier ?"
+          mg: "Iza no hiresahanao voalohany?"
+          en: "Who do you talk to first?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Quel groupe de clients vas-tu toucher dès le premier jour ?"
+              mg: "Vondron'olona mpanjifa inona no hotratrarinao hatramin'ny andro voalohany?"
+              en: "Which group of customers will you reach on day one?"
+          example:
+            fr: "« Les vendeuses du marché qui ont déjà réservé, puis leurs voisines d'étal. »"
+            mg: "« Ireo mpivarotra eny an-tsena efa nitahiry, avy eo ireo mpifanila toeram-pivarotana aminy. »"
+            en: "\"The market sellers who already booked, then their stall neighbours.\""
+          hints:
+            - fr: "Décris un groupe précis, sans nom ni numéro de téléphone."
+              mg: "Lazao vondrona mazava, tsy misy anarana na laharana finday."
+              en: "Describe a precise group, without names or phone numbers."
+      - id: message
+        type: question
+        prompt:
+          fr: "Que leur dis-tu, en une phrase ?"
+          mg: "Inona no lazainao aminy, amin'ny fehezanteny iray?"
+          en: "What do you tell them, in one sentence?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Quelle phrase donne envie d'essayer ton offre ?"
+              mg: "Fehezanteny inona no mampaniry hanandrana ny tolotrao?"
+              en: "Which sentence makes people want to try your offer?"
+          example:
+            fr: "« Du savon livré au marché chaque lundi, moins cher que la boutique. »"
+            mg: "« Savony aterina eny an-tsena isaky ny alatsinainy, mora kokoa noho ny an'ny magazay. »"
+            en: "\"Soap delivered to the market every Monday, cheaper than the shop.\""
+          hints:
+            - fr: "Dis ce que le client gagne (temps, argent, confort), pas comment tu le fais."
+              mg: "Lazao izay azon'ny mpanjifa (fotoana, vola, fahafinaretana), fa tsy ny fomba anaovanao azy."
+              en: "Say what the customer gains (time, money, comfort), not how you do it."
+      - id: channels
+        type: question
+        prompt:
+          fr: "Où entendront-ils parler de toi ?"
+          mg: "Aiza no handrenesan'izy ireo momba anao?"
+          en: "Where will they hear about you?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Par quels lieux ou moyens ton message arrivera-t-il jusqu'à eux ?"
+              mg: "Amin'ny toerana na fitaovana inona no hahatongavan'ny hafatrao aminy?"
+              en: "Through which places or means will your message reach them?"
+          example:
+            fr: "« De vive voix au marché, le groupe Facebook du quartier, une affiche à l'épicerie. »"
+            mg: "« Am-bava eny an-tsena, ny vondrona Facebook ao amin'ny fokontany, taratasy apetaka eo amin'ny epiceri. »"
+            en: "\"Face to face at the market, the neighbourhood Facebook group, a poster at the grocery.\""
+          hints:
+            - fr: "Choisis deux ou trois endroits où tes clients sont déjà, plutôt que partout."
+              mg: "Mifidiana toerana roa na telo efa misy ny mpanjifanao, toy izay any amin'ny toerana rehetra."
+              en: "Pick two or three places where your customers already are, rather than everywhere."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ton message de lancement. Il est enregistré dans ton plan marketing."
+          mg: "Ity ny hafatra fanombohanao. Voatahiry ao amin'ny drafitra fampahafantaranao izy."
+          en: "Here is your launch message. It is saved in your marketing plan."
+        shows: [target, message, channels]
+    outputs:
+      - {from: target, section: marketing, field: target, tracked: true}
+      - {from: message, section: marketing, field: message, tracked: true}
+      - {from: channels, section: marketing, field: channels, tracked: true}
+  - id: q10.s03
+    type: reflect
+    title:
+      fr: "Tes premières étapes"
+      mg: "Ireo dingana voalohanao"
+      en: "Your first steps"
+    blocks:
+      - id: first_steps
+        type: question
+        prompt:
+          fr: "Quelles sont tes premières étapes, dans l'ordre ?"
+          mg: "Inona avy ireo dingana voalohanao, araka ny filaharany?"
+          en: "What are your first steps, in order?"
+        answer:
+          kind: text
+          max_length: 500
+        help:
+          rephrase:
+            - fr: "Que feras-tu le premier jour, puis le deuxième, puis à la fin de la semaine ?"
+              mg: "Inona no hataonao amin'ny andro voalohany, avy eo amin'ny faharoa, avy eo amin'ny faran'ny herinandro?"
+              en: "What will you do on day one, then day two, then at the end of the week?"
+          example:
+            fr: "« 1. Acheter l'huile pour 20 lots. 2. Fabriquer samedi. 3. Livrer les réservations lundi. 4. Proposer aux voisines d'étal. »"
+            mg: "« 1. Mividy menaka ho an'ny fehezana 20. 2. Manamboatra ny asabotsy. 3. Manatitra ireo voatahiry ny alatsinainy. 4. Manolotra ireo mpifanila toeram-pivarotana. »"
+            en: "\"1. Buy oil for 20 packs. 2. Make soap on Saturday. 3. Deliver bookings on Monday. 4. Offer to stall neighbours.\""
+          hints:
+            - fr: "Trois à cinq étapes suffisent. Commence par ce qui ne coûte presque rien."
+              mg: "Ampy ny dingana telo ka hatramin'ny dimy. Manomboka amin'izay saika tsy mandany vola."
+              en: "Three to five steps are enough. Start with what costs almost nothing."
+      - id: when
+        type: question
+        prompt:
+          fr: "Quand veux-tu commencer ?"
+          mg: "Rahoviana no tianao hanombohana?"
+          en: "When do you want to start?"
+        answer:
+          kind: text
+          max_length: 100
+        help:
+          rephrase:
+            - fr: "Choisis un jour ou une semaine pour ta première vente."
+              mg: "Mifidiana andro na herinandro iray ho an'ny varotra voalohanao."
+              en: "Pick a day or a week for your first sale."
+          example:
+            fr: "« Le premier lundi du mois prochain. »"
+            mg: "« Ny alatsinainy voalohany amin'ny volana ho avy. »"
+            en: "\"The first Monday of next month.\""
+          hints:
+            - fr: "Une date proche et réaliste vaut mieux qu'une date parfaite et lointaine."
+              mg: "Tsara kokoa ny daty akaiky sy azo tanterahina noho ny daty lavorary sy lavitra."
+              en: "A near, realistic date beats a perfect, distant one."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ton plan de lancement. Il est enregistré dans ton projet."
+          mg: "Ity ny drafitra fanombohanao. Voatahiry ao amin'ny tetikasanao izy."
+          en: "Here is your launch plan. It is saved in your project."
+        shows: [first_steps, when]
+    outputs:
+      - {from: first_steps, section: launch, field: first_steps, tracked: true}
+      - {from: when, section: launch, field: when, tracked: true}

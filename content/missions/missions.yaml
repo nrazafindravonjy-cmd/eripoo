@@ -145,3 +145,61 @@
     fr: "« Huile, 1 litre : grossiste du port et marché du Bazary Be, prix notés le 3 mars. » (Exemple inventé.)"
     mg: "« Menaka, 1 litatra: mpivarotra ambongadiny eo amin'ny seranana sy tsena Bazary Be, voasoratra ny vidiny tamin'ny 3 martsa. » (Ohatra noforonina.)"
     en: "\"Oil, 1 litre: port wholesaler and Bazary Be market, prices noted on 3 March.\" (Invented example.)"
+- id: m.pre_sell
+  title:
+    fr: "Prévendre à dix personnes"
+    mg: "Mivarotra mialoha amin'olona folo"
+    en: "Pre-sell to ten people"
+  objective:
+    fr: "Savoir combien de clients paient ou réservent vraiment à ton prix."
+    mg: "Mahafantatra hoe mpanjifa firy no tena mandoa na mitahiry amin'ny vidinao."
+    en: "Find out how many customers really pay or book at your price."
+  instructions:
+    - fr: "Avant de commencer, écris combien de réservations il faut pour que le test soit réussi."
+      mg: "Alohan'ny hanombohana, soraty hoe firy ny fitahirizana ilaina mba hahomby ny fitsapana."
+      en: "Before starting, write how many bookings are needed for the test to succeed."
+    - fr: "Présente ton offre et ton prix à dix personnes qui correspondent à ton client, et propose de réserver avec une petite avance."
+      mg: "Atolory olona folo mifanaraka amin'ny mpanjifanao ny tolotrao sy ny vidinao, ary asao hitahiry amin'ny vola mialoha kely."
+      en: "Present your offer and price to ten people who match your customer, and offer to book with a small deposit."
+    - fr: "Note chaque avance reçue. Ne note ni nom ni numéro de téléphone ; un surnom suffit pour livrer."
+      mg: "Soraty ny vola mialoha voaray tsirairay. Aza manoratra anarana na laharana finday; ampy ny anaram-bositra hanaterana."
+      en: "Record each deposit received. Don't note names or phone numbers; a nickname is enough to deliver."
+  deliverable:
+    fr: "Le nombre de réservations sur dix, et ce qu'ont dit ceux qui ont refusé."
+    mg: "Ny isan'ny fitahirizana amin'ny folo, sy izay nolazain'ireo nandà."
+    en: "The number of bookings out of ten, and what those who refused said."
+  duration_minutes: 120
+  difficulty: 2
+  example:
+    fr: "« 5 réservations sur 10. Trois trouvent le prix juste, deux veulent payer à la livraison. » (Exemple inventé.)"
+    mg: "« Fitahirizana 5 amin'ny 10. Telo no mahita fa mety ny vidiny, roa te handoa rehefa tonga ny entana. » (Ohatra noforonina.)"
+    en: "\"5 bookings out of 10. Three find the price fair, two want to pay on delivery.\" (Invented example.)"
+- id: m.launch_week
+  title:
+    fr: "Vendre pendant une semaine"
+    mg: "Mivarotra mandritra ny herinandro iray"
+    en: "Sell for one week"
+  objective:
+    fr: "Faire tes premières vraies ventes et apprendre de chacune."
+    mg: "Manao ny varotra voalohany tena izy ary mianatra amin'ny tsirairay."
+    en: "Make your first real sales and learn from each one."
+  instructions:
+    - fr: "Suis les premières étapes de ton plan de lancement."
+      mg: "Araho ireo dingana voalohany amin'ny drafitra fanombohanao."
+      en: "Follow the first steps of your launch plan."
+    - fr: "Chaque soir, note les ventes du jour, l'argent reçu et ce que tu as dépensé."
+      mg: "Isaky ny hariva, soraty ny varotra natao androany, ny vola voaray ary izay nolanianao."
+      en: "Every evening, write down the day's sales, the money received and what you spent."
+    - fr: "Note aussi ce que les clients ont demandé ou reproché, sans nom ni numéro."
+      mg: "Soraty koa izay nangatahin'ny mpanjifa na nomeny tsiny, tsy misy anarana na laharana."
+      en: "Also note what customers asked for or complained about, without names or numbers."
+  deliverable:
+    fr: "Le total de la semaine (ventes, argent reçu, dépenses) et deux choses apprises."
+    mg: "Ny fitambaran'ny herinandro (varotra, vola voaray, fandaniana) sy zavatra roa nianarana."
+    en: "The week's totals (sales, money received, spending) and two things learned."
+  duration_minutes: 420
+  difficulty: 3
+  example:
+    fr: "« 18 lots vendus, tout payé ; une cliente veut un parfum citron. » (Exemple inventé.)"
+    mg: "« Fehezana 18 lafo, voaloa daholo; mpanjifa iray te hanana fofona voasarimakirana. » (Ohatra noforonina.)"
+    en: "\"18 packs sold, all paid; one customer wants a lemon scent.\" (Invented example.)"

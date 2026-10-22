@@ -1,0 +1,113 @@
+# Quest 12: the real launch: a first week of sales, recorded as evidence
+# (counted by kind, never by amount), then a look back.
+id: q12
+order: 12
+maturity: launch
+priority: 0
+title:
+  fr: "Lancer pour de vrai"
+  mg: "Manomboka tokoa"
+  en: "Launch for real"
+summary:
+  fr: "Vends pendant une semaine, note chaque vente et regarde ce que tu as appris."
+  mg: "Mivarota mandritra ny herinandro iray, soraty ny varotra tsirairay ary jereo izay nianaranao."
+  en: "Sell for a week, record every sale and look at what you learned."
+available_when: {quest: q10, is: completed}
+steps:
+  - id: q12.s01
+    type: learn
+    title:
+      fr: "La première semaine"
+      mg: "Ny herinandro voalohany"
+      en: "The first week"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "La première semaine t'apprend plus que des mois de préparation : ce qui se vend, ce qui bloque, ce que les clients demandent. Note tout, même les petites ventes."
+          mg: "Ny herinandro voalohany dia mampianatra anao mihoatra noho ny volana maro fanomanana: izay lafo, izay manakana, izay angatahan'ny mpanjifa. Soraty daholo, na ny varotra kely aza."
+          en: "The first week teaches you more than months of preparation: what sells, what blocks, what customers ask for. Write everything down, even small sales."
+      - id: tip
+        type: tip
+        body:
+          fr: "Garde l'argent du projet à part de ton argent personnel, même dans une simple enveloppe. Sinon, tu ne sauras pas si tu gagnes de l'argent."
+          mg: "Atokàny ny volan'ny tetikasa sy ny volanao manokana, na ao anaty valopy tsotra aza. Raha tsy izany, tsy ho fantatrao raha mahazo tombony ianao."
+          en: "Keep the project's money apart from your personal money, even in a simple envelope. Otherwise you will not know whether you earn money."
+  - id: q12.s02
+    type: act
+    title:
+      fr: "Ta semaine de lancement"
+      mg: "Ny herinandro fanombohanao"
+      en: "Your launch week"
+    blocks:
+      - id: how
+        type: text
+        body:
+          fr: "Suis tes premières étapes. Après chaque vente, ajoute une preuve de type « Vente » dans ton hypothèse ou ton test en cours (onglet Projet, puis « Hypothèses »)."
+          mg: "Araho ireo dingana voalohanao. Isaky ny varotra, ampio porofo karazana « Varotra » ao amin'ny vinavinanao na ny fitsapanao an-dalana (tabilao Tetikasa, avy eo « Vinavina »)."
+          en: "Follow your first steps. After each sale, add a \"Sale\" evidence to your current hypothesis or test (Project tab, then \"Hypotheses\")."
+      - id: go
+        type: mission
+        mission: m.launch_week
+    complete_when:
+      all:
+        - {mission: m.launch_week, is: completed}
+        - {count: evidences, where: {kind: sale}, gte: 1}
+  - id: q12.s03
+    type: reflect
+    title:
+      fr: "Ce que la semaine t'a appris"
+      mg: "Izay nampianarin'ny herinandro anao"
+      en: "What the week taught you"
+    blocks:
+      - id: went_well
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui a bien marché ?"
+          mg: "Inona no nandeha tsara?"
+          en: "What went well?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Qu'est-ce que tu referais exactement de la même façon ?"
+              mg: "Inona no hataonao indray amin'ny fomba mitovy tanteraka?"
+              en: "What would you do again exactly the same way?"
+          example:
+            fr: "« Les réservations du lundi : toutes livrées et payées. »"
+            mg: "« Ireo voatahiry ny alatsinainy: voatitra sy voaloa avokoa. »"
+            en: "\"Monday bookings: all delivered and paid.\""
+          hints:
+            - fr: "Pense à une vente précise et à ce qui l'a rendue facile."
+              mg: "Eritrereto varotra iray manokana sy izay nahamora azy."
+              en: "Think of one specific sale and what made it easy."
+      - id: change
+        type: question
+        prompt:
+          fr: "Que vas-tu changer la semaine prochaine ?"
+          mg: "Inona no hovainao amin'ny herinandro manaraka?"
+          en: "What will you change next week?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Qu'est-ce qui a bloqué, et que vas-tu essayer à la place ?"
+              mg: "Inona no nanakana, ary inona no hanandramanao ho solony?"
+              en: "What blocked, and what will you try instead?"
+          example:
+            fr: "« Livrer aussi le vendredi, car deux clientes ne sont pas là le lundi. »"
+            mg: "« Hanatitra koa ny zoma, satria tsy eo ny alatsinainy ny mpanjifa roa. »"
+            en: "\"Also deliver on Friday, because two customers are not there on Monday.\""
+          hints:
+            - fr: "Un seul changement à la fois : tu sauras ce qui a fait la différence."
+              mg: "Fanovana iray monja isaky ny mandeha: ho fantatrao izay nahatonga ny fahasamihafana."
+              en: "One change at a time: you will know what made the difference."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Bravo pour ce lancement. Recommence ce cycle chaque semaine : vendre, noter, apprendre, ajuster."
+          mg: "Arahaba tamin'ity fanombohana ity. Avereno isan-kerinandro ity fihodinana ity: mivarotra, manoratra, mianatra, manitsy."
+          en: "Well done on this launch. Repeat this cycle every week: sell, record, learn, adjust."
+        shows: [went_well, change]

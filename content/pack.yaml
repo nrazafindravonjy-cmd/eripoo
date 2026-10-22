@@ -7,7 +7,7 @@
 # authors; English is a working translation. Once a text is reviewed, give
 # it its own `status: {fr: reviewed}` (or remove the default below).
 pack_id: base
-version: "2026.10.2"
+version: "2026.10.3"
 min_app_version: 1
 default_status:
   fr: needs_review

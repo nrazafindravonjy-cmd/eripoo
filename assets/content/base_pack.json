@@ -1,7 +1,7 @@
 {
  "format": 1,
  "pack_id": "base",
- "version": "2026.10.2",
+ "version": "2026.10.3",
  "min_app_version": 1,
  "block_types": [
   "example",
@@ -3881,6 +3881,1350 @@
      }
     }
    ]
+  },
+  {
+   "id": "q09",
+   "order": 9,
+   "maturity": "construction",
+   "priority": 2,
+   "title": {
+    "fr": "Tester ton offre",
+    "mg": "Andramo ny tolotrao",
+    "en": "Test your offer",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Vérifie que des clients paient vraiment ton offre, à ton prix.",
+    "mg": "Hamarino fa tena mandoa ny tolotrao amin'ny vidinao ny mpanjifa.",
+    "en": "Check that customers really pay for your offer, at your price.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "available_when": {
+    "quest": "q06",
+    "is": "completed"
+   },
+   "steps": [
+    {
+     "id": "q09.s01",
+     "type": "learn",
+     "title": {
+      "fr": "Dire oui n'est pas acheter",
+      "mg": "Tsy fividianana ny hoe eny",
+      "en": "Saying yes is not buying",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Beaucoup de gens disent « j'achèterais » pour être polis. La seule vraie preuve, c'est un client qui paie ou qui réserve en donnant une avance.",
+        "mg": "Olona maro no milaza hoe « hividy aho » noho ny fahalalam-pomba. Ny hany porofo marina dia mpanjifa mandoa vola na mitahiry amin'ny fanomezana vola mialoha.",
+        "en": "Many people say \"I would buy\" to be polite. The only real proof is a customer who pays or books by giving a deposit.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "term",
+       "type": "term",
+       "plain": {
+        "fr": "Vendre avant d'avoir tout fabriqué",
+        "mg": "Mivarotra alohan'ny hanamboarana ny zava-drehetra",
+        "en": "Selling before making everything",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "term": {
+        "fr": "Prévente",
+        "mg": "Varotra mialoha",
+        "en": "Pre-sale",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "definition": {
+        "fr": "Prendre des commandes payées (ou avec une avance) avant de produire, pour vérifier la demande sans risquer ton stock.",
+        "mg": "Mandray baiko voaloa (na misy vola mialoha) alohan'ny hamokarana, mba hanamarinana ny filana tsy atahorana ny tahirinao.",
+        "en": "Taking paid orders (or with a deposit) before producing, to check demand without risking your stock.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "example",
+       "type": "example",
+       "body": {
+        "fr": "Fara propose à 10 vendeuses de réserver un lot avec une petite avance. Elle a décidé avant : réussi si au moins 4 réservent. (Exemple inventé.)",
+        "mg": "Manolotra mpivarotra 10 i Fara mba hitahiry fehezana iray amin'ny vola mialoha kely. Efa nanapa-kevitra mialoha izy: mahomby raha 4 farafahakeliny no mitahiry. (Ohatra noforonina.)",
+        "en": "Fara offers 10 sellers to book a pack with a small deposit. She decided beforehand: it succeeds if at least 4 book. (Invented example.)",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "tip",
+       "type": "tip",
+       "body": {
+        "fr": "Si personne ne paie, ce n'est pas un échec : change le prix, l'offre ou les clients visés, et teste encore.",
+        "mg": "Raha tsy misy mandoa, tsy fahataperana izany: ovay ny vidiny, ny tolotra na ny mpanjifa kendrena, ary andramo indray.",
+        "en": "If nobody pays, it is not a failure: change the price, the offer or the target customers, and test again.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q09.s02",
+     "type": "act",
+     "title": {
+      "fr": "Écris ton hypothèse sur le prix",
+      "mg": "Soraty ny vinavinanao momba ny vidiny",
+      "en": "Write your price hypothesis",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "how",
+       "type": "text",
+       "body": {
+        "fr": "Ouvre l'onglet Projet, puis « Hypothèses ». Ajoute une hypothèse de catégorie « Le prix », par exemple : « Je pense que 4 vendeuses sur 10 réserveront à ce prix. » Reviens ensuite ici.",
+        "mg": "Sokafy ny tabilao Tetikasa, avy eo « Vinavina ». Ampio vinavina iray ao amin'ny sokajy « Ny vidiny », ohatra: « Mihevitra aho fa mpivarotra 4 amin'ny 10 no hitahiry amin'io vidiny io. » Miverena eto avy eo.",
+        "en": "Open the Project tab, then \"Hypotheses\". Add a hypothesis in the \"The price\" category, for example: \"I think 4 sellers out of 10 will book at this price.\" Then come back here.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ],
+     "complete_when": {
+      "count": "hypotheses",
+      "where": {
+       "category": "price"
+      },
+      "gte": 1
+     }
+    },
+    {
+     "id": "q09.s03",
+     "type": "act",
+     "title": {
+      "fr": "Lance une prévente",
+      "mg": "Atombohy ny varotra mialoha",
+      "en": "Start a pre-sale",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "how",
+       "type": "text",
+       "body": {
+        "fr": "Dans cette hypothèse, prépare un test avec la méthode « Prévendre » ou « Tester un prix », puis commence-le.",
+        "mg": "Ao amin'io vinavina io, omano fitsapana amin'ny fomba « Mivarotra mialoha » na « Manandrana vidiny », avy eo atombohy.",
+        "en": "In this hypothesis, plan a test with the \"Pre-sell\" or \"Test a price\" method, then start it.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "go",
+       "type": "mission",
+       "mission": "m.pre_sell"
+      }
+     ],
+     "complete_when": {
+      "any": [
+       {
+        "count": "experiments",
+        "where": {
+         "method": "pre_sale",
+         "status": "running"
+        },
+        "gte": 1
+       },
+       {
+        "count": "experiments",
+        "where": {
+         "method": "pre_sale",
+         "status": "done"
+        },
+        "gte": 1
+       },
+       {
+        "count": "experiments",
+        "where": {
+         "method": "price_test",
+         "status": "running"
+        },
+        "gte": 1
+       },
+       {
+        "count": "experiments",
+        "where": {
+         "method": "price_test",
+         "status": "done"
+        },
+        "gte": 1
+       }
+      ]
+     }
+    },
+    {
+     "id": "q09.s04",
+     "type": "checkpoint",
+     "title": {
+      "fr": "Conclure sur ton prix",
+      "mg": "Mamarana momba ny vidinao",
+      "en": "Conclude on your price",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "how",
+       "type": "text",
+       "body": {
+        "fr": "Ajoute tes preuves (une vente, un chiffre, une note), puis conclus ton hypothèse sur le prix. Infirmée ou non, tu sais maintenant quelque chose de vrai.",
+        "mg": "Ampio ireo porofonao (varotra, isa, fanamarihana), avy eo famarano ny vinavinanao momba ny vidiny. Na tsy marina aza izy, efa mahafantatra zavatra marina ianao izao.",
+        "en": "Add your evidence (a sale, a number, a note), then conclude your price hypothesis. Disproved or not, you now know something true.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ],
+     "complete_when": {
+      "any": [
+       {
+        "count": "hypotheses",
+        "where": {
+         "category": "price",
+         "status": "validated"
+        },
+        "gte": 1
+       },
+       {
+        "count": "hypotheses",
+        "where": {
+         "category": "price",
+         "status": "invalidated"
+        },
+        "gte": 1
+       },
+       {
+        "count": "hypotheses",
+        "where": {
+         "category": "price",
+         "status": "inconclusive"
+        },
+        "gte": 1
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "q10",
+   "order": 10,
+   "maturity": "preparation",
+   "priority": 1,
+   "title": {
+    "fr": "Préparer ton lancement",
+    "mg": "Omano ny fanombohanao",
+    "en": "Prepare your launch",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Décide comment les clients entendront parler de toi et ce que tu feras en premier.",
+    "mg": "Tapaho ny fomba handrenesan'ny mpanjifa momba anao sy izay hataonao voalohany.",
+    "en": "Decide how customers will hear about you and what you will do first.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "available_when": {
+    "all": [
+     {
+      "quest": "q07",
+      "is": "completed"
+     },
+     {
+      "quest": "q09",
+      "is": "completed"
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": "q10.s01",
+     "type": "learn",
+     "title": {
+      "fr": "Un lancement se prépare",
+      "mg": "Omanina ny fanombohana",
+      "en": "A launch is prepared",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Lancer, ce n'est pas attendre que les clients arrivent. C'est aller vers eux avec un message simple, aux bons endroits, et savoir quoi faire chaque jour de la première semaine.",
+        "mg": "Tsy fiandrasana ho avy ny mpanjifa ny fanombohana. Fandehanana mankany aminy miaraka amin'ny hafatra tsotra, any amin'ny toerana mety, sy fahafantarana izay hatao isan'andro amin'ny herinandro voalohany.",
+        "en": "Launching is not waiting for customers to come. It is going to them with a simple message, in the right places, and knowing what to do each day of the first week.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "example",
+       "type": "example",
+       "body": {
+        "fr": "Fara dit : « Du savon livré au marché le lundi, moins cher que la boutique. » Elle le dit aux vendeuses du marché et le poste dans le groupe du quartier.",
+        "mg": "Milaza i Fara hoe: « Savony aterina eny an-tsena ny alatsinainy, mora kokoa noho ny an'ny magazay. » Lazainy amin'ireo mpivarotra eny an-tsena izany ary apetrany ao amin'ny vondrona ao amin'ny fokontany.",
+        "en": "Fara says: \"Soap delivered to the market on Mondays, cheaper than the shop.\" She tells market sellers and posts it in the neighbourhood group.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "tip",
+       "type": "tip",
+       "body": {
+        "fr": "Commence par les personnes qui ont déjà réservé ou montré de l'intérêt : ce sont tes premiers ambassadeurs.",
+        "mg": "Manomboka amin'ireo efa nitahiry na naneho fahalianana: izy ireo no solontenanao voalohany.",
+        "en": "Start with the people who already booked or showed interest: they are your first ambassadors.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q10.s02",
+     "type": "reflect",
+     "title": {
+      "fr": "Ton message",
+      "mg": "Ny hafatrao",
+      "en": "Your message",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "target",
+       "type": "question",
+       "prompt": {
+        "fr": "À qui parles-tu en premier ?",
+        "mg": "Iza no hiresahanao voalohany?",
+        "en": "Who do you talk to first?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quel groupe de clients vas-tu toucher dès le premier jour ?",
+          "mg": "Vondron'olona mpanjifa inona no hotratrarinao hatramin'ny andro voalohany?",
+          "en": "Which group of customers will you reach on day one?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Les vendeuses du marché qui ont déjà réservé, puis leurs voisines d'étal. »",
+         "mg": "« Ireo mpivarotra eny an-tsena efa nitahiry, avy eo ireo mpifanila toeram-pivarotana aminy. »",
+         "en": "\"The market sellers who already booked, then their stall neighbours.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Décris un groupe précis, sans nom ni numéro de téléphone.",
+          "mg": "Lazao vondrona mazava, tsy misy anarana na laharana finday.",
+          "en": "Describe a precise group, without names or phone numbers.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "message",
+       "type": "question",
+       "prompt": {
+        "fr": "Que leur dis-tu, en une phrase ?",
+        "mg": "Inona no lazainao aminy, amin'ny fehezanteny iray?",
+        "en": "What do you tell them, in one sentence?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quelle phrase donne envie d'essayer ton offre ?",
+          "mg": "Fehezanteny inona no mampaniry hanandrana ny tolotrao?",
+          "en": "Which sentence makes people want to try your offer?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Du savon livré au marché chaque lundi, moins cher que la boutique. »",
+         "mg": "« Savony aterina eny an-tsena isaky ny alatsinainy, mora kokoa noho ny an'ny magazay. »",
+         "en": "\"Soap delivered to the market every Monday, cheaper than the shop.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Dis ce que le client gagne (temps, argent, confort), pas comment tu le fais.",
+          "mg": "Lazao izay azon'ny mpanjifa (fotoana, vola, fahafinaretana), fa tsy ny fomba anaovanao azy.",
+          "en": "Say what the customer gains (time, money, comfort), not how you do it.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "channels",
+       "type": "question",
+       "prompt": {
+        "fr": "Où entendront-ils parler de toi ?",
+        "mg": "Aiza no handrenesan'izy ireo momba anao?",
+        "en": "Where will they hear about you?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Par quels lieux ou moyens ton message arrivera-t-il jusqu'à eux ?",
+          "mg": "Amin'ny toerana na fitaovana inona no hahatongavan'ny hafatrao aminy?",
+          "en": "Through which places or means will your message reach them?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« De vive voix au marché, le groupe Facebook du quartier, une affiche à l'épicerie. »",
+         "mg": "« Am-bava eny an-tsena, ny vondrona Facebook ao amin'ny fokontany, taratasy apetaka eo amin'ny epiceri. »",
+         "en": "\"Face to face at the market, the neighbourhood Facebook group, a poster at the grocery.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Choisis deux ou trois endroits où tes clients sont déjà, plutôt que partout.",
+          "mg": "Mifidiana toerana roa na telo efa misy ny mpanjifanao, toy izay any amin'ny toerana rehetra.",
+          "en": "Pick two or three places where your customers already are, rather than everywhere.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ton message de lancement. Il est enregistré dans ton plan marketing.",
+        "mg": "Ity ny hafatra fanombohanao. Voatahiry ao amin'ny drafitra fampahafantaranao izy.",
+        "en": "Here is your launch message. It is saved in your marketing plan.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "target",
+        "message",
+        "channels"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "target",
+       "section": "marketing",
+       "field": "target",
+       "tracked": true
+      },
+      {
+       "from": "message",
+       "section": "marketing",
+       "field": "message",
+       "tracked": true
+      },
+      {
+       "from": "channels",
+       "section": "marketing",
+       "field": "channels",
+       "tracked": true
+      }
+     ]
+    },
+    {
+     "id": "q10.s03",
+     "type": "reflect",
+     "title": {
+      "fr": "Tes premières étapes",
+      "mg": "Ireo dingana voalohanao",
+      "en": "Your first steps",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "first_steps",
+       "type": "question",
+       "prompt": {
+        "fr": "Quelles sont tes premières étapes, dans l'ordre ?",
+        "mg": "Inona avy ireo dingana voalohanao, araka ny filaharany?",
+        "en": "What are your first steps, in order?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 500
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Que feras-tu le premier jour, puis le deuxième, puis à la fin de la semaine ?",
+          "mg": "Inona no hataonao amin'ny andro voalohany, avy eo amin'ny faharoa, avy eo amin'ny faran'ny herinandro?",
+          "en": "What will you do on day one, then day two, then at the end of the week?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« 1. Acheter l'huile pour 20 lots. 2. Fabriquer samedi. 3. Livrer les réservations lundi. 4. Proposer aux voisines d'étal. »",
+         "mg": "« 1. Mividy menaka ho an'ny fehezana 20. 2. Manamboatra ny asabotsy. 3. Manatitra ireo voatahiry ny alatsinainy. 4. Manolotra ireo mpifanila toeram-pivarotana. »",
+         "en": "\"1. Buy oil for 20 packs. 2. Make soap on Saturday. 3. Deliver bookings on Monday. 4. Offer to stall neighbours.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Trois à cinq étapes suffisent. Commence par ce qui ne coûte presque rien.",
+          "mg": "Ampy ny dingana telo ka hatramin'ny dimy. Manomboka amin'izay saika tsy mandany vola.",
+          "en": "Three to five steps are enough. Start with what costs almost nothing.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "when",
+       "type": "question",
+       "prompt": {
+        "fr": "Quand veux-tu commencer ?",
+        "mg": "Rahoviana no tianao hanombohana?",
+        "en": "When do you want to start?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 100
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Choisis un jour ou une semaine pour ta première vente.",
+          "mg": "Mifidiana andro na herinandro iray ho an'ny varotra voalohanao.",
+          "en": "Pick a day or a week for your first sale.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Le premier lundi du mois prochain. »",
+         "mg": "« Ny alatsinainy voalohany amin'ny volana ho avy. »",
+         "en": "\"The first Monday of next month.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Une date proche et réaliste vaut mieux qu'une date parfaite et lointaine.",
+          "mg": "Tsara kokoa ny daty akaiky sy azo tanterahina noho ny daty lavorary sy lavitra.",
+          "en": "A near, realistic date beats a perfect, distant one.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ton plan de lancement. Il est enregistré dans ton projet.",
+        "mg": "Ity ny drafitra fanombohanao. Voatahiry ao amin'ny tetikasanao izy.",
+        "en": "Here is your launch plan. It is saved in your project.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "first_steps",
+        "when"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "first_steps",
+       "section": "launch",
+       "field": "first_steps",
+       "tracked": true
+      },
+      {
+       "from": "when",
+       "section": "launch",
+       "field": "when",
+       "tracked": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "q11",
+   "order": 11,
+   "maturity": "preparation",
+   "priority": 0,
+   "title": {
+    "fr": "Préparer tes formalités",
+    "mg": "Omano ny fombafomba ara-pitantanana",
+    "en": "Prepare your formalities",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Rassemble ce qu'il te faut avant d'aller au guichet.",
+    "mg": "Angony izay ilainao alohan'ny handehananao any amin'ny varavarankely.",
+    "en": "Gather what you need before going to the counter.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "available_when": {
+    "all": [
+     {
+      "quest": "q04",
+      "is": "completed"
+     },
+     {
+      "quest": "q06",
+      "is": "completed"
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": "q11.s01",
+     "type": "learn",
+     "title": {
+      "fr": "Pourquoi se déclarer ?",
+      "mg": "Nahoana no tokony hanambara?",
+      "en": "Why register?",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Selon les cas, une activité déclarée peut plus facilement travailler avec des entreprises, demander un financement et rassurer ses clients. Les démarches dépendent de ta situation et de ta région.",
+        "mg": "Arakaraka ny toe-javatra, ny asa voambara dia mety ho mora kokoa miara-miasa amin'ny orinasa, mangataka famatsiam-bola ary manome toky ny mpanjifany. Miankina amin'ny toe-javatra misy anao sy ny faritrao ny fombafomba.",
+        "en": "Depending on the case, a registered activity can more easily work with businesses, ask for funding and reassure customers. The steps depend on your situation and your region.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "tip",
+       "type": "tip",
+       "body": {
+        "fr": "L'outil « Préparation administrative » (onglet Outils) présente les informations avec leur source et leur date. Ce qui n'est pas vérifié y est indiqué. Confirme toujours au guichet.",
+        "mg": "Ny fitaovana « Fanomanana ara-pitantanana » (tabilao Fitaovana) dia manolotra ireo fampahalalana miaraka amin'ny loharanony sy ny daty. Voalaza ao izay tsy voamarina. Hamarino foana any amin'ny varavarankely.",
+        "en": "The \"Administrative preparation\" tool (Tools tab) shows the information with its source and date. What is not checked is marked as such. Always confirm at the counter.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "example",
+       "type": "example",
+       "body": {
+        "fr": "Avant d'y aller, Fara écrit le nom envisagé, son activité en une phrase et la liste de ses questions. Au guichet, elle gagne du temps.",
+        "mg": "Alohan'ny handehanany, manoratra ny anarana kasaina i Fara, ny asany amin'ny fehezanteny iray ary ny lisitry ny fanontaniany. Any amin'ny varavarankely, mahazo fotoana izy.",
+        "en": "Before going, Fara writes the name she is considering, her activity in one sentence and her list of questions. At the counter, she saves time.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q11.s02",
+     "type": "reflect",
+     "title": {
+      "fr": "Ce que tu apportes au guichet",
+      "mg": "Izay entinao any amin'ny varavarankely",
+      "en": "What you bring to the counter",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "business_name",
+       "type": "question",
+       "prompt": {
+        "fr": "Quel nom envisages-tu pour ton activité ?",
+        "mg": "Anarana inona no kasainao ho an'ny asanao?",
+        "en": "What name are you considering for your activity?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 120
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Comment veux-tu que les clients appellent ton activité ?",
+          "mg": "Ahoana no tianao hiantsoan'ny mpanjifa ny asanao?",
+          "en": "What do you want customers to call your activity?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Savon Fara Livraison » (exemple inventé).",
+         "mg": "« Savony Fara Fanaterana » (ohatra noforonina).",
+         "en": "\"Fara Soap Delivery\" (invented example).",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Un nom court, facile à dire et à retenir. Tu pourras le changer avant de déclarer.",
+          "mg": "Anarana fohy, mora tononina sy tadidiana. Azonao ovaina alohan'ny hanambarana.",
+          "en": "A short name, easy to say and remember. You can change it before registering.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "activity",
+       "type": "question",
+       "prompt": {
+        "fr": "Quelle est ton activité principale, en une phrase ?",
+        "mg": "Inona ny asanao fototra, amin'ny fehezanteny iray?",
+        "en": "What is your main activity, in one sentence?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Que fais-tu, pour qui, en quelques mots ?",
+          "mg": "Inona no ataonao, ho an'iza, amin'ny teny vitsivitsy?",
+          "en": "What do you do, for whom, in a few words?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Fabrication et livraison de savon pour les vendeuses du marché. »",
+         "mg": "« Fanamboarana sy fanaterana savony ho an'ireo mpivarotra eny an-tsena. »",
+         "en": "\"Making and delivering soap for market sellers.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Reprends ton offre : ce que tu vends et à qui.",
+          "mg": "Avereno ny tolotrao: izay amidinao sy ho an'iza.",
+          "en": "Reuse your offer: what you sell and to whom.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "questions",
+       "type": "question",
+       "prompt": {
+        "fr": "Quelles questions veux-tu poser au guichet ?",
+        "mg": "Fanontaniana inona no tianao apetraka any amin'ny varavarankely?",
+        "en": "What questions do you want to ask at the counter?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 500
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce que tu ne sais pas encore sur les démarches ?",
+          "mg": "Inona no mbola tsy fantatrao momba ny fombafomba?",
+          "en": "What do you not know yet about the steps?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Quelle forme me convient ? Quels papiers apporter ? Combien cela coûte et combien de temps cela prend ? »",
+         "mg": "« Karazana inona no mety amiko? Taratasy inona no entina? Ohatrinona ary haharitra hafiriana? »",
+         "en": "\"Which form suits me? Which papers should I bring? How much does it cost and how long does it take?\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Regarde dans l'outil « Préparation administrative » ce qui est marqué non vérifié : ce sont de bonnes questions.",
+          "mg": "Jereo ao amin'ny fitaovana « Fanomanana ara-pitantanana » izay voamarika ho tsy voamarina: fanontaniana tsara ireo.",
+          "en": "Look in the \"Administrative preparation\" tool for what is marked unchecked: those are good questions.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ce que tu apportes au guichet. Retrouve-le dans l'outil « Préparation administrative ».",
+        "mg": "Ity izay entinao any amin'ny varavarankely. Hitanao ao amin'ny fitaovana « Fanomanana ara-pitantanana » izany.",
+        "en": "Here is what you bring to the counter. Find it in the \"Administrative preparation\" tool.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "business_name",
+        "activity",
+        "questions"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "business_name",
+       "section": "formalization",
+       "field": "business_name",
+       "tracked": true
+      },
+      {
+       "from": "activity",
+       "section": "formalization",
+       "field": "activity",
+       "tracked": true
+      },
+      {
+       "from": "questions",
+       "section": "formalization",
+       "field": "questions",
+       "tracked": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "q12",
+   "order": 12,
+   "maturity": "launch",
+   "priority": 0,
+   "title": {
+    "fr": "Lancer pour de vrai",
+    "mg": "Manomboka tokoa",
+    "en": "Launch for real",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Vends pendant une semaine, note chaque vente et regarde ce que tu as appris.",
+    "mg": "Mivarota mandritra ny herinandro iray, soraty ny varotra tsirairay ary jereo izay nianaranao.",
+    "en": "Sell for a week, record every sale and look at what you learned.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "available_when": {
+    "quest": "q10",
+    "is": "completed"
+   },
+   "steps": [
+    {
+     "id": "q12.s01",
+     "type": "learn",
+     "title": {
+      "fr": "La première semaine",
+      "mg": "Ny herinandro voalohany",
+      "en": "The first week",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "La première semaine t'apprend plus que des mois de préparation : ce qui se vend, ce qui bloque, ce que les clients demandent. Note tout, même les petites ventes.",
+        "mg": "Ny herinandro voalohany dia mampianatra anao mihoatra noho ny volana maro fanomanana: izay lafo, izay manakana, izay angatahan'ny mpanjifa. Soraty daholo, na ny varotra kely aza.",
+        "en": "The first week teaches you more than months of preparation: what sells, what blocks, what customers ask for. Write everything down, even small sales.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "tip",
+       "type": "tip",
+       "body": {
+        "fr": "Garde l'argent du projet à part de ton argent personnel, même dans une simple enveloppe. Sinon, tu ne sauras pas si tu gagnes de l'argent.",
+        "mg": "Atokàny ny volan'ny tetikasa sy ny volanao manokana, na ao anaty valopy tsotra aza. Raha tsy izany, tsy ho fantatrao raha mahazo tombony ianao.",
+        "en": "Keep the project's money apart from your personal money, even in a simple envelope. Otherwise you will not know whether you earn money.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q12.s02",
+     "type": "act",
+     "title": {
+      "fr": "Ta semaine de lancement",
+      "mg": "Ny herinandro fanombohanao",
+      "en": "Your launch week",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "how",
+       "type": "text",
+       "body": {
+        "fr": "Suis tes premières étapes. Après chaque vente, ajoute une preuve de type « Vente » dans ton hypothèse ou ton test en cours (onglet Projet, puis « Hypothèses »).",
+        "mg": "Araho ireo dingana voalohanao. Isaky ny varotra, ampio porofo karazana « Varotra » ao amin'ny vinavinanao na ny fitsapanao an-dalana (tabilao Tetikasa, avy eo « Vinavina »).",
+        "en": "Follow your first steps. After each sale, add a \"Sale\" evidence to your current hypothesis or test (Project tab, then \"Hypotheses\").",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "go",
+       "type": "mission",
+       "mission": "m.launch_week"
+      }
+     ],
+     "complete_when": {
+      "all": [
+       {
+        "mission": "m.launch_week",
+        "is": "completed"
+       },
+       {
+        "count": "evidences",
+        "where": {
+         "kind": "sale"
+        },
+        "gte": 1
+       }
+      ]
+     }
+    },
+    {
+     "id": "q12.s03",
+     "type": "reflect",
+     "title": {
+      "fr": "Ce que la semaine t'a appris",
+      "mg": "Izay nampianarin'ny herinandro anao",
+      "en": "What the week taught you",
+      "status": {
+       "fr": "needs_review",
+       "mg": "machine_draft",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "went_well",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui a bien marché ?",
+        "mg": "Inona no nandeha tsara?",
+        "en": "What went well?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce que tu referais exactement de la même façon ?",
+          "mg": "Inona no hataonao indray amin'ny fomba mitovy tanteraka?",
+          "en": "What would you do again exactly the same way?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Les réservations du lundi : toutes livrées et payées. »",
+         "mg": "« Ireo voatahiry ny alatsinainy: voatitra sy voaloa avokoa. »",
+         "en": "\"Monday bookings: all delivered and paid.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Pense à une vente précise et à ce qui l'a rendue facile.",
+          "mg": "Eritrereto varotra iray manokana sy izay nahamora azy.",
+          "en": "Think of one specific sale and what made it easy.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "change",
+       "type": "question",
+       "prompt": {
+        "fr": "Que vas-tu changer la semaine prochaine ?",
+        "mg": "Inona no hovainao amin'ny herinandro manaraka?",
+        "en": "What will you change next week?",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce qui a bloqué, et que vas-tu essayer à la place ?",
+          "mg": "Inona no nanakana, ary inona no hanandramanao ho solony?",
+          "en": "What blocked, and what will you try instead?",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Livrer aussi le vendredi, car deux clientes ne sont pas là le lundi. »",
+         "mg": "« Hanatitra koa ny zoma, satria tsy eo ny alatsinainy ny mpanjifa roa. »",
+         "en": "\"Also deliver on Friday, because two customers are not there on Monday.\"",
+         "status": {
+          "fr": "needs_review",
+          "mg": "machine_draft",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Un seul changement à la fois : tu sauras ce qui a fait la différence.",
+          "mg": "Fanovana iray monja isaky ny mandeha: ho fantatrao izay nahatonga ny fahasamihafana.",
+          "en": "One change at a time: you will know what made the difference.",
+          "status": {
+           "fr": "needs_review",
+           "mg": "machine_draft",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Bravo pour ce lancement. Recommence ce cycle chaque semaine : vendre, noter, apprendre, ajuster.",
+        "mg": "Arahaba tamin'ity fanombohana ity. Avereno isan-kerinandro ity fihodinana ity: mivarotra, manoratra, mianatra, manitsy.",
+        "en": "Well done on this launch. Repeat this cycle every week: sell, record, learn, adjust.",
+        "status": {
+         "fr": "needs_review",
+         "mg": "machine_draft",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "went_well",
+        "change"
+       ]
+      }
+     ]
+    }
+   ]
   }
  ],
  "missions": [
@@ -4262,6 +5606,160 @@
     "fr": "« Huile, 1 litre : grossiste du port et marché du Bazary Be, prix notés le 3 mars. » (Exemple inventé.)",
     "mg": "« Menaka, 1 litatra: mpivarotra ambongadiny eo amin'ny seranana sy tsena Bazary Be, voasoratra ny vidiny tamin'ny 3 martsa. » (Ohatra noforonina.)",
     "en": "\"Oil, 1 litre: port wholesaler and Bazary Be market, prices noted on 3 March.\" (Invented example.)",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   }
+  },
+  {
+   "id": "m.pre_sell",
+   "title": {
+    "fr": "Prévendre à dix personnes",
+    "mg": "Mivarotra mialoha amin'olona folo",
+    "en": "Pre-sell to ten people",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "objective": {
+    "fr": "Savoir combien de clients paient ou réservent vraiment à ton prix.",
+    "mg": "Mahafantatra hoe mpanjifa firy no tena mandoa na mitahiry amin'ny vidinao.",
+    "en": "Find out how many customers really pay or book at your price.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "instructions": [
+    {
+     "fr": "Avant de commencer, écris combien de réservations il faut pour que le test soit réussi.",
+     "mg": "Alohan'ny hanombohana, soraty hoe firy ny fitahirizana ilaina mba hahomby ny fitsapana.",
+     "en": "Before starting, write how many bookings are needed for the test to succeed.",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Présente ton offre et ton prix à dix personnes qui correspondent à ton client, et propose de réserver avec une petite avance.",
+     "mg": "Atolory olona folo mifanaraka amin'ny mpanjifanao ny tolotrao sy ny vidinao, ary asao hitahiry amin'ny vola mialoha kely.",
+     "en": "Present your offer and price to ten people who match your customer, and offer to book with a small deposit.",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Note chaque avance reçue. Ne note ni nom ni numéro de téléphone ; un surnom suffit pour livrer.",
+     "mg": "Soraty ny vola mialoha voaray tsirairay. Aza manoratra anarana na laharana finday; ampy ny anaram-bositra hanaterana.",
+     "en": "Record each deposit received. Don't note names or phone numbers; a nickname is enough to deliver.",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    }
+   ],
+   "deliverable": {
+    "fr": "Le nombre de réservations sur dix, et ce qu'ont dit ceux qui ont refusé.",
+    "mg": "Ny isan'ny fitahirizana amin'ny folo, sy izay nolazain'ireo nandà.",
+    "en": "The number of bookings out of ten, and what those who refused said.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "duration_minutes": 120,
+   "difficulty": 2,
+   "example": {
+    "fr": "« 5 réservations sur 10. Trois trouvent le prix juste, deux veulent payer à la livraison. » (Exemple inventé.)",
+    "mg": "« Fitahirizana 5 amin'ny 10. Telo no mahita fa mety ny vidiny, roa te handoa rehefa tonga ny entana. » (Ohatra noforonina.)",
+    "en": "\"5 bookings out of 10. Three find the price fair, two want to pay on delivery.\" (Invented example.)",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   }
+  },
+  {
+   "id": "m.launch_week",
+   "title": {
+    "fr": "Vendre pendant une semaine",
+    "mg": "Mivarotra mandritra ny herinandro iray",
+    "en": "Sell for one week",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "objective": {
+    "fr": "Faire tes premières vraies ventes et apprendre de chacune.",
+    "mg": "Manao ny varotra voalohany tena izy ary mianatra amin'ny tsirairay.",
+    "en": "Make your first real sales and learn from each one.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "instructions": [
+    {
+     "fr": "Suis les premières étapes de ton plan de lancement.",
+     "mg": "Araho ireo dingana voalohany amin'ny drafitra fanombohanao.",
+     "en": "Follow the first steps of your launch plan.",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Chaque soir, note les ventes du jour, l'argent reçu et ce que tu as dépensé.",
+     "mg": "Isaky ny hariva, soraty ny varotra natao androany, ny vola voaray ary izay nolanianao.",
+     "en": "Every evening, write down the day's sales, the money received and what you spent.",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Note aussi ce que les clients ont demandé ou reproché, sans nom ni numéro.",
+     "mg": "Soraty koa izay nangatahin'ny mpanjifa na nomeny tsiny, tsy misy anarana na laharana.",
+     "en": "Also note what customers asked for or complained about, without names or numbers.",
+     "status": {
+      "fr": "needs_review",
+      "mg": "machine_draft",
+      "en": "needs_review"
+     }
+    }
+   ],
+   "deliverable": {
+    "fr": "Le total de la semaine (ventes, argent reçu, dépenses) et deux choses apprises.",
+    "mg": "Ny fitambaran'ny herinandro (varotra, vola voaray, fandaniana) sy zavatra roa nianarana.",
+    "en": "The week's totals (sales, money received, spending) and two things learned.",
+    "status": {
+     "fr": "needs_review",
+     "mg": "machine_draft",
+     "en": "needs_review"
+    }
+   },
+   "duration_minutes": 420,
+   "difficulty": 3,
+   "example": {
+    "fr": "« 18 lots vendus, tout payé ; une cliente veut un parfum citron. » (Exemple inventé.)",
+    "mg": "« Fehezana 18 lafo, voaloa daholo; mpanjifa iray te hanana fofona voasarimakirana. » (Ohatra noforonina.)",
+    "en": "\"18 packs sold, all paid; one customer wants a lemon scent.\" (Invented example.)",
     "status": {
      "fr": "needs_review",
      "mg": "machine_draft",
