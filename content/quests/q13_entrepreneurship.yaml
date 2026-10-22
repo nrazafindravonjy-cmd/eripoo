@@ -13,6 +13,7 @@ summary:
   mg: "Ny fandraharahana dia mamaha olana ho an'ny olona aloha. Efa manana fahaiza-manao hanombohana ianao."
   en: "Starting a business is first about solving a problem for people. You already have assets to start."
 available_when: {fact: diag.entry_profile, eq: no_idea}
+hide_when_locked: true
 steps:
   - id: q13.s01
     type: learn

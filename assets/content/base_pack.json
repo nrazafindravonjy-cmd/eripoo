@@ -5255,6 +5255,7 @@
     "fact": "diag.entry_profile",
     "eq": "no_idea"
    },
+   "hide_when_locked": true,
    "steps": [
     {
      "id": "q13.s01",
@@ -5531,6 +5532,7 @@
     "quest": "q13",
     "is": "completed"
    },
+   "hide_when_locked": true,
    "steps": [
     {
      "id": "q14.s01",
@@ -5728,6 +5730,7 @@
     "quest": "q14",
     "is": "completed"
    },
+   "hide_when_locked": true,
    "steps": [
     {
      "id": "q15.s01",

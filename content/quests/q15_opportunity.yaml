@@ -14,6 +14,7 @@ summary:
   mg: "Amin'izay hitanao, fidio ny olana mendrika hodinihina lalina."
   en: "Among what you observed, choose the problem worth digging into."
 available_when: {quest: q14, is: completed}
+hide_when_locked: true
 steps:
   - id: q15.s01
     type: learn

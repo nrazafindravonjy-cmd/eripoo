@@ -25,7 +25,9 @@ class QuestListScreen extends ConsumerWidget {
         data: (plan) => ListView(
           padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
           children: [
-            for (final q in plan.quests)
+            for (final q in plan.quests.where(
+              (q) => q.available || !q.quest.hideWhenLocked,
+            ))
               ReadableColumn(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: EripooSpacing.md),

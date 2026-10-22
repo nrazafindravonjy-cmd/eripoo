@@ -418,6 +418,7 @@ class Quest {
     this.priority = 0,
     this.availableWhen,
     this.fastTrackWhen,
+    this.hideWhenLocked = false,
   });
 
   final String id;
@@ -435,6 +436,9 @@ class Quest {
   /// Applies to every step without its own `fast_track_when`.
   final Rule? fastTrackWhen;
 
+  /// Not listed while locked: a quest meant for some profiles only.
+  final bool hideWhenLocked;
+
   factory Quest.read(JsonReader json) {
     json.onlyKeys({
       'id',
@@ -447,6 +451,7 @@ class Quest {
       'priority',
       'available_when',
       'fast_track_when',
+      'hide_when_locked',
     });
     final maturity = json['maturity'].token;
     if (!maturityStages.contains(maturity)) {
@@ -469,6 +474,7 @@ class Quest {
       fastTrackWhen: json.has('fast_track_when')
           ? Rule.read(json['fast_track_when'])
           : null,
+      hideWhenLocked: json['hide_when_locked'].boolOr(false),
     );
     if (quest.steps.isEmpty) json['steps'].fail('a quest needs steps');
     return quest;
