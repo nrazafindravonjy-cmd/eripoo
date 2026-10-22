@@ -15,6 +15,7 @@ import '../../devices/presentation/devices_screen.dart';
 import '../../documents/presentation/document_screens.dart';
 import '../../documents/presentation/documents_providers.dart';
 import '../../documents/presentation/pdf_export.dart';
+import '../../latency/presentation/latency_screen.dart';
 import '../../quest/presentation/journey_providers.dart';
 import '../../settings/presentation/app_settings_controller.dart';
 import 'account_messages.dart';
@@ -49,6 +50,24 @@ class ProfileScreen extends ConsumerWidget {
                   ),
                   const SizedBox(height: EripooSpacing.sm),
                   _AccountCard(state),
+                  if (latencyToolAvailable(ref.watch(appConfigProvider))) ...[
+                    const SizedBox(height: EripooSpacing.sm),
+                    EripooCard(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute<void>(
+                          builder: (_) => const LatencyScreen(),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          const Icon(Icons.speed),
+                          const SizedBox(width: EripooSpacing.md),
+                          Expanded(child: Text(l10n.latencyTitle)),
+                          const Icon(Icons.chevron_right),
+                        ],
+                      ),
+                    ),
+                  ],
                   if (state is Linked) ...[
                     const SizedBox(height: EripooSpacing.xl),
                     Text(l10n.syncTitle, style: context.textStyles.titleMedium),

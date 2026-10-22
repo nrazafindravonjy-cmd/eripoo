@@ -606,5 +606,16 @@
   "accountDeleteExportTitle": "Hitahiry kopian'ny antontan-taratasinao ve?",
   "accountDeleteExportBody": "Mamafa ny asanao rehetra ny famafana, eto amin'ity finday ity sy ao amin'ny mpizara. Alohan'izay, azonao avoaka ho PDF ny antontan-taratasinao ary tehirizina.",
   "accountDeleteExport": "Avoahy ny PDF",
-  "accountDeleteSkipExport": "Tohizo tsy misy"
+  "accountDeleteSkipExport": "Tohizo tsy misy",
+  "latencyTitle": "Fandrefesana fahatarana (fampandrosoana)",
+  "latencyIntro": "Mandrefy ny fotoana mandeha sy miverina mankany amin'ny mpizara fampandrosoana: fandrefesana 100. Soraty ny toerana sy ny mpandraharaha, avy eo adikao ny valiny ho an'ny tatitra.",
+  "latencyNoteLabel": "Toerana sy mpandraharaha (oh. Antananarivo, 4G)",
+  "latencyStart": "Atombohy ny fandrefesana 100",
+  "latencyProgress": "Fandrefesana {done} amin'ny {total}",
+  "latencyResult": "Salan'isa afovoany: {median} ms · isa faha-95: {p95} ms · kely indrindra {min} ms · be indrindra {max} ms",
+  "latencyFailures": "{count, plural, =0{Tsy nisy tsy nahomby} other{{count} tsy nahomby}}",
+  "latencyNetwork": "{kind, select, wifi{Wi-Fi} mobile{Angona finday} none{Tsy misy tambajotra} other{Tsy fantatra}}",
+  "latencyCopy": "Adikao ny valiny",
+  "latencyCopied": "Voadika ny valiny.",
+  "latencyNoServer": "Tsy misy mpizara voalamina amin'ity dikan-teny ity."
 }
