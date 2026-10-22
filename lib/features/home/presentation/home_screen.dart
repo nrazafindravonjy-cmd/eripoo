@@ -7,6 +7,7 @@ import '../../../content/progress_state.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../badges/presentation/badges_screen.dart';
+import '../../devices/presentation/new_device_notice.dart';
 import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
 import 'erasure_notice.dart';
@@ -34,6 +35,7 @@ class HomeScreen extends ConsumerWidget {
             padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
             children: [
               const ErasureNotice(),
+              const NewDeviceNotice(),
               const BadgeCelebration(),
               ReadableColumn(
                 child: !plan.diagnosticDone

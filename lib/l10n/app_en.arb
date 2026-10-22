@@ -592,5 +592,10 @@
   "badgesNone": "No badge yet. The first one comes with your first action in the field.",
   "badgesCelebrationTitle": "{count, plural, =1{New badge} other{New badges}}",
   "badgesCelebrationBody": "Thanks to what you did: {names}.",
-  "badgesSee": "See my badges"
+  "badgesSee": "See my badges",
+  "newDeviceTitle": "New device on your account",
+  "newDeviceItem": "\"{label}\", added on {date}",
+  "newDeviceBody": "If it wasn't you, remove it right away and change your password.",
+  "newDeviceItsMe": "It's me",
+  "newDeviceReview": "See my devices"
 }

@@ -146,9 +146,9 @@ Voix (Phase 9) :
 - [x] **suppression de compte** — faite en Phase 10 (fonction SQL,
   fichiers puis compte, effacement local) ; reste : vérification sur le
   projet de développement en ligne (§3) et avis juridique (§1) ;
-- [ ] **notification « Nouvel appareil ajouté »** aux autres appareils et
-  par e-mail (SECURITY §6.8) — l'événement est enregistré côté serveur,
-  rien n'est envoyé ;
+- [ ] **notification « Nouvel appareil ajouté »** (SECURITY §6.8) — dans
+  l'app sur les autres appareils : fait (C-4) ; par e-mail : pas fait
+  (fournisseur d'envoi à choisir) ;
 - [x] **quota de stockage des médias** — 2 000 fichiers par compte
   (Phase 10) ; [ ] quota en octets à vérifier sur le vrai Storage ;
 - [ ] **confirmation d'identité par le verrou Eripoo** quand le téléphone

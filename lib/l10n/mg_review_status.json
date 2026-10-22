@@ -593,6 +593,11 @@
     "badgesNone": "needs_review",
     "badgesCelebrationTitle": "needs_review",
     "badgesCelebrationBody": "needs_review",
-    "badgesSee": "needs_review"
+    "badgesSee": "needs_review",
+    "newDeviceTitle": "needs_review",
+    "newDeviceItem": "needs_review",
+    "newDeviceBody": "needs_review",
+    "newDeviceItsMe": "needs_review",
+    "newDeviceReview": "needs_review"
   }
 }
