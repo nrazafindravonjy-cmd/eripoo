@@ -204,11 +204,13 @@ class DocumentBuilder {
     ]),
     _part('customers', _section('customers')),
     _part('solution', _section('solution')),
+    _part('offer', _section('offer')),
     _part('validation', [
       if (_s.concluded.isNotEmpty || _s.observations + _s.interviews > 0)
         _groundwork(),
       ..._concluded(_s.concluded),
     ]),
+    _part('market', _section('market')),
     _part('competition', _competitors()),
     _part('businessModel', _canvas()),
     _part('finance', _finance()),

@@ -231,6 +231,31 @@ void main() {
     );
   });
 
+  test(
+    'the market chapter: what the user estimated, and how they know',
+    () async {
+      await ProjectRepository(db).saveSection(
+        projectId: project,
+        sectionKey: 'market',
+        fields: {
+          'estimate': 'Environ 60 vendeuses',
+          'how_known': 'Comptées un lundi matin.',
+        },
+      );
+      final parts = builder(await synthesis()).dossier();
+      expect(
+        parts.map((p) => p.key),
+        containsAllInOrder(['solution', 'offer', 'market', 'competition']),
+      );
+      final market = parts.firstWhere((p) => p.key == 'market');
+      expect(market.title, 'Le marché');
+      expect(market.items.whereType<DocLabeled>().map((i) => i.text), [
+        'Environ 60 vendeuses',
+        'Comptées un lundi matin.',
+      ]);
+    },
+  );
+
   test('the pitch deck keeps only slides with something to show', () async {
     await someWork();
     final deck = builder(await synthesis()).pitchDeck();

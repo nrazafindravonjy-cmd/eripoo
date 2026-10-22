@@ -2306,7 +2306,7 @@
   "@dossierMissing": {
     "description": "Chapitres vides."
   },
-  "dossierChapter": "{key, select, summary{Résumé} problem{Le problème} customers{Les clients} solution{La solution} validation{Ce que les tests ont montré} competition{La concurrence} businessModel{Le modèle économique} finance{Les chiffres} marketing{Le marketing} launch{Le lancement} pitch{Le pitch} formalization{Formalisation} other{Chapitre}}",
+  "dossierChapter": "{key, select, summary{Résumé} problem{Le problème} customers{Les clients} solution{La solution} offer{L'offre} validation{Ce que les tests ont montré} market{Le marché} competition{La concurrence} businessModel{Le modèle économique} finance{Les chiffres} marketing{Le marketing} launch{Le lancement} pitch{Le pitch} formalization{Formalisation} other{Chapitre}}",
   "@dossierChapter": {
     "description": "Titre d'un chapitre du dossier.",
     "placeholders": {

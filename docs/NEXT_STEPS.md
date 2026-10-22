@@ -98,7 +98,7 @@ liste du cahier des charges ; reste la validation du contenu (P-5).
 > transfert, rotation de clé, suppression du compte) doivent pouvoir être
 > confirmées par le verrou applicatif Eripoo (PIN) au lieu d'être bloquées.
 
-### C-6. Chapitre « Marché » du dossier (lié à C-2 ; moyen)
+### C-6. Chapitre « Marché » du dossier (lié à C-2 ; moyen) — fait le 2026-10-22
 > Lis CLAUDE.md et docs/END_CHECKLIST.md §4. Le dossier entrepreneurial n'a
 > pas de chapitre « Marché » car aucune quête ne recueille ces données.
 > Ajoute les questions dans le contenu (taille, clients, concurrents en

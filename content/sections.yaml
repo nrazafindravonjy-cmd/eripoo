@@ -30,6 +30,23 @@
     - key: advantage
       label: {fr: "Ce qui est mieux qu'aujourd'hui", mg: "Izay tsara kokoa noho ny ankehitriny", en: "What is better than today"}
       max_length: 200
+# The market (quest q05): what the user saw and estimated, with how they
+# know it. No figure is given by Eripoo (docs/NEXT_STEPS.md C-6).
+- key: market
+  title: {fr: "Le marché", mg: "Ny tsena", en: "The market"}
+  fields:
+    - key: customers
+      label: {fr: "Les clients possibles", mg: "Ireo mety ho mpanjifa", en: "The possible customers"}
+      max_length: 280
+    - key: area
+      label: {fr: "Où ils sont (quartier, ville, région)", mg: "Aiza izy ireo (fokontany, tanàna, faritra)", en: "Where they are (neighbourhood, town, region)"}
+      max_length: 200
+    - key: estimate
+      label: {fr: "Ton estimation de leur nombre", mg: "Ny tombantombanao ny isan'izy ireo", en: "Your estimate of how many there are"}
+      max_length: 200
+    - key: how_known
+      label: {fr: "Comment tu le sais", mg: "Ahoana no ahafantaranao izany", en: "How you know"}
+      max_length: 300
 # The offer (quest q06): what is sold, how it is received, at what price.
 - key: offer
   title: {fr: "L'offre", mg: "Ny tolotra", en: "The offer"}

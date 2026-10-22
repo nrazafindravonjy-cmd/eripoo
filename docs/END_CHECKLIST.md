@@ -164,9 +164,10 @@ Voix (Phase 9) :
   (`impots.mg`, `cnaps.mg` injoignables pendant la collecte), codes
   d'activité (NOMAC) ; relire les sources tous les trois mois et à chaque
   loi de finances (`dart run tool/check_sources.dart`) ;
-- [ ] **chapitre « Marché »** du dossier : absent, aucune donnée
-  de marché n'est recueillie par les quêtes actuelles (à prévoir dans le
-  contenu) ;
+- [x] **chapitre « Marché »** du dossier — fait (C-6) : étape « Ton
+  marché » de la quête q05 (clients possibles, zone, estimation et comment
+  elle est connue ; aucun chiffre donné par Eripoo), section `market`,
+  chapitres « Le marché » et « L'offre » dans le dossier et son PDF ;
 - [ ] **niveau de préparation** (§23, « éventuellement ») : non fait ;
 - [ ] **associés** (§48) : aide à la recherche d'associé non faite ;
 - [ ] **plusieurs scénarios de prix** : un seul plan par projet
