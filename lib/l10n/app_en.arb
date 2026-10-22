@@ -475,7 +475,7 @@
   "dossierIntro": "Your file gathers what you have done. It grows with your work: nothing is made up, empty chapters are still to work on.",
   "dossierProgress": "Chapters ready: {progress}",
   "dossierMissing": "Still to work on",
-  "dossierChapter": "{key, select, summary{Summary} problem{The problem} customers{The customers} solution{The solution} validation{What the tests showed} competition{Competition} businessModel{The business model} finance{The numbers} marketing{Marketing} launch{The launch} pitch{The pitch} formalization{Formalisation} other{Chapter}}",
+  "dossierChapter": "{key, select, summary{Summary} problem{The problem} customers{The customers} solution{The solution} offer{The offer} validation{What the tests showed} market{The market} competition{Competition} businessModel{The business model} finance{The numbers} marketing{Marketing} launch{The launch} pitch{The pitch} formalization{Formalisation} other{Chapter}}",
   "dossierChapterHint": "{key, select, summary{Write your project summary (section \"The project summary\").} problem{Finish the quest on the problem.} customers{Fill in \"The customers\".} solution{Fill in \"The solution\".} validation{Test a hypothesis to its conclusion.} competition{Note a competitor in the competitor analysis.} businessModel{Build your Business Model Canvas.} finance{Fill in \"My numbers\".} marketing{Fill in your marketing plan.} launch{Fill in \"The launch\".} pitch{Write your pitch.} formalization{Prepare your formalisation with the \"Administrative preparation\" tool.} other{}}",
   "dossierOutcome": "{status, select, validated{Confirmed} invalidated{Contradicted} inconclusive{Not settled} other{In progress}}",
   "dossierHypothesis": "{outcome}: {statement}",

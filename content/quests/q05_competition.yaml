@@ -94,3 +94,116 @@ steps:
       all:
         - {count: competitors, gte: 2}
         - {count: competitors, where: {kind: alternative}, gte: 1}
+  - id: q05.s04
+    type: reflect
+    title:
+      fr: "Ton marché"
+      mg: "Ny tsenanao"
+      en: "Your market"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Ton marché, ce sont toutes les personnes qui pourraient acheter ton offre. Personne ne connaît ce chiffre à ta place : estime-le à partir de ce que tu as vu, et dis d'où il vient."
+          mg: "Ny tsenanao dia ireo olona rehetra mety hividy ny tolotrao. Tsy misy mahafantatra io isa io ho anao: tombano avy amin'izay hitanao, ary lazao hoe avy aiza izy."
+          en: "Your market is everyone who could buy your offer. Nobody knows this number for you: estimate it from what you saw, and say where it comes from."
+      - id: customers
+        type: question
+        prompt:
+          fr: "Qui sont tes clients possibles ?"
+          mg: "Iza avy ireo mety ho mpanjifanao?"
+          en: "Who are your possible customers?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Quels groupes de personnes pourraient acheter ce que tu proposes ?"
+              mg: "Vondron'olona inona avy no mety hividy izay atolotrao?"
+              en: "Which groups of people could buy what you offer?"
+          example:
+            fr: "« Les vendeuses du marché et les familles du quartier qui lavent à la main. »"
+            mg: "« Ireo mpivarotra eny an-tsena sy ireo fianakaviana ao amin'ny fokontany manasa amin'ny tanana. »"
+            en: "\"Market sellers and neighbourhood families who wash by hand.\""
+          hints:
+            - fr: "Reprends ce que tes rencontres et tes concurrents t'ont appris."
+              mg: "Avereno izay nampianarin'ny fihaonanao sy ny mpifaninana aminao."
+              en: "Reuse what your conversations and competitors taught you."
+      - id: area
+        type: question
+        prompt:
+          fr: "Où sont-ils ?"
+          mg: "Aiza izy ireo?"
+          en: "Where are they?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Dans quel quartier, quelle ville ou quelle région vas-tu vendre au début ?"
+              mg: "Amin'ny fokontany, tanàna na faritra inona no hivarotanao amin'ny voalohany?"
+              en: "In which neighbourhood, town or region will you sell at first?"
+          example:
+            fr: "« Le marché du Bazary Be et les rues autour, à Toamasina. »"
+            mg: "« Ny tsenan'ny Bazary Be sy ireo arabe manodidina, any Toamasina. »"
+            en: "\"Bazary Be market and the streets around it, in Toamasina.\""
+          hints:
+            - fr: "Commence petit : la zone où tu peux livrer ou vendre toi-même."
+              mg: "Manomboka kely: ny faritra azonao anaterana na ivarotana samirery."
+              en: "Start small: the area where you can deliver or sell yourself."
+      - id: estimate
+        type: question
+        prompt:
+          fr: "Combien sont-ils, à ton avis ?"
+          mg: "Firy izy ireo, araka ny hevitrao?"
+          en: "How many are there, in your view?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Combien de personnes de ce groupe vois-tu dans ta zone, environ ?"
+              mg: "Olona firy amin'io vondrona io no hitanao ao amin'ny faritrao, eo ho eo?"
+              en: "About how many people of this group do you see in your area?"
+          example:
+            fr: "« Environ 60 vendeuses au marché (comptées un lundi). » (Exemple inventé.)"
+            mg: "« Mpivarotra 60 eo ho eo eny an-tsena (nisaina tamin'ny alatsinainy iray). » (Ohatra noforonina.)"
+            en: "\"About 60 sellers at the market (counted one Monday).\" (Invented example.)"
+          hints:
+            - fr: "Un comptage sur place vaut mieux qu'un grand chiffre trouvé ailleurs. Si tu ne sais pas, réponds « Je ne sais pas » : c'est une information utile."
+              mg: "Tsara kokoa ny fanisana eny an-toerana noho ny isa lehibe hita any an-kafa. Raha tsy fantatrao, valio hoe « Tsy haiko »: fampahalalana ilaina izany."
+              en: "A count on site beats a big number found elsewhere. If you don't know, answer \"I don't know\": that is useful information."
+      - id: how_known
+        type: question
+        prompt:
+          fr: "Comment le sais-tu ?"
+          mg: "Ahoana no ahafantaranao izany?"
+          en: "How do you know?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "D'où vient ton estimation : un comptage, des rencontres, une source écrite ?"
+              mg: "Avy aiza ny tombantombanao: fanisana, fihaonana, loharano voasoratra?"
+              en: "Where does your estimate come from: a count, conversations, a written source?"
+          example:
+            fr: "« J'ai compté les étals un lundi matin, et trois vendeuses m'ont dit qu'elles sont aussi nombreuses le jeudi. »"
+            mg: "« Nisaiko ireo toeram-pivarotana ny alatsinainy maraina iray, ary mpivarotra telo no nilaza tamiko fa maro toy izany koa izy ireo ny alakamisy. »"
+            en: "\"I counted the stalls one Monday morning, and three sellers told me there are as many on Thursdays.\""
+          hints:
+            - fr: "Si tu cites un document, note son titre et sa date."
+              mg: "Raha manonona antontan-taratasy ianao, soraty ny lohateniny sy ny daty."
+              en: "If you quote a document, note its title and date."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ton marché, avec d'où viennent tes chiffres. Il forme le chapitre « Le marché » de ton dossier."
+          mg: "Ity ny tsenanao, miaraka amin'ny niavian'ireo isanao. Izy no mandrafitra ny toko « Ny tsena » ao amin'ny antontan-taratasinao."
+          en: "Here is your market, with where your numbers come from. It makes the \"The market\" chapter of your file."
+        shows: [customers, area, estimate, how_known]
+    outputs:
+      - {from: customers, section: market, field: customers, tracked: true}
+      - {from: area, section: market, field: area, tracked: true}
+      - {from: estimate, section: market, field: estimate, tracked: true}
+      - {from: how_known, section: market, field: how_known, tracked: true}
