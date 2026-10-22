@@ -689,6 +689,19 @@ Aucune décision de cette liste ne peut remettre en cause :
 | Clé de signature du contenu | clé de développement | clé de développement | clé de production conservée hors ligne |
 | Région | — | sans importance (aucune donnée réelle) ; idéalement une région candidate, pour mesurer la latence | décision D9 (P5) |
 
+**Projet de développement** : `eripoo-dev` créé par le porteur
+(2026-10-22, ref `xqybntszqedpykdzcfwb`). Le workflow manuel
+`.github/workflows/supabase-dev.yml` (Actions → Supabase dev → Run
+workflow) applique `supabase/migrations/` (`supabase link` + `supabase db
+push`), puis, au choix, construit l'APK release `eripoo-dev.apk`
+(`ERIPOO_ENV=development`, signée avec la clé de debug, artefact 14 jours)
+et lance les tests de contrat RPC contre le projet. Secrets GitHub du
+dépôt : `SUPABASE_ACCESS_TOKEN`, `SUPABASE_PROJECT_REF`,
+`SUPABASE_DB_PASSWORD`, `SUPABASE_URL`, `SUPABASE_ANON_KEY`. Les tests de
+contrat créent des comptes fictifs : la confirmation d'e-mail doit être
+désactivée dans le projet (Authentication → Sign In / Providers → Email).
+Aucune modification manuelle du schéma dans le tableau de bord.
+
 ⚠️ **Constat sur l'environnement de développement de Claude** : le client
 Docker est installé mais le démon ne tourne pas, ce qui empêche
 `supabase start` ici à ce jour. Options, par ordre de préférence : exécuter
