@@ -151,8 +151,10 @@ Voix (Phase 9) :
   (fournisseur d'envoi à choisir) ;
 - [x] **quota de stockage des médias** — 2 000 fichiers par compte
   (Phase 10) ; [ ] quota en octets à vérifier sur le vrai Storage ;
-- [ ] **confirmation d'identité par le verrou Eripoo** quand le téléphone
-  n'a pas de verrouillage (aujourd'hui : verrouillage du téléphone) ;
+- [x] **confirmation d'identité par le verrou Eripoo** quand le téléphone
+  n'a pas de verrouillage — faite (C-5) pour l'ajout et le retrait d'un
+  appareil, la rotation de clé et la suppression du compte ; sans aucun
+  verrou, rien de plus ne peut être demandé (comportement inchangé) ;
 - [x] **message après effacement** au redémarrage — fait en Phase 10 ;
 - [x] **badges** (§21) — faits (C-3) : 8 badges dans `content/badges.yaml`,
   mêmes règles et même validateur que les outils, table `badge_awards` ;

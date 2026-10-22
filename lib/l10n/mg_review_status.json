@@ -598,6 +598,11 @@
     "newDeviceItem": "needs_review",
     "newDeviceBody": "needs_review",
     "newDeviceItsMe": "needs_review",
-    "newDeviceReview": "needs_review"
+    "newDeviceReview": "needs_review",
+    "ownerPinTitle": "needs_review",
+    "ownerPinBody": "needs_review",
+    "ownerPinLabel": "needs_review",
+    "ownerReason": "needs_review",
+    "ownerFailed": "needs_review"
   }
 }

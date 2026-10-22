@@ -707,7 +707,7 @@ profile_screens_test.dart` (écrans des deux côtés).
 | Vérification de la clé | déchiffre les données existantes | ouvre le premier enregistrement de la même version de clé (5 pages de 50 au plus) ; toute erreur ⇒ refus | — |
 | Compte sans aucune donnée | — | clé acceptée sans vérification possible | **risque résiduel** : il faut avoir vu QR1 et être présent au moment exact (§6.5) |
 | Enregistrement « en attente » 24 h (§6.7, ligne 4) | A annonce N au serveur | **pas d'annonce** : N s'enregistre lui-même | sans annonce, rien n'est en attente ; un enregistrement fait puis interrompu est refait sans être compté deux fois |
-| Confirmation d'identité sur A (§6.2) | verrouillage du téléphone, sinon verrou Eripoo | verrouillage du téléphone s'il existe | le recours au verrou Eripoo reste à faire (point ouvert) |
+| Confirmation d'identité sur A (§6.2) | verrouillage du téléphone, sinon verrou Eripoo | verrouillage du téléphone s'il existe, sinon code du verrou Eripoo (mêmes limites d'essais que l'écran de verrouillage) ; fait au chantier C-5, aussi pour le retrait d'un appareil, la rotation de clé et la suppression du compte | sans aucun verrou, rien de plus ne peut être demandé sur ce téléphone |
 | Notification « Nouvel appareil ajouté » (§6.8) | autres appareils + e-mail | **non faite** | l'événement `device_added` est enregistré côté serveur |
 | Lecture des QR | — | `camera` + `zxing2` (Dart pur, sur un isolat, ≈ 4 images/s) ; génération `qr` | pas de Google ML Kit (métriques d'usage envoyées à Google, services Play requis) |
 | `FLAG_SECURE` | écrans de transfert et du code | canal natif `eripoo/secure_window` (`MainActivity.kt`) : écrans QR1/code, QR2, code de secours (affichage et saisie) | non vérifié sur appareil |

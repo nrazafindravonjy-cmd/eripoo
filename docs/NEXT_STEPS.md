@@ -92,7 +92,7 @@ liste du cahier des charges ; reste la validation du contenu (P-5).
 > d'un e-mail (Edge Function ou hook Supabase), testable sur le projet de
 > développement uniquement.
 
-### C-5. Verrou Eripoo comme confirmation d'identité (petit)
+### C-5. Verrou Eripoo comme confirmation d'identité (petit) — fait le 2026-10-22
 > Lis CLAUDE.md et docs/END_CHECKLIST.md §4. Quand le téléphone n'a pas de
 > verrouillage d'écran, les actions sensibles (code de récupération,
 > transfert, rotation de clé, suppression du compte) doivent pouvoir être
