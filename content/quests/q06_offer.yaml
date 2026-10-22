@@ -1,0 +1,185 @@
+# Quest 6: build an offer (what, for whom, at what price), from what the
+# tests and the competitors showed. The price calculator does the maths.
+id: q06
+order: 6
+maturity: construction
+priority: 6
+title:
+  fr: "Construire ton offre"
+  mg: "Ataovy ny tolotrao"
+  en: "Build your offer"
+summary:
+  fr: "Dis clairement ce que tu vends, à qui, et à quel prix."
+  mg: "Lazao mazava izay amidinao, amin'iza, ary amin'ny vidiny ohatrinona."
+  en: "Say clearly what you sell, to whom, and at what price."
+available_when:
+  all:
+    - {quest: q04, is: completed}
+    - {quest: q05, is: completed}
+steps:
+  - id: q06.s01
+    type: learn
+    title:
+      fr: "Une idée n'est pas encore une offre"
+      mg: "Tsy mbola tolotra ny hevitra"
+      en: "An idea is not an offer yet"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Une offre, c'est ce qu'un client peut acheter aujourd'hui : un produit ou un service précis, une quantité, un prix, et une façon de le recevoir."
+          mg: "Ny tolotra dia izay azon'ny mpanjifa vidiana anio: vokatra na tolotra mazava, habetsahana, vidiny, ary fomba handraisana azy."
+          en: "An offer is what a customer can buy today: a precise product or service, a quantity, a price, and a way to receive it."
+      - id: term
+        type: term
+        plain:
+          fr: "Ce que je vends, à qui, combien et comment"
+          mg: "Izay amidiko, amin'iza, ohatrinona ary ahoana"
+          en: "What I sell, to whom, how much and how"
+        term:
+          fr: "Offre"
+          mg: "Tolotra"
+          en: "Offer"
+        definition:
+          fr: "La proposition concrète faite au client cible, avec son prix et ses conditions."
+          mg: "Ny tolo-kevitra mivaingana atolotra ny mpanjifa kendrena, miaraka amin'ny vidiny sy ny fepetrany."
+          en: "The concrete proposal made to the target customer, with its price and its conditions."
+      - id: example
+        type: example
+        body:
+          fr: "Fara ne dit plus « je vends du savon ». Elle dit : « un lot de 3 savons livré au marché chaque lundi matin ». (Exemple inventé.)"
+          mg: "Tsy milaza intsony i Fara hoe « mivarotra savony aho ». Milaza izy hoe: « savony 3 iray fehezana aterina eny an-tsena isaky ny alatsinainy maraina ». (Ohatra noforonina.)"
+          en: "Fara no longer says \"I sell soap\". She says: \"a pack of 3 soaps delivered to the market every Monday morning\". (Invented example.)"
+      - id: tip
+        type: tip
+        body:
+          fr: "Pour le prix, pars de deux choses vérifiées : ce que te coûte une unité, et les prix que tu as vus chez tes concurrents."
+          mg: "Ho an'ny vidiny, miainga amin'ny zavatra roa voamarina: ny vidin'ny singa iray aminao, sy ny vidiny hitanao tany amin'ny mpifaninana."
+          en: "For the price, start from two checked things: what one unit costs you, and the prices you saw at your competitors."
+  - id: q06.s02
+    type: act
+    title:
+      fr: "Calcule ce que coûte une unité"
+      mg: "Kajio ny vidin'ny singa iray"
+      en: "Work out what one unit costs"
+    blocks:
+      - id: how
+        type: text
+        body:
+          fr: "Ouvre l'onglet Projet, puis « Mes chiffres ». Dans « Ce que coûte une unité », note ce que tu paies pour une unité (matière, emballage…). Reviens ensuite ici."
+          mg: "Sokafy ny tabilao Tetikasa, avy eo « Ny isako ». Ao amin'ny « Ny vidin'ny iray », soraty izay aloanao ho an'ny singa iray (akora, fonosana…). Miverena eto avy eo."
+          en: "Open the Project tab, then \"My numbers\". Under \"What one unit costs\", note what you pay for one unit (materials, packaging…). Then come back here."
+      - id: tip
+        type: tip
+        body:
+          fr: "Mets les vrais prix payés ou demandés au fournisseur, pas des prix imaginés. Le calculateur de prix (onglet Outils) t'aide ensuite à choisir ton prix."
+          mg: "Apetraho ny vidiny tena naloa na nangatahina tamin'ny mpamatsy, fa tsy vidiny noeritreretina. Ny fikajiana vidiny (tabilao Fitaovana) no manampy anao hifidy ny vidinao avy eo."
+          en: "Use the real prices paid or asked from the supplier, not imagined ones. The price calculator (Tools tab) then helps you choose your price."
+    complete_when: {count: finance_items, where: {kind: variable_cost}, gte: 1}
+  - id: q06.s03
+    type: reflect
+    title:
+      fr: "Écris ton offre"
+      mg: "Soraty ny tolotrao"
+      en: "Write your offer"
+    blocks:
+      - id: what
+        type: question
+        prompt:
+          fr: "Que vends-tu exactement, et en quelle quantité ?"
+          mg: "Inona marina no amidinao, ary firy?"
+          en: "What exactly do you sell, and in what quantity?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Qu'est-ce qu'un client reçoit quand il te paie ?"
+              mg: "Inona no raisin'ny mpanjifa rehefa mandoa vola aminao izy?"
+              en: "What does a customer get when they pay you?"
+            - fr: "Décris ce que tu mets dans la main du client."
+              mg: "Lazao izay apetrakao eo an-tanan'ny mpanjifa."
+              en: "Describe what you put in the customer's hand."
+          example:
+            fr: "« Un lot de 3 savons de 200 g, emballés dans du papier. »"
+            mg: "« Savony 3 iray fehezana, 200 g avy, voafono taratasy. »"
+            en: "\"A pack of 3 soaps of 200 g, wrapped in paper.\""
+          hints:
+            - fr: "Donne une quantité ou une durée : « 1 kg », « 1 heure », « 1 repas »."
+              mg: "Omeo habetsahana na faharetana: « 1 kg », « adiny 1 », « sakafo 1 »."
+              en: "Give a quantity or a duration: \"1 kg\", \"1 hour\", \"1 meal\"."
+      - id: how
+        type: question
+        prompt:
+          fr: "Comment le client reçoit-il ce que tu vends ?"
+          mg: "Ahoana no handraisan'ny mpanjifa izay amidinao?"
+          en: "How does the customer get what you sell?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Où et quand le client récupère-t-il ton produit ou ton service ?"
+              mg: "Aiza ary rahoviana no alain'ny mpanjifa ny vokatrao na ny tolotrao?"
+              en: "Where and when does the customer get your product or service?"
+          example:
+            fr: "« Livré au marché chaque lundi, payé à la livraison. »"
+            mg: "« Aterina eny an-tsena isaky ny alatsinainy, aloa rehefa tonga. »"
+            en: "\"Delivered to the market every Monday, paid on delivery.\""
+          hints:
+            - fr: "Pense au lieu, au jour, et au moment où le client paie."
+              mg: "Eritrereto ny toerana, ny andro, ary ny fotoana andoavan'ny mpanjifa."
+              en: "Think about the place, the day, and when the customer pays."
+      - id: price
+        type: question
+        prompt:
+          fr: "À quel prix penses-tu vendre une unité ?"
+          mg: "Amin'ny vidiny ohatrinona no eritreretinao hivarotana singa iray?"
+          en: "At what price do you plan to sell one unit?"
+        answer:
+          kind: text
+          max_length: 100
+        help:
+          rephrase:
+            - fr: "Combien le client te paiera-t-il pour une unité, en ariary ?"
+              mg: "Ohatrinona no haloan'ny mpanjifa aminao ho an'ny singa iray, amin'ny ariary?"
+              en: "How much will the customer pay you for one unit, in ariary?"
+          example:
+            fr: "« 2 500 ariary le lot de 3 » (exemple inventé)."
+            mg: "« 2 500 ariary ny fehezana misy 3 » (ohatra noforonina)."
+            en: "\"2,500 ariary for a pack of 3\" (invented example)."
+          hints:
+            - fr: "Ton prix doit dépasser ce que te coûte une unité, sinon tu perds de l'argent à chaque vente."
+              mg: "Tsy maintsy ambony noho ny vidin'ny singa iray aminao ny vidinao, raha tsy izany dia very vola ianao isaky ny varotra."
+              en: "Your price must be above what one unit costs you, otherwise you lose money on every sale."
+            - fr: "Si tu hésites, ouvre le calculateur de prix dans l'onglet Outils."
+              mg: "Raha misalasala ianao, sokafy ny fikajiana vidiny ao amin'ny tabilao Fitaovana."
+              en: "If you hesitate, open the price calculator in the Tools tab."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ton offre. Elle est enregistrée dans ton projet ; tu la testeras auprès de vrais clients."
+          mg: "Ity ny tolotrao. Voatahiry ao amin'ny tetikasanao izy; hosedrainao amin'ny mpanjifa tena izy."
+          en: "Here is your offer. It is saved in your project; you will test it with real customers."
+        shows: [what, how, price]
+    outputs:
+      - {from: what, section: offer, field: what, tracked: true}
+      - {from: how, section: offer, field: delivery, tracked: true}
+      - {from: price, section: offer, field: price, tracked: true}
+  - id: q06.s04
+    type: act
+    title:
+      fr: "Présente ton offre"
+      mg: "Atolory ny tolotrao"
+      en: "Present your offer"
+    blocks:
+      - id: why
+        type: text
+        body:
+          fr: "Une offre se vérifie face aux clients. Présente-la et regarde ce qu'ils font, pas seulement ce qu'ils disent."
+          mg: "Hamarinina eo anatrehan'ny mpanjifa ny tolotra. Atolory izy ary jereo izay ataon'izy ireo, fa tsy izay lazainy ihany."
+          en: "An offer is checked in front of customers. Present it and watch what they do, not only what they say."
+      - id: go
+        type: mission
+        mission: m.present_offer
+    complete_when: {mission: m.present_offer, is: completed}

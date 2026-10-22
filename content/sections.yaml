@@ -30,6 +30,19 @@
     - key: advantage
       label: {fr: "Ce qui est mieux qu'aujourd'hui", mg: "Izay tsara kokoa noho ny ankehitriny", en: "What is better than today"}
       max_length: 200
+# The offer (quest q06): what is sold, how it is received, at what price.
+- key: offer
+  title: {fr: "L'offre", mg: "Ny tolotra", en: "The offer"}
+  fields:
+    - key: what
+      label: {fr: "Ce que tu vends, et en quelle quantité", mg: "Izay amidinao, sy ny habetsahany", en: "What you sell, and in what quantity"}
+      max_length: 280
+    - key: delivery
+      label: {fr: "Comment le client le reçoit", mg: "Ahoana no handraisan'ny mpanjifa azy", en: "How the customer gets it"}
+      max_length: 200
+    - key: price
+      label: {fr: "Le prix envisagé", mg: "Ny vidiny kasaina", en: "The price considered"}
+      max_length: 100
 # Phase 7: sections brought by a tool. They appear once the tool is
 # unlocked (or as soon as they hold something), never as empty boxes.
 - key: business_model
