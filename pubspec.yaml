@@ -1,0 +1,66 @@
+name: eripoo
+description: "Eripoo — Mihary ho an'ny ho avy."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: ^3.13.5
+
+dependencies:
+  camera: ^0.12.1
+  connectivity_plus: ^7.3.2
+  drift: ^2.35.1
+  drift_flutter: ^0.3.1
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_riverpod: ^3.4.3
+  flutter_secure_storage: ^11.2.0
+  go_router: ^18.0.2
+  image_picker: ^1.2.4
+  intl: ^0.20.3
+  just_audio: ^0.10.6
+  local_auth: ^3.0.2
+  path_provider: ^2.1.6
+  pdf: ^3.13.1
+  qr: ^3.0.2
+  record: ^7.1.1
+  share_plus: ^13.3.1
+  sodium: ^4.1.1+2
+  sqlite3: ^3.7.0
+  supabase_flutter: ^2.18.0
+  uuid: ^4.6.0
+  workmanager: ^0.10.10
+  zxing2: ^0.2.4
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  drift_dev: ^2.35.1
+  fake_async: ^1.3.3
+  build_runner: ^2.16.1
+  yaml: ^3.1.4
+  crypto: ^3.0.7
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    # Built from content/ by tool/content_build.dart (do not edit by hand).
+    - assets/content/base_pack.json
+    # Embedded in exported PDFs (Apache 2.0, see Roboto_LICENSE.txt).
+    - assets/fonts/Roboto-Regular.ttf
+    - assets/fonts/Roboto-Bold.ttf
+    - assets/fonts/Roboto_LICENSE.txt
+
+# Native build hooks configuration.
+hooks:
+  user_defines:
+    sqlite3:
+      # SQLite3MultipleCiphers: page-level encryption of the local database
+      # (docs/SECURITY.md §4.5, §18.2). MIT licence, verified on v2.5.0.
+      source: sqlite3mc

@@ -1,0 +1,141 @@
+# Quest 3: a first idea of solution, built on what customers said.
+id: q03
+order: 3
+maturity: validation
+priority: 10
+title:
+  fr: "Imaginer ta solution"
+  mg: "Mamorona ny vahaolanao"
+  en: "Imagine your solution"
+summary:
+  fr: "À partir de ce que tu as appris, imagine une première réponse simple."
+  mg: "Avy amin'izay nianaranao, eritrereto valiny voalohany tsotra."
+  en: "Based on what you learned, imagine a first simple answer."
+available_when: {quest: q02, is: completed}
+steps:
+  - id: q03.s01
+    type: learn
+    title:
+      fr: "Commencer petit"
+      mg: "Manomboka kely"
+      en: "Start small"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Ta première solution n'a pas besoin d'être parfaite. Elle doit être assez simple pour être essayée vite, avec peu d'argent."
+          mg: "Tsy voatery ho lavorary ny vahaolanao voalohany. Tokony ho tsotra ampy izy mba hazo andramana haingana, amin'ny vola kely."
+          en: "Your first solution doesn't need to be perfect. It must be simple enough to try quickly, with little money."
+      - id: term
+        type: term
+        plain:
+          fr: "Une première version, simple, pour essayer"
+          mg: "Dika voalohany tsotra, hanandramana"
+          en: "A simple first version, to try things out"
+        term:
+          fr: "Produit minimum viable"
+          mg: "Vokatra kely indrindra azo ampiasaina"
+          en: "Minimum viable product"
+        definition:
+          fr: "La plus petite version de ta solution qui permet de vérifier si des clients en veulent vraiment."
+          mg: "Ny dika kely indrindra amin'ny vahaolanao ahafahana manamarina raha tena mila azy ny mpanjifa."
+          en: "The smallest version of your solution that lets you check whether customers really want it."
+      - id: example
+        type: example
+        body:
+          fr: "Avant d'ouvrir une boutique, Fara livre du savon à pied à dix mères, une fois par semaine, pour voir si elles commandent à nouveau."
+          mg: "Alohan'ny hanokafany magazay, mandefa savony an-tongotra ho an'ny reny folo i Fara, indray mandeha isan-kerinandro, mba hijerena raha mbola hanafatra indray izy ireo."
+          en: "Before opening a shop, Fara delivers soap on foot to ten mothers once a week, to see if they order again."
+  - id: q03.s02
+    type: reflect
+    title:
+      fr: "Ta première idée de solution"
+      mg: "Ny hevitra voalohany momba ny vahaolanao"
+      en: "Your first solution idea"
+    blocks:
+      - id: solution
+        type: question
+        prompt:
+          fr: "Comment pourrais-tu aider tes clients, simplement ?"
+          mg: "Ahoana no ahafahanao manampy ny mpanjifanao, amin'ny fomba tsotra?"
+          en: "How could you help your customers, simply?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Que pourrais-tu proposer dès la semaine prochaine ?"
+              mg: "Inona no azonao atolotra manomboka amin'ny herinandro ho avy?"
+              en: "What could you offer as soon as next week?"
+            - fr: "Décris ce que le client reçoit, et comment."
+              mg: "Lazao izay azon'ny mpanjifa, sy ny fomba ahazoany azy."
+              en: "Describe what the customer gets, and how."
+          example:
+            fr: "« Livrer savon et produits de base au marché, chaque lundi, sur commande. »"
+            mg: "« Mandefa savony sy entana fototra eny an-tsena, isaky ny alatsinainy, araka ny kaomandy. »"
+            en: "\"Deliver soap and basics to the market every Monday, to order.\""
+          hints:
+            - fr: "Repars de ce qui t'a surpris pendant tes rencontres."
+              mg: "Miverena amin'izay nahagaga anao nandritra ireo fihaonana."
+              en: "Start again from what surprised you in your conversations."
+      - id: different
+        type: question
+        prompt:
+          fr: "En quoi est-ce mieux que ce qu'ils font aujourd'hui ?"
+          mg: "Amin'ny lafiny inona no tsara kokoa noho izay ataony ankehitriny izany?"
+          en: "How is it better than what they do today?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Pourquoi choisiraient-ils ta solution plutôt que leur habitude ?"
+              mg: "Nahoana no hisafidy ny vahaolanao izy ireo fa tsy ny fahazarany?"
+              en: "Why would they choose your solution over their habit?"
+          example:
+            fr: "« Elles gagnent une heure et paient le même prix. »"
+            mg: "« Mahazo adiny iray izy ireo ary mitovy ny vidiny aloany. »"
+            en: "\"They save an hour and pay the same price.\""
+          hints:
+            - fr: "Pense au temps, à l'argent, à la fatigue ou à la confiance."
+              mg: "Eritrereto ny fotoana, ny vola, ny havizanana na ny fahatokisana."
+              en: "Think about time, money, tiredness or trust."
+      - id: kind
+        type: question
+        prompt:
+          fr: "Ta solution, c'est plutôt…"
+          mg: "Ny vahaolanao dia…"
+          en: "Your solution is mostly…"
+        answer:
+          kind: choice
+          options:
+            - value: product
+              label: {fr: "Un produit", mg: "Vokatra", en: "A product"}
+            - value: service
+              label: {fr: "Un service", mg: "Tolotra", en: "A service"}
+            - value: both
+              label: {fr: "Les deux", mg: "Izy roa", en: "Both"}
+        help:
+          rephrase:
+            - fr: "Vends-tu un objet, ou fais-tu quelque chose pour le client ?"
+              mg: "Zavatra ve no amidinao, sa misy zavatra ataonao ho an'ny mpanjifa?"
+              en: "Do you sell an object, or do something for the customer?"
+          example:
+            fr: "Du savon livré : c'est les deux, un produit et un service de livraison."
+            mg: "Savony aterina: izy roa izany, vokatra sy tolotra fanaterana."
+            en: "Delivered soap is both: a product and a delivery service."
+          hints:
+            - fr: "Si tu hésites, choisis « Les deux »."
+              mg: "Raha misalasala ianao, fidio « Izy roa »."
+              en: "If unsure, choose \"Both\"."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ta première idée de solution. Elle évoluera avec ce que tes clients te diront."
+          mg: "Ity ny hevitra voalohany momba ny vahaolanao. Hivoatra arakaraka izay holazain'ny mpanjifanao izy."
+          en: "Here is your first solution idea. It will change with what your customers tell you."
+        shows: [solution, different, kind]
+    outputs:
+      - {from: solution, section: solution, field: first_idea, tracked: true}
+      - {from: different, section: solution, field: advantage, tracked: true}
+      - {from: kind, fact: solution.kind}

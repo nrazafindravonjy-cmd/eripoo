@@ -1,0 +1,12 @@
+tags:
+  screenshots:
+    # Visual review captures, not run by default (fonts and pixels differ
+    # between machines). Generate with:
+    #   flutter test --tags screenshots --run-skipped --update-goldens
+    skip: "Captures de revue visuelle : voir docs/DESIGN_SYSTEM.md"
+  volume:
+    # 5 000-item sync test (~40 s). Runs in CI; prints MEASURE lines.
+    timeout: 5m
+  supabase:
+    # Contract tests against a running Supabase (CI job "Supabase local").
+    # Skipped unless ERIPOO_TEST_SUPABASE_URL is set.

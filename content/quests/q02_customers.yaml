@@ -1,0 +1,227 @@
+# Quest 2: understand future customers by talking to them.
+id: q02
+order: 2
+maturity: validation
+priority: 20
+title:
+  fr: "Comprendre tes futurs clients"
+  mg: "Mahafantatra ny mpanjifanao ho avy"
+  en: "Understand your future customers"
+summary:
+  fr: "Découvre qui vit le problème et ce qu'ils font aujourd'hui pour s'en sortir."
+  mg: "Fantaro hoe iza no miaina ny olana sy izay ataony ankehitriny mba hialana aminy."
+  en: "Find out who has the problem and what they do about it today."
+available_when:
+  step: q01.s02
+  is: [completed, fast_tracked]
+steps:
+  - id: q02.s01
+    type: learn
+    title:
+      fr: "Qui sont tes clients ?"
+      mg: "Iza avy ireo mpanjifanao?"
+      en: "Who are your customers?"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Tes clients ne sont pas « tout le monde ». Ce sont des personnes précises, qui vivent le problème et qui pourraient payer pour le résoudre."
+          mg: "Tsy « ny olona rehetra » ny mpanjifanao. Olona voafaritra izy ireo, miaina ny olana ary mety handoa vola hamahana azy."
+          en: "Your customers are not \"everyone\". They are specific people who have the problem and could pay to solve it."
+      - id: term
+        type: term
+        plain:
+          fr: "Le groupe de personnes pour qui tu travailles"
+          mg: "Ny vondron'olona iasanao"
+          en: "The group of people you work for"
+        term:
+          fr: "Client cible"
+          mg: "Mpanjifa kendrena"
+          en: "Target customer"
+        definition:
+          fr: "Les personnes que ton projet veut servir en premier, décrites par ce qu'elles vivent, où elles sont et ce qu'elles peuvent payer."
+          mg: "Ireo olona tian'ny tetikasanao hotompoina voalohany, voafaritra amin'izay iainany, ny toerana misy azy ary izay azony aloa."
+          en: "The people your project wants to serve first, described by what they live, where they are and what they can pay."
+      - id: example
+        type: example
+        body:
+          fr: "Pour Fara, ce n'est pas « les habitants de Toamasina » mais « les mères qui travaillent au marché de Bazary Be ». C'est plus précis, donc plus facile à rencontrer."
+          mg: "Ho an'i Fara, tsy hoe « ny mponina any Toamasina » fa « ireo reny miasa eny amin'ny tsenan'i Bazary Be ». Mazava kokoa izany, ka mora kokoa ny mihaona amin'izy ireo."
+          en: "For Fara, it's not \"people in Toamasina\" but \"mothers who work at Bazary Be market\". That is more precise, so easier to meet."
+  - id: q02.s02
+    type: reflect
+    title:
+      fr: "Décrire ton client"
+      mg: "Mamaritra ny mpanjifanao"
+      en: "Describe your customer"
+    blocks:
+      - id: description
+        type: question
+        prompt:
+          fr: "Décris la personne qui a le plus besoin de ta solution."
+          mg: "Lazao ny olona mila indrindra ny vahaolanao."
+          en: "Describe the person who most needs your solution."
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Si tu ne pouvais aider qu'un seul type de personne, ce serait qui ?"
+              mg: "Raha karazan'olona iray ihany no azonao ampiana, iza izany?"
+              en: "If you could help only one kind of person, who would it be?"
+            - fr: "Dis son âge à peu près, son travail et sa journée."
+              mg: "Lazao eo ho eo ny taonany, ny asany ary ny andro iainany."
+              en: "Give their rough age, their work and their day."
+          example:
+            fr: "« Une mère de 25 à 40 ans, vendeuse au marché, qui rentre tard et n'a pas le temps de faire les courses. »"
+            mg: "« Reny 25 ka hatramin'ny 40 taona, mpivarotra eny an-tsena, tara vao mody ka tsy manam-potoana hiantsena. »"
+            en: "\"A mother aged 25 to 40, a market seller, who gets home late and has no time to shop.\""
+          hints:
+            - fr: "Reprends la personne que tu as décrite dans la quête précédente et ajoute un détail."
+              mg: "Raiso indray ilay olona nofaritanao tamin'ny dia teo aloha ary ampio antsipiriany iray."
+              en: "Take the person you described in the last quest and add one detail."
+      - id: where
+        type: question
+        prompt:
+          fr: "Où peux-tu rencontrer ces personnes ?"
+          mg: "Aiza no ahitanao ireo olona ireo?"
+          en: "Where can you meet these people?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Dans quels lieux passent-elles souvent ?"
+              mg: "Amin'ny toerana inona no andalovany matetika?"
+              en: "Which places do they often go to?"
+          example:
+            fr: "« Au marché le matin, à la sortie de l'école, à l'église le dimanche. »"
+            mg: "« Eny an-tsena ny maraina, eo am-pivoahan'ny sekoly, any am-piangonana ny alahady. »"
+            en: "\"At the market in the morning, outside the school, at church on Sunday.\""
+          hints:
+            - fr: "Pense aux lieux et aux heures où tu pourrais leur parler quelques minutes."
+              mg: "Eritrereto ny toerana sy ny ora ahafahanao miresaka aminy minitra vitsivitsy."
+              en: "Think of places and times when you could talk to them for a few minutes."
+      - id: today
+        type: question
+        prompt:
+          fr: "Aujourd'hui, que font-elles face à ce problème ?"
+          mg: "Ankehitriny, inona no ataon'izy ireo manoloana io olana io?"
+          en: "Today, what do they do about this problem?"
+        answer:
+          kind: choice
+          options:
+            - value: pays_other
+              label: {fr: "Elles paient déjà une autre solution", mg: "Efa mandoa vahaolana hafa izy ireo", en: "They already pay for another solution"}
+            - value: own_way
+              label: {fr: "Elles se débrouillent seules", mg: "Mitady lalana ho azy izy ireo", en: "They manage on their own"}
+            - value: nothing
+              label: {fr: "Elles ne font rien", mg: "Tsy manao na inona na inona izy ireo", en: "They do nothing"}
+        help:
+          rephrase:
+            - fr: "Comment ces personnes s'en sortent-elles sans toi ?"
+              mg: "Ahoana no hialan'ireo olona ireo amin'izany raha tsy misy anao?"
+              en: "How do these people cope without you?"
+          example:
+            fr: "Les mères de Fara envoient parfois un enfant au magasin : elles se débrouillent seules."
+            mg: "Indraindray ireo reny any amin'i Fara dia maniraka zaza any amin'ny magazay: mitady lalana ho azy izy ireo."
+            en: "The mothers Fara knows sometimes send a child to the shop: they manage on their own."
+          hints:
+            - fr: "Si elles paient déjà autre chose, c'est bon signe : le problème compte pour elles."
+              mg: "Raha efa mandoa zavatra hafa izy ireo, famantarana tsara izany: manan-danja aminy ny olana."
+              en: "If they already pay for something else, that's a good sign: the problem matters to them."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ton client tel que tu l'imagines aujourd'hui. La prochaine étape : vérifier en lui parlant."
+          mg: "Ity ny mpanjifanao araka ny eritreritrao ankehitriny. Dingana manaraka: hamarino amin'ny firesahana aminy."
+          en: "Here is your customer as you picture them today. Next: check by talking to them."
+        shows: [description, where, today]
+    outputs:
+      - {from: description, section: customers, field: description, tracked: true}
+      - {from: where, section: customers, field: where_to_meet}
+      - {from: today, fact: customers.current_solution}
+  - id: q02.s03
+    type: act
+    title:
+      fr: "Parler à trois personnes"
+      mg: "Miresaka amin'olona telo"
+      en: "Talk to three people"
+    blocks:
+      - id: why
+        type: text
+        body:
+          fr: "Tu ne présentes pas ton idée : tu écoutes. Le but est de comprendre leur vie, pas de les convaincre."
+          mg: "Tsy manolotra ny hevitrao ianao: mihaino. Ny tanjona dia ny hahatakatra ny fiainany fa tsy ny handresy lahatra azy."
+          en: "You don't pitch your idea: you listen. The goal is to understand their life, not to convince them."
+      - id: go
+        type: mission
+        mission: m.talk_three
+    complete_when: {mission: m.talk_three, is: completed}
+  - id: q02.s04
+    type: reflect
+    title:
+      fr: "Ce que tu as appris"
+      mg: "Izay nianaranao"
+      en: "What you learned"
+    blocks:
+      - id: learned
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui t'a surpris dans ce qu'elles t'ont dit ?"
+          mg: "Inona no nahagaga anao tamin'izay nolazain'izy ireo taminao?"
+          en: "What surprised you in what they told you?"
+        answer:
+          kind: text
+          max_length: 400
+        help:
+          rephrase:
+            - fr: "Qu'as-tu découvert que tu ne savais pas avant ?"
+              mg: "Inona no hitanao izay tsy fantatrao teo aloha?"
+              en: "What did you discover that you didn't know before?"
+          example:
+            fr: "« Le savon n'est pas le vrai souci : c'est l'eau, qui manque le matin. »"
+            mg: "« Tsy ny savony no tena olana: ny rano, izay tsy ampy ny maraina. »"
+            en: "\"Soap isn't the real issue: it's water, which runs short in the morning.\""
+          hints:
+            - fr: "Relis ce que tu as écrit dans la mission."
+              mg: "Vakio indray izay nosoratanao tao amin'ny iraka."
+              en: "Read again what you wrote in the mission."
+      - id: confirmed
+        type: question
+        prompt:
+          fr: "Le problème est-il confirmé ?"
+          mg: "Voamarina ve ny olana?"
+          en: "Is the problem confirmed?"
+        answer:
+          kind: choice
+          options:
+            - value: "yes"
+              label: {fr: "Oui, clairement", mg: "Eny, mazava tsara", en: "Yes, clearly"}
+            - value: partly
+              label: {fr: "En partie", mg: "Ampahany", en: "Partly"}
+            - value: "no"
+              label: {fr: "Non, pas vraiment", mg: "Tsia, tsy dia", en: "No, not really"}
+        help:
+          rephrase:
+            - fr: "Les personnes rencontrées vivent-elles vraiment ce problème ?"
+              mg: "Tena miaina io olana io tokoa ve ireo olona nifanena taminao?"
+              en: "Do the people you met really have this problem?"
+          example:
+            fr: "Deux personnes sur trois en parlent sans que tu poses la question : c'est « Oui »."
+            mg: "Olona roa amin'ny telo no miresaka momba azy na dia tsy nanontanianao aza: « Eny » izany."
+            en: "Two people out of three bring it up without you asking: that's a \"Yes\"."
+          hints:
+            - fr: "« Non » n'est pas un échec : tu viens d'éviter de construire quelque chose d'inutile."
+              mg: "Tsy fahombiazana ny « Tsia »: nisoroka ny hanorina zavatra tsy ilaina ianao."
+              en: "\"No\" is not a failure: you just avoided building something useless."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ce que tu retiens de tes rencontres."
+          mg: "Ity izay tadidinao tamin'ireo fihaonana ireo."
+          en: "Here is what you take away from your conversations."
+        shows: [learned, confirmed]
+    outputs:
+      - {from: learned, section: customers, field: interview_learnings, tracked: true}
+      - {from: confirmed, fact: customers.problem_confirmed}

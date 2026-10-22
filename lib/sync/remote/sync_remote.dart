@@ -1,0 +1,190 @@
+import 'dart:typed_data';
+
+import '../../security/envelopes.dart';
+
+/// One encrypted envelope sent to the server (docs/OFFLINE_SYNC.md §4).
+class RemotePut {
+  const RemotePut({
+    required this.id,
+    required this.changeId,
+    required this.baseVersion,
+    required this.deleted,
+    required this.umkVersion,
+    required this.payload,
+  });
+
+  final String id;
+  final String changeId;
+  final int? baseVersion;
+  final bool deleted;
+  final int umkVersion;
+
+  /// Encrypted envelope; null only for a purged (deleted) record.
+  final Uint8List? payload;
+}
+
+/// The server state of one record.
+class RemoteRecord {
+  const RemoteRecord({
+    required this.id,
+    required this.version,
+    required this.changeId,
+    required this.deviceId,
+    required this.deleted,
+    required this.umkVersion,
+    required this.payload,
+  });
+
+  final String id;
+  final int version;
+  final String changeId;
+  final String deviceId;
+  final bool deleted;
+  final int umkVersion;
+  final Uint8List? payload;
+}
+
+sealed class PushResult {
+  const PushResult(this.id);
+  final String id;
+}
+
+final class PushApplied extends PushResult {
+  const PushApplied(super.id, this.version);
+  final int version;
+}
+
+final class PushConflict extends PushResult {
+  const PushConflict(super.id, this.current);
+
+  /// Null when the server has no record for this id.
+  final RemoteRecord? current;
+}
+
+final class PushRejected extends PushResult {
+  const PushRejected(super.id, this.reason);
+  final String reason;
+}
+
+class PullPage {
+  const PullPage({
+    required this.head,
+    required this.records,
+    this.keyVersion = 1,
+  });
+
+  final int head;
+  final List<RemoteRecord> records;
+
+  /// The account's current data key version (docs/SECURITY.md §4.10): a
+  /// phone with an older key must get the new one before going on.
+  final int keyVersion;
+}
+
+/// One device of the account, as listed by the server (metadata only).
+class RemoteDevice {
+  const RemoteDevice({
+    required this.id,
+    required this.label,
+    required this.revoked,
+    required this.createdAt,
+    required this.lastSeenAt,
+    required this.current,
+  });
+
+  final String id;
+  final String label;
+  final bool revoked;
+  final DateTime createdAt;
+  final DateTime? lastSeenAt;
+
+  /// The device that asked for the list.
+  final bool current;
+}
+
+/// Errors reported by the server.
+sealed class SyncRemoteFailure implements Exception {
+  const SyncRemoteFailure();
+}
+
+/// Network, timeout or server error: retry later.
+final class RemoteUnavailable extends SyncRemoteFailure {
+  const RemoteUnavailable();
+}
+
+final class NotAuthenticated extends SyncRemoteFailure {
+  const NotAuthenticated();
+}
+
+final class DeviceRevoked extends SyncRemoteFailure {
+  const DeviceRevoked();
+}
+
+final class DeviceUnknown extends SyncRemoteFailure {
+  const DeviceUnknown();
+}
+
+final class DeviceLimitReached extends SyncRemoteFailure {
+  const DeviceLimitReached();
+}
+
+final class RateLimited extends SyncRemoteFailure {
+  const RateLimited();
+}
+
+final class ReauthenticationRequired extends SyncRemoteFailure {
+  const ReauthenticationRequired();
+}
+
+/// The data key changed meanwhile (another phone rotated it): what was
+/// asked was based on an older key version.
+final class KeyVersionMismatch extends SyncRemoteFailure {
+  const KeyVersionMismatch();
+}
+
+/// Permanent refusal (invalid input): not retried.
+final class RemoteRejected extends SyncRemoteFailure {
+  const RemoteRejected();
+}
+
+/// Contract of the server functions in supabase/migrations. The same
+/// contract is implemented by a test double for client tests, and checked
+/// on the real SQL by supabase/tests.
+abstract interface class SyncRemote {
+  Future<void> registerDevice(
+    String deviceId,
+    String label, {
+    String? appVersion,
+  });
+  Future<List<PushResult>> push(String deviceId, List<RemotePut> puts);
+  Future<PullPage> pull(String deviceId, int since, {int limit = 200});
+  Future<void> setRecoveryWrap(RecoveryWrap wrap);
+  Future<RecoveryWrap?> getRecoveryWrap();
+
+  /// Moves the account to the next data key version, with the recovery
+  /// copy of the new key ([wrap], whose version is ignored: the server
+  /// sets it). Returns the new version. Needs a recent sign-in
+  /// ([ReauthenticationRequired]); [KeyVersionMismatch] if the account is
+  /// no longer at [fromVersion].
+  Future<int> rotateDataKey({
+    required String deviceId,
+    required int fromVersion,
+    required RecoveryWrap wrap,
+  });
+
+  /// Removes another device of the account (lost or stolen phone). Needs
+  /// a recent sign-in ([ReauthenticationRequired] otherwise).
+  Future<void> revokeDevice(String deviceId);
+
+  /// The account's devices, active first; removed ones stay 30 days.
+  Future<List<RemoteDevice>> listDevices({String? currentDeviceId});
+
+  /// This phone leaves the account (sign out and erase): only the device
+  /// bound to the current session; idempotent.
+  Future<void> leaveDevice(String deviceId);
+
+  /// Deletes the account and everything the server holds for it, except
+  /// the files (MediaRemote.deleteAll first). Needs a recent sign-in
+  /// ([ReauthenticationRequired]).
+  Future<void> deleteAccount();
+}

@@ -1,0 +1,256 @@
+# Diagnostic (docs/PRODUCT_ARCHITECTURE.md §2): at most 10 screens, choice
+# answers that write typed facts (never free text), "I don't know" always
+# possible. It ends by naming the project.
+id: diag
+kind: diagnostic
+order: 0
+maturity: exploration
+title:
+  fr: "Faisons connaissance"
+  mg: "Hifankahalala isika"
+  en: "Getting to know you"
+summary:
+  fr: "Quelques questions pour te proposer le bon chemin."
+  mg: "Fanontaniana vitsivitsy hanomezana anao ny lalana mety."
+  en: "A few questions to suggest the right path for you."
+steps:
+  - id: diag.s01
+    type: checkpoint
+    title:
+      fr: "Où en es-tu ?"
+      mg: "Aiza ianao izao?"
+      en: "Where are you now?"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Il n'y a pas de mauvaise réponse. Si tu ne sais pas, dis-le : on avancera quand même."
+          mg: "Tsy misy valiny diso. Raha tsy fantatrao, lazao fotsiny: handroso ihany isika."
+          en: "There are no wrong answers. If you don't know, just say so: we'll move forward anyway."
+      - id: stage
+        type: question
+        prompt:
+          fr: "Où en es-tu avec ton projet ?"
+          mg: "Aiza ianao amin'ny tetikasanao?"
+          en: "Where are you with your project?"
+        answer:
+          kind: choice
+          options:
+            - value: no_idea
+              label:
+                fr: "Je n'ai pas encore d'idée"
+                mg: "Mbola tsy manana hevitra aho"
+                en: "I don't have an idea yet"
+            - value: vague_idea
+              label:
+                fr: "J'ai une idée, encore floue"
+                mg: "Manana hevitra aho, nefa mbola tsy mazava"
+                en: "I have an idea, still vague"
+            - value: problem_identified
+              label:
+                fr: "J'ai repéré un problème à résoudre"
+                mg: "Nahita olana tokony hovahana aho"
+                en: "I've spotted a problem to solve"
+            - value: existing_activity
+              label:
+                fr: "J'ai déjà une petite activité"
+                mg: "Efa manana asa kely aho"
+                en: "I already have a small activity"
+            - value: existing_customers
+              label:
+                fr: "J'ai déjà des clients réguliers"
+                mg: "Efa manana mpanjifa maharitra aho"
+                en: "I already have regular customers"
+        help:
+          rephrase:
+            - fr: "Est-ce que tu commences de zéro, ou est-ce que tu fais déjà quelque chose ?"
+              mg: "Manomboka amin'ny zero ve ianao, sa efa manao zavatra?"
+              en: "Are you starting from scratch, or are you already doing something?"
+            - fr: "Choisis la phrase qui te ressemble le plus aujourd'hui."
+              mg: "Fidio ny fehezanteny mifanaraka indrindra aminao ankehitriny."
+              en: "Pick the sentence that sounds most like you today."
+          example:
+            fr: "Lova vend déjà des beignets devant l'école tous les matins : elle choisit « J'ai déjà une petite activité »."
+            mg: "Efa mivarotra mofo gasy eo anoloan'ny sekoly isa-maraina i Lova: misafidy hoe « Efa manana asa kely aho » izy."
+            en: "Lova already sells doughnuts in front of the school every morning: she picks \"I already have a small activity\"."
+          hints:
+            - fr: "Si tu hésites entre deux réponses, prends la première : tu pourras refaire ce questionnaire."
+              mg: "Raha misalasala eo amin'ny valiny roa ianao, raiso ny voalohany: azonao averina ity fanontaniana ity."
+              en: "If you hesitate between two answers, take the first one: you can take this questionnaire again."
+      - id: hours
+        type: question
+        prompt:
+          fr: "Combien d'heures par semaine peux-tu y consacrer ?"
+          mg: "Ora firy isan-kerinandro no azonao omena azy?"
+          en: "How many hours a week can you give it?"
+        answer:
+          kind: choice
+          options:
+            - value: less_2
+              label:
+                fr: "Moins de 2 heures"
+                mg: "Latsaky ny 2 ora"
+                en: "Less than 2 hours"
+            - value: "2_5"
+              label:
+                fr: "2 à 5 heures"
+                mg: "2 ka hatramin'ny 5 ora"
+                en: "2 to 5 hours"
+            - value: "5_10"
+              label:
+                fr: "5 à 10 heures"
+                mg: "5 ka hatramin'ny 10 ora"
+                en: "5 to 10 hours"
+            - value: more_10
+              label:
+                fr: "Plus de 10 heures"
+                mg: "Mihoatra ny 10 ora"
+                en: "More than 10 hours"
+        help:
+          rephrase:
+            - fr: "Combien de temps libre as-tu pour ton projet, dans une semaine normale ?"
+              mg: "Firy ny fotoana malalaka anananao ho an'ny tetikasanao, ao anatin'ny herinandro mahazatra?"
+              en: "How much free time do you have for your project in a normal week?"
+          example:
+            fr: "Une heure chaque soir et trois heures le samedi, cela fait environ 8 heures."
+            mg: "Adiny iray isaky ny hariva sy telo ora ny asabotsy: eo amin'ny 8 ora eo izany."
+            en: "One hour every evening and three hours on Saturday is about 8 hours."
+          hints:
+            - fr: "Compte large : les quêtes s'adaptent à ton rythme."
+              mg: "Aza manahy: mifanaraka amin'ny gadonao ny dia."
+              en: "A rough guess is fine: the quests adapt to your pace."
+      - id: sector
+        type: question
+        prompt:
+          fr: "Dans quel domaine est ton projet ?"
+          mg: "Amin'ny sehatra inona ny tetikasanao?"
+          en: "What field is your project in?"
+        answer:
+          kind: choice
+          options:
+            - value: food
+              label: {fr: "Alimentation", mg: "Sakafo", en: "Food"}
+            - value: trade
+              label: {fr: "Commerce", mg: "Varotra", en: "Trade"}
+            - value: agriculture
+              label: {fr: "Agriculture, élevage", mg: "Fambolena, fiompiana", en: "Farming"}
+            - value: crafts
+              label: {fr: "Artisanat", mg: "Asa tanana", en: "Crafts"}
+            - value: services
+              label: {fr: "Services", mg: "Tolotra", en: "Services"}
+            - value: digital
+              label: {fr: "Numérique", mg: "Nomerika", en: "Digital"}
+            - value: other
+              label: {fr: "Autre", mg: "Hafa", en: "Other"}
+        help:
+          rephrase:
+            - fr: "Que vendrais-tu ou que ferais-tu pour tes clients ?"
+              mg: "Inona no hamidinao na hataonao ho an'ny mpanjifanao?"
+              en: "What would you sell or do for your customers?"
+          example:
+            fr: "Réparer des téléphones, c'est un service. Vendre du riz, c'est du commerce."
+            mg: "Fanamboarana finday dia tolotra. Fivarotana vary dia varotra."
+            en: "Repairing phones is a service. Selling rice is trade."
+          hints:
+            - fr: "Sans idée encore ? Réponds « Je ne sais pas »."
+              mg: "Mbola tsy manana hevitra? Valio hoe « Tsy fantatro »."
+              en: "No idea yet? Answer \"I don't know\"."
+      - id: team
+        type: question
+        prompt:
+          fr: "Tu avances seul ou à plusieurs ?"
+          mg: "Irery ve ianao sa maromaro?"
+          en: "Are you doing this alone or with others?"
+        answer:
+          kind: choice
+          options:
+            - value: alone
+              label: {fr: "Seul ou seule", mg: "Irery", en: "Alone"}
+            - value: with_partners
+              label: {fr: "Avec d'autres personnes", mg: "Miaraka amin'olona hafa", en: "With other people"}
+        help:
+          rephrase:
+            - fr: "Est-ce que d'autres personnes travaillent avec toi sur ce projet ?"
+              mg: "Misy olona hafa miara-miasa aminao amin'ity tetikasa ity ve?"
+              en: "Are other people working with you on this project?"
+          example:
+            fr: "Tiana prépare les plats et sa sœur s'occupe des ventes : elles sont deux."
+            mg: "I Tiana no mahandro ary ny rahavaviny no mivarotra: roa izy ireo."
+            en: "Tiana cooks and her sister handles the sales: there are two of them."
+          hints:
+            - fr: "La famille qui aide de temps en temps compte aussi."
+              mg: "Tafiditra ihany koa ny fianakaviana manampy indraindray."
+              en: "Family who help from time to time count too."
+    outputs:
+      - {from: stage, fact: diag.entry_profile}
+      - {from: hours, fact: diag.weekly_hours}
+      - {from: sector, fact: diag.sector}
+      - {from: team, fact: diag.team}
+  - id: diag.s02
+    type: checkpoint
+    title:
+      fr: "Ton projet"
+      mg: "Ny tetikasanao"
+      en: "Your project"
+    blocks:
+      - id: goal
+        type: question
+        prompt:
+          fr: "Qu'attends-tu surtout de ce projet ?"
+          mg: "Inona indrindra no andrasanao amin'ity tetikasa ity?"
+          en: "What do you mainly expect from this project?"
+        answer:
+          kind: choice
+          options:
+            - value: extra_income
+              label: {fr: "Un revenu en plus", mg: "Vola miditra fanampiny", en: "Extra income"}
+            - value: main_income
+              label: {fr: "Mon revenu principal", mg: "Ny vola miditra fototra", en: "My main income"}
+            - value: community
+              label: {fr: "Aider ma communauté", mg: "Hanampy ny fiaraha-monina", en: "Helping my community"}
+            - value: grow
+              label: {fr: "Faire grandir mon activité", mg: "Hampitombo ny asako", en: "Growing my activity"}
+        help:
+          rephrase:
+            - fr: "Pourquoi as-tu envie de te lancer ?"
+              mg: "Nahoana ianao no te hanomboka?"
+              en: "Why do you want to start?"
+          example:
+            fr: "Rado est étudiant : il cherche surtout un revenu en plus pour payer ses études."
+            mg: "Mpianatra i Rado: vola miditra fanampiny no tadiaviny indrindra handoavana ny fianarany."
+            en: "Rado is a student: he mainly wants extra income to pay for his studies."
+          hints:
+            - fr: "Choisis ce qui compte le plus pour toi aujourd'hui."
+              mg: "Fidio izay zava-dehibe indrindra aminao ankehitriny."
+              en: "Choose what matters most to you today."
+      - id: name
+        type: question
+        prompt:
+          fr: "Donne un nom à ton projet, même provisoire."
+          mg: "Omeo anarana ny tetikasanao, na dia vonjimaika aza."
+          en: "Give your project a name, even a temporary one."
+        answer:
+          kind: text
+          max_length: 60
+        help:
+          rephrase:
+            - fr: "Comment veux-tu appeler ton projet pour l'instant ?"
+              mg: "Ahoana no tianao hiantsoana ny tetikasanao amin'izao?"
+              en: "What do you want to call your project for now?"
+          example:
+            fr: "« Savon du quartier », « Projet de Fara » ou « Mon idée »."
+            mg: "« Savony ao an-tanàna », « Tetikasan'i Fara » na « Ny hevitro »."
+            en: "\"Neighbourhood soap\", \"Fara's project\" or \"My idea\"."
+          hints:
+            - fr: "Tu pourras le changer quand tu veux."
+              mg: "Azonao ovaina izy amin'ny fotoana tianao."
+              en: "You can change it whenever you like."
+      - id: ready
+        type: text
+        body:
+          fr: "Merci ! Ton chemin est prêt. Commence par la première étape proposée."
+          mg: "Misaotra! Vonona ny lalanao. Atombohy amin'ny dingana voalohany natolotra."
+          en: "Thank you! Your path is ready. Start with the first suggested step."
+    outputs:
+      - {from: goal, fact: diag.goal}
+      - {from: name, project_title: true}

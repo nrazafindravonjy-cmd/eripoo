@@ -1,0 +1,132 @@
+# Project sections shown on the Project screen (docs/PRODUCT_ARCHITECTURE.md
+# §7). Step outputs may only write declared fields (checked at build).
+- key: problem
+  title: {fr: "Le problème", mg: "Ny olana", en: "The problem"}
+  fields:
+    - key: statement
+      label: {fr: "Le problème observé", mg: "Ny olana hita", en: "The problem observed"}
+      max_length: 280
+- key: customers
+  title: {fr: "Les clients", mg: "Ny mpanjifa", en: "The customers"}
+  fields:
+    - key: first_guess
+      label: {fr: "Qui vit le problème", mg: "Iza no miaina ny olana", en: "Who has the problem"}
+      max_length: 200
+    - key: description
+      label: {fr: "Le client cible", mg: "Ny mpanjifa kendrena", en: "The target customer"}
+      max_length: 280
+    - key: where_to_meet
+      label: {fr: "Où le rencontrer", mg: "Aiza no ahitana azy", en: "Where to meet them"}
+      max_length: 200
+    - key: interview_learnings
+      label: {fr: "Ce que les rencontres ont appris", mg: "Izay nianarana tamin'ny fihaonana", en: "What the conversations taught"}
+      max_length: 400
+- key: solution
+  title: {fr: "La solution", mg: "Ny vahaolana", en: "The solution"}
+  fields:
+    - key: first_idea
+      label: {fr: "Première idée de solution", mg: "Hevitra voalohany momba ny vahaolana", en: "First solution idea"}
+      max_length: 300
+    - key: advantage
+      label: {fr: "Ce qui est mieux qu'aujourd'hui", mg: "Izay tsara kokoa noho ny ankehitriny", en: "What is better than today"}
+      max_length: 200
+# Phase 7: sections brought by a tool. They appear once the tool is
+# unlocked (or as soon as they hold something), never as empty boxes.
+- key: business_model
+  tool: tool.business_model_canvas
+  title: {fr: "Le modèle économique", mg: "Ny maodely ara-toekarena", en: "The business model"}
+  fields:
+    - key: channels
+      label: {fr: "Comment tes clients te trouvent et achètent", mg: "Ahoana no ahitan'ny mpanjifa anao sy hividianany", en: "How customers find you and buy"}
+      max_length: 300
+    - key: relationships
+      label: {fr: "Comment tu gardes tes clients", mg: "Ahoana no itazonanao ny mpanjifanao", en: "How you keep your customers"}
+      max_length: 300
+    - key: resources
+      label: {fr: "Ce qu'il te faut pour produire", mg: "Izay ilainao hamokarana", en: "What you need to produce"}
+      max_length: 300
+    - key: activities
+      label: {fr: "Ce que tu fais chaque semaine", mg: "Izay ataonao isan-kerinandro", en: "What you do every week"}
+      max_length: 300
+    - key: partners
+      label: {fr: "Qui t'aide (fournisseurs, partenaires)", mg: "Iza no manampy anao (mpamatsy, mpiara-miasa)", en: "Who helps you (suppliers, partners)"}
+      max_length: 300
+- key: marketing
+  tool: tool.marketing_plan
+  title: {fr: "Le plan marketing", mg: "Ny drafitra varotra", en: "The marketing plan"}
+  fields:
+    - key: target
+      label: {fr: "À qui tu parles en premier", mg: "Iza no hiresahanao voalohany", en: "Who you talk to first"}
+      max_length: 200
+    - key: message
+      label: {fr: "Ce que tu leur dis, en une phrase", mg: "Izay lazainao azy ireo, amin'ny fehezanteny iray", en: "What you tell them, in one sentence"}
+      max_length: 200
+    - key: channels
+      label: {fr: "Où ils entendront parler de toi", mg: "Aiza no handrenesan'izy ireo momba anao", en: "Where they will hear about you"}
+      max_length: 300
+    - key: first_actions
+      label: {fr: "Tes trois premières actions", mg: "Ireo hetsika telo voalohany ataonao", en: "Your first three actions"}
+      max_length: 400
+    - key: budget
+      label: {fr: "Ce que tu peux y consacrer (temps, argent)", mg: "Izay azonao omena azy (fotoana, vola)", en: "What you can put into it (time, money)"}
+      max_length: 200
+- key: pitch
+  tool: tool.pitch
+  title: {fr: "Le pitch", mg: "Ny famelabelarana fohy", en: "The pitch"}
+  fields:
+    - key: hook
+      label: {fr: "Une phrase pour accrocher", mg: "Fehezanteny iray hisarihana", en: "One sentence to catch attention"}
+      max_length: 200
+    - key: problem
+      label: {fr: "Le problème, avec un fait observé", mg: "Ny olana, miaraka amin'ny zava-misy hita", en: "The problem, with an observed fact"}
+      max_length: 300
+    - key: solution
+      label: {fr: "Ta solution, simplement", mg: "Ny vahaolanao, amin'ny fomba tsotra", en: "Your solution, simply"}
+      max_length: 300
+    - key: proof
+      label: {fr: "Ta preuve (ce que tes tests ont montré)", mg: "Ny porofonao (izay nasehon'ny fitsapanao)", en: "Your proof (what your tests showed)"}
+      max_length: 300
+    - key: ask
+      label: {fr: "Ce que tu demandes", mg: "Izay angatahinao", en: "What you are asking for"}
+      max_length: 200
+- key: vision
+  tool: tool.business_plan
+  title: {fr: "Le résumé du projet", mg: "Ny famintinana ny tetikasa", en: "The project summary"}
+  fields:
+    - key: summary
+      label: {fr: "Ton projet en quelques phrases", mg: "Ny tetikasanao amin'ny fehezanteny vitsivitsy", en: "Your project in a few sentences"}
+      max_length: 600
+- key: launch
+  tool: tool.business_plan
+  title: {fr: "Le lancement", mg: "Ny fanombohana", en: "The launch"}
+  fields:
+    - key: first_steps
+      label: {fr: "Les premières étapes, dans l'ordre", mg: "Ireo dingana voalohany, araka ny filaharany", en: "The first steps, in order"}
+      max_length: 500
+    - key: when
+      label: {fr: "Quand tu veux commencer", mg: "Rahoviana no tianao hanombohana", en: "When you want to start"}
+      max_length: 100
+# Phase 8: brought by the administrative preparation tool. What the user
+# collects for the counter; nothing is filed by Eripoo.
+- key: formalization
+  tool: tool.admin_preparation
+  title: {fr: "Ma préparation administrative", mg: "Ny fanomanana ara-pitantanana", en: "My administrative preparation"}
+  fields:
+    - key: business_name
+      label: {fr: "Nom envisagé pour l'entreprise", mg: "Anarana kasaina ho an'ny orinasa", en: "Name considered for the business"}
+      max_length: 120
+    - key: form_considered
+      label: {fr: "Forme envisagée (à confirmer au guichet)", mg: "Karazana kasaina (hamarinina any amin'ny varavarankely)", en: "Form considered (to confirm at the counter)"}
+      max_length: 120
+    - key: activity
+      label: {fr: "Activité principale, en une phrase", mg: "Asa fototra, amin'ny fehezanteny iray", en: "Main activity, in one sentence"}
+      max_length: 200
+    - key: premises
+      label: {fr: "Où tu exerceras (adresse, Fokontany)", mg: "Aiza no hiasanao (adiresy, Fokontany)", en: "Where you will work (address, Fokontany)"}
+      max_length: 200
+    - key: partners
+      label: {fr: "Associés éventuels et leur rôle", mg: "Ireo mety ho tompon'anjara sy ny anjara asany", en: "Possible partners and their role"}
+      max_length: 300
+    - key: questions
+      label: {fr: "Tes questions pour le guichet", mg: "Ireo fanontanianao ho an'ny varavarankely", en: "Your questions for the counter"}
+      max_length: 500

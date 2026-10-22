@@ -1,0 +1,380 @@
+import 'dart:typed_data';
+
+import 'package:eripoo/security/envelopes.dart';
+import 'package:eripoo/sync/remote/media_remote.dart';
+import 'package:eripoo/sync/remote/sync_remote.dart';
+
+/// In-memory test double of the server functions (supabase/migrations),
+/// with the same contract: per-user contiguous versions, change_id
+/// idempotency, conflicts on stale base, tombstones, devices. The real SQL
+/// is checked against the same rules in supabase/tests/sql.
+class FakeSyncServer {
+  final _records = <String, Map<String, RemoteRecord>>{}; // owner → id → record
+  final _heads = <String, int>{};
+  final _devices = <String, Map<String, String>>{}; // owner → device → status
+  final _deviceLabels = <String, String>{}; // device → label
+  final _media = <String, Map<String, Uint8List>>{}; // owner → id → bytes
+  final _wraps = <String, RecoveryWrap>{};
+  final _keyVersions = <String, int>{}; // owner → current data key version
+
+  int keyVersionOf(String owner) => _keyVersions[owner] ?? 1;
+  // Like the SQL: each device remembers the auth session it last used; a
+  // revoked device's session is refused everywhere afterwards.
+  final _deviceSessions = <String, Map<String, String>>{};
+  final _revokedSessions = <String>{};
+
+  /// Fault injection.
+  bool offline = false;
+  bool loseNextPushResponse = false; // applied on the server, response lost
+  int _failPullAfterPages = -1;
+  int _pullPages = 0;
+
+  /// The next pulls succeed for [pages] pages, then one pull fails.
+  void failPullAfter(int pages) {
+    _failPullAfterPages = pages;
+    _pullPages = 0;
+  }
+
+  int _failPushAfterCalls = -1;
+  int _pushCallsSinceArmed = 0;
+
+  /// The next [calls] pushes succeed, then one push fails before being
+  /// applied (connection lost on the way up).
+  void failPushAfter(int calls) {
+    _failPushAfterCalls = calls;
+    _pushCallsSinceArmed = 0;
+  }
+
+  int pushCalls = 0;
+
+  /// A client signed in as [ownerId] with the auth session [session].
+  FakeSyncRemote clientFor(String ownerId, {String session = 'session-1'}) =>
+      FakeSyncRemote(this, ownerId, session);
+
+  /// A client without any session.
+  FakeSyncRemote anonymous() => FakeSyncRemote(this, '', '');
+
+  /// The media files of [ownerId] signed in with [session].
+  FakeMediaRemote mediaFor(String ownerId, {String session = 'session-1'}) =>
+      FakeMediaRemote(this, ownerId, session);
+
+  Map<String, Uint8List> mediaOf(String owner) => _media[owner] ?? const {};
+
+  int mediaUploads = 0;
+  int rotations = 0;
+
+  /// The next rotation is applied, but its answer is lost.
+  bool loseNextRotationResponse = false;
+
+  final _wrapFetches = <String, int>{}; // owner → fetches (no clock: no reset)
+
+  int headOf(String owner) => _heads[owner] ?? 0;
+
+  Map<String, RemoteRecord> recordsOf(String owner) =>
+      _records[owner] ?? const {};
+
+  void revoke(String owner, String deviceId) {
+    (_devices[owner] ??= {})[deviceId] = 'revoked';
+    final session = _deviceSessions[owner]?[deviceId];
+    if (session != null) _revokedSessions.add(session);
+  }
+
+  bool isSessionRevoked(String session) => _revokedSessions.contains(session);
+
+  final deletedAccounts = <String>{};
+
+  /// Like the SQL cascade: everything of [owner] goes, except the files
+  /// (removed through Storage by the app first).
+  void deleteAccount(String owner) {
+    _records.remove(owner);
+    _heads.remove(owner);
+    _devices.remove(owner);
+    _wraps.remove(owner);
+    _keyVersions.remove(owner);
+    _deviceSessions.remove(owner);
+    deletedAccounts.add(owner);
+  }
+
+  String? deviceStatus(String owner, String deviceId) =>
+      _devices[owner]?[deviceId];
+
+  void _requireSession(String session) {
+    if (_revokedSessions.contains(session)) throw const DeviceRevoked();
+  }
+
+  void _bind(String owner, String deviceId, String session) =>
+      (_deviceSessions[owner] ??= {})[deviceId] = session;
+
+  void _requireDevice(String owner, String deviceId) {
+    final status = _devices[owner]?[deviceId];
+    if (status == null) throw const DeviceUnknown();
+    if (status == 'revoked') throw const DeviceRevoked();
+  }
+}
+
+class FakeSyncRemote implements SyncRemote {
+  FakeSyncRemote(this.server, this.ownerId, this.session);
+
+  final FakeSyncServer server;
+  final String ownerId;
+  final String session;
+
+  void _online() {
+    if (server.offline) throw const RemoteUnavailable();
+    if (session.isEmpty) throw const NotAuthenticated();
+    server._requireSession(session);
+  }
+
+  @override
+  Future<void> revokeDevice(String deviceId) async {
+    _online();
+    if (server._devices[ownerId]?[deviceId] case final status?
+        when status != 'revoked') {
+      server.revoke(ownerId, deviceId);
+    }
+  }
+
+  @override
+  Future<void> registerDevice(
+    String deviceId,
+    String label, {
+    String? appVersion,
+  }) async {
+    _online();
+    final devices = server._devices[ownerId] ??= {};
+    if (devices[deviceId] == 'revoked') throw const DeviceRevoked();
+    if (devices[deviceId] == null &&
+        devices.values.where((s) => s == 'active').length >= 5) {
+      throw const DeviceLimitReached();
+    }
+    devices[deviceId] = 'active';
+    server._deviceLabels[deviceId] = label;
+    server._bind(ownerId, deviceId, session);
+  }
+
+  @override
+  Future<List<RemoteDevice>> listDevices({String? currentDeviceId}) async {
+    _online();
+    final devices = server._devices[ownerId] ?? const <String, String>{};
+    final ordered = devices.keys.toList()
+      ..sort(
+        (a, b) => (devices[a] == 'revoked' ? 1 : 0).compareTo(
+          devices[b] == 'revoked' ? 1 : 0,
+        ),
+      );
+    return [
+      for (final id in ordered)
+        RemoteDevice(
+          id: id,
+          label: server._deviceLabels[id] ?? '',
+          revoked: devices[id] == 'revoked',
+          createdAt: DateTime.utc(2026),
+          lastSeenAt: null,
+          current: id == currentDeviceId,
+        ),
+    ];
+  }
+
+  @override
+  Future<List<PushResult>> push(String deviceId, List<RemotePut> puts) async {
+    _online();
+    if (server._failPushAfterCalls >= 0 &&
+        server._pushCallsSinceArmed++ >= server._failPushAfterCalls) {
+      server._failPushAfterCalls = -1;
+      throw const RemoteUnavailable();
+    }
+    server.pushCalls++;
+    server._requireDevice(ownerId, deviceId);
+    server._bind(ownerId, deviceId, session);
+    if (puts.length > 50) throw const RemoteRejected();
+    final records = server._records[ownerId] ??= {};
+    var head = server._heads[ownerId] ?? 0;
+    final results = <PushResult>[];
+    for (final put in puts) {
+      if (put.payload == null && !put.deleted) {
+        results.add(PushRejected(put.id, 'invalid_put'));
+        continue;
+      }
+      if (put.payload != null &&
+          put.umkVersion != server.keyVersionOf(ownerId)) {
+        results.add(PushRejected(put.id, 'stale_key'));
+        continue;
+      }
+      final row = records[put.id];
+      if (row != null && row.changeId == put.changeId) {
+        results.add(PushApplied(put.id, row.version));
+      } else if ((row != null &&
+              (put.baseVersion == null || row.version != put.baseVersion)) ||
+          (row == null && put.baseVersion != null)) {
+        results.add(PushConflict(put.id, row));
+      } else {
+        head++;
+        records[put.id] = RemoteRecord(
+          id: put.id,
+          version: head,
+          changeId: put.changeId,
+          deviceId: deviceId,
+          deleted: put.deleted,
+          umkVersion: put.umkVersion,
+          payload: put.payload == null
+              ? null
+              : Uint8List.fromList(put.payload!),
+        );
+        results.add(PushApplied(put.id, head));
+      }
+    }
+    server._heads[ownerId] = head;
+    if (server.loseNextPushResponse) {
+      server.loseNextPushResponse = false;
+      throw const RemoteUnavailable();
+    }
+    return results;
+  }
+
+  @override
+  Future<PullPage> pull(String deviceId, int since, {int limit = 200}) async {
+    _online();
+    server._requireDevice(ownerId, deviceId);
+    server._bind(ownerId, deviceId, session);
+    if (server._failPullAfterPages >= 0 &&
+        server._pullPages >= server._failPullAfterPages) {
+      server._failPullAfterPages = -1;
+      server._pullPages = 0;
+      throw const RemoteUnavailable();
+    }
+    server._pullPages++;
+    final records = (server._records[ownerId]?.values.toList() ?? [])
+      ..sort((a, b) => a.version.compareTo(b.version));
+    return PullPage(
+      head: server._heads[ownerId] ?? 0,
+      keyVersion: server.keyVersionOf(ownerId),
+      records: records.where((r) => r.version > since).take(limit).toList(),
+    );
+  }
+
+  @override
+  Future<void> setRecoveryWrap(RecoveryWrap wrap) async {
+    _online();
+    if (wrap.params.opsLimit < 2 || wrap.params.memLimit < 32 << 20) {
+      throw const RemoteRejected();
+    }
+    if (wrap.salt.length != 16) throw const RemoteRejected();
+    if (wrap.umkVersion != server.keyVersionOf(ownerId)) {
+      throw const KeyVersionMismatch();
+    }
+    server._wraps[ownerId] = wrap;
+  }
+
+  @override
+  Future<void> leaveDevice(String deviceId) async {
+    _online();
+    // Only the device bound to this session.
+    if (server._deviceSessions[ownerId]?[deviceId] != session) return;
+    if (server._devices[ownerId]?[deviceId] case final status?
+        when status != 'revoked') {
+      server.revoke(ownerId, deviceId);
+    }
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    _online();
+    if (requireReauthentication) throw const ReauthenticationRequired();
+    server.deleteAccount(ownerId);
+  }
+
+  /// Set to make the next rotation need a new sign-in.
+  bool requireReauthentication = false;
+
+  @override
+  Future<int> rotateDataKey({
+    required String deviceId,
+    required int fromVersion,
+    required RecoveryWrap wrap,
+  }) async {
+    _online();
+    if (requireReauthentication) throw const ReauthenticationRequired();
+    server._requireDevice(ownerId, deviceId);
+    if (wrap.params.opsLimit < 2 || wrap.params.memLimit < 32 << 20) {
+      throw const RemoteRejected();
+    }
+    final current = server.keyVersionOf(ownerId);
+    if (current != fromVersion) throw const KeyVersionMismatch();
+    final next = current + 1;
+    server._wraps[ownerId] = RecoveryWrap(
+      wrapId: wrap.wrapId,
+      umkVersion: next,
+      salt: wrap.salt,
+      params: wrap.params,
+      wrapped: wrap.wrapped,
+    );
+    server._keyVersions[ownerId] = next;
+    server.rotations++;
+    if (server.loseNextRotationResponse) {
+      server.loseNextRotationResponse = false;
+      throw const RemoteUnavailable();
+    }
+    return next;
+  }
+
+  @override
+  Future<RecoveryWrap?> getRecoveryWrap() async {
+    _online();
+    final fetches = server._wrapFetches[ownerId] ?? 0;
+    if (fetches >= 5) throw const RateLimited();
+    server._wrapFetches[ownerId] = fetches + 1;
+    return server._wraps[ownerId];
+  }
+}
+
+/// Same rules as the `user-media` bucket policies: own files only, write
+/// once, size cap, nothing for a revoked device's session (its uploads are
+/// refused and its reads find nothing, like Storage behind RLS).
+class FakeMediaRemote implements MediaRemote {
+  FakeMediaRemote(this.server, this.ownerId, this.session);
+
+  final FakeSyncServer server;
+  final String ownerId;
+  final String session;
+
+  static const maxBytes = MediaEnvelopes.maxPlainBytes + 43;
+
+  void _online() {
+    if (server.offline) throw const RemoteUnavailable();
+    if (session.isEmpty) throw const NotAuthenticated();
+  }
+
+  bool get _revoked => server.isSessionRevoked(session);
+
+  @override
+  Future<void> upload(String mediaId, Uint8List sealed) async {
+    _online();
+    if (_revoked || sealed.length > maxBytes) throw const RemoteRejected();
+    final files = server._media[ownerId] ??= {};
+    if (files.containsKey(mediaId)) return;
+    files[mediaId] = Uint8List.fromList(sealed);
+    server.mediaUploads++;
+  }
+
+  @override
+  Future<Uint8List?> download(String mediaId) async {
+    _online();
+    if (_revoked) return null;
+    final bytes = server._media[ownerId]?[mediaId];
+    return bytes == null ? null : Uint8List.fromList(bytes);
+  }
+
+  @override
+  Future<void> delete(String mediaId) async {
+    _online();
+    if (_revoked) return;
+    server._media[ownerId]?.remove(mediaId);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    _online();
+    if (_revoked) return;
+    server._media.remove(ownerId);
+  }
+}

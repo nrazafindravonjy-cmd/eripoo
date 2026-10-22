@@ -1,0 +1,2931 @@
+{
+  "@@locale": "fr",
+  "appTitle": "Eripoo",
+  "@appTitle": {
+    "description": "Nom de l'application. Ne pas traduire."
+  },
+  "slogan": "Mihary ho an'ny ho avy.",
+  "@slogan": {
+    "description": "Slogan officiel, en malagasy dans toutes les langues. Ne pas traduire."
+  },
+  "navHome": "Accueil",
+  "@navHome": {
+    "description": "Onglet principal : accueil."
+  },
+  "navQuest": "Ma quête",
+  "@navQuest": {
+    "description": "Onglet du parcours « Ma quête »."
+  },
+  "navProject": "Projet",
+  "@navProject": {
+    "description": "Onglet du projet de l'utilisateur."
+  },
+  "navTools": "Outils",
+  "@navTools": {
+    "description": "Onglet des outils."
+  },
+  "navProfile": "Profil",
+  "@navProfile": {
+    "description": "Onglet du profil."
+  },
+  "stateLoading": "Un instant…",
+  "@stateLoading": {
+    "description": "Texte affiché pendant un chargement."
+  },
+  "stateErrorTitle": "Un problème est survenu",
+  "@stateErrorTitle": {
+    "description": "Titre d'un état d'erreur."
+  },
+  "stateErrorBody": "Tes données sont en sécurité sur ce téléphone.",
+  "@stateErrorBody": {
+    "description": "Message rassurant sous une erreur."
+  },
+  "stateOffline": "Hors ligne. Ton travail est enregistré sur ce téléphone.",
+  "@stateOffline": {
+    "description": "Bandeau hors ligne : jamais alarmant."
+  },
+  "actionRetry": "Réessayer",
+  "@actionRetry": {
+    "description": "Bouton pour réessayer."
+  },
+  "actionCancel": "Annuler",
+  "@actionCancel": {
+    "description": "Bouton d'annulation."
+  },
+  "actionConfirm": "Confirmer",
+  "@actionConfirm": {
+    "description": "Bouton de confirmation."
+  },
+  "actionClose": "Fermer",
+  "@actionClose": {
+    "description": "Bouton de fermeture."
+  },
+  "fieldOptional": "facultatif",
+  "@fieldOptional": {
+    "description": "Mention ajoutée au libellé d'un champ facultatif."
+  },
+  "helpMenu": "Besoin d'aide ?",
+  "@helpMenu": {
+    "description": "Bouton qui ouvre les options d'aide anti-blocage."
+  },
+  "helpDontKnow": "Je ne sais pas",
+  "@helpDontKnow": {
+    "description": "Option d'aide : l'utilisateur ne connaît pas la réponse."
+  },
+  "helpDontUnderstand": "Je ne comprends pas",
+  "@helpDontUnderstand": {
+    "description": "Option d'aide : demande une formulation plus simple."
+  },
+  "helpShowExample": "Voir un exemple",
+  "@helpShowExample": {
+    "description": "Option d'aide : afficher un exemple."
+  },
+  "helpAskHelp": "M'aider",
+  "@helpAskHelp": {
+    "description": "Option d'aide : indices progressifs."
+  },
+  "helpSkipForNow": "Passer pour l'instant",
+  "@helpSkipForNow": {
+    "description": "Option d'aide : passer temporairement."
+  },
+  "helpComeBackLater": "Revenir plus tard",
+  "@helpComeBackLater": {
+    "description": "Option d'aide : revenir plus tard."
+  },
+  "progressValue": "{done} sur {total}",
+  "@progressValue": {
+    "description": "Lecture d'écran d'une progression, ex. « 4 sur 12 ».",
+    "placeholders": {
+      "done": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "stepTrackValue": "Étape {current} sur {total} : {name}",
+  "@stepTrackValue": {
+    "description": "Lecture d'écran d'une suite d'étapes.",
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      },
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "badgeEarned": "Badge obtenu : {name}",
+  "@badgeEarned": {
+    "description": "Lecture d'écran d'un badge obtenu.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "badgeLocked": "Badge à obtenir : {name}",
+  "@badgeLocked": {
+    "description": "Lecture d'écran d'un badge pas encore obtenu.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "lockTitle": "Eripoo est verrouillé",
+  "@lockTitle": {
+    "description": "Titre de l'écran de verrouillage."
+  },
+  "lockEnterPin": "Entre ton code PIN",
+  "@lockEnterPin": {
+    "description": "Consigne de saisie du PIN."
+  },
+  "lockWrongPin": "Ce n'est pas le bon code.",
+  "@lockWrongPin": {
+    "description": "Message après un PIN incorrect."
+  },
+  "lockRetryIn": "Trop d'essais. Réessaie dans {duration}.",
+  "@lockRetryIn": {
+    "description": "Attente après plusieurs erreurs ; {duration} est formaté (ex. « 5 min »).",
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "lockUseBiometrics": "Utiliser l'empreinte ou le visage",
+  "@lockUseBiometrics": {
+    "description": "Bouton de déverrouillage biométrique."
+  },
+  "lockBiometricReason": "Déverrouiller Eripoo",
+  "@lockBiometricReason": {
+    "description": "Raison affichée par la fenêtre système de biométrie."
+  },
+  "lockForgotPin": "Code PIN oublié ?",
+  "@lockForgotPin": {
+    "description": "Lien en cas d'oubli du PIN."
+  },
+  "lockForgotPinReason": "Confirme que c'est bien toi pour désactiver le verrou",
+  "@lockForgotPinReason": {
+    "description": "Raison affichée par la fenêtre système (verrouillage du téléphone)."
+  },
+  "lockForgotPinUnavailable": "Ce téléphone n'a pas de verrouillage d'écran. Pour retrouver l'accès, reconnecte-toi à ton compte avec ton code de récupération.",
+  "@lockForgotPinUnavailable": {
+    "description": "Explication quand l'oubli du PIN ne peut pas être résolu par le verrouillage du téléphone."
+  },
+  "lockDeleteDigit": "Effacer un chiffre",
+  "@lockDeleteDigit": {
+    "description": "Libellé (lecteur d'écran) de la touche d'effacement."
+  },
+  "lockPinProgress": "{count} chiffres saisis",
+  "@lockPinProgress": {
+    "description": "Lecture d'écran du nombre de chiffres saisis.",
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "startupErrorTitle": "Impossible d'ouvrir tes données sur ce téléphone",
+  "@startupErrorTitle": {
+    "description": "Titre de l'écran affiché quand la base locale ne peut pas être ouverte."
+  },
+  "startupErrorKeysLost": "La clé qui protège tes données sur ce téléphone a disparu. Si tu as un compte, reconnecte-toi avec ton code de récupération pour retrouver ce qui était sauvegardé.",
+  "@startupErrorKeysLost": {
+    "description": "Explication quand les clés locales sont perdues."
+  },
+  "startupErrorGeneric": "Ferme puis rouvre l'application. Si le problème continue, tes données restent protégées sur ce téléphone.",
+  "@startupErrorGeneric": {
+    "description": "Explication d'une erreur de démarrage inattendue."
+  },
+  "startupReset": "Recommencer sur ce téléphone",
+  "@startupReset": {
+    "description": "Bouton pour effacer les données illisibles et repartir de zéro."
+  },
+  "startupResetConfirmTitle": "Effacer les données de ce téléphone ?",
+  "@startupResetConfirmTitle": {
+    "description": "Titre de confirmation avant effacement."
+  },
+  "startupResetConfirmBody": "Ce qui n'était pas sauvegardé dans ton compte sera perdu. Ce qui était sauvegardé pourra être retrouvé avec ton code de récupération.",
+  "@startupResetConfirmBody": {
+    "description": "Conséquence de l'effacement, dite simplement."
+  },
+  "welcomeTitle": "Bienvenue sur Eripoo",
+  "@welcomeTitle": {
+    "description": "Titre de l'écran d'accueil (premier lancement)."
+  },
+  "welcomeChooseLanguage": "Choisis ta langue",
+  "@welcomeChooseLanguage": {
+    "description": "Invitation à choisir la langue."
+  },
+  "welcomePrivacy": "Ton projet reste à toi : il est chiffré sur ton téléphone.",
+  "@welcomePrivacy": {
+    "description": "Promesse de confidentialité en une phrase."
+  },
+  "welcomeStart": "Commencer",
+  "@welcomeStart": {
+    "description": "Bouton pour commencer après le choix de la langue."
+  },
+  "languageMg": "Malagasy",
+  "@languageMg": {
+    "description": "Nom de la langue malagasy (toujours écrit en malagasy)."
+  },
+  "languageFr": "Français",
+  "@languageFr": {
+    "description": "Nom de la langue française (toujours écrit en français)."
+  },
+  "languageEn": "English",
+  "@languageEn": {
+    "description": "Nom de la langue anglaise (toujours écrit en anglais)."
+  },
+  "homeStartTitle": "Faisons connaissance",
+  "@homeStartTitle": {
+    "description": "Accueil avant le diagnostic."
+  },
+  "homeStartBody": "Quelques questions courtes pour adapter ton parcours. Environ 4 minutes.",
+  "@homeStartBody": {
+    "description": "Explication du diagnostic."
+  },
+  "homeNextTitle": "Ta prochaine étape",
+  "@homeNextTitle": {
+    "description": "Titre de la carte « prochaine action » de l'accueil."
+  },
+  "homeContinue": "Continuer",
+  "@homeContinue": {
+    "description": "Bouton pour reprendre une étape commencée."
+  },
+  "homeBegin": "Commencer",
+  "@homeBegin": {
+    "description": "Bouton pour commencer une étape."
+  },
+  "homeAllDoneTitle": "Tout est fait pour l'instant",
+  "@homeAllDoneTitle": {
+    "description": "Accueil quand aucune étape n'est disponible."
+  },
+  "homeAllDoneBody": "De nouvelles quêtes arriveront avec les prochaines mises à jour.",
+  "@homeAllDoneBody": {
+    "description": "Explication quand tout est fait."
+  },
+  "homeMissionsTitle": "Tes missions en cours",
+  "@homeMissionsTitle": {
+    "description": "Titre de la liste des missions en cours."
+  },
+  "questLockedQuest": "Termine d'abord la quête précédente.",
+  "@questLockedQuest": {
+    "description": "Raison du verrouillage d'une quête."
+  },
+  "stepLockedPrevious": "Termine d'abord l'étape précédente.",
+  "@stepLockedPrevious": {
+    "description": "Raison du verrouillage d'une étape."
+  },
+  "stepLockedCondition": "Pas encore disponible : continue ton parcours.",
+  "@stepLockedCondition": {
+    "description": "Étape verrouillée par une condition du contenu."
+  },
+  "stepStatusAvailable": "À faire",
+  "@stepStatusAvailable": {
+    "description": "Statut d'une étape disponible."
+  },
+  "stepStatusInProgress": "En cours",
+  "@stepStatusInProgress": {
+    "description": "Statut d'une étape commencée."
+  },
+  "stepStatusDeferred": "Revient le {date}",
+  "@stepStatusDeferred": {
+    "description": "Étape passée temporairement.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "stepStatusResurfaced": "À reprendre",
+  "@stepStatusResurfaced": {
+    "description": "Étape passée temporairement, revenue."
+  },
+  "stepStatusPostponed": "Mise de côté",
+  "@stepStatusPostponed": {
+    "description": "Étape « revenir plus tard »."
+  },
+  "stepStatusCompleted": "Terminée",
+  "@stepStatusCompleted": {
+    "description": "Étape terminée."
+  },
+  "stepStatusFastTracked": "Survolée (tu maîtrises déjà)",
+  "@stepStatusFastTracked": {
+    "description": "Étape allégée pour un profil avancé."
+  },
+  "stepNext": "Suivant",
+  "@stepNext": {
+    "description": "Bouton pour passer au bloc suivant."
+  },
+  "stepBack": "Retour",
+  "@stepBack": {
+    "description": "Bouton pour revenir au bloc précédent."
+  },
+  "stepFinish": "Terminer l'étape",
+  "@stepFinish": {
+    "description": "Bouton de fin d'étape."
+  },
+  "stepYourAnswer": "Ta réponse",
+  "@stepYourAnswer": {
+    "description": "Libellé du champ de réponse."
+  },
+  "stepNumberLabel": "Un nombre",
+  "@stepNumberLabel": {
+    "description": "Libellé d'un champ numérique."
+  },
+  "stepMoneyLabel": "Montant en ariary",
+  "@stepMoneyLabel": {
+    "description": "Libellé d'un champ de montant."
+  },
+  "stepInvalidAnswer": "Cette réponse n'est pas possible ici.",
+  "@stepInvalidAnswer": {
+    "description": "Erreur de saisie (sans répéter la saisie)."
+  },
+  "stepRephrase": "Autrement dit",
+  "@stepRephrase": {
+    "description": "Titre de la reformulation."
+  },
+  "stepExample": "Exemple",
+  "@stepExample": {
+    "description": "Titre de l'exemple."
+  },
+  "stepHint": "Indice",
+  "@stepHint": {
+    "description": "Titre d'un indice."
+  },
+  "stepStuckTitle": "Pas de souci",
+  "@stepStuckTitle": {
+    "description": "Après deux « Je ne comprends pas »."
+  },
+  "stepStuckBody": "Regarde l'exemple. Tu peux aussi répondre « Je ne sais pas » ou passer cette étape pour l'instant.",
+  "@stepStuckBody": {
+    "description": "Message anti-blocage."
+  },
+  "stepTermIntro": "En langage d'entrepreneur :",
+  "@stepTermIntro": {
+    "description": "Introduit un terme entrepreneurial."
+  },
+  "stepUnknownAnswer": "Je ne sais pas (encore)",
+  "@stepUnknownAnswer": {
+    "description": "Affichage d'une réponse « Je ne sais pas »."
+  },
+  "stepNoAnswer": "Pas de réponse",
+  "@stepNoAnswer": {
+    "description": "Synthèse : question facultative sans réponse."
+  },
+  "stepCompleted": "Étape terminée. Bravo !",
+  "@stepCompleted": {
+    "description": "Message de fin d'étape."
+  },
+  "stepWaitingMission": "Termine d'abord la mission de cette étape.",
+  "@stepWaitingMission": {
+    "description": "Étape en attente de sa mission."
+  },
+  "stepMissingAnswers": "Il manque encore une réponse.",
+  "@stepMissingAnswers": {
+    "description": "Étape incomplète."
+  },
+  "stepSkipped": "D'accord, cette étape reviendra plus tard.",
+  "@stepSkipped": {
+    "description": "Confirmation de « passer pour l'instant »."
+  },
+  "stepPostponed": "D'accord, tu la reprendras quand tu veux.",
+  "@stepPostponed": {
+    "description": "Confirmation de « revenir plus tard »."
+  },
+  "contentReviewNote": "Certains textes sont encore en relecture ou affichés dans une autre langue.",
+  "@contentReviewNote": {
+    "description": "Signal discret de traduction non relue."
+  },
+  "missionLabel": "Mission",
+  "@missionLabel": {
+    "description": "Étiquette d'une mission."
+  },
+  "missionDuration": "Environ {minutes} min",
+  "@missionDuration": {
+    "description": "Durée estimée d'une mission.",
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      }
+    }
+  },
+  "missionRealWorld": "Action dans la vraie vie",
+  "@missionRealWorld": {
+    "description": "Indique une mission à faire hors de l'app."
+  },
+  "missionInstructions": "Comment faire",
+  "@missionInstructions": {
+    "description": "Titre des instructions."
+  },
+  "missionDeliverable": "Ce que tu rapportes",
+  "@missionDeliverable": {
+    "description": "Titre du livrable."
+  },
+  "missionAccept": "J'accepte la mission",
+  "@missionAccept": {
+    "description": "Bouton d'acceptation."
+  },
+  "missionReflectionLabel": "Ce que tu as fait et appris",
+  "@missionReflectionLabel": {
+    "description": "Champ de compte rendu."
+  },
+  "missionSubmit": "J'ai terminé",
+  "@missionSubmit": {
+    "description": "Bouton de remise."
+  },
+  "missionAbandon": "Abandonner la mission",
+  "@missionAbandon": {
+    "description": "Bouton d'abandon."
+  },
+  "missionAbandonConfirmTitle": "Abandonner cette mission ?",
+  "@missionAbandonConfirmTitle": {
+    "description": "Titre de confirmation d'abandon."
+  },
+  "missionAbandonConfirmBody": "Tu pourras la reprendre plus tard.",
+  "@missionAbandonConfirmBody": {
+    "description": "Corps de confirmation d'abandon."
+  },
+  "missionStatusAccepted": "Acceptée",
+  "@missionStatusAccepted": {
+    "description": "Statut d'une mission."
+  },
+  "missionStatusSubmitted": "Remise, en attente",
+  "@missionStatusSubmitted": {
+    "description": "Statut d'une mission remise."
+  },
+  "missionStatusCompleted": "Accomplie",
+  "@missionStatusCompleted": {
+    "description": "Statut d'une mission accomplie."
+  },
+  "missionStatusAbandoned": "Abandonnée",
+  "@missionStatusAbandoned": {
+    "description": "Statut d'une mission abandonnée."
+  },
+  "missionTakeUpAgain": "Reprendre la mission",
+  "@missionTakeUpAgain": {
+    "description": "Reprendre une mission abandonnée."
+  },
+  "missionOpen": "Voir la mission",
+  "@missionOpen": {
+    "description": "Ouvre une mission."
+  },
+  "projectProvisionalTitle": "Mon projet",
+  "@projectProvisionalTitle": {
+    "description": "Titre provisoire du projet quand l'utilisateur ne sait pas encore le nommer."
+  },
+  "actionSave": "Enregistrer",
+  "@actionSave": {
+    "description": "Bouton d'enregistrement d'un formulaire."
+  },
+  "projectEmptyTitle": "Pas encore de projet",
+  "@projectEmptyTitle": {
+    "description": "Projet absent."
+  },
+  "projectEmptyBody": "Termine le diagnostic pour créer ton projet.",
+  "@projectEmptyBody": {
+    "description": "Projet absent : explication."
+  },
+  "projectMaturity": "Étape du projet : {stage}",
+  "@projectMaturity": {
+    "description": "Maturité du projet.",
+    "placeholders": {
+      "stage": {
+        "type": "String"
+      }
+    }
+  },
+  "maturityExploration": "Exploration",
+  "@maturityExploration": {
+    "description": "Stade de maturité."
+  },
+  "maturityValidation": "Validation",
+  "@maturityValidation": {
+    "description": "Stade de maturité."
+  },
+  "maturityConstruction": "Construction",
+  "@maturityConstruction": {
+    "description": "Stade de maturité."
+  },
+  "maturityPreparation": "Préparation",
+  "@maturityPreparation": {
+    "description": "Stade de maturité."
+  },
+  "maturityLaunch": "Lancement",
+  "@maturityLaunch": {
+    "description": "Stade de maturité."
+  },
+  "projectSectionsTitle": "Ce que ton projet contient",
+  "@projectSectionsTitle": {
+    "description": "Titre des sections."
+  },
+  "projectSectionEmpty": "Pas encore rempli : les quêtes t'aideront.",
+  "@projectSectionEmpty": {
+    "description": "Section vide."
+  },
+  "projectEditSection": "Modifier",
+  "@projectEditSection": {
+    "description": "Modifier une section."
+  },
+  "projectHistory": "Avant / Maintenant",
+  "@projectHistory": {
+    "description": "Historique d'une section."
+  },
+  "projectHistoryEmpty": "Pas encore de changement.",
+  "@projectHistoryEmpty": {
+    "description": "Historique vide."
+  },
+  "projectHistoryBefore": "Avant : {value}",
+  "@projectHistoryBefore": {
+    "description": "Ancienne valeur d'un champ.",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "projectHistoryNow": "Maintenant : {value}",
+  "@projectHistoryNow": {
+    "description": "Nouvelle valeur d'un champ.",
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "projectHistoryNoValue": "(vide)",
+  "@projectHistoryNoValue": {
+    "description": "Valeur absente."
+  },
+  "projectResearchTitle": "Tester tes idées",
+  "@projectResearchTitle": {
+    "description": "Titre de la partie hypothèses."
+  },
+  "projectHypothesesEntry": "Hypothèses ({count})",
+  "@projectHypothesesEntry": {
+    "description": "Entrée vers les hypothèses.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "projectFieldNotesEntry": "Carnet de terrain ({count})",
+  "@projectFieldNotesEntry": {
+    "description": "Entrée vers les observations et rencontres.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "hypothesesTitle": "Hypothèses",
+  "@hypothesesTitle": {
+    "description": "Titre de la liste."
+  },
+  "hypothesesEmpty": "Une hypothèse, c'est ce que tu crois vrai mais que tu n'as pas encore vérifié.",
+  "@hypothesesEmpty": {
+    "description": "Liste vide : explication."
+  },
+  "hypothesisNew": "Nouvelle hypothèse",
+  "@hypothesisNew": {
+    "description": "Créer une hypothèse."
+  },
+  "hypothesisStatementLabel": "Ce que tu penses",
+  "@hypothesisStatementLabel": {
+    "description": "Champ énoncé."
+  },
+  "hypothesisTemplate": "Je pense que [qui] a [quel problème] quand [quelle situation].",
+  "@hypothesisTemplate": {
+    "description": "Gabarit d'hypothèse."
+  },
+  "hypothesisCategoryLabel": "Sur quoi porte-t-elle ?",
+  "@hypothesisCategoryLabel": {
+    "description": "Champ catégorie."
+  },
+  "categoryProblem": "Le problème",
+  "@categoryProblem": {
+    "description": "Catégorie."
+  },
+  "categoryCustomer": "Les clients",
+  "@categoryCustomer": {
+    "description": "Catégorie."
+  },
+  "categorySolution": "La solution",
+  "@categorySolution": {
+    "description": "Catégorie."
+  },
+  "categoryPrice": "Le prix",
+  "@categoryPrice": {
+    "description": "Catégorie."
+  },
+  "categoryChannel": "Comment toucher les clients",
+  "@categoryChannel": {
+    "description": "Catégorie."
+  },
+  "categoryOther": "Autre",
+  "@categoryOther": {
+    "description": "Catégorie."
+  },
+  "hypothesisImportanceLabel": "Importance",
+  "@hypothesisImportanceLabel": {
+    "description": "Champ importance."
+  },
+  "importance1": "Utile à savoir",
+  "@importance1": {
+    "description": "Importance 1."
+  },
+  "importance2": "Importante",
+  "@importance2": {
+    "description": "Importance 2."
+  },
+  "importance3": "Le projet en dépend",
+  "@importance3": {
+    "description": "Importance 3."
+  },
+  "hypothesisConfidenceLabel": "Ta confiance aujourd'hui : {value} sur 5",
+  "@hypothesisConfidenceLabel": {
+    "description": "Confiance avant test.",
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "statusDraft": "Brouillon",
+  "@statusDraft": {
+    "description": "Statut d'hypothèse."
+  },
+  "statusToTest": "À tester",
+  "@statusToTest": {
+    "description": "Statut d'hypothèse."
+  },
+  "statusTesting": "En test",
+  "@statusTesting": {
+    "description": "Statut d'hypothèse."
+  },
+  "statusValidated": "Confirmée",
+  "@statusValidated": {
+    "description": "Statut d'hypothèse."
+  },
+  "statusInvalidated": "Infirmée",
+  "@statusInvalidated": {
+    "description": "Statut d'hypothèse."
+  },
+  "statusInconclusive": "Pas de réponse claire",
+  "@statusInconclusive": {
+    "description": "Statut d'hypothèse."
+  },
+  "statusAbandoned": "Abandonnée",
+  "@statusAbandoned": {
+    "description": "Statut d'hypothèse."
+  },
+  "hypothesisEdit": "Modifier",
+  "@hypothesisEdit": {
+    "description": "Modifier une hypothèse."
+  },
+  "hypothesisMarkToTest": "Elle est prête à tester",
+  "@hypothesisMarkToTest": {
+    "description": "Passer à « à tester »."
+  },
+  "hypothesisAbandon": "Abandonner",
+  "@hypothesisAbandon": {
+    "description": "Abandonner une hypothèse."
+  },
+  "hypothesisAbandonConfirmTitle": "Abandonner cette hypothèse ?",
+  "@hypothesisAbandonConfirmTitle": {
+    "description": "Confirmation."
+  },
+  "hypothesisAbandonConfirmBody": "Elle restera dans ton historique.",
+  "@hypothesisAbandonConfirmBody": {
+    "description": "Confirmation."
+  },
+  "hypothesisLockedNote": "Elle a été testée : pour la changer, prends la décision « Modifier l'hypothèse ».",
+  "@hypothesisLockedNote": {
+    "description": "Hypothèse non modifiable."
+  },
+  "hypothesisPreviousVersion": "Version précédente",
+  "@hypothesisPreviousVersion": {
+    "description": "Lien vers la version précédente."
+  },
+  "hypothesisNextVersion": "Nouvelle version",
+  "@hypothesisNextVersion": {
+    "description": "Lien vers la nouvelle version."
+  },
+  "experimentsTitle": "Tests",
+  "@experimentsTitle": {
+    "description": "Titre des expériences."
+  },
+  "experimentPlan": "Préparer un test",
+  "@experimentPlan": {
+    "description": "Créer une expérience."
+  },
+  "experimentMethodLabel": "Comment tester ?",
+  "@experimentMethodLabel": {
+    "description": "Champ méthode."
+  },
+  "methodInterview": "Discuter avec des personnes",
+  "@methodInterview": {
+    "description": "Méthode."
+  },
+  "methodObservation": "Observer",
+  "@methodObservation": {
+    "description": "Méthode."
+  },
+  "methodPrototype": "Montrer un prototype",
+  "@methodPrototype": {
+    "description": "Méthode."
+  },
+  "methodPriceTest": "Tester un prix",
+  "@methodPriceTest": {
+    "description": "Méthode."
+  },
+  "methodPreSale": "Prévendre",
+  "@methodPreSale": {
+    "description": "Méthode."
+  },
+  "methodFreeTrial": "Essai gratuit",
+  "@methodFreeTrial": {
+    "description": "Méthode."
+  },
+  "methodOther": "Autre",
+  "@methodOther": {
+    "description": "Méthode."
+  },
+  "experimentPlanLabel": "Ce que tu vas faire",
+  "@experimentPlanLabel": {
+    "description": "Champ plan."
+  },
+  "experimentCriterionLabel": "Le test est réussi si…",
+  "@experimentCriterionLabel": {
+    "description": "Champ critère."
+  },
+  "experimentCriterionHelp": "Décide-le avant de tester, par exemple « au moins 3 personnes sur 5 ».",
+  "@experimentCriterionHelp": {
+    "description": "Aide critère."
+  },
+  "experimentSampleLabel": "Combien de personnes ?",
+  "@experimentSampleLabel": {
+    "description": "Champ échantillon."
+  },
+  "experimentStart": "Commencer le test",
+  "@experimentStart": {
+    "description": "Démarrer."
+  },
+  "experimentCriterionLocked": "Fixé avant le test : {criterion}",
+  "@experimentCriterionLocked": {
+    "description": "Critère verrouillé.",
+    "placeholders": {
+      "criterion": {
+        "type": "String"
+      }
+    }
+  },
+  "experimentNoCriterion": "Pas encore de critère de réussite.",
+  "@experimentNoCriterion": {
+    "description": "Critère manquant."
+  },
+  "experimentAddResult": "Noter un résultat",
+  "@experimentAddResult": {
+    "description": "Ajouter un résultat."
+  },
+  "experimentFinish": "Le test est terminé",
+  "@experimentFinish": {
+    "description": "Terminer."
+  },
+  "experimentCancel": "Annuler le test",
+  "@experimentCancel": {
+    "description": "Annuler."
+  },
+  "experimentCancelConfirmTitle": "Annuler ce test ?",
+  "@experimentCancelConfirmTitle": {
+    "description": "Confirmation."
+  },
+  "experimentCancelConfirmBody": "Ce que tu as déjà noté est gardé.",
+  "@experimentCancelConfirmBody": {
+    "description": "Confirmation."
+  },
+  "experimentStatusPlanned": "Prévu",
+  "@experimentStatusPlanned": {
+    "description": "Statut."
+  },
+  "experimentStatusRunning": "En cours",
+  "@experimentStatusRunning": {
+    "description": "Statut."
+  },
+  "experimentStatusDone": "Terminé",
+  "@experimentStatusDone": {
+    "description": "Statut."
+  },
+  "experimentStatusCancelled": "Annulé",
+  "@experimentStatusCancelled": {
+    "description": "Statut."
+  },
+  "resultSummaryLabel": "Ce que tu as observé",
+  "@resultSummaryLabel": {
+    "description": "Champ résultat."
+  },
+  "resultYesLabel": "Combien ont dit oui",
+  "@resultYesLabel": {
+    "description": "Champ métrique."
+  },
+  "resultTotalLabel": "Sur combien",
+  "@resultTotalLabel": {
+    "description": "Champ métrique."
+  },
+  "resultMetric": "{yes} sur {total}",
+  "@resultMetric": {
+    "description": "Métrique d'un résultat.",
+    "placeholders": {
+      "yes": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "evidencesTitle": "Preuves",
+  "@evidencesTitle": {
+    "description": "Titre des preuves."
+  },
+  "evidenceAdd": "Ajouter une preuve",
+  "@evidenceAdd": {
+    "description": "Ajouter une preuve."
+  },
+  "evidenceKindNote": "Note",
+  "@evidenceKindNote": {
+    "description": "Type de preuve."
+  },
+  "evidenceKindPhoto": "Photo",
+  "@evidenceKindPhoto": {
+    "description": "Type de preuve."
+  },
+  "evidenceKindLink": "Lien",
+  "@evidenceKindLink": {
+    "description": "Type de preuve."
+  },
+  "evidenceKindNumber": "Chiffre",
+  "@evidenceKindNumber": {
+    "description": "Type de preuve."
+  },
+  "evidenceKindSale": "Vente",
+  "@evidenceKindSale": {
+    "description": "Type de preuve."
+  },
+  "evidenceNoteLabel": "Ta note",
+  "@evidenceNoteLabel": {
+    "description": "Champ note."
+  },
+  "evidenceLinkLabel": "Adresse du lien",
+  "@evidenceLinkLabel": {
+    "description": "Champ lien."
+  },
+  "evidenceNumberLabel": "Le chiffre",
+  "@evidenceNumberLabel": {
+    "description": "Champ chiffre."
+  },
+  "evidenceSaleLabel": "Montant en ariary",
+  "@evidenceSaleLabel": {
+    "description": "Champ montant."
+  },
+  "evidenceSale": "Vente : {amount}",
+  "@evidenceSale": {
+    "description": "Affichage d'une vente.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "evidencePhotoTake": "Prendre une photo",
+  "@evidencePhotoTake": {
+    "description": "Bouton caméra."
+  },
+  "evidencePhotoChoose": "Choisir une photo",
+  "@evidencePhotoChoose": {
+    "description": "Bouton galerie."
+  },
+  "evidencePhotoPrivacy": "Évite les visages et les personnes qui n'ont pas donné leur accord. La photo est chiffrée sur ton téléphone.",
+  "@evidencePhotoPrivacy": {
+    "description": "Conseil photo."
+  },
+  "evidencePhotoMissing": "Photo pas encore sur ce téléphone.",
+  "@evidencePhotoMissing": {
+    "description": "Photo absente."
+  },
+  "evidencePhotoTooLarge": "Photo trop lourde (10 Mo au maximum).",
+  "@evidencePhotoTooLarge": {
+    "description": "Photo trop grande."
+  },
+  "evidencePhotoUnreadable": "Cette photo ne peut pas être lue.",
+  "@evidencePhotoUnreadable": {
+    "description": "Photo illisible."
+  },
+  "conclude": "Conclure",
+  "@conclude": {
+    "description": "Conclure une hypothèse."
+  },
+  "conclusionOutcomeLabel": "Résultat",
+  "@conclusionOutcomeLabel": {
+    "description": "Champ issue."
+  },
+  "conclusionStatementLabel": "Ce que tu penses maintenant",
+  "@conclusionStatementLabel": {
+    "description": "Champ conclusion."
+  },
+  "conclusionConfidenceLabel": "Ta confiance maintenant : {value} sur 5",
+  "@conclusionConfidenceLabel": {
+    "description": "Confiance après test.",
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "conclusionConfidenceChange": "Confiance : {before} → {after}",
+  "@conclusionConfidenceChange": {
+    "description": "Évolution de la confiance.",
+    "placeholders": {
+      "before": {
+        "type": "String"
+      },
+      "after": {
+        "type": "int"
+      }
+    }
+  },
+  "conclusionsTitle": "Conclusions",
+  "@conclusionsTitle": {
+    "description": "Titre des conclusions."
+  },
+  "invalidatedEncouragement": "Une hypothèse infirmée est une bonne nouvelle : tu viens d'éviter de construire quelque chose d'inutile.",
+  "@invalidatedEncouragement": {
+    "description": "Message après infirmation."
+  },
+  "decisionsTitle": "Décisions",
+  "@decisionsTitle": {
+    "description": "Titre du journal."
+  },
+  "decisionTake": "Décider la suite",
+  "@decisionTake": {
+    "description": "Prendre une décision."
+  },
+  "decisionKeepGoing": "Continuer",
+  "@decisionKeepGoing": {
+    "description": "Décision."
+  },
+  "decisionModify": "Modifier l'hypothèse",
+  "@decisionModify": {
+    "description": "Décision."
+  },
+  "decisionTestMore": "Tester davantage",
+  "@decisionTestMore": {
+    "description": "Décision."
+  },
+  "decisionAbandon": "Abandonner",
+  "@decisionAbandon": {
+    "description": "Décision."
+  },
+  "decisionGoBack": "Revenir en arrière dans la quête",
+  "@decisionGoBack": {
+    "description": "Décision."
+  },
+  "decisionRationaleLabel": "Pourquoi ?",
+  "@decisionRationaleLabel": {
+    "description": "Champ justification."
+  },
+  "decisionNewStatementLabel": "La nouvelle version",
+  "@decisionNewStatementLabel": {
+    "description": "Champ nouvelle version."
+  },
+  "guardNoRunningExperiment": "Commence d'abord un test.",
+  "@guardNoRunningExperiment": {
+    "description": "Règle refusée."
+  },
+  "guardNoSuccessCriterion": "Écris d'abord quand le test sera réussi.",
+  "@guardNoSuccessCriterion": {
+    "description": "Règle refusée."
+  },
+  "guardCriterionLocked": "Le critère est fixé depuis le début du test.",
+  "@guardCriterionLocked": {
+    "description": "Règle refusée."
+  },
+  "guardNoResult": "Note d'abord au moins un résultat.",
+  "@guardNoResult": {
+    "description": "Règle refusée."
+  },
+  "guardNoEvidence": "Ajoute d'abord au moins une preuve.",
+  "@guardNoEvidence": {
+    "description": "Règle refusée."
+  },
+  "guardExperimentWithoutResult": "Note au moins un résultat avant de terminer le test.",
+  "@guardExperimentWithoutResult": {
+    "description": "Règle refusée."
+  },
+  "guardNotEditable": "On ne peut plus la modifier.",
+  "@guardNotEditable": {
+    "description": "Règle refusée."
+  },
+  "guardDecisionNotAllowed": "Cette décision n'est pas possible ici.",
+  "@guardDecisionNotAllowed": {
+    "description": "Règle refusée."
+  },
+  "guardInvalidConfidence": "Choisis une confiance de 1 à 5.",
+  "@guardInvalidConfidence": {
+    "description": "Règle refusée."
+  },
+  "guardInvalidText": "Ce texte est vide ou trop long.",
+  "@guardInvalidText": {
+    "description": "Règle refusée."
+  },
+  "guardInvalidMetrics": "Les chiffres ne vont pas ensemble.",
+  "@guardInvalidMetrics": {
+    "description": "Règle refusée."
+  },
+  "guardExperimentNotStarted": "Commence le test avant de noter un résultat.",
+  "@guardExperimentNotStarted": {
+    "description": "Règle refusée."
+  },
+  "guardIncompleteEvidence": "Il manque quelque chose à cette preuve.",
+  "@guardIncompleteEvidence": {
+    "description": "Règle refusée."
+  },
+  "guardNotFound": "Élément introuvable.",
+  "@guardNotFound": {
+    "description": "Règle refusée."
+  },
+  "fieldNotesTitle": "Carnet de terrain",
+  "@fieldNotesTitle": {
+    "description": "Titre."
+  },
+  "fieldNotesEmpty": "Note ici ce que tu vois et ce que les gens te disent.",
+  "@fieldNotesEmpty": {
+    "description": "Carnet vide."
+  },
+  "observationsTitle": "Observations",
+  "@observationsTitle": {
+    "description": "Titre."
+  },
+  "observationAdd": "Noter une observation",
+  "@observationAdd": {
+    "description": "Ajouter."
+  },
+  "observationDescriptionLabel": "Ce que tu as vu",
+  "@observationDescriptionLabel": {
+    "description": "Champ."
+  },
+  "observationContextLabel": "Où et quand",
+  "@observationContextLabel": {
+    "description": "Champ."
+  },
+  "observationProblemLabel": "Le problème que tu supposes",
+  "@observationProblemLabel": {
+    "description": "Champ."
+  },
+  "interviewsTitle": "Rencontres",
+  "@interviewsTitle": {
+    "description": "Titre."
+  },
+  "interviewAdd": "Noter une rencontre",
+  "@interviewAdd": {
+    "description": "Ajouter."
+  },
+  "interviewAliasLabel": "Surnom de la personne",
+  "@interviewAliasLabel": {
+    "description": "Champ."
+  },
+  "interviewAliasHelp": "Pas de vrai nom ni de numéro de téléphone.",
+  "@interviewAliasHelp": {
+    "description": "Aide."
+  },
+  "interviewNotesLabel": "Ce que la personne t'a dit",
+  "@interviewNotesLabel": {
+    "description": "Champ."
+  },
+  "interviewConclusionLabel": "Ce que tu en retiens",
+  "@interviewConclusionLabel": {
+    "description": "Champ."
+  },
+  "interviewNoRecording": "Pas d'enregistrement de la personne : prends des notes écrites.",
+  "@interviewNoRecording": {
+    "description": "Rappel confidentialité."
+  },
+  "projectHistoryEntry": "{field} · {date}",
+  "@projectHistoryEntry": {
+    "description": "Champ et date d'un changement.",
+    "placeholders": {
+      "field": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "stepConditionNotMet": "Ce n'est pas encore fait : termine d'abord ce que demande cette étape.",
+  "@stepConditionNotMet": {
+    "description": "Condition d'une étape non remplie (sans mission)."
+  },
+  "actionDelete": "Supprimer",
+  "@actionDelete": {
+    "description": "Mettre un élément à la corbeille."
+  },
+  "actionUndo": "Annuler",
+  "@actionUndo": {
+    "description": "Annuler l'action qui vient d'être faite."
+  },
+  "movedToTrash": "Mis à la corbeille.",
+  "@movedToTrash": {
+    "description": "Message après une suppression."
+  },
+  "trashTitle": "Corbeille",
+  "@trashTitle": {
+    "description": "Titre de l'écran Corbeille."
+  },
+  "projectTrashEntry": "Corbeille ({count})",
+  "@projectTrashEntry": {
+    "description": "Entrée vers la corbeille.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trashExplain": "Ce que tu supprimes reste ici 30 jours, puis disparaît pour de bon, sur tous tes appareils.",
+  "@trashExplain": {
+    "description": "Explication de la corbeille."
+  },
+  "trashEmpty": "La corbeille est vide.",
+  "@trashEmpty": {
+    "description": "Corbeille vide."
+  },
+  "trashDates": "Supprimé le {date} · effacé pour de bon le {purgeDate}",
+  "@trashDates": {
+    "description": "Dates d'un élément de la corbeille.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "purgeDate": {
+        "type": "String"
+      }
+    }
+  },
+  "trashKind": "{kind, select, observation{Observation} interview{Rencontre} evidence{Preuve} competitor{Concurrent} financeItem{Montant} other{Élément}}",
+  "@trashKind": {
+    "description": "Type d'un élément de la corbeille.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "trashRestore": "Remettre",
+  "@trashRestore": {
+    "description": "Sortir un élément de la corbeille."
+  },
+  "trashPurge": "Supprimer pour de bon",
+  "@trashPurge": {
+    "description": "Effacer définitivement un élément."
+  },
+  "trashPurgeConfirmTitle": "Supprimer pour de bon ?",
+  "@trashPurgeConfirmTitle": {
+    "description": "Titre de la confirmation d'effacement définitif."
+  },
+  "trashPurgeConfirmBody": "Ce sera effacé de tous tes appareils et ne pourra pas être retrouvé.",
+  "@trashPurgeConfirmBody": {
+    "description": "Texte de la confirmation d'effacement définitif."
+  },
+  "trashEmptyAll": "Vider la corbeille",
+  "@trashEmptyAll": {
+    "description": "Effacer tout le contenu de la corbeille."
+  },
+  "trashEmptyAllConfirmBody": "Tout ce qui est dans la corbeille sera effacé de tous tes appareils, sans retour possible.",
+  "@trashEmptyAllConfirmBody": {
+    "description": "Confirmation pour vider la corbeille."
+  },
+  "conflictsTitle": "Versions à vérifier",
+  "@conflictsTitle": {
+    "description": "Titre de l'écran des copies de conflit."
+  },
+  "projectConflictsEntry": "Versions à vérifier ({count})",
+  "@projectConflictsEntry": {
+    "description": "Entrée vers les copies de conflit.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "conflictsExplain": "La même chose a été modifiée sur deux appareils en même temps. Les deux versions sont gardées : choisis celle qui est juste.",
+  "@conflictsExplain": {
+    "description": "Explication des copies de conflit."
+  },
+  "conflictsEmpty": "Rien à vérifier.",
+  "@conflictsEmpty": {
+    "description": "Aucune copie de conflit."
+  },
+  "conflictEntity": "{kind, select, project{Projet} project_section{Partie du projet} hypothesis{Hypothèse} experiment{Test} observation{Observation} interview{Rencontre} evidence{Preuve} profile{Profil} answer{Réponse} competitor{Concurrent} finance_item{Montant} finance_plan{Prix et ventes} other{Élément}}",
+  "@conflictEntity": {
+    "description": "Type de l'élément en conflit.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "conflictCurrent": "Version gardée",
+  "@conflictCurrent": {
+    "description": "La version actuellement en place."
+  },
+  "conflictOther": "Autre version ({date})",
+  "@conflictOther": {
+    "description": "La version mise de côté.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "conflictKeepOther": "Garder l'autre version",
+  "@conflictKeepOther": {
+    "description": "Remplacer par la version mise de côté."
+  },
+  "conflictKeepCurrent": "Garder la version actuelle",
+  "@conflictKeepCurrent": {
+    "description": "Garder la version en place."
+  },
+  "conflictNoDifference": "Les deux versions disent la même chose.",
+  "@conflictNoDifference": {
+    "description": "Aucune différence visible entre les versions."
+  },
+  "accountTitle": "Compte",
+  "@accountTitle": {
+    "description": "Section compte du profil."
+  },
+  "accountUnavailable": "La sauvegarde en ligne n'est pas encore disponible dans cette version. Tout reste sur ce téléphone.",
+  "@accountUnavailable": {
+    "description": "Pas de serveur configuré."
+  },
+  "accountGuestBody": "Sans compte, tout reste sur ce téléphone. Avec un compte, tes données sont sauvegardées chiffrées : personne d'autre que toi ne peut les lire, pas même Eripoo.",
+  "@accountGuestBody": {
+    "description": "Pourquoi créer un compte."
+  },
+  "accountCreate": "Créer un compte",
+  "@accountCreate": {
+    "description": "Inscription."
+  },
+  "accountSignIn": "Me connecter",
+  "@accountSignIn": {
+    "description": "Connexion."
+  },
+  "accountEmailLabel": "Adresse e-mail",
+  "@accountEmailLabel": {
+    "description": "Champ e-mail."
+  },
+  "accountPasswordLabel": "Mot de passe",
+  "@accountPasswordLabel": {
+    "description": "Champ mot de passe."
+  },
+  "accountPasswordHelp": "Au moins 8 caractères.",
+  "@accountPasswordHelp": {
+    "description": "Aide mot de passe."
+  },
+  "accountSignedInAs": "Connecté : {email}",
+  "@accountSignedInAs": {
+    "description": "Compte connecté.",
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "accountLinking": "Préparation de la sauvegarde chiffrée… Cela peut prendre quelques secondes.",
+  "@accountLinking": {
+    "description": "Liaison du compte en cours."
+  },
+  "accountMismatch": "Ce téléphone contient les données d'un autre compte. Elles doivent d'abord être effacées.",
+  "@accountMismatch": {
+    "description": "Téléphone lié à un autre compte."
+  },
+  "authInvalidCredentials": "Adresse ou mot de passe incorrect.",
+  "@authInvalidCredentials": {
+    "description": "Erreur de connexion."
+  },
+  "authEmailNotConfirmed": "Confirme d'abord ton adresse avec le lien reçu par e-mail.",
+  "@authEmailNotConfirmed": {
+    "description": "E-mail non confirmé."
+  },
+  "authAccountExists": "Un compte existe déjà avec cette adresse : connecte-toi.",
+  "@authAccountExists": {
+    "description": "Compte existant."
+  },
+  "authWeakPassword": "Mot de passe trop court : au moins 8 caractères.",
+  "@authWeakPassword": {
+    "description": "Mot de passe trop faible."
+  },
+  "authInvalidEmail": "Cette adresse e-mail ne semble pas correcte.",
+  "@authInvalidEmail": {
+    "description": "E-mail invalide."
+  },
+  "authTooManyAttempts": "Trop d'essais. Réessaie dans quelques minutes.",
+  "@authTooManyAttempts": {
+    "description": "Limite d'essais."
+  },
+  "authUnavailable": "Pas de connexion au serveur. Réessaie plus tard.",
+  "@authUnavailable": {
+    "description": "Serveur injoignable."
+  },
+  "recoveryTitle": "Ton code de secours",
+  "@recoveryTitle": {
+    "description": "Titre du code de secours."
+  },
+  "recoveryShowBody": "Écris ce code sur papier et garde-le en lieu sûr. C'est le seul moyen de retrouver tes données si tu perds tous tes appareils. Eripoo ne peut pas le retrouver pour toi.",
+  "@recoveryShowBody": {
+    "description": "Consigne du code de secours."
+  },
+  "recoveryConfirmCheck": "Je l'ai écrit sur papier",
+  "@recoveryConfirmCheck": {
+    "description": "Confirmation d'écriture du code."
+  },
+  "recoveryConfirmLast": "Pour vérifier, tape les 4 derniers chiffres",
+  "@recoveryConfirmLast": {
+    "description": "Vérification du code écrit."
+  },
+  "recoveryConfirmWrong": "Ce ne sont pas les bons chiffres : vérifie ce que tu as écrit.",
+  "@recoveryConfirmWrong": {
+    "description": "Vérification ratée."
+  },
+  "actionDone": "Terminé",
+  "@actionDone": {
+    "description": "Terminer."
+  },
+  "recoveryEnterTitle": "Entrer mon code de secours",
+  "@recoveryEnterTitle": {
+    "description": "Saisie du code de secours."
+  },
+  "recoveryEnterLabel": "Code de secours (36 chiffres)",
+  "@recoveryEnterLabel": {
+    "description": "Champ code de secours."
+  },
+  "recoveryMalformed": "Il manque des chiffres ou l'un d'eux est mal tapé.",
+  "@recoveryMalformed": {
+    "description": "Code mal formé."
+  },
+  "recoveryWrong": "Ce code n'ouvre pas les données de ce compte.",
+  "@recoveryWrong": {
+    "description": "Mauvais code."
+  },
+  "recoveryRateLimited": "Trop d'essais : réessaie dans une heure.",
+  "@recoveryRateLimited": {
+    "description": "Limite de récupération."
+  },
+  "recoveryWorking": "Vérification du code… Cela peut prendre quelques secondes.",
+  "@recoveryWorking": {
+    "description": "Vérification en cours."
+  },
+  "unlockTitle": "Retrouver tes données",
+  "@unlockTitle": {
+    "description": "Titre du choix de déverrouillage."
+  },
+  "unlockBody": "Ce compte a déjà des données. Pour les ouvrir sur ce téléphone :",
+  "@unlockBody": {
+    "description": "Explication du choix."
+  },
+  "unlockWithPhone": "Avec mon autre téléphone",
+  "@unlockWithPhone": {
+    "description": "Transfert par QR."
+  },
+  "unlockWithCode": "Avec mon code de secours",
+  "@unlockWithCode": {
+    "description": "Récupération par code."
+  },
+  "receiveTitle": "Recevoir la clé",
+  "@receiveTitle": {
+    "description": "Écran du nouveau téléphone."
+  },
+  "receiveBody": "Sur ton autre téléphone : Profil › Mes appareils › Ajouter un appareil. Scanne ce code, puis tape là-bas le code à 6 chiffres affiché ici.",
+  "@receiveBody": {
+    "description": "Consignes du transfert."
+  },
+  "receiveCodeLabel": "Code à taper sur l'autre téléphone",
+  "@receiveCodeLabel": {
+    "description": "Code de vérification."
+  },
+  "receiveScan": "Scanner le code de l'autre téléphone",
+  "@receiveScan": {
+    "description": "Scanner QR2."
+  },
+  "receiveExpiresIn": "Valable encore {time}",
+  "@receiveExpiresIn": {
+    "description": "Temps restant.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "actionStartAgain": "Recommencer",
+  "@actionStartAgain": {
+    "description": "Recommencer le transfert."
+  },
+  "receiveWorking": "Vérification de la clé…",
+  "@receiveWorking": {
+    "description": "Vérification en cours."
+  },
+  "receiveDone": "Clé reçue et vérifiée. Eripoo redémarre pour ouvrir tes données.",
+  "@receiveDone": {
+    "description": "Transfert réussi."
+  },
+  "transferMalformed": "Ce n'est pas un code de transfert Eripoo, ou il est abîmé.",
+  "@transferMalformed": {
+    "description": "QR invalide."
+  },
+  "transferUnsupported": "Ce code vient d'une version plus récente d'Eripoo : mets l'application à jour.",
+  "@transferUnsupported": {
+    "description": "Version inconnue."
+  },
+  "transferWrongAccount": "Les deux téléphones ne sont pas connectés au même compte.",
+  "@transferWrongAccount": {
+    "description": "Comptes différents."
+  },
+  "transferWrongCode": "Ce n'est pas le code affiché sur le nouveau téléphone.",
+  "@transferWrongCode": {
+    "description": "Mauvais code V."
+  },
+  "transferRetry": "Ce code ne correspond pas à ce transfert. Recommence avec tes deux téléphones.",
+  "@transferRetry": {
+    "description": "Mauvais transfert, clé jetable perdue."
+  },
+  "transferExpired": "Le transfert a expiré. Recommence.",
+  "@transferExpired": {
+    "description": "Transfert expiré."
+  },
+  "transferKeyMismatch": "Cette clé n'ouvre pas les données du compte. Recommence avec ton propre téléphone.",
+  "@transferKeyMismatch": {
+    "description": "Clé non vérifiée."
+  },
+  "transferDeviceLimit": "Ce compte a déjà 5 appareils : retires-en un depuis un autre téléphone.",
+  "@transferDeviceLimit": {
+    "description": "Limite d'appareils."
+  },
+  "transferOffline": "Pas de connexion : connecte-toi à internet pour vérifier la clé, puis réessaie.",
+  "@transferOffline": {
+    "description": "Hors ligne."
+  },
+  "devicesTitle": "Mes appareils",
+  "@devicesTitle": {
+    "description": "Liste des appareils."
+  },
+  "devicesThis": "Ce téléphone",
+  "@devicesThis": {
+    "description": "Appareil courant."
+  },
+  "devicesLastSeen": "Vu le {date}",
+  "@devicesLastSeen": {
+    "description": "Dernière activité.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "devicesRemoved": "Retiré",
+  "@devicesRemoved": {
+    "description": "Appareil révoqué."
+  },
+  "devicesRemove": "Retirer",
+  "@devicesRemove": {
+    "description": "Révoquer."
+  },
+  "devicesRemoveConfirmTitle": "Retirer « {name} » ?",
+  "@devicesRemoveConfirmTitle": {
+    "description": "Confirmation de révocation.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "devicesRemoveConfirmBody": "Il ne pourra plus rien recevoir ni envoyer, et ses données Eripoo seront effacées dès qu'il se connectera.",
+  "@devicesRemoveConfirmBody": {
+    "description": "Effet de la révocation."
+  },
+  "devicesReauthTitle": "Confirme ton mot de passe",
+  "@devicesReauthTitle": {
+    "description": "Réauthentification."
+  },
+  "devicesReauthBody": "Par sécurité, retirer un appareil demande de retaper ton mot de passe.",
+  "@devicesReauthBody": {
+    "description": "Pourquoi réauthentifier."
+  },
+  "devicesAdd": "Ajouter un appareil",
+  "@devicesAdd": {
+    "description": "Ajout par QR."
+  },
+  "devicesLoadError": "Impossible d'afficher tes appareils sans connexion.",
+  "@devicesLoadError": {
+    "description": "Liste indisponible."
+  },
+  "addDeviceWarning": "Ne scanne que ton propre nouveau téléphone, que tu tiens en main. Si quelqu'un te demande de scanner un code, refuse.",
+  "@addDeviceWarning": {
+    "description": "Avertissement anti-hameçonnage."
+  },
+  "addDeviceScan": "Scanner le code du nouveau téléphone",
+  "@addDeviceScan": {
+    "description": "Scanner QR1."
+  },
+  "addDeviceConfirm": "Ajouter « {name} » ?",
+  "@addDeviceConfirm": {
+    "description": "Confirmation d'ajout.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "addDeviceCodeLabel": "Code à 6 chiffres affiché sur le nouveau téléphone",
+  "@addDeviceCodeLabel": {
+    "description": "Saisie du code V."
+  },
+  "addDeviceShowKey": "Montrer la clé",
+  "@addDeviceShowKey": {
+    "description": "Afficher QR2."
+  },
+  "addDeviceKeyBody": "Scanne ce code avec le nouveau téléphone. Il disparaît dans {time}.",
+  "@addDeviceKeyBody": {
+    "description": "Consigne QR2.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "addDeviceIdentityReason": "Confirme que c'est bien toi pour ajouter un appareil.",
+  "@addDeviceIdentityReason": {
+    "description": "Raison de l'authentification locale."
+  },
+  "addDeviceIdentityFailed": "Identité non confirmée.",
+  "@addDeviceIdentityFailed": {
+    "description": "Échec de l'authentification locale."
+  },
+  "scannerTitle": "Scanner",
+  "@scannerTitle": {
+    "description": "Titre du scanner."
+  },
+  "scannerHint": "Place le code dans le cadre.",
+  "@scannerHint": {
+    "description": "Aide du scanner."
+  },
+  "scannerUnavailable": "La caméra n'est pas disponible. Autorise-la dans les réglages du téléphone, ou utilise ton code de secours.",
+  "@scannerUnavailable": {
+    "description": "Caméra refusée ou absente."
+  },
+  "syncTitle": "Sauvegarde",
+  "@syncTitle": {
+    "description": "Section synchronisation."
+  },
+  "syncStateIdle": "Pas encore sauvegardé depuis l'ouverture.",
+  "@syncStateIdle": {
+    "description": "Aucun cycle."
+  },
+  "syncStateRunning": "Sauvegarde en cours…",
+  "@syncStateRunning": {
+    "description": "Cycle en cours."
+  },
+  "syncStateSaved": "Tout est sauvegardé.",
+  "@syncStateSaved": {
+    "description": "Rien en attente."
+  },
+  "syncStateWaiting": "{count, plural, =0{En attente de connexion.} =1{1 modification attend une connexion.} other{{count} modifications attendent une connexion.}}",
+  "@syncStateWaiting": {
+    "description": "Modifications en attente.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncStateSignIn": "Reconnecte-toi pour reprendre la sauvegarde. Rien n'est perdu sur ce téléphone.",
+  "@syncStateSignIn": {
+    "description": "Session expirée."
+  },
+  "syncStateRemoved": "Ce téléphone a été retiré du compte. Ses données Eripoo ont été effacées.",
+  "@syncStateRemoved": {
+    "description": "Appareil révoqué."
+  },
+  "syncNow": "Sauvegarder maintenant",
+  "@syncNow": {
+    "description": "Lancer une synchronisation."
+  },
+  "syncPhotosMobile": "Envoyer aussi les photos avec les données mobiles",
+  "@syncPhotosMobile": {
+    "description": "Réglage photos hors Wi-Fi."
+  },
+  "syncPhotosMobileHelp": "Sinon, les photos partent seulement en Wi-Fi.",
+  "@syncPhotosMobileHelp": {
+    "description": "Aide du réglage."
+  },
+  "actionRestart": "Redémarrer",
+  "@actionRestart": {
+    "description": "Redémarrer l'application."
+  },
+  "deviceDefaultName": "Téléphone du {date}",
+  "@deviceDefaultName": {
+    "description": "Nom donné à un appareil dans « Mes appareils ».",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "addDeviceDone": "Le nouveau téléphone peut maintenant ouvrir tes données.",
+  "@addDeviceDone": {
+    "description": "Fin de l'ajout côté ancien appareil."
+  },
+  "toolsIntro": "Tes outils s'ajoutent au fur et à mesure de ce que tu fais.",
+  "@toolsIntro": {
+    "description": "Introduction de l'onglet Outils."
+  },
+  "toolsUnlockedTitle": "Tes outils",
+  "@toolsUnlockedTitle": {
+    "description": "Section des outils débloqués."
+  },
+  "toolsLockedTitle": "À débloquer",
+  "@toolsLockedTitle": {
+    "description": "Section des outils verrouillés."
+  },
+  "toolsPlannedTitle": "Bientôt",
+  "@toolsPlannedTitle": {
+    "description": "Section des outils pas encore construits."
+  },
+  "toolsPlannedNote": "Pas encore dans cette version.",
+  "@toolsPlannedNote": {
+    "description": "Outil annoncé, pas encore construit."
+  },
+  "toolsPlannedUnlocked": "Débloqué : il sera là dès qu'il existera.",
+  "@toolsPlannedUnlocked": {
+    "description": "Outil prévu mais déjà débloqué."
+  },
+  "toolsNew": "Nouveau",
+  "@toolsNew": {
+    "description": "Étiquette d'un outil tout juste débloqué."
+  },
+  "toolsHelp": "Comment s'en servir",
+  "@toolsHelp": {
+    "description": "Titre de l'aide d'un outil."
+  },
+  "toolsOpen": "Ouvrir",
+  "@toolsOpen": {
+    "description": "Ouvrir un outil."
+  },
+  "toolsLater": "Plus tard",
+  "@toolsLater": {
+    "description": "Fermer la célébration."
+  },
+  "toolsCelebrationTitle": "{count, plural, =1{Nouvel outil débloqué} other{Nouveaux outils débloqués}}",
+  "@toolsCelebrationTitle": {
+    "description": "Célébration d'un déblocage.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "toolsCelebrationBody": "Grâce à ce que tu as fait : {names}.",
+  "@toolsCelebrationBody": {
+    "description": "Liste des outils débloqués.",
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsCelebrations": "Petites célébrations",
+  "@settingsCelebrations": {
+    "description": "Réglage des célébrations."
+  },
+  "settingsCelebrationsHelp": "Un court message quand tu débloques un outil.",
+  "@settingsCelebrationsHelp": {
+    "description": "Aide du réglage des célébrations."
+  },
+  "settingsTitle": "Préférences",
+  "@settingsTitle": {
+    "description": "Section des préférences du profil."
+  },
+  "guideNoteInterview": "Noter une rencontre",
+  "@guideNoteInterview": {
+    "description": "Depuis le guide d'interview, aller noter une rencontre."
+  },
+  "competitorsEmpty": "Pas encore de concurrent noté. Commence par ce que les gens font aujourd'hui sans toi.",
+  "@competitorsEmpty": {
+    "description": "Liste de concurrents vide."
+  },
+  "competitorAdd": "Ajouter un concurrent",
+  "@competitorAdd": {
+    "description": "Ajouter un concurrent."
+  },
+  "competitorEdit": "Modifier",
+  "@competitorEdit": {
+    "description": "Modifier un concurrent."
+  },
+  "competitorKindDirect": "Fait la même chose que toi",
+  "@competitorKindDirect": {
+    "description": "Concurrent direct."
+  },
+  "competitorKindIndirect": "Répond au même besoin autrement",
+  "@competitorKindIndirect": {
+    "description": "Concurrent indirect."
+  },
+  "competitorKindAlternative": "Ce que les gens font sans acheter",
+  "@competitorKindAlternative": {
+    "description": "Alternative (faire soi-même, voisin, rien)."
+  },
+  "competitorKindQuestion": "De quel genre est-il ?",
+  "@competitorKindQuestion": {
+    "description": "Choix du type de concurrent."
+  },
+  "competitorNameLabel": "Qui ou quoi (pas de nom de personne)",
+  "@competitorNameLabel": {
+    "description": "Nom du concurrent."
+  },
+  "competitorOfferLabel": "Ce qu'il propose",
+  "@competitorOfferLabel": {
+    "description": "Offre du concurrent."
+  },
+  "competitorPriceLabel": "Prix observé en ariary",
+  "@competitorPriceLabel": {
+    "description": "Prix observé."
+  },
+  "competitorStrengthsLabel": "Pourquoi les gens le choisissent",
+  "@competitorStrengthsLabel": {
+    "description": "Forces."
+  },
+  "competitorWeaknessesLabel": "Ce qui leur manque",
+  "@competitorWeaknessesLabel": {
+    "description": "Faiblesses."
+  },
+  "competitorInvalid": "Vérifie le nom (80 caractères au plus) et le prix.",
+  "@competitorInvalid": {
+    "description": "Saisie refusée."
+  },
+  "competitorPrice": "Prix vu : {price}",
+  "@competitorPrice": {
+    "description": "Prix observé affiché.",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "financeTitle": "Mes chiffres",
+  "@financeTitle": {
+    "description": "Titre de l'écran des finances du projet."
+  },
+  "financeIntro": "Tous les montants sont en ariary. Commence par ce que coûte une unité de ce que tu vends.",
+  "@financeIntro": {
+    "description": "Introduction de l'écran des finances."
+  },
+  "financeNotPrediction": "Ces calculs t'aident à réfléchir. Ils ne disent pas si ton projet réussira.",
+  "@financeNotPrediction": {
+    "description": "Rappel : un calcul n'est pas une prédiction de réussite (§22)."
+  },
+  "financeKindTitle": "{kind, select, variableCost{Ce que coûte une unité} fixedCost{Ce que coûte chaque mois} investment{À acheter avant de commencer} funding{L'argent trouvé} other{Montants}}",
+  "@financeKindTitle": {
+    "description": "Titre d'une catégorie de montants.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "financeKindHelp": "{kind, select, variableCost{Par exemple : l'huile et l'emballage d'un savon.} fixedCost{Ce que tu paies chaque mois, même sans rien vendre : loyer, crédit téléphone, transport.} investment{Ce que tu achètes une fois pour commencer : moules, outils, premier stock.} funding{Tes économies, l'aide de proches, un prêt.} other{}}",
+  "@financeKindHelp": {
+    "description": "Aide d'une catégorie de montants.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "financeTotal": "Total : {amount}",
+  "@financeTotal": {
+    "description": "Total d'une catégorie.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "financeAdd": "Ajouter",
+  "@financeAdd": {
+    "description": "Ajouter un montant."
+  },
+  "financeItemLabel": "Ce que c'est",
+  "@financeItemLabel": {
+    "description": "Champ : nom d'un montant."
+  },
+  "financeItemAmount": "Montant en ariary",
+  "@financeItemAmount": {
+    "description": "Champ : montant."
+  },
+  "financeItemInvalid": "Vérifie le nom (80 caractères au plus) et le montant.",
+  "@financeItemInvalid": {
+    "description": "Montant refusé."
+  },
+  "financeSourceQuestion": "D'où vient cet argent ?",
+  "@financeSourceQuestion": {
+    "description": "Choix de la source d'un financement."
+  },
+  "fundingSource": "{source, select, own{Mes économies} family{Famille ou proches} microfinance{Microfinance} bank{Banque} investor{Investisseur} grant{Concours ou subvention} other{Autre}}",
+  "@fundingSource": {
+    "description": "Source d'un financement (sans organisme nommé).",
+    "placeholders": {
+      "source": {
+        "type": "String"
+      }
+    }
+  },
+  "financePlanTitle": "Prix et ventes prévues",
+  "@financePlanTitle": {
+    "description": "Carte du prix et des ventes prévues."
+  },
+  "financePlanPrice": "Prix de vente : {price}",
+  "@financePlanPrice": {
+    "description": "Prix choisi.",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "financePlanVolumes": "Ventes prévues : {first} le premier mois, {last} le douzième",
+  "@financePlanVolumes": {
+    "description": "Ventes prévues.",
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "financePlanEmpty": "Pas encore de prix choisi.",
+  "@financePlanEmpty": {
+    "description": "Aucun prix choisi."
+  },
+  "financePlanEdit": "Choisir le prix et les ventes",
+  "@financePlanEdit": {
+    "description": "Bouton pour fixer prix et ventes."
+  },
+  "financePriceLabel": "Prix de vente d'une unité, en ariary",
+  "@financePriceLabel": {
+    "description": "Champ : prix."
+  },
+  "financeVolumeFirstLabel": "Unités vendues le premier mois",
+  "@financeVolumeFirstLabel": {
+    "description": "Champ : ventes du mois 1."
+  },
+  "financeVolumeLastLabel": "Unités vendues le douzième mois",
+  "@financeVolumeLastLabel": {
+    "description": "Champ : ventes du mois 12."
+  },
+  "financePlanInvalid": "Vérifie le prix et les quantités.",
+  "@financePlanInvalid": {
+    "description": "Prix ou volumes refusés."
+  },
+  "financeResultsTitle": "Ce que disent tes chiffres",
+  "@financeResultsTitle": {
+    "description": "Titre des résultats."
+  },
+  "financeMarginResult": "Sur chaque unité, il te reste {margin} ({rate} du prix).",
+  "@financeMarginResult": {
+    "description": "Marge par unité.",
+    "placeholders": {
+      "margin": {
+        "type": "String"
+      },
+      "rate": {
+        "type": "String"
+      }
+    }
+  },
+  "financeMarginLoss": "Attention : chaque unité vendue te fait perdre {loss}.",
+  "@financeMarginLoss": {
+    "description": "Perte par unité.",
+    "placeholders": {
+      "loss": {
+        "type": "String"
+      }
+    }
+  },
+  "financeNeedPrice": "Choisis un prix pour voir ta marge et ton seuil de rentabilité.",
+  "@financeNeedPrice": {
+    "description": "Résultat manquant : prix."
+  },
+  "financeNeedUnitCost": "Ajoute ce que coûte une unité pour que les calculs soient justes.",
+  "@financeNeedUnitCost": {
+    "description": "Résultat incomplet : coût unitaire."
+  },
+  "financeBreakEven": "Pour payer tes frais du mois, vends au moins {units} unités par mois ({revenue} de ventes).",
+  "@financeBreakEven": {
+    "description": "Seuil de rentabilité.",
+    "placeholders": {
+      "units": {
+        "type": "String"
+      },
+      "revenue": {
+        "type": "String"
+      }
+    }
+  },
+  "financeBreakEvenZero": "Sans frais fixes, chaque vente te rapporte dès la première.",
+  "@financeBreakEvenZero": {
+    "description": "Seuil nul."
+  },
+  "financeBreakEvenImpossible": "À ce prix, aucune quantité ne paie tes frais : chaque unité ne rapporte rien ou fait perdre.",
+  "@financeBreakEvenImpossible": {
+    "description": "Seuil impossible."
+  },
+  "financeBreakEvenTooHigh": "Il faudrait vendre {units} unités par mois : revois ton prix ou tes frais.",
+  "@financeBreakEvenTooHigh": {
+    "description": "Seuil irréaliste.",
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
+  },
+  "financeNeedVolumes": "Indique tes ventes prévues pour voir ta trésorerie mois par mois.",
+  "@financeNeedVolumes": {
+    "description": "Résultat manquant : ventes prévues."
+  },
+  "financeCashNeed": "Pour ne jamais manquer d'argent la première année, il te faut {need} au départ.",
+  "@financeCashNeed": {
+    "description": "Besoin de financement.",
+    "placeholders": {
+      "need": {
+        "type": "String"
+      }
+    }
+  },
+  "financeCashMissing": "Avec l'argent trouvé, il te manque encore {missing}.",
+  "@financeCashMissing": {
+    "description": "Financement manquant.",
+    "placeholders": {
+      "missing": {
+        "type": "String"
+      }
+    }
+  },
+  "financeCashCovered": "L'argent trouvé couvre ce besoin.",
+  "@financeCashCovered": {
+    "description": "Besoin couvert."
+  },
+  "financeCashFirstShort": "{month, plural, =0{Avec l'argent trouvé, il en manque dès le départ.} other{Avec l'argent trouvé, il en manquerait au mois {month}.}}",
+  "@financeCashFirstShort": {
+    "description": "Premier mois de manque.",
+    "placeholders": {
+      "month": {
+        "type": "int"
+      }
+    }
+  },
+  "financeRecover": "Au rythme du douzième mois, ton achat de départ serait remboursé en {months, plural, =1{1 mois} other{{months} mois}}.",
+  "@financeRecover": {
+    "description": "Délai de récupération de l'investissement.",
+    "placeholders": {
+      "months": {
+        "type": "int"
+      }
+    }
+  },
+  "financeCashOpen": "Voir mois par mois",
+  "@financeCashOpen": {
+    "description": "Ouvrir la trésorerie."
+  },
+  "financeCashTitle": "Trésorerie mois par mois",
+  "@financeCashTitle": {
+    "description": "Titre de la trésorerie."
+  },
+  "financeCashIntro": "L'argent du départ, moins ce que tu achètes, puis chaque mois tes ventes moins tes frais.",
+  "@financeCashIntro": {
+    "description": "Explication de la trésorerie."
+  },
+  "financeCashStart": "Au départ, après les achats : {amount}",
+  "@financeCashStart": {
+    "description": "Solde de départ.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "financeCashMonth": "Mois {month}",
+  "@financeCashMonth": {
+    "description": "Numéro du mois.",
+    "placeholders": {
+      "month": {
+        "type": "int"
+      }
+    }
+  },
+  "financeCashUnits": "{units} unités vendues",
+  "@financeCashUnits": {
+    "description": "Ventes du mois.",
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
+  },
+  "financeCashRow": "Ventes {sales} · frais {costs}",
+  "@financeCashRow": {
+    "description": "Ventes et frais du mois.",
+    "placeholders": {
+      "sales": {
+        "type": "String"
+      },
+      "costs": {
+        "type": "String"
+      }
+    }
+  },
+  "financeCashEnd": "Reste en fin de mois : {amount}",
+  "@financeCashEnd": {
+    "description": "Solde de fin de mois.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "financeFindMoney": "Comment trouver de l'argent",
+  "@financeFindMoney": {
+    "description": "Lien vers le guide de financement."
+  },
+  "financingGuideTitle": "Trouver de l'argent",
+  "@financingGuideTitle": {
+    "description": "Titre du guide de financement."
+  },
+  "projectFinanceEntry": "Mes chiffres",
+  "@projectFinanceEntry": {
+    "description": "Entrée Projet vers les finances."
+  },
+  "calcUnitCostLabel": "Ce que coûte une unité, en ariary",
+  "@calcUnitCostLabel": {
+    "description": "Champ calculateur : coût unitaire."
+  },
+  "calcMarginLabel": "Part du prix qui doit te rester, en %",
+  "@calcMarginLabel": {
+    "description": "Champ calculateur : marge visée."
+  },
+  "calcPriceLabel": "Prix de vente, en ariary",
+  "@calcPriceLabel": {
+    "description": "Champ calculateur : prix."
+  },
+  "calcFixedLabel": "Frais fixes d'un mois, en ariary",
+  "@calcFixedLabel": {
+    "description": "Champ calculateur : frais fixes."
+  },
+  "calcFromProject": "Pré-rempli avec les chiffres de ton projet : change-les pour essayer, rien n'est enregistré.",
+  "@calcFromProject": {
+    "description": "Calculateur pré-rempli."
+  },
+  "calcInvalid": "Nombre non valide.",
+  "@calcInvalid": {
+    "description": "Saisie refusée."
+  },
+  "calcFillIn": "Remplis les cases pour voir le résultat.",
+  "@calcFillIn": {
+    "description": "Résultat en attente."
+  },
+  "calcPriceResult": "Prix conseillé : {price}",
+  "@calcPriceResult": {
+    "description": "Prix calculé.",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "calcPriceExplain": "Sur ce prix, {margin} te restent. Cela fait +{markup} sur ton coût : la marge sur le prix et l'ajout sur le coût ne sont pas le même pourcentage.",
+  "@calcPriceExplain": {
+    "description": "Explication marge vs ajout.",
+    "placeholders": {
+      "margin": {
+        "type": "String"
+      },
+      "markup": {
+        "type": "String"
+      }
+    }
+  },
+  "calcPriceExplainNoCost": "Sur ce prix, {margin} te restent.",
+  "@calcPriceExplainNoCost": {
+    "description": "Explication sans coût.",
+    "placeholders": {
+      "margin": {
+        "type": "String"
+      }
+    }
+  },
+  "calcCompetitors": "Prix vus chez tes concurrents : de {low} à {high} (au milieu : {median}).",
+  "@calcCompetitors": {
+    "description": "Fourchette des prix concurrents.",
+    "placeholders": {
+      "low": {
+        "type": "String"
+      },
+      "high": {
+        "type": "String"
+      },
+      "median": {
+        "type": "String"
+      }
+    }
+  },
+  "calcCompetitorsBelow": "Ton prix est sous le moins cher : es-tu sûr de tes coûts ?",
+  "@calcCompetitorsBelow": {
+    "description": "Prix sous la fourchette."
+  },
+  "calcCompetitorsAbove": "Ton prix est au-dessus du plus cher : qu'apportes-tu de plus ?",
+  "@calcCompetitorsAbove": {
+    "description": "Prix au-dessus de la fourchette."
+  },
+  "calcCompetitorsInside": "Ton prix est dans la fourchette observée.",
+  "@calcCompetitorsInside": {
+    "description": "Prix dans la fourchette."
+  },
+  "calcUsePrice": "Choisir ce prix pour mon projet",
+  "@calcUsePrice": {
+    "description": "Enregistrer le prix calculé."
+  },
+  "calcPriceSaved": "Prix enregistré dans tes chiffres.",
+  "@calcPriceSaved": {
+    "description": "Prix enregistré."
+  },
+  "calcMarginResult": "Il te reste {margin} par unité.",
+  "@calcMarginResult": {
+    "description": "Marge unitaire.",
+    "placeholders": {
+      "margin": {
+        "type": "String"
+      }
+    }
+  },
+  "calcMarginRates": "Soit {onPrice} du prix de vente, ou +{onCost} sur le coût.",
+  "@calcMarginRates": {
+    "description": "Taux de marge et de marque.",
+    "placeholders": {
+      "onPrice": {
+        "type": "String"
+      },
+      "onCost": {
+        "type": "String"
+      }
+    }
+  },
+  "calcPerDay": "Environ {units} par jour sur 30 jours.",
+  "@calcPerDay": {
+    "description": "Seuil ramené au jour.",
+    "placeholders": {
+      "units": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasTitle": "Business Model Canvas",
+  "@canvasTitle": {
+    "description": "Titre du canvas."
+  },
+  "canvasIntro": "Ton canvas se construit avec ton travail : chaque case reprend ce que tu as écrit, testé ou calculé. Rien n'y est inventé.",
+  "@canvasIntro": {
+    "description": "Introduction du canvas."
+  },
+  "canvasProgress": "Cases remplies : {progress}",
+  "@canvasProgress": {
+    "description": "Progression du canvas (ex. 4 / 9).",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasToBuild": "Encore à construire",
+  "@canvasToBuild": {
+    "description": "Cases encore vides."
+  },
+  "canvasWorkOn": "Compléter",
+  "@canvasWorkOn": {
+    "description": "Travailler une case."
+  },
+  "canvasBlock": "{kind, select, segments{Tes clients} valueProposition{Ce que tu leur apportes} channels{Comment ils te trouvent et achètent} relationships{Comment tu les gardes} revenue{Ce qui rapporte} resources{Ce qu'il te faut} activities{Ce que tu fais} partners{Qui t'aide} costs{Ce qui coûte} other{Case}}",
+  "@canvasBlock": {
+    "description": "Titre d'une case du canvas.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasBlockHint": "{kind, select, segments{Remplis « Les clients » dans ton projet.} valueProposition{Remplis « La solution » dans ton projet.} revenue{Choisis ton prix dans « Mes chiffres ».} costs{Ajoute tes frais dans « Mes chiffres ».} other{Complète « Le modèle économique ».}}",
+  "@canvasBlockHint": {
+    "description": "Où remplir une case vide.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasTested": "Vérifié par un test : {statement}",
+  "@canvasTested": {
+    "description": "Hypothèse validée dans une case.",
+    "placeholders": {
+      "statement": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasPrice": "Prix : {price}",
+  "@canvasPrice": {
+    "description": "Prix choisi.",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasVolume": "Ventes prévues : {first} puis {last} unités par mois",
+  "@canvasVolume": {
+    "description": "Ventes prévues.",
+    "placeholders": {
+      "first": {
+        "type": "String"
+      },
+      "last": {
+        "type": "String"
+      }
+    }
+  },
+  "canvasAmount": "{label} : {amount}",
+  "@canvasAmount": {
+    "description": "Un montant nommé.",
+    "placeholders": {
+      "label": {
+        "type": "String"
+      },
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierIntro": "Ton dossier rassemble ce que tu as fait. Il grandit avec ton travail : rien n'y est inventé, les chapitres vides restent à travailler.",
+  "@dossierIntro": {
+    "description": "Introduction du dossier."
+  },
+  "dossierProgress": "Chapitres prêts : {progress}",
+  "@dossierProgress": {
+    "description": "Progression du dossier.",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierMissing": "Encore à travailler",
+  "@dossierMissing": {
+    "description": "Chapitres vides."
+  },
+  "dossierChapter": "{key, select, summary{Résumé} problem{Le problème} customers{Les clients} solution{La solution} validation{Ce que les tests ont montré} competition{La concurrence} businessModel{Le modèle économique} finance{Les chiffres} marketing{Le marketing} launch{Le lancement} pitch{Le pitch} formalization{Formalisation} other{Chapitre}}",
+  "@dossierChapter": {
+    "description": "Titre d'un chapitre du dossier.",
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierChapterHint": "{key, select, summary{Écris le résumé de ton projet (section « Le résumé du projet »).} problem{Termine la quête sur le problème.} customers{Remplis « Les clients ».} solution{Remplis « La solution ».} validation{Teste une hypothèse jusqu'à sa conclusion.} competition{Note un concurrent dans l'analyse concurrentielle.} businessModel{Construis ton Business Model Canvas.} finance{Remplis « Mes chiffres ».} marketing{Remplis ton plan marketing.} launch{Remplis « Le lancement ».} pitch{Écris ton pitch.} formalization{Prépare ta formalisation avec l'outil « Préparation administrative ».} other{}}",
+  "@dossierChapterHint": {
+    "description": "Comment remplir un chapitre vide.",
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierOutcome": "{status, select, validated{Confirmée} invalidated{Contredite} inconclusive{Pas tranchée} other{En cours}}",
+  "@dossierOutcome": {
+    "description": "Issue d'une hypothèse testée.",
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierHypothesis": "{outcome} : {statement}",
+  "@dossierHypothesis": {
+    "description": "Hypothèse testée.",
+    "placeholders": {
+      "outcome": {
+        "type": "String"
+      },
+      "statement": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierHypothesisWithConclusion": "{outcome} : {statement} — {conclusion}",
+  "@dossierHypothesisWithConclusion": {
+    "description": "Hypothèse testée et sa conclusion.",
+    "placeholders": {
+      "outcome": {
+        "type": "String"
+      },
+      "statement": {
+        "type": "String"
+      },
+      "conclusion": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierCompetitor": "{name} ({kind})",
+  "@dossierCompetitor": {
+    "description": "Concurrent.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierCompetitorPrice": "{name} ({kind}) — prix vu : {price}",
+  "@dossierCompetitorPrice": {
+    "description": "Concurrent avec prix.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "kind": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "dossierGroundwork": "Fondé sur {observations, plural, =0{aucune observation} =1{1 observation} other{{observations} observations}}, {interviews, plural, =0{aucune rencontre} =1{1 rencontre} other{{interviews} rencontres}}, {hypotheses, plural, =0{aucune hypothèse} =1{1 hypothèse} other{{hypotheses} hypothèses}} et {experiments, plural, =0{aucun test terminé} =1{1 test terminé} other{{experiments} tests terminés}}.",
+  "@dossierGroundwork": {
+    "description": "Le travail sur lequel le dossier repose.",
+    "placeholders": {
+      "observations": {
+        "type": "int"
+      },
+      "interviews": {
+        "type": "int"
+      },
+      "hypotheses": {
+        "type": "int"
+      },
+      "experiments": {
+        "type": "int"
+      }
+    }
+  },
+  "pitchSpeakingTime": "À voix haute : environ {seconds} secondes.",
+  "@pitchSpeakingTime": {
+    "description": "Durée estimée du pitch.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "pitchTooLong": "Plus d'une minute et demie : raccourcis si tu peux, on t'écoutera mieux.",
+  "@pitchTooLong": {
+    "description": "Pitch trop long."
+  },
+  "deckIntro": "Tes diapositives sont faites avec ton travail : une idée par diapositive. Une diapositive sans contenu n'apparaît pas.",
+  "@deckIntro": {
+    "description": "Introduction du pitch deck."
+  },
+  "deckCount": "{count, plural, =1{1 diapositive} other{{count} diapositives}}",
+  "@deckCount": {
+    "description": "Nombre de diapositives.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "deckSlideNumber": "Diapositive {number}",
+  "@deckSlideNumber": {
+    "description": "Numéro de diapositive (lecteur d'écran).",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "deckSlide": "{key, select, problem{Le problème} customers{Pour qui} solution{Notre solution} proof{Ce que nos tests ont montré} competition{Ce qui existe déjà} model{Comment on gagne de l'argent} numbers{Les chiffres} ask{Ce que nous demandons} other{Diapositive}}",
+  "@deckSlide": {
+    "description": "Titre d'une diapositive.",
+    "placeholders": {
+      "key": {
+        "type": "String"
+      }
+    }
+  },
+  "exportPdf": "Partager en PDF",
+  "@exportPdf": {
+    "description": "Exporter en PDF."
+  },
+  "exportWarningTitle": "Partager un PDF",
+  "@exportWarningTitle": {
+    "description": "Titre de l'avertissement d'export."
+  },
+  "exportWarningBody": "Le PDF contient ton projet en clair : une fois partagé, Eripoo ne le protège plus. Envoie-le seulement à qui tu choisis.",
+  "@exportWarningBody": {
+    "description": "Avertissement : le PDF n'est pas chiffré."
+  },
+  "exportContinue": "Continuer",
+  "@exportContinue": {
+    "description": "Confirmer l'export."
+  },
+  "exportFailed": "Le PDF n'a pas pu être créé. Réessaie.",
+  "@exportFailed": {
+    "description": "Échec de l'export."
+  },
+  "exportFooter": "Fait avec Eripoo · page {page}/{pages}",
+  "@exportFooter": {
+    "description": "Pied de page des PDF.",
+    "placeholders": {
+      "page": {
+        "type": "int"
+      },
+      "pages": {
+        "type": "int"
+      }
+    }
+  },
+  "formalizationNotice": "Informations officielles lues le {date} sur le site de l'EDBM. Vérifie-les au guichet avant d'y aller : elles peuvent changer.",
+  "@formalizationNotice": {
+    "description": "Avertissement : date de lecture des sources officielles.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "formalizationNotReviewed": "Pas encore relues par un juriste.",
+  "@formalizationNotReviewed": {
+    "description": "Contenu réglementaire pas encore relu par un juriste."
+  },
+  "formalizationOutdated": "Ces informations ont plus de trois mois : elles ont peut-être changé depuis.",
+  "@formalizationOutdated": {
+    "description": "Contenu réglementaire ancien."
+  },
+  "formalizationNone": "Pas encore d'information officielle dans cette version.",
+  "@formalizationNone": {
+    "description": "Pas de contenu réglementaire."
+  },
+  "formalizationSource": "Source : {source} ({where})",
+  "@formalizationSource": {
+    "description": "Source d'une information réglementaire.",
+    "placeholders": {
+      "source": {
+        "type": "String"
+      },
+      "where": {
+        "type": "String"
+      }
+    }
+  },
+  "formalizationAdvice": "Conseil d'Eripoo : {text}",
+  "@formalizationAdvice": {
+    "description": "Conseil (pas une règle).",
+    "placeholders": {
+      "text": {
+        "type": "String"
+      }
+    }
+  },
+  "formalizationChecklistTitle": "Pièces à préparer",
+  "@formalizationChecklistTitle": {
+    "description": "Liste des pièces."
+  },
+  "formalizationChecklistProgress": "Prêtes : {progress}",
+  "@formalizationChecklistProgress": {
+    "description": "Pièces prêtes.",
+    "placeholders": {
+      "progress": {
+        "type": "String"
+      }
+    }
+  },
+  "formalizationSourcesTitle": "Sources",
+  "@formalizationSourcesTitle": {
+    "description": "Liste des sources."
+  },
+  "formalizationSourceEntry": "{source} — lu le {date}",
+  "@formalizationSourceEntry": {
+    "description": "Une source et sa date de lecture.",
+    "placeholders": {
+      "source": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "feesTitle": "Estimation des frais de création",
+  "@feesTitle": {
+    "description": "Titre de l'estimation."
+  },
+  "feesCapital": "Capital de la société, en ariary",
+  "@feesCapital": {
+    "description": "Champ : capital."
+  },
+  "feesActivity": "Ton activité (pour l'impôt synthétique)",
+  "@feesActivity": {
+    "description": "Choix de l'activité."
+  },
+  "feesActivityChoose": "Choisir ton activité",
+  "@feesActivityChoose": {
+    "description": "Bouton : choisir l'activité."
+  },
+  "feesRent": "Loyer par mois, si tu loues (ariary)",
+  "@feesRent": {
+    "description": "Champ : loyer."
+  },
+  "feesMonths": "Durée du bail, en mois",
+  "@feesMonths": {
+    "description": "Champ : durée du bail."
+  },
+  "feesRepresented": "Quelqu'un dépose le dossier à ma place",
+  "@feesRepresented": {
+    "description": "Option : procuration."
+  },
+  "feeLine": "{kind, select, statutes{Enregistrement des statuts} lease{Enregistrement du bail} proxy{Procès-verbal et procuration} rcs{Registre du commerce (RCS)} statistics{Immatriculation statistique} syntheticTax{Impôt synthétique (IS)} other{Frais}}",
+  "@feeLine": {
+    "description": "Ligne de frais.",
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "feesTotal": "Total estimé : {amount}",
+  "@feesTotal": {
+    "description": "Total des frais.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "feesNote": "Estimation d'après le barème de l'EDBM (version 28, juillet 2026). Le simulateur officiel de l'EDBM et le guichet font foi.",
+  "@feesNote": {
+    "description": "Limite de l'estimation."
+  },
+  "feesFillIn": "Indique le capital et choisis ton activité pour voir l'estimation.",
+  "@feesFillIn": {
+    "description": "Estimation en attente."
+  },
+  "feesRefused": "Vérifie les montants : le loyer et la durée vont ensemble.",
+  "@feesRefused": {
+    "description": "Estimation refusée."
+  },
+  "feesKeep": "Garder ces chiffres",
+  "@feesKeep": {
+    "description": "Enregistrer les paramètres de l'estimation."
+  },
+  "feesKept": "Chiffres gardés pour ta préparation.",
+  "@feesKept": {
+    "description": "Paramètres enregistrés."
+  },
+  "prepCollected": "Ce que tu as préparé",
+  "@prepCollected": {
+    "description": "Partie du PDF : informations recueillies."
+  },
+  "prepItemReady": "Prête : {item}",
+  "@prepItemReady": {
+    "description": "Pièce prête (PDF).",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "prepItemTodo": "À préparer : {item}",
+  "@prepItemTodo": {
+    "description": "Pièce à préparer (PDF).",
+    "placeholders": {
+      "item": {
+        "type": "String"
+      }
+    }
+  },
+  "voiceAnswer": "Répondre à l'oral",
+  "@voiceAnswer": {
+    "description": "Button: record a spoken answer to an open question"
+  },
+  "voiceAnswerNote": "Fonctionne sans connexion. Ta voix reste chiffrée sur ton téléphone. Elle n'est pas écrite dans ton projet (pas de transcription automatique) : tu pourras l'écrire plus tard.",
+  "@voiceAnswerNote": {
+    "description": "Note under the spoken-answer button: offline, encrypted, not transcribed"
+  },
+  "voiceRecording": "Enregistrement… {time} (3 minutes au plus)",
+  "@voiceRecording": {
+    "description": "Shown while recording; time is elapsed m:ss",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "voiceKeep": "Arrêter et garder",
+  "@voiceKeep": {
+    "description": "Button: stop recording and keep it as the answer"
+  },
+  "voiceKept": "Réponse orale enregistrée",
+  "@voiceKept": {
+    "description": "Title of the card showing a spoken answer"
+  },
+  "voicePlay": "Écouter",
+  "@voicePlay": {
+    "description": "Button: play the spoken answer"
+  },
+  "voiceStopPlaying": "Arrêter l'écoute",
+  "@voiceStopPlaying": {
+    "description": "Button: stop playing"
+  },
+  "voiceRecordAgain": "Enregistrer à nouveau",
+  "@voiceRecordAgain": {
+    "description": "Button: replace the spoken answer by a new recording"
+  },
+  "voiceDelete": "Supprimer et écrire plutôt",
+  "@voiceDelete": {
+    "description": "Button: delete the spoken answer to write one"
+  },
+  "voiceDeleteTitle": "Supprimer cette réponse orale ?",
+  "@voiceDeleteTitle": {
+    "description": "Confirmation title before deleting a spoken answer"
+  },
+  "voiceDeleteBody": "L'enregistrement sera effacé pour toujours, sur tous tes téléphones.",
+  "@voiceDeleteBody": {
+    "description": "Confirmation body: deletion is permanent"
+  },
+  "voiceReplaceNote": "Une réponse orale remplace ce que tu as écrit ici.",
+  "@voiceReplaceNote": {
+    "description": "Shown when text was typed: recording replaces it"
+  },
+  "voicePermissionDenied": "Eripoo n'a pas accès au micro. Tu peux l'autoriser dans les réglages du téléphone, ou écrire ta réponse.",
+  "@voicePermissionDenied": {
+    "description": "Microphone permission refused"
+  },
+  "voiceFailed": "L'enregistrement n'a pas pu être gardé. Réessaie, ou écris ta réponse.",
+  "@voiceFailed": {
+    "description": "Recording or saving failed"
+  },
+  "voiceMaxReached": "3 minutes au plus : ta réponse a été gardée.",
+  "@voiceMaxReached": {
+    "description": "Recording stopped automatically at the limit"
+  },
+  "voiceNotHere": "Cet enregistrement n'est pas encore sur ce téléphone.",
+  "@voiceNotHere": {
+    "description": "Recording made on another phone, not downloaded yet"
+  },
+  "voiceAnswerSummary": "Réponse orale (pas écrite dans le projet)",
+  "@voiceAnswerSummary": {
+    "description": "In the step summary, in place of a written answer"
+  },
+  "voicePlayFailed": "Impossible d'écouter cet enregistrement.",
+  "@voicePlayFailed": {
+    "description": "Playing a spoken answer failed"
+  },
+  "reviewEntry": "{count, plural, =1{1 point à revoir} other{{count} points à revoir}}",
+  "@reviewEntry": {
+    "description": "Project screen entry: number of inconsistencies found by rules",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reviewTitle": "Points à revoir",
+  "@reviewTitle": {
+    "description": "Title of the screen listing inconsistencies"
+  },
+  "reviewIntro": "Eripoo compare ce que tu as noté avec des règles simples, toujours les mêmes, sur ton téléphone. Ce ne sont pas forcément des erreurs : regarde si c'est voulu.",
+  "@reviewIntro": {
+    "description": "Intro: deterministic rules, on device, not a verdict"
+  },
+  "reviewNone": "Rien à revoir pour l'instant.",
+  "@reviewNone": {
+    "description": "Empty state of points to review"
+  },
+  "reviewOpen": "Revoir",
+  "@reviewOpen": {
+    "description": "Button: open the screen where the point can be fixed"
+  },
+  "reviewPriceBelowCost": "Ton prix ({price}) est plus bas que ce que coûte une unité ({cost}) : chaque vente te fait perdre de l'argent.",
+  "@reviewPriceBelowCost": {
+    "description": "Price below unit cost",
+    "placeholders": {
+      "price": {
+        "type": "String"
+      },
+      "cost": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewPriceWithoutCost": "Tu as choisi un prix, mais tu n'as pas encore noté ce que coûte une unité. Sans ce coût, impossible de savoir si tu gagnes de l'argent.",
+  "@reviewPriceWithoutCost": {
+    "description": "Price set without unit cost"
+  },
+  "reviewBreakEvenUnreachable": "À ce prix, il ne reste rien sur chaque vente : aucune quantité ne couvre tes charges du mois.",
+  "@reviewBreakEvenUnreachable": {
+    "description": "Zero margin with fixed costs"
+  },
+  "reviewBreakEvenAbovePlan": "Pour couvrir tes charges du mois, il faut vendre {needed} unités par mois, mais tu prévois {planned} au mois 12.",
+  "@reviewBreakEvenAbovePlan": {
+    "description": "Break-even above planned volume",
+    "placeholders": {
+      "needed": {
+        "type": "String"
+      },
+      "planned": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewFundingMissing": "Il manque encore {missing} pour que ta trésorerie ne passe jamais sous zéro.",
+  "@reviewFundingMissing": {
+    "description": "Funding gap",
+    "placeholders": {
+      "missing": {
+        "type": "String"
+      }
+    }
+  },
+  "reviewProofWithoutTest": "Ton pitch cite une preuve, mais aucune hypothèse n'est encore validée par un test.",
+  "@reviewProofWithoutTest": {
+    "description": "Pitch proof without validated hypothesis"
+  },
+  "reviewSolutionWithoutCustomers": "Tu décris une solution, mais pas encore pour qui elle est.",
+  "@reviewSolutionWithoutCustomers": {
+    "description": "Solution without customers"
+  },
+  "securityTitle": "Sécurité",
+  "@securityTitle": {
+    "description": "Profile section title"
+  },
+  "rotationEntry": "Changer la clé de mes données",
+  "@rotationEntry": {
+    "description": "Profile entry to rotate the data key"
+  },
+  "rotationTitle": "Nouvelle clé",
+  "@rotationTitle": {
+    "description": "Key rotation screen title"
+  },
+  "rotationBody": "Fais-le si un téléphone qui avait tes données est perdu, volé ou donné. Retire-le d'abord de « Mes appareils ».\n\nEripoo crée une nouvelle clé et un nouveau code de récupération. Ton ancien code ne marchera plus. Tes autres téléphones te demanderont le nouveau code (ou un transfert depuis ce téléphone).",
+  "@rotationBody": {
+    "description": "Explains when and what a key rotation does"
+  },
+  "rotationNeedsSaved": "Attends que tout soit sauvegardé (connexion nécessaire), puis recommence.",
+  "@rotationNeedsSaved": {
+    "description": "Rotation blocked: unsynced changes"
+  },
+  "rotationRunning": "Tes données sont en train d'être protégées par la nouvelle clé. Garde la connexion ; les photos attendent le Wi-Fi si tu l'as choisi.",
+  "@rotationRunning": {
+    "description": "Rotation re-encryption in progress"
+  },
+  "rotationStart": "Créer une nouvelle clé",
+  "@rotationStart": {
+    "description": "Button: start the rotation"
+  },
+  "rotationConfirmTitle": "Changer la clé maintenant ?",
+  "@rotationConfirmTitle": {
+    "description": "Rotation confirmation title"
+  },
+  "rotationConfirmBody": "Tu vas recevoir un nouveau code à écrire sur papier. Ton ancien code ne marchera plus.",
+  "@rotationConfirmBody": {
+    "description": "Rotation confirmation body"
+  },
+  "rotationWorking": "Création de la nouvelle clé…",
+  "@rotationWorking": {
+    "description": "Rotation in progress"
+  },
+  "rotationReauth": "Reconnecte-toi puis recommence. Rien n'a changé : ton ancien code marche encore.",
+  "@rotationReauth": {
+    "description": "Rotation refused: recent sign-in needed"
+  },
+  "rotationMismatch": "La clé a déjà été changée sur un autre téléphone. Ouvre tes données ici avec le nouveau code.",
+  "@rotationMismatch": {
+    "description": "Rotation refused: rotated elsewhere"
+  },
+  "rotationUnknown": "La connexion a été coupée. Garde l'ancien et le nouveau code : Eripoo saura au retour du réseau si la nouvelle clé est en place, et te le dira ici.",
+  "@rotationUnknown": {
+    "description": "Rotation outcome unknown (network cut)"
+  },
+  "rotationBusy": "Un changement de clé est déjà en cours sur ce téléphone.",
+  "@rotationBusy": {
+    "description": "Rotation refused: already in progress"
+  },
+  "rotationFailed": "La nouvelle clé n'a pas pu être créée. Rien n'a changé.",
+  "@rotationFailed": {
+    "description": "Rotation failed for another reason"
+  },
+  "syncStateKeyOutdated": "La clé de tes données a été changée sur un autre téléphone. Ouvre-les ici avec ton nouveau code, ou avec l'autre téléphone. Ce que tu as fait ici est gardé.",
+  "@syncStateKeyOutdated": {
+    "description": "Sync state: this phone has an outdated key"
+  },
+  "syncStateRestart": "La nouvelle clé est en place. Redémarre Eripoo pour continuer.",
+  "@syncStateRestart": {
+    "description": "Sync state: restart to load the new key"
+  },
+  "syncUseNewCode": "Ouvrir avec le nouveau code",
+  "@syncUseNewCode": {
+    "description": "Button: unlock with the new recovery code"
+  },
+  "accountSignOut": "Me déconnecter et effacer ce téléphone",
+  "@accountSignOut": {
+    "description": "Profile button: leave the account on this phone"
+  },
+  "accountSignOutTitle": "Effacer ce téléphone ?",
+  "@accountSignOutTitle": {
+    "description": "Sign-out confirmation title"
+  },
+  "accountSignOutBody": "Tes données restent sur ton compte et sur tes autres téléphones. Sur celui-ci, tout sera effacé.",
+  "@accountSignOutBody": {
+    "description": "Sign-out confirmation body"
+  },
+  "accountSignOutUnsaved": "{count, plural, =1{Attention : 1 modification n'est pas encore sauvegardée et sera perdue.} other{Attention : {count} modifications ne sont pas encore sauvegardées et seront perdues.}}",
+  "@accountSignOutUnsaved": {
+    "description": "Sign-out warning: unsynced changes",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "accountErase": "Effacer",
+  "@accountErase": {
+    "description": "Button: confirm erasing this phone"
+  },
+  "accountDelete": "Supprimer mon compte",
+  "@accountDelete": {
+    "description": "Profile button: delete the account"
+  },
+  "accountDeleteTitle": "Supprimer ton compte pour toujours ?",
+  "@accountDeleteTitle": {
+    "description": "Account deletion confirmation title"
+  },
+  "accountDeleteBody": "Ton projet, tes photos, tes réponses et la copie chiffrée de ta clé seront effacés du serveur, puis de ce téléphone. Personne ne pourra les retrouver, pas même Eripoo. Tes autres téléphones gardent leur copie jusqu'à ce que tu les effaces.",
+  "@accountDeleteBody": {
+    "description": "Account deletion confirmation body"
+  },
+  "accountDeleteConfirm": "Supprimer pour toujours",
+  "@accountDeleteConfirm": {
+    "description": "Button: confirm account deletion"
+  },
+  "accountDeleteWorking": "Suppression du compte…",
+  "@accountDeleteWorking": {
+    "description": "Account deletion in progress"
+  },
+  "accountDeleteFailed": "Le compte n'a pas pu être supprimé (connexion ?). Rien n'a été effacé sur ce téléphone ; réessaie.",
+  "@accountDeleteFailed": {
+    "description": "Account deletion failed"
+  },
+  "erasedSignedOut": "Tu t'es déconnecté : les données de ce téléphone ont été effacées. Elles restent sur ton compte.",
+  "@erasedSignedOut": {
+    "description": "Notice after a sign-out with erasure"
+  },
+  "erasedAccountDeleted": "Ton compte a été supprimé, et les données de ce téléphone effacées.",
+  "@erasedAccountDeleted": {
+    "description": "Notice after account deletion"
+  },
+  "erasedRevoked": "Ce téléphone a été retiré de ton compte depuis un autre appareil : ses données ont été effacées. Tu peux te reconnecter pour les retrouver.",
+  "@erasedRevoked": {
+    "description": "Notice after this device was revoked"
+  },
+  "erasedReset": "Les données de ce téléphone ont été effacées à ta demande.",
+  "@erasedReset": {
+    "description": "Notice after a user reset"
+  }
+}
