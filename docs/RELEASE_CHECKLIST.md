@@ -127,6 +127,12 @@ prouvé avant release (liste complète : [END_CHECKLIST.md](END_CHECKLIST.md) §
   commencés (D7).
 - [ ] Rotation des clés de service Supabase documentée ; aucun accès
   administrateur au contenu privé (rien à ouvrir : tout est chiffré).
+- [ ] Back-office : activer GitHub Pages (Settings → Pages → Source :
+  GitHub Actions), lancer Actions → **Back-office**, puis créer chaque
+  compte du personnel (Supabase → Authentication → Add user) et lui
+  donner un rôle dans l'éditeur SQL :
+  `insert into authoring.staff_roles (user_id, role) values ('<uuid>', 'content_editor');`
+  La première connexion demande d'enrôler l'application TOTP.
 - [ ] Back-office (§44 : contenu, traductions, statistiques agrégées,
   santé) : **non construit** — décision du porteur (édition du contenu
   hors du dépôt, D5).

@@ -169,9 +169,13 @@ le porteur, édition du contenu hors dépôt (D5) et back-office.
 **Back-office** (décisions du 2026-10-23 : contenu édité dans le schéma
 Supabase `authoring`, Flutter web, GitHub Pages, Supabase Auth + MFA
 TOTP). **Lot 1 fait** : schéma, rôles, fonctions `staff_*`, tests SQL
-(DATA_MODEL §2.4). **Reste** : lot 2, application Flutter web
-(`backoffice/`, connexion + MFA, liste et édition des documents,
-traductions, statistiques) et déploiement GitHub Pages ; lot 3, import du
+(DATA_MODEL §2.4). **Lot 2 fait** : application Flutter web
+`backoffice/` (connexion, MFA TOTP enrôlée à la première connexion,
+sections selon les rôles, textes mg/fr/en par document, structure JSON
+pour les éditeurs, statistiques des 30 derniers jours) et workflow
+`backoffice.yml` (contrôles sur PR, déploiement GitHub Pages à la demande,
+cible développement ou production). Non vérifié en vrai : aucun compte du
+personnel n'existe encore. **Reste** : lot 3, import du
 YAML du dépôt et publication d'un pack signé depuis `authoring` ; santé
 technique.
 
