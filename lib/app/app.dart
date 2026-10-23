@@ -44,7 +44,9 @@ class EripooApp extends ConsumerWidget {
       // The Eripoo "reduce animations" setting is applied through
       // MediaQuery so that every widget has a single source of truth.
       builder: (context, child) {
-        final gated = AppLockGate(child: LegalGate(child: child!));
+        final gated = EripooGrain(
+          child: AppLockGate(child: LegalGate(child: child!)),
+        );
         if (!settings.reducedMotion) return gated;
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(disableAnimations: true),

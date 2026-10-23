@@ -182,7 +182,7 @@ class _StepScreenState extends ConsumerState<StepScreen> {
           );
         }
         if (!mounted) return;
-        _leave(l10n.stepCompleted);
+        _leave(l10n.stepCompleted, done: true);
       case MissingAnswers(:final blockIds):
         final session = _session!;
         final index = session.blocks.indexWhere((b) => blockIds.contains(b.id));
@@ -212,9 +212,22 @@ class _StepScreenState extends ConsumerState<StepScreen> {
     ].any((q) => q.quest.id == questId && q.state == QuestState.completed);
   }
 
-  void _leave(String message) {
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+  /// [done]: the step is completed; the confirmation shows the Eripoo
+  /// mark appearing (the signature validation, not a generic tick).
+  void _leave(String message, {bool done = false}) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            if (done) ...[
+              EripooDoneMark(size: 20, color: context.colors.background),
+              const SizedBox(width: EripooSpacing.md),
+            ],
+            Expanded(child: Text(message)),
+          ],
+        ),
+      ),
+    );
     if (context.canPop()) {
       context.pop();
     } else {

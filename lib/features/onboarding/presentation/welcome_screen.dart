@@ -59,7 +59,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                     ],
                   ),
                   const SizedBox(height: EripooSpacing.xl),
-                  Text(
+                  EripooHeadline(
                     l10n.welcomeTitle,
                     style: context.textStyles.displaySmall,
                   ),

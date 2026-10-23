@@ -215,7 +215,7 @@
   "@startupResetConfirmBody": {
     "description": "Conséquence de l'effacement, dite simplement."
   },
-  "welcomeTitle": "Bienvenue sur Eripoo",
+  "welcomeTitle": "Bienvenue sur *Eripoo*",
   "@welcomeTitle": {
     "description": "Titre de l'écran d'accueil (premier lancement)."
   },

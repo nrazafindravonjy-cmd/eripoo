@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../shapes/eripoo_shapes.dart';
 import '../tokens/eripoo_colors.dart';
 import '../tokens/eripoo_dimens.dart';
 import '../tokens/eripoo_typography.dart';
@@ -56,9 +57,8 @@ abstract final class EripooTheme {
       textTheme: EripooTypography.textTheme(c.textPrimary, c.textSecondary),
     ).textTheme;
 
-    final actionShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(EripooRadii.pill),
-    );
+    // Signature shape (the logo's cut corner) on every button and card.
+    const actionShape = EripooCutBorder(radius: EripooRadii.lg, cut: 14);
     const actionSize = Size(
       EripooLayout.minTouchTarget,
       EripooLayout.primaryActionHeight,
@@ -124,8 +124,11 @@ abstract final class EripooTheme {
           ),
           padding: const EdgeInsets.symmetric(horizontal: EripooSpacing.lg),
           shape: actionShape,
-          textStyle: text.labelLarge,
-          foregroundColor: c.brand.base,
+          textStyle: text.labelLarge?.copyWith(
+            decoration: TextDecoration.underline,
+            decorationColor: c.textSecondary,
+          ),
+          foregroundColor: c.textPrimary,
         ),
       ),
       iconButtonTheme: IconButtonThemeData(
@@ -138,9 +141,7 @@ abstract final class EripooTheme {
         color: c.surface,
         elevation: 0,
         margin: EdgeInsets.zero,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(EripooRadii.xl),
-        ),
+        shape: const EripooCutBorder(radius: EripooRadii.xl, cut: 22),
       ),
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
@@ -169,12 +170,19 @@ abstract final class EripooTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: c.background,
+        // The selected icon sits on an Eripoo mark (not the generic pill).
         indicatorColor: c.brand.container,
+        indicatorShape: const EripooNavMarkBorder(),
         elevation: 0,
         // Navigation labels are short single words; 12 sp keeps them on
         // one line at 360 dp (tested).
-        labelTextStyle: WidgetStatePropertyAll(
-          text.labelSmall?.copyWith(color: c.textPrimary),
+        labelTextStyle: WidgetStateProperty.resolveWith(
+          (states) => states.contains(WidgetState.selected)
+              ? text.labelSmall?.copyWith(color: c.textPrimary)
+              : text.labelSmall?.copyWith(
+                  color: c.textSecondary,
+                  fontWeight: FontWeight.w400,
+                ),
         ),
         iconTheme: WidgetStateProperty.resolveWith(
           (states) => IconThemeData(
@@ -187,6 +195,7 @@ abstract final class EripooTheme {
       navigationRailTheme: NavigationRailThemeData(
         backgroundColor: c.background,
         indicatorColor: c.brand.container,
+        indicatorShape: const EripooNavMarkBorder(),
         selectedIconTheme: IconThemeData(color: c.brand.onContainer),
         unselectedIconTheme: IconThemeData(color: c.textSecondary),
         selectedLabelTextStyle: text.labelMedium,
@@ -198,9 +207,7 @@ abstract final class EripooTheme {
       dialogTheme: DialogThemeData(
         backgroundColor: c.surface,
         surfaceTintColor: Colors.transparent,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(EripooRadii.xl),
-        ),
+        shape: const EripooCutBorder(radius: EripooRadii.xl, cut: 26),
         titleTextStyle: text.titleLarge,
         contentTextStyle: text.bodyLarge,
       ),
@@ -218,11 +225,17 @@ abstract final class EripooTheme {
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
+        // Confirmations take the shape of the logo's speech bubble.
         backgroundColor: c.textPrimary,
-        contentTextStyle: text.bodyMedium?.copyWith(color: c.surface),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(EripooRadii.md),
-        ),
+        contentTextStyle: text.bodyMedium?.copyWith(color: c.background),
+        actionTextColor: c.background,
+        shape: const EripooCutBorder(radius: EripooRadii.md, cut: 12),
+      ),
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: EripooPageTransitionsBuilder(),
+          TargetPlatform.iOS: EripooPageTransitionsBuilder(),
+        },
       ),
       extensions: [c],
     );
@@ -233,4 +246,36 @@ abstract final class EripooTheme {
 extension EripooThemeContext on BuildContext {
   EripooColors get colors => Theme.of(this).extension<EripooColors>()!;
   TextTheme get textStyles => Theme.of(this).textTheme;
+}
+
+/// Pages slide in along the diagonal of the logo, with a fade; nothing
+/// moves when the user asks for reduced motion.
+class EripooPageTransitionsBuilder extends PageTransitionsBuilder {
+  const EripooPageTransitionsBuilder();
+
+  @override
+  Widget buildTransitions<T>(
+    PageRoute<T> route,
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    if (MediaQuery.disableAnimationsOf(context)) return child;
+    final curved = CurvedAnimation(
+      parent: animation,
+      curve: Curves.easeOutCubic,
+      reverseCurve: Curves.easeInCubic,
+    );
+    return FadeTransition(
+      opacity: curved,
+      child: SlideTransition(
+        position: Tween(
+          begin: const Offset(0.08, 0.05),
+          end: Offset.zero,
+        ).animate(curved),
+        child: child,
+      ),
+    );
+  }
 }

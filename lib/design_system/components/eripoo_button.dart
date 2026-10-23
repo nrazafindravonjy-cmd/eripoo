@@ -96,10 +96,11 @@ class EripooButton extends StatelessWidget {
         onPressed: callback,
         child: content,
       ),
-      EripooButtonVariant.danger => FilledButton(
-        style: FilledButton.styleFrom(
-          backgroundColor: colors.danger.base,
-          foregroundColor: colors.danger.onBase,
+      // Outlined, so yellow stays the one dominant element of a screen.
+      EripooButtonVariant.danger => OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: colors.danger.base,
+          side: BorderSide(color: colors.danger.base),
         ),
         onPressed: callback,
         child: content,
@@ -122,9 +123,9 @@ class EripooButton extends StatelessWidget {
     final colors = context.colors;
     return switch (variant) {
       EripooButtonVariant.primary => colors.brand.onBase,
-      EripooButtonVariant.danger => colors.danger.onBase,
+      EripooButtonVariant.danger => colors.danger.base,
       EripooButtonVariant.secondary => colors.textPrimary,
-      EripooButtonVariant.tertiary => colors.brand.base,
+      EripooButtonVariant.tertiary => colors.textPrimary,
     };
   }
 }

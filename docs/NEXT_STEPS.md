@@ -197,6 +197,9 @@ scénarios de prix.
 **Lot 1 fait** : design system sombre (#232123 / #FDCB20), Instrument Serif
 et Arimo embarquées, cartes sans bordure, boutons en pilule, logo vectoriel,
 icône et écran de démarrage, formes organiques, réglage de thème retiré.
+**Lot 2 fait** : signature visuelle tirée du logo (coin coupé, titres
+éditoriaux, jaune réservé, grain, parcours en chemin, onglet actif,
+micro-interactions), DESIGN_SYSTEM.md.
 **Reste** : audit écran par écran selon les 69 règles du porteur (une action
 principale, états vides/chargement/erreur/hors ligne, profondeur, retours,
 reprise du travail en cours…), en s'appuyant sur ses retours de test sur

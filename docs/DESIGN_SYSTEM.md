@@ -13,7 +13,20 @@ micro-interactions discrètes. Logo officiel tracé en vecteur
 (`EripooLogo`), icône Android et écran de démarrage générés depuis le
 fichier du porteur. Les « visuels 3D organiques » sont des formes douces en
 dégradé dessinées en code (`EripooOrganicShape`) : légères, nettes, sans
-image lourde ; remplaçables par de vrais rendus plus tard. Les 69 règles
+image lourde ; remplaçables par de vrais rendus plus tard.
+
+**Signature visuelle (validée le 2026-10-23)**, construite sur la forme du
+logo : coin bas-droit coupé en diagonale sur toutes les cartes, boutons,
+dialogues et confirmations (`EripooCutBorder`) ; titres éditoriaux avec mot
+clé en italique jaune (`EripooHeadline`, marqueurs `*…*` dans les ARB) ;
+jaune réservé à l'action ou l'information principale (boutons secondaires
+et liens en blanc, suppression en contour) ; grain très léger sur toute
+l'app (`EripooGrain`, dessiné une fois) ; formes organiques derrière les
+états vides et d'erreur ; parcours des quêtes et des étapes en chemin de
+marques du logo (`EripooPathItem`) ; onglet actif posé sur une marque du
+logo ; transitions de page en diagonale, pression des cartes et validation
+d'étape par l'apparition du logo (`EripooDoneMark`), toutes coupées quand
+l'utilisateur réduit les animations. Les 69 règles
 UX/UI transmises par le porteur s'appliquent à tous les écrans ; l'audit
 écran par écran est en cours (NEXT_STEPS, chantier C-15).
 

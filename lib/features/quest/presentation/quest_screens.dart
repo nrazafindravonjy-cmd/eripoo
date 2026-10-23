@@ -22,20 +22,30 @@ class QuestListScreen extends ConsumerWidget {
       body: plan.when(
         loading: () => const EripooLoadingView(),
         error: (_, _) => const EripooErrorView(),
-        data: (plan) => ListView(
-          padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
-          children: [
-            for (final q in plan.quests.where(
-              (q) => q.available || !q.quest.hideWhenLocked,
-            ))
-              ReadableColumn(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: EripooSpacing.md),
-                  child: _QuestCard(quest: q),
+        data: (plan) {
+          final quests = plan.quests
+              .where((q) => q.available || !q.quest.hideWhenLocked)
+              .toList();
+          // The journey reads as a path: one mark per quest.
+          return ListView(
+            padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
+            children: [
+              for (final (i, q) in quests.indexed)
+                ReadableColumn(
+                  child: EripooPathItem(
+                    state: !q.available
+                        ? EripooPathState.locked
+                        : q.done >= q.total
+                        ? EripooPathState.done
+                        : EripooPathState.current,
+                    isFirst: i == 0,
+                    isLast: i == quests.length - 1,
+                    child: _QuestCard(quest: q),
+                  ),
                 ),
-              ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -115,10 +125,16 @@ class QuestDetailScreen extends ConsumerWidget {
                   child: EripooProgress(done: q.done, total: q.total),
                 ),
               ),
-              for (final s in q.steps)
+              for (final (i, s) in q.steps.indexed)
                 ReadableColumn(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: EripooSpacing.sm),
+                  child: EripooPathItem(
+                    state: s.isDone
+                        ? EripooPathState.done
+                        : s.canStart
+                        ? EripooPathState.current
+                        : EripooPathState.locked,
+                    isFirst: i == 0,
+                    isLast: i == q.steps.length - 1,
                     child: _StepTile(step: s),
                   ),
                 ),
