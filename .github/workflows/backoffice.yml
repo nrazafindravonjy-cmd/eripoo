@@ -1,0 +1,91 @@
+name: Back-office
+
+# Checks on every PR touching backoffice/ or the migrations; deployment to
+# GitHub Pages only on demand (Actions > Back-office > Run workflow).
+# Development target: repository secrets SUPABASE_URL, SUPABASE_ANON_KEY.
+# Production target: the same names prefixed PROD_ in the protected
+# "production" environment. Only public values (URL, anon key) are built in.
+on:
+  pull_request:
+    paths: ["backoffice/**", ".github/workflows/backoffice.yml"]
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Supabase project the deployed back-office uses
+        type: choice
+        options: [development, production]
+        default: development
+
+concurrency:
+  group: backoffice-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  FLUTTER_VERSION: "3.47.6"
+
+jobs:
+  checks:
+    name: Back-office checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: backoffice
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - run: flutter pub get
+      - run: flutter gen-l10n
+      - run: dart format --output=none --set-exit-if-changed lib test
+      - run: flutter analyze
+      - run: flutter test
+
+  build:
+    name: Build (${{ inputs.target }})
+    if: github.event_name == 'workflow_dispatch'
+    needs: checks
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target == 'production' && 'production' || '' }}
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: backoffice
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - run: flutter pub get
+      - run: flutter gen-l10n
+      - name: Public configuration
+        env:
+          SUPABASE_URL: ${{ inputs.target == 'production' && secrets.PROD_SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ inputs.target == 'production' && secrets.PROD_SUPABASE_ANON_KEY || secrets.SUPABASE_ANON_KEY }}
+        run: |
+          case "$SUPABASE_URL" in https://*) ;; *) echo "SUPABASE_URL must be https" >&2; exit 1 ;; esac
+          jq -n --arg url "$SUPABASE_URL" --arg key "$SUPABASE_ANON_KEY" \
+            '{SUPABASE_URL: $url, SUPABASE_ANON_KEY: $key}' > ../backoffice-env.json
+      - run: flutter build web --release --base-href "/${{ github.event.repository.name }}/" --dart-define-from-file=../backoffice-env.json
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: backoffice/build/web
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
