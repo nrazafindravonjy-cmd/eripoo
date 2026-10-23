@@ -59,17 +59,17 @@ class StaffApi {
     ];
   }
 
-  Future<(Map<String, Object?>, int)?> document(String path) async {
+  Future<(Object, int)?> document(String path) async {
     final rows =
         (await _call('staff_get_document', {'p_path': path}))! as List<Object?>;
     if (rows.isEmpty) return null;
     final row = rows.first! as Map<String, Object?>;
-    return (row['body']! as Map<String, Object?>, row['version']! as int);
+    return (row['body']!, row['version']! as int);
   }
 
   Future<int> saveDocument(
     String path,
-    Map<String, Object?> body,
+    Object body,
     int expectedVersion,
   ) async =>
       (await _call('staff_save_document', {

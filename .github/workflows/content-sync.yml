@@ -1,0 +1,88 @@
+name: Content sync
+
+# Moves content between content/*.yaml and the back-office (schema
+# authoring, NEXT_STEPS C-14 lot 3), through the Supabase Management API.
+#   import: content/ -> documents not yet in the back-office (an edited
+#           document is never overwritten);
+#   export: back-office -> content/, validated by tool/content_build.dart,
+#           then proposed as a pull request (reviewed and merged like any
+#           change; the pack ships in the next APK).
+# Development target: repository secrets SUPABASE_ACCESS_TOKEN and
+# SUPABASE_PROJECT_REF; production: PROD_ ones in the "production"
+# environment. Manual only.
+on:
+  workflow_dispatch:
+    inputs:
+      direction:
+        type: choice
+        options: [import, export]
+        default: export
+      target:
+        type: choice
+        options: [development, production]
+        default: development
+
+concurrency:
+  group: content-sync
+  cancel-in-progress: false
+
+env:
+  FLUTTER_VERSION: "3.47.6"
+
+jobs:
+  sync:
+    name: ${{ inputs.direction }} (${{ inputs.target }})
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target == 'production' && 'production' || '' }}
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      pull-requests: write
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ inputs.target == 'production' && secrets.PROD_SUPABASE_ACCESS_TOKEN || secrets.SUPABASE_ACCESS_TOKEN }}
+      PROJECT_REF: ${{ inputs.target == 'production' && secrets.PROD_SUPABASE_PROJECT_REF || secrets.SUPABASE_PROJECT_REF }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - run: flutter pub get
+      - name: Import
+        if: inputs.direction == 'import'
+        run: |
+          dart run tool/content_sync.dart import-sql > "$RUNNER_TEMP/import.sql"
+          jq -n --rawfile q "$RUNNER_TEMP/import.sql" '{query: $q}' |
+            curl -fsS -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+              -H 'Content-Type: application/json' --data @- \
+              "https://api.supabase.com/v1/projects/$PROJECT_REF/database/query" > /dev/null
+          echo "Imported (existing documents left as they were)."
+      - name: Export
+        if: inputs.direction == 'export'
+        run: |
+          jq -n '{query: "select coalesce(json_agg(json_build_object('"'"'path'"'"', path, '"'"'body'"'"', body) order by path), '"'"'[]'"'"') as docs from authoring.documents"}' |
+            curl -fsS -X POST -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+              -H 'Content-Type: application/json' --data @- \
+              "https://api.supabase.com/v1/projects/$PROJECT_REF/database/query" |
+            jq '.[0].docs' > "$RUNNER_TEMP/documents.json"
+          dart run tool/content_sync.dart export "$RUNNER_TEMP/documents.json"
+          # Refuses invalid content: no pull request is opened then.
+          dart run tool/content_build.dart
+      - name: Pull request
+        if: inputs.direction == 'export'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet; then echo "Nothing changed."; exit 0; fi
+          branch="content/export-${{ github.run_id }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add content assets/content
+          git commit -m "Content exported from the back-office (${{ inputs.target }})"
+          git push origin "$branch"
+          gh pr create --base main --head "$branch" \
+            --title "Contenu exporté du back-office (${{ inputs.target }})" \
+            --body "Export automatique (workflow Content sync, run ${{ github.run_id }}). Pack reconstruit et validé par tool/content_build.dart. Lancer la CI à la main sur cette branche (Actions → CI → Run workflow) : une PR ouverte par GITHUB_TOKEN ne la déclenche pas."

@@ -47,6 +47,8 @@ select tests.ok(public.staff_save_document('quests/q99_test.yaml',
   'an editor saves a new version');
 select tests.throws($$select public.staff_save_document('quests/q99_test.yaml', '{}', 1)$$,
   'version_conflict', 'a stale version is refused');
+select tests.ok(public.staff_save_document('missions/m99_test.yaml',
+  '[{"id": "m.test"}]', 0) = 1, 'a document may be a list (missions, sections)');
 select tests.throws($$select public.staff_save_document('../secret.yaml', '{}', 0)$$,
   'invalid_document', 'paths stay inside the content tree');
 select tests.throws($$select public.staff_usage_stats(current_date, current_date)$$,
@@ -77,7 +79,7 @@ select tests.throws($$select public.staff_list_documents()$$, 'not_staff',
   'an analyst does not edit content');
 select tests.logout();
 
-select tests.ok((select count(*) from authoring.audit_log) = 3,
+select tests.ok((select count(*) from authoring.audit_log) = 4,
   'each change is logged');
 select tests.ok(not exists (select from pg_policies
    where tablename in ('profiles', 'sync_records', 'user_keys', 'consents')

@@ -175,9 +175,15 @@ sections selon les rôles, textes mg/fr/en par document, structure JSON
 pour les éditeurs, statistiques des 30 derniers jours) et workflow
 `backoffice.yml` (contrôles sur PR, déploiement GitHub Pages à la demande,
 cible développement ou production). Non vérifié en vrai : aucun compte du
-personnel n'existe encore. **Reste** : lot 3, import du
-YAML du dépôt et publication d'un pack signé depuis `authoring` ; santé
-technique.
+personnel n'existe encore. **Lot 3 fait** : `tool/content_sync.dart`
+(import du YAML vers `authoring` sans écraser un document édité ; export
+vers `content/` en gardant l'ordre des clés, aller-retour testé sur tout
+le contenu) et workflow manuel `content-sync.yml` (API de gestion
+Supabase ; l'export valide le pack puis ouvre une PR, le contenu part
+avec la prochaine APK). Non vérifié contre un vrai projet. **Reste** :
+mises à jour du contenu sans nouvelle APK (packs signés Ed25519,
+SECURITY §15 : clé de publication hors ligne à créer par le porteur,
+vérification dans l'app) ; santé technique.
 
 Facultatifs (« éventuellement » dans le cahier des charges) : niveau de
 préparation (§23), aide à la recherche d'associés (§48), plusieurs

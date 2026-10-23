@@ -81,7 +81,7 @@ class DocumentEditor extends StatefulWidget {
 }
 
 class _DocumentEditorState extends State<DocumentEditor> {
-  Map<String, Object?>? _body;
+  Object? _body;
   int _version = 0;
   Object? _error;
   final _json = TextEditingController();
@@ -132,11 +132,11 @@ class _DocumentEditorState extends State<DocumentEditor> {
       showMessage(context, l.errorJson);
       return;
     }
-    if (parsed is! Map<String, Object?>) {
+    if (parsed is! Map<String, Object?> && parsed is! List<Object?>) {
       showMessage(context, l.errorJson);
       return;
     }
-    final body = parsed;
+    final body = parsed!;
     await _run(() => widget.api.saveDocument(widget.path, body, _version));
   }
 

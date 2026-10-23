@@ -133,6 +133,10 @@ prouvé avant release (liste complète : [END_CHECKLIST.md](END_CHECKLIST.md) §
   donner un rôle dans l'éditeur SQL :
   `insert into authoring.staff_roles (user_id, role) values ('<uuid>', 'content_editor');`
   La première connexion demande d'enrôler l'application TOTP.
+  Contenu : Settings → Actions → General → cocher « Allow GitHub Actions
+  to create and approve pull requests », puis Actions → **Content sync**
+  → `import` une fois ; ensuite `export` pour proposer les modifications
+  du back-office en PR (lancer la CI à la main sur sa branche).
 - [ ] Back-office (§44 : contenu, traductions, statistiques agrégées,
   santé) : **non construit** — décision du porteur (édition du contenu
   hors du dépôt, D5).
