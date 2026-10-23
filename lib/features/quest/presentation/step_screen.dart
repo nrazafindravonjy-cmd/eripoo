@@ -169,7 +169,8 @@ class _StepScreenState extends ConsumerState<StepScreen> {
     setState(() => _busy = false);
     switch (result) {
       case StepCompleted():
-        if (!questDoneBefore && await _questDone()) {
+        final questJustDone = !questDoneBefore && await _questDone();
+        if (questJustDone) {
           final diagnostic =
               _journey.pack.questOfStep(widget.stepId)?.kind ==
               QuestKind.diagnostic;
@@ -182,6 +183,19 @@ class _StepScreenState extends ConsumerState<StepScreen> {
           );
         }
         if (!mounted) return;
+        // A finished quest deserves its moment, once.
+        if (questJustDone) {
+          final quest = _journey.pack.questOfStep(widget.stepId);
+          if (quest != null && quest.kind == QuestKind.journey) {
+            await showEripooCelebration(
+              context,
+              title: l10n.questDoneTitle,
+              message: l10n.questDoneBody(contentText(context, quest.title)),
+              actionLabel: l10n.questDoneContinue,
+            );
+            if (!mounted) return;
+          }
+        }
         _leave(l10n.stepCompleted, done: true);
       case MissingAnswers(:final blockIds):
         final session = _session!;
@@ -291,9 +305,13 @@ class _StepScreenState extends ConsumerState<StepScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        EripooProgress(
-                          done: session.index + 1,
+                        EripooStepCounter(
+                          current: session.index + 1,
                           total: session.blocks.length,
+                          semanticLabel: l10n.stepCounter(
+                            session.index + 1,
+                            session.blocks.length,
+                          ),
                         ),
                         const SizedBox(height: EripooSpacing.xl),
                         KeyedSubtree(
@@ -370,51 +388,62 @@ class _StepScreenState extends ConsumerState<StepScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      EripooButton(
-                        label: session.isLast ? l10n.stepFinish : l10n.stepNext,
-                        expand: true,
-                        isLoading: _busy,
-                        onPressed: session.isLast ? _finish : _next,
-                      ),
-                      const SizedBox(height: EripooSpacing.sm),
-                      // Side by side when they fit, stacked otherwise (narrow
-                      // phones, large text).
-                      OverflowBar(
-                        alignment: session.isFirst
-                            ? MainAxisAlignment.end
-                            : MainAxisAlignment.spaceBetween,
-                        overflowAlignment: OverflowBarAlignment.end,
-                        overflowSpacing: EripooSpacing.xs,
+                      // Back and forward side by side: going back is as
+                      // obvious as moving on.
+                      Row(
                         children: [
-                          if (!session.isFirst)
-                            EripooButton(
-                              label: l10n.stepBack,
-                              icon: Icons.arrow_back,
-                              variant: EripooButtonVariant.tertiary,
-                              onPressed: () => setState(() {
-                                _error = null;
-                                session.back();
-                              }),
+                          if (!session.isFirst) ...[
+                            Expanded(
+                              flex: 2,
+                              child: EripooButton(
+                                label: l10n.stepBack,
+                                variant: EripooButtonVariant.secondary,
+                                expand: true,
+                                onPressed: () => setState(() {
+                                  _error = null;
+                                  session.back();
+                                }),
+                              ),
                             ),
-                          // The diagnostic is not set aside: the journey starts
-                          // after it, and "I don't know" is always possible.
-                          if (isQuestion || !inDiagnostic)
-                            EripooHelpButton(
-                              onSelected: _onHelp,
-                              actions: [
-                                if (isQuestion) ...[
-                                  HelpAction.dontKnow,
-                                  HelpAction.dontUnderstand,
-                                  HelpAction.showExample,
-                                  HelpAction.askHelp,
-                                ],
-                                if (!inDiagnostic) ...[
-                                  HelpAction.skipForNow,
-                                  HelpAction.comeBackLater,
-                                ],
-                              ],
+                            const SizedBox(width: EripooSpacing.sm),
+                          ],
+                          Expanded(
+                            flex: 3,
+                            child: EripooButton(
+                              label: session.isLast
+                                  ? l10n.stepFinish
+                                  : l10n.stepNext,
+                              expand: true,
+                              isLoading: _busy,
+                              onPressed: session.isLast ? _finish : _next,
                             ),
+                          ),
                         ],
+                      ),
+                      Center(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // The diagnostic is not set aside: the journey starts
+                            // after it, and "I don't know" is always possible.
+                            if (isQuestion || !inDiagnostic)
+                              EripooHelpButton(
+                                onSelected: _onHelp,
+                                actions: [
+                                  if (isQuestion) ...[
+                                    HelpAction.dontKnow,
+                                    HelpAction.dontUnderstand,
+                                    HelpAction.showExample,
+                                    HelpAction.askHelp,
+                                  ],
+                                  if (!inDiagnostic) ...[
+                                    HelpAction.skipForNow,
+                                    HelpAction.comeBackLater,
+                                  ],
+                                ],
+                              ),
+                          ],
+                        ),
                       ),
                     ],
                   ),

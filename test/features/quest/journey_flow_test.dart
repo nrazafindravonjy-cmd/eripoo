@@ -180,6 +180,9 @@ void main() {
     // Back on the step, which can now be finished.
     expect(find.text('Observer le problème en vrai'), findsOneWidget);
     await finish(tester);
+    // A finished quest gets its moment, closed with one action.
+    expect(find.text('Quête terminée'), findsOneWidget);
+    await tapText(tester, 'Continuer');
 
     // ---- quest 2 is now the next action
     expect(find.text('Comprendre tes futurs clients'), findsOneWidget);

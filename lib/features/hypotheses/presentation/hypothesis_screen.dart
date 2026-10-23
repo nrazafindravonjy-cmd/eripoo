@@ -70,6 +70,11 @@ class _Detail extends ConsumerWidget {
             Chip(label: Text(categoryLabel(l10n, h.category))),
           ],
         ),
+        if (d.conclusions.lastOrNull?.confidenceAfter ?? h.confidenceBefore
+            case final confidence?) ...[
+          const SizedBox(height: EripooSpacing.md),
+          _ConfidenceGauge(value: confidence),
+        ],
         if (h.parentHypothesisId != null)
           _VersionLink(
             label: l10n.hypothesisPreviousVersion,
@@ -610,6 +615,56 @@ class _ConclusionFormState extends ConsumerState<_ConclusionForm> {
         const SizedBox(height: EripooSpacing.lg),
         EripooButton(label: l10n.conclude, expand: true, onPressed: _save),
       ],
+    );
+  }
+}
+
+/// Confidence (1 to 5) as a gauge in the shape of the Eripoo mark, with a
+/// word in the middle: a level is understood in one word.
+class _ConfidenceGauge extends StatelessWidget {
+  const _ConfidenceGauge({required this.value});
+
+  final int value;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final word = value <= 2
+        ? l10n.confidenceLow
+        : value == 3
+        ? l10n.confidenceMedium
+        : l10n.confidenceHigh;
+    return Semantics(
+      label: '${l10n.confidenceTitle} : $word, ${l10n.confidenceOf(value)}',
+      excludeSemantics: true,
+      child: Row(
+        children: [
+          EripooProgressMark(
+            value: value / 5,
+            center: word,
+            size: 96,
+            centerStyle: context.textStyles.labelLarge?.copyWith(
+              color: context.colors.brand.base,
+            ),
+          ),
+          const SizedBox(width: EripooSpacing.lg),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.confidenceTitle,
+                  style: context.textStyles.labelMedium,
+                ),
+                Text(
+                  l10n.confidenceOf(value),
+                  style: context.textStyles.bodySmall,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

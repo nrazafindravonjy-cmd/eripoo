@@ -50,7 +50,18 @@ image (exactement la carte affichée, sans réponse privée) ; outils en
 grille, le plus utile en pleine largeur ; champ de réponse avec l'action
 « Répondre à l'oral » à l'intérieur ; forme organique qui respire pendant
 l'enregistrement (`EripooListeningShape`) ; titres de quête en deux tons
-(« *Quête 3* » puis l'objectif). Les 69 règles
+(« *Quête 3* » puis l'objectif).
+
+**Troisième série de références (2026-10-23)** : feuille jaune de
+célébration à la fin d'une quête (`showEripooCelebration`, une fois, une
+action) ; repères chiffrés en tête de quête (`EripooMetrics` : étapes,
+stade, missions — aucune durée inventée, le contenu n'en donne pas) ;
+lignes de navigation à flèche (`EripooNavRow`, onglet Projet) ; étapes
+avec vignette organique et type (Apprendre, Agir…) ; grand chiffre serif
+de progression dans l'étape (`EripooStepCounter`) ; « Retour » et
+« Suivant » côte à côte ; jauge de confiance des hypothèses avec un mot au
+centre ; pastilles Tout / Observations / Rencontres dans les notes de
+terrain. Les 69 règles
 UX/UI transmises par le porteur s'appliquent à tous les écrans ; l'audit
 écran par écran est en cours (NEXT_STEPS, chantier C-15).
 

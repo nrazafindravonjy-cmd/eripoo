@@ -89,103 +89,46 @@ class _ProjectBody extends ConsumerWidget {
                 style: context.textStyles.titleMedium,
               ),
               const SizedBox(height: EripooSpacing.sm),
-              EripooCard(
+              EripooNavRow(
+                icon: Icons.science_outlined,
+                label: l10n.projectHypothesesEntry(hypotheses?.length ?? 0),
                 onTap: () => context.go(AppRoutes.hypotheses),
-                child: Row(
-                  children: [
-                    const Icon(Icons.science_outlined),
-                    const SizedBox(width: EripooSpacing.md),
-                    Expanded(
-                      child: Text(
-                        l10n.projectHypothesesEntry(hypotheses?.length ?? 0),
-                      ),
-                    ),
-                    const Icon(Icons.chevron_right),
-                  ],
-                ),
               ),
-              const SizedBox(height: EripooSpacing.sm),
-              EripooCard(
+              EripooNavRow(
+                icon: Icons.menu_book_outlined,
+                label: l10n.projectFieldNotesEntry(notes?.count ?? 0),
                 onTap: () => context.go(AppRoutes.fieldNotes),
-                child: Row(
-                  children: [
-                    const Icon(Icons.menu_book_outlined),
-                    const SizedBox(width: EripooSpacing.md),
-                    Expanded(
-                      child: Text(
-                        l10n.projectFieldNotesEntry(notes?.count ?? 0),
-                      ),
-                    ),
-                    const Icon(Icons.chevron_right),
-                  ],
-                ),
               ),
-              const SizedBox(height: EripooSpacing.sm),
-              EripooCard(
+              EripooNavRow(
+                icon: Icons.calculate_outlined,
+                label: l10n.projectFinanceEntry,
                 onTap: () => context.go(AppRoutes.finances),
-                child: Row(
-                  children: [
-                    const Icon(Icons.calculate_outlined),
-                    const SizedBox(width: EripooSpacing.md),
-                    Expanded(child: Text(l10n.projectFinanceEntry)),
-                    const Icon(Icons.chevron_right),
-                  ],
-                ),
               ),
-              const SizedBox(height: EripooSpacing.sm),
-              EripooCard(
+              EripooNavRow(
+                icon: Icons.military_tech_outlined,
+                label: l10n.badgesTitle,
                 onTap: () => context.go(AppRoutes.badges),
-                child: Row(
-                  children: [
-                    const Icon(Icons.military_tech_outlined),
-                    const SizedBox(width: EripooSpacing.md),
-                    Expanded(child: Text(l10n.badgesTitle)),
-                    const Icon(Icons.chevron_right),
-                  ],
-                ),
               ),
               if (toReview > 0) ...[
-                const SizedBox(height: EripooSpacing.sm),
-                EripooCard(
+                EripooNavRow(
+                  icon: Icons.rule,
+                  label: l10n.reviewEntry(toReview),
+                  iconColor: context.colors.warning.base,
                   onTap: () => context.go(AppRoutes.review),
-                  child: Row(
-                    children: [
-                      Icon(Icons.rule, color: context.colors.warning.base),
-                      const SizedBox(width: EripooSpacing.md),
-                      Expanded(child: Text(l10n.reviewEntry(toReview))),
-                      const Icon(Icons.chevron_right),
-                    ],
-                  ),
                 ),
               ],
               if (conflicts > 0) ...[
-                const SizedBox(height: EripooSpacing.sm),
-                EripooCard(
+                EripooNavRow(
+                  icon: Icons.call_split,
+                  label: l10n.projectConflictsEntry(conflicts),
                   onTap: () => context.go(AppRoutes.conflicts),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.call_split),
-                      const SizedBox(width: EripooSpacing.md),
-                      Expanded(
-                        child: Text(l10n.projectConflictsEntry(conflicts)),
-                      ),
-                      const Icon(Icons.chevron_right),
-                    ],
-                  ),
                 ),
               ],
               if (trashed > 0) ...[
-                const SizedBox(height: EripooSpacing.sm),
-                EripooCard(
+                EripooNavRow(
+                  icon: Icons.delete_outline,
+                  label: l10n.projectTrashEntry(trashed),
                   onTap: () => context.go(AppRoutes.trash),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.delete_outline),
-                      const SizedBox(width: EripooSpacing.md),
-                      Expanded(child: Text(l10n.projectTrashEntry(trashed))),
-                      const Icon(Icons.chevron_right),
-                    ],
-                  ),
                 ),
               ],
               const SizedBox(height: EripooSpacing.xl),

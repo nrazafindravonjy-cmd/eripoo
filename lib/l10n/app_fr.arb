@@ -3338,5 +3338,95 @@
   "trashRestoreSelected": "Restaurer",
   "@trashRestoreSelected": {
     "description": "Restores the selected trash items."
+  },
+  "questDoneTitle": "Quête *terminée*",
+  "@questDoneTitle": {
+    "description": "Title of the quest-complete sheet (asterisks: yellow italics)."
+  },
+  "questDoneBody": "« {quest} » est terminée. La suite t'attend dans ton parcours.",
+  "@questDoneBody": {
+    "description": "Body of the quest-complete sheet.",
+    "placeholders": {
+      "quest": {
+        "type": "String"
+      }
+    }
+  },
+  "questDoneContinue": "Continuer",
+  "@questDoneContinue": {
+    "description": "Closes the quest-complete sheet."
+  },
+  "metricSteps": "Étapes",
+  "@metricSteps": {
+    "description": "Quest header metric label."
+  },
+  "metricStage": "Stade",
+  "@metricStage": {
+    "description": "Quest header metric label: maturity stage."
+  },
+  "metricMissions": "Missions",
+  "@metricMissions": {
+    "description": "Quest header metric label: number of field missions."
+  },
+  "stepTypeLearn": "Apprendre",
+  "@stepTypeLearn": {
+    "description": "Kind of step."
+  },
+  "stepTypeReflect": "Réfléchir",
+  "@stepTypeReflect": {
+    "description": "Kind of step."
+  },
+  "stepTypeAct": "Agir",
+  "@stepTypeAct": {
+    "description": "Kind of step."
+  },
+  "stepTypeCheckpoint": "Point d'étape",
+  "@stepTypeCheckpoint": {
+    "description": "Kind of step."
+  },
+  "stepTypeTool": "Outil",
+  "@stepTypeTool": {
+    "description": "Kind of step."
+  },
+  "stepCounter": "Écran {current} sur {total}",
+  "@stepCounter": {
+    "description": "Screen reader text of the step's screen counter.",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "confidenceTitle": "Ta confiance",
+  "@confidenceTitle": {
+    "description": "Label of the confidence gauge of a hypothesis."
+  },
+  "confidenceLow": "Faible",
+  "@confidenceLow": {
+    "description": "Confidence level 1-2."
+  },
+  "confidenceMedium": "Moyenne",
+  "@confidenceMedium": {
+    "description": "Confidence level 3."
+  },
+  "confidenceHigh": "Forte",
+  "@confidenceHigh": {
+    "description": "Confidence level 4-5."
+  },
+  "confidenceOf": "{value} sur 5",
+  "@confidenceOf": {
+    "description": "Confidence value under the gauge.",
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "notesFilterAll": "Tout",
+  "@notesFilterAll": {
+    "description": "Field notes filter: everything."
   }
 }

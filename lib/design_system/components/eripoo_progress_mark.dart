@@ -16,7 +16,11 @@ class EripooProgressMark extends StatelessWidget {
     this.size = 72,
     this.color,
     this.trackColor,
+    this.centerStyle,
   });
+
+  /// Defaults to `titleLarge` in [color].
+  final TextStyle? centerStyle;
 
   final double value;
   final String center;
@@ -42,9 +46,11 @@ class EripooProgressMark extends StatelessWidget {
               padding: EdgeInsets.only(bottom: size * 0.15),
               child: Text(
                 center,
-                style: context.textStyles.titleLarge?.copyWith(
-                  color: color ?? c.brand.base,
-                ),
+                style:
+                    centerStyle ??
+                    context.textStyles.titleLarge?.copyWith(
+                      color: color ?? c.brand.base,
+                    ),
               ),
             ),
           ),
