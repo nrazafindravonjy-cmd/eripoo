@@ -52,8 +52,8 @@ publication, ce qui reste à prouver.
   taux, conditions (microfinance, banques, concours, incubateurs) ;
   aujourd'hui Eripoo ne cite **aucun** organisme ; à ajouter seulement
   vérifiés, sourcés et datés (avec la Phase 8).
-- [ ] **Région Supabase de production** — P5 / D9 (après mesures depuis
-  Madagascar et l'avis juridique).
+- [x] **Région Supabase de production** — P5 / D9 : eu-west-3 (Paris),
+  décidée le 2026-10-23 ; avis juridique sur le transfert encore à obtenir.
 - [ ] **Transcription et IA** — Phase 9 : décider s'il faut une
   transcription des réponses orales, et laquelle : **sur l'appareil**
   (modèle embarqué : taille, qualité en malagasy, vitesse sur A à

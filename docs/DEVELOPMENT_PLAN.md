@@ -624,7 +624,7 @@ Aucune décision de cette liste ne peut remettre en cause :
 | P2 | D4 — verrou applicatif et base locale chiffrée | 🟢 | **décidé : chiffrement toujours actif, verrou facultatif (2026-10-06)** | porteur du projet |
 | P3 | Licence de SQLite3MultipleCiphers | 🟢 (technique) / 🟡 (mentions validées) | **vérifiée : MIT sur l'étiquette v2.5.0** | Claude (fait) ; juriste pour la liste des mentions |
 | P4 | Environnements Supabase (local / dev-staging / production) et projet de développement | 🟢 stratégie · 🟠 projet cloud | stratégie validée (2026-10-06) ; projet cloud à créer | porteur du projet (propriétaire du compte Supabase) |
-| P5 | D9 — région Supabase de production | 🟡 | ouvert | porteur + juriste |
+| P5 | D9 — région Supabase de production | 🟢 région · 🟡 transfert | **décidé : eu-west-3, Paris (2026-10-23)** ; avis juridique sur le transfert (P6) ouvert | porteur ; juriste pour le transfert |
 | P6 | D12 — cadre juridique (mineurs 14–17, transferts, loi 2014-038) | 🟠 | ouvert | juriste qualifié en droit malgache (+ protection des données UE si hébergement UE) |
 | P7 | D11 — appareils Android de référence | 🟠 | **aucun appareil disponible — tout NON VÉRIFIÉ** | porteur (achat) ; mesures par l'équipe |
 | P8 | Paramètres de production à ne pas figer prématurément | 🟢 pour démarrer · 🟡 pour la production | liste établie | porteur + équipe technique |
@@ -709,7 +709,13 @@ les tests Supabase (RLS, pgTAP) **en CI GitHub** où Docker est disponible ;
 tenter de démarrer Docker dans la session ; à défaut, tests SQL partiels sur
 PostgreSQL 16 avec un schéma `auth` simulé, **signalés comme partiels**.
 
-### P5 — D9 : région Supabase de production 🟡
+### P5 — D9 : région Supabase de production 🟢
+
+**Décision (2026-10-23)** : eu-west-3 (Paris), choisie par le porteur.
+Les mesures depuis Madagascar et l'avis juridique sur le transfert (P6)
+n'ont pas été produits avant la décision ; l'avis reste à obtenir avant
+d'ouvrir le service. Le workflow `supabase-production.yml` refuse un
+projet créé dans une autre région.
 
 **Outil de mesure (chantier C-8, 2026-10-22)** : dans l'APK de
 développement seulement (`ERIPOO_ENV=development`), Profil → « Mesure de
