@@ -5,36 +5,29 @@
 # DRAFT texts (see pack.yaml default_status).
 - id: tool.observation_journal
   kind: observation_journal
-  title: {fr: "Journal d'observation", mg: "Diary fandinihana", en: "Observation journal"}
+  title: {fr: "Journal d'observation", en: "Observation journal"}
   summary:
     fr: "Note ce que tu vois sur le terrain, au moment où tu le vois."
-    mg: "Soraty izay hitanao eny an-tsehatra, amin'ny fotoana ahitanao azy."
     en: "Write down what you see in the field, when you see it."
   help:
     - fr: "Une observation décrit un fait : qui, où, quoi. Pas encore ton avis."
-      mg: "Ny fandinihana dia mamaritra zava-misy: iza, aiza, inona. Tsy mbola ny hevitrao."
       en: "An observation describes a fact: who, where, what. Not your opinion yet."
     - fr: "Ajoute une photo comme preuve si c'est utile, sans visage reconnaissable."
-      mg: "Ampio sary ho porofo raha ilaina, nefa tsy misy tarehy fantatra."
       en: "Add a photo as evidence if useful, without recognisable faces."
   unlock: {quest: diag, is: completed}
   unlock_hint:
     fr: "Se débloque à la fin de « Faisons connaissance »."
-    mg: "Misokatra rehefa vita ny « Hifankahalala isika »."
     en: "Unlocks at the end of \"Let's get to know each other\"."
 - id: tool.interview_guide
   kind: interview_guide
-  title: {fr: "Guide d'interview", mg: "Torolalana resadresaka", en: "Interview guide"}
+  title: {fr: "Guide d'interview", en: "Interview guide"}
   summary:
     fr: "Les bonnes questions pour comprendre quelqu'un sans lui vendre ton idée."
-    mg: "Ireo fanontaniana tsara hahatakarana olona nefa tsy mivarotra ny hevitrao aminy."
     en: "The right questions to understand someone without selling them your idea."
   help:
     - fr: "Pose des questions sur ce que la personne a fait, pas sur ce qu'elle ferait."
-      mg: "Manontania momba izay nataon'ilay olona, fa tsy izay mety hataony."
       en: "Ask about what the person did, not what they would do."
     - fr: "Après chaque rencontre, note-la dans le carnet de terrain, sous un surnom."
-      mg: "Aorian'ny fihaonana tsirairay, soraty ao amin'ny kahie an-tsehatra izany, amin'ny anaram-bositra."
       en: "After each conversation, write it in the field notebook, under a nickname."
   unlock:
     any:
@@ -42,92 +35,72 @@
       - {quest: q02, is: [in_progress, completed]}
   unlock_hint:
     fr: "Se débloque avec ta première observation, ou en commençant « Comprendre tes futurs clients »."
-    mg: "Misokatra amin'ny fandinihanao voalohany, na rehefa manomboka ny « Mahafantatra ny mpanjifanao ho avy »."
     en: "Unlocks with your first observation, or when you start \"Understand your future customers\"."
   guide:
-    - title: {fr: "Avant", mg: "Alohan'ny", en: "Before"}
+    - title: {fr: "Avant", en: "Before"}
       items:
         - fr: "Choisis quelqu'un qui vit le problème, pas un ami qui veut te faire plaisir."
-          mg: "Mifidiana olona miaina ny olana, fa tsy namana te hampifaly anao."
           en: "Pick someone who lives the problem, not a friend who wants to please you."
         - fr: "Demande son accord pour parler cinq à dix minutes. N'enregistre personne."
-          mg: "Angataho ny fanekeny hiresaka dimy ka hatramin'ny folo minitra. Aza mandrakitra feon'olona."
           en: "Ask if they agree to talk for five to ten minutes. Don't record anyone."
-    - title: {fr: "Pendant : les questions", mg: "Mandritra: ny fanontaniana", en: "During: the questions"}
+    - title: {fr: "Pendant : les questions", en: "During: the questions"}
       items:
         - fr: "« Raconte-moi la dernière fois que cela t'est arrivé. »"
-          mg: "« Tantarao ahy ny fotoana farany nitrangan'izany taminao. »"
           en: "\"Tell me about the last time this happened to you.\""
         - fr: "« Qu'as-tu fait pour t'en sortir ? Combien cela t'a coûté ? »"
-          mg: "« Inona no nataonao mba hialana amin'izany? Ohatrinona no lany? »"
           en: "\"What did you do about it? How much did it cost you?\""
         - fr: "« Qu'est-ce qui est le plus pénible dans tout ça ? »"
-          mg: "« Inona no tena manahirana indrindra amin'izany rehetra izany? »"
           en: "\"What is the most painful part of it?\""
         - fr: "« À qui d'autre devrais-je parler ? »"
-          mg: "« Iza koa no tokony hiresahako? »"
           en: "\"Who else should I talk to?\""
-    - title: {fr: "À éviter", mg: "Tokony hialana", en: "To avoid"}
+    - title: {fr: "À éviter", en: "To avoid"}
       items:
         - fr: "« Est-ce que tu achèterais… ? » : les gens répondent souvent oui par politesse."
-          mg: "« Hividy ve ianao…? »: matetika ny olona mamaly eny noho ny fahalalam-pomba."
           en: "\"Would you buy…?\": people often say yes to be polite."
         - fr: "Présenter ton idée avant la fin : la personne parlera de ton idée, plus de sa vie."
-          mg: "Manolotra ny hevitrao alohan'ny farany: hiresaka ny hevitrao ilay olona, fa tsy ny fiainany intsony."
           en: "Presenting your idea before the end: they will talk about your idea, not their life."
-    - title: {fr: "Après", mg: "Aorian'ny", en: "After"}
+    - title: {fr: "Après", en: "After"}
       items:
         - fr: "Note tout de suite ce que tu as appris, sous un surnom, sans nom ni numéro de téléphone."
-          mg: "Soraty avy hatrany izay nianaranao, amin'ny anaram-bositra, tsy misy anarana na laharana finday."
           en: "Write down at once what you learned, under a nickname, with no name or phone number."
         - fr: "Une phrase qui t'a surpris vaut plus que dix compliments."
-          mg: "Fehezanteny iray nahagaga anao dia mihoatra noho ny fiderana folo."
           en: "One sentence that surprised you is worth more than ten compliments."
 - id: tool.hypotheses
   kind: hypotheses
-  title: {fr: "Hypothèses", mg: "Vinavina", en: "Hypotheses"}
+  title: {fr: "Hypothèses", en: "Hypotheses"}
   summary:
     fr: "Ce que tu crois vrai mais que tu n'as pas encore vérifié."
-    mg: "Izay inoanao fa marina nefa mbola tsy voamarina."
     en: "What you believe but have not checked yet."
   help:
     - fr: "Écris-les sous la forme « Je pense que… », puis teste d'abord celle dont le projet dépend le plus."
-      mg: "Soraty amin'ny endrika hoe « Mihevitra aho fa… », avy eo andramo aloha izay tena iankinan'ny tetikasa."
       en: "Write them as \"I think that…\", then test first the one your project depends on most."
   unlock: {quest: q01, is: completed}
   unlock_hint:
     fr: "Se débloque à la fin de « Trouver un problème qui compte »."
-    mg: "Misokatra rehefa vita ny « Mitady olana manan-danja »."
     en: "Unlocks at the end of \"Find a problem that matters\"."
 - id: tool.experiments
   kind: experiments
-  title: {fr: "Expériences", mg: "Fitsapana", en: "Experiments"}
+  title: {fr: "Expériences", en: "Experiments"}
   summary:
     fr: "Des petits tests réels pour savoir si une hypothèse tient."
-    mg: "Fitsapana kely tena izy hahafantarana raha marina ny vinavina iray."
     en: "Small real tests to find out whether a hypothesis holds."
   help:
     - fr: "Avant de commencer, écris ce qui voudra dire « réussi ». Tu ne pourras plus le changer pendant le test."
-      mg: "Alohan'ny hanombohana, soraty izay hidika hoe « nahomby ». Tsy azo ovaina intsony izany mandritra ny fitsapana."
       en: "Before starting, write what will mean \"success\". You cannot change it during the test."
   unlock: {count: hypotheses, gte: 1}
   unlock_hint:
     fr: "Se débloque avec ta première hypothèse."
-    mg: "Misokatra amin'ny vinavinanao voalohany."
     en: "Unlocks with your first hypothesis."
 - id: tool.competitor_analysis
   kind: competitor_analysis
-  title: {fr: "Analyse concurrentielle", mg: "Fandalinana ny mpifaninana", en: "Competitor analysis"}
+  title: {fr: "Analyse concurrentielle", en: "Competitor analysis"}
   summary:
     fr: "Ce que les gens utilisent déjà aujourd'hui, et pourquoi."
-    mg: "Izay efa ampiasain'ny olona ankehitriny, sy ny antony."
     en: "What people already use today, and why."
   help:
     - fr: "Un concurrent n'est pas seulement une boutique comme la tienne : c'est aussi ce que les gens font déjà (le voisin, le marché, faire soi-même, ne rien faire)."
-      mg: "Ny mpifaninana dia tsy magazay mitovy amin'ny anao ihany: izay efa ataon'ny olona koa (ny mpifanolo-bodirindrina, ny tsena, manao irery, tsy manao na inona na inona)."
       en: "A competitor is not only a shop like yours: it is also what people already do (the neighbour, the market, doing it themselves, doing nothing)."
     - fr: "Note ce que tu as vu ou entendu, pas ce que tu imagines. Un prix observé vaut mieux qu'un prix supposé."
-      mg: "Soraty izay hitanao na renao, fa tsy izay eritreretinao. Ny vidiny hita dia tsara kokoa noho ny vidiny vinavinaina."
       en: "Note what you saw or heard, not what you imagine. An observed price beats a guessed one."
   unlock:
     any:
@@ -135,66 +108,54 @@
       - {quest: q03, is: [in_progress, completed]}
   unlock_hint:
     fr: "Se débloque après deux rencontres, ou en commençant « Imaginer ta solution »."
-    mg: "Misokatra aorian'ny fihaonana roa, na rehefa manomboka ny « Mamorona ny vahaolanao »."
     en: "Unlocks after two conversations, or when you start \"Imagine your solution\"."
 - id: tool.business_model_canvas
   kind: business_model_canvas
-  title: {fr: "Business Model Canvas", mg: "Business Model Canvas", en: "Business Model Canvas"}
+  title: {fr: "Business Model Canvas", en: "Business Model Canvas"}
   summary:
     fr: "La synthèse de ton projet, construite à partir de ton travail."
-    mg: "Ny famintinana ny tetikasanao, natsangana avy amin'ny asanao."
     en: "The summary of your project, built from your work."
   help:
     - fr: "Il se remplit au fil des quêtes : aucune case n'est inventée pour toi."
-      mg: "Feno tsikelikely arakaraka ny dia izy: tsy misy efajoro noforonina ho anao."
       en: "It fills in as you go through the quests: no box is invented for you."
   unlock: {count: experiments, where: {status: done}, gte: 1}
   unlock_hint:
     fr: "Se débloque quand tu as terminé un premier test."
-    mg: "Misokatra rehefa vitanao ny fitsapana voalohany."
     en: "Unlocks when you have finished a first test."
 - id: tool.price_calculator
   kind: price_calculator
-  title: {fr: "Calculateur de prix", mg: "Fikajiana vidiny", en: "Price calculator"}
+  title: {fr: "Calculateur de prix", en: "Price calculator"}
   summary:
     fr: "Trouver un prix qui couvre tes coûts et que tes clients acceptent, en ariary."
-    mg: "Mitady vidiny mandrakotra ny fandanianao ary eken'ny mpanjifanao, amin'ny ariary."
     en: "Find a price that covers your costs and that customers accept, in ariary."
   help:
     - fr: "Pars de ce que tu paies vraiment et des prix que tu as observés."
-      mg: "Manomboka amin'izay tena aloanao sy ny vidiny hitanao."
       en: "Start from what you really pay and the prices you have observed."
   unlock: {count: competitors, gte: 1}
   unlock_hint:
     fr: "Se débloque avec un premier concurrent noté."
-    mg: "Misokatra amin'ny mpifaninana voalohany voasoratra."
     en: "Unlocks with a first competitor noted."
 - id: tool.margin_calculator
   kind: margin_calculator
-  title: {fr: "Calculateur de marge", mg: "Fikajiana tombony", en: "Margin calculator"}
+  title: {fr: "Calculateur de marge", en: "Margin calculator"}
   summary:
     fr: "Ce qui te reste vraiment sur chaque vente."
-    mg: "Izay tena sisa aminao isaky ny varotra."
     en: "What you really keep on each sale."
   help:
     - fr: "Marge = prix de vente − ce que te coûte ce que tu vends."
-      mg: "Tombony = vidin'ny varotra − ny vidin'izay amidinao aminao."
       en: "Margin = selling price − what what you sell costs you."
   unlock: {count: hypotheses, where: {status: validated}, gte: 1}
   unlock_hint:
     fr: "Se débloque quand une hypothèse est confirmée."
-    mg: "Misokatra rehefa voamarina ny vinavina iray."
     en: "Unlocks when a hypothesis is confirmed."
 - id: tool.break_even_calculator
   kind: break_even_calculator
-  title: {fr: "Seuil de rentabilité", mg: "Fetra tsy fatiantoka", en: "Break-even point"}
+  title: {fr: "Seuil de rentabilité", en: "Break-even point"}
   summary:
     fr: "Combien vendre pour couvrir toutes tes charges."
-    mg: "Ohatrinona no tokony amidy handrakofana ny fandaniana rehetra."
     en: "How much to sell to cover all your costs."
   help:
     - fr: "Il faut d'abord connaître ta marge et tes charges du mois."
-      mg: "Tsy maintsy fantatra aloha ny tombonao sy ny fandanianao isam-bolana."
       en: "You first need your margin and your monthly costs."
   unlock:
     all:
@@ -202,66 +163,54 @@
       - {count: competitors, gte: 1}
   unlock_hint:
     fr: "Se débloque avec une hypothèse confirmée et un concurrent noté."
-    mg: "Misokatra amin'ny vinavina voamarina iray sy mpifaninana voasoratra iray."
     en: "Unlocks with a confirmed hypothesis and a competitor noted."
 - id: tool.marketing_plan
   kind: marketing_plan
-  title: {fr: "Plan marketing", mg: "Drafitra fampahafantarana", en: "Marketing plan"}
+  title: {fr: "Plan marketing", en: "Marketing plan"}
   summary:
     fr: "Comment tes clients vont entendre parler de toi, et à quel coût."
-    mg: "Ahoana no handrenesan'ny mpanjifanao momba anao, ary ohatrinona."
     en: "How your customers will hear about you, and at what cost."
   help:
     - fr: "Il part de ce que tes rencontres t'ont appris : où sont tes clients, à qui ils font confiance."
-      mg: "Miainga amin'izay nampianarin'ny fihaonanao izy: aiza ny mpanjifanao, iza no tokisany."
       en: "It starts from what your conversations taught you: where your customers are, whom they trust."
   unlock: {count: interviews, gte: 5}
   unlock_hint:
     fr: "Se débloque après cinq rencontres."
-    mg: "Misokatra aorian'ny fihaonana dimy."
     en: "Unlocks after five conversations."
 - id: tool.business_plan
   kind: business_plan
-  title: {fr: "Business plan", mg: "Drafitr'asa", en: "Business plan"}
+  title: {fr: "Business plan", en: "Business plan"}
   summary:
     fr: "Ton dossier, assemblé à partir de tout ce que tu as fait."
-    mg: "Ny antontan-taratasinao, natambatra avy amin'izay rehetra nataonao."
     en: "Your file, put together from everything you have done."
   help:
     - fr: "Aucun bouton ne l'écrit à ta place : une partie vide renvoie à l'étape qui la construit."
-      mg: "Tsy misy bokotra manoratra azy ho anao: ny ampahany foana dia mampiverina amin'ny dingana manorina azy."
       en: "No button writes it for you: an empty part points to the step that builds it."
   unlock: {quest: q04, is: completed}
   unlock_hint:
     fr: "Se débloque à la fin de « Tester ta première hypothèse »."
-    mg: "Misokatra rehefa vita ny « Andramo ny vinavinanao voalohany »."
     en: "Unlocks at the end of \"Test your first hypothesis\"."
 - id: tool.pitch
   kind: pitch
-  title: {fr: "Pitch", mg: "Fanolorana fohy", en: "Pitch"}
+  title: {fr: "Pitch", en: "Pitch"}
   summary:
     fr: "Présenter ton projet en une minute, avec tes preuves."
-    mg: "Manolotra ny tetikasanao ao anatin'ny iray minitra, miaraka amin'ny porofonao."
     en: "Present your project in one minute, with your evidence."
   help:
     - fr: "Problème, client, solution, preuve : dans cet ordre."
-      mg: "Olana, mpanjifa, vahaolana, porofo: araka izany filaharana izany."
       en: "Problem, customer, solution, evidence: in that order."
   unlock: {count: hypotheses, where: {status: validated}, gte: 1}
   unlock_hint:
     fr: "Se débloque quand une hypothèse est confirmée."
-    mg: "Misokatra rehefa voamarina ny vinavina iray."
     en: "Unlocks when a hypothesis is confirmed."
 - id: tool.pitch_deck
   kind: pitch_deck
-  title: {fr: "Pitch deck", mg: "Slide fanolorana", en: "Pitch deck"}
+  title: {fr: "Pitch deck", en: "Pitch deck"}
   summary:
     fr: "Quelques diapositives à montrer, tirées de ton dossier."
-    mg: "Slide vitsivitsy haseho, nalaina avy amin'ny antontan-taratasinao."
     en: "A few slides to show, taken from your file."
   help:
     - fr: "Elles reprennent ton pitch et tes chiffres ; rien n'y est inventé."
-      mg: "Mamerina ny fanoloranao sy ny isanao ireo; tsy misy noforonina ao."
       en: "They reuse your pitch and figures; nothing is invented."
   unlock:
     all:
@@ -269,21 +218,17 @@
       - {count: hypotheses, where: {status: validated}, gte: 1}
   unlock_hint:
     fr: "Se débloque après « Tester ta première hypothèse », avec une hypothèse confirmée."
-    mg: "Misokatra aorian'ny « Andramo ny vinavinanao voalohany », miaraka amin'ny vinavina voamarina."
     en: "Unlocks after \"Test your first hypothesis\", with a confirmed hypothesis."
 - id: tool.admin_preparation
   kind: admin_preparation
-  title: {fr: "Préparation administrative", mg: "Fanomanana ara-pitantanana", en: "Administrative preparation"}
+  title: {fr: "Préparation administrative", en: "Administrative preparation"}
   summary:
     fr: "Préparer les démarches de création : ce qu'il faut, où aller. Eripoo ne fait pas la démarche à ta place."
-    mg: "Manomana ny dingana famoronana: izay ilaina, aiza no aleha. Tsy manao ny dingana ho anao i Eripoo."
     en: "Prepare the registration steps: what is needed, where to go. Eripoo does not do it for you."
   help:
     - fr: "Chaque information sera datée et donnée avec sa source officielle."
-      mg: "Ny vaovao tsirairay dia hasiana daty sy ho omena miaraka amin'ny loharanony ofisialy."
       en: "Every piece of information will be dated and given with its official source."
   unlock: {quest: q04, is: completed}
   unlock_hint:
     fr: "Se débloque à la fin de « Tester ta première hypothèse »."
-    mg: "Misokatra rehefa vita ny « Andramo ny vinavinanao voalohany »."
     en: "Unlocks at the end of \"Test your first hypothesis\"."

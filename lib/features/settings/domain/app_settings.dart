@@ -15,7 +15,7 @@ class AppSettings {
 
   final ThemePreference theme;
 
-  /// Chosen on the welcome screen (Malagasy preselected). Null until then.
+  /// Chosen on the welcome screen (the phone's language preselected). Null until then.
   final AppLanguage? language;
 
   /// Eripoo-level "reduce animations", on top of the system setting.

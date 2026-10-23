@@ -6,7 +6,7 @@ import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../settings/presentation/app_settings_controller.dart';
 
-/// First screen: choose the language (Malagasy preselected), then start.
+/// First screen: choose the language (the phone's preselected), then start.
 /// No account, no network: the diagnostic follows on the home screen.
 class WelcomeScreen extends ConsumerStatefulWidget {
   const WelcomeScreen({super.key});
@@ -16,7 +16,11 @@ class WelcomeScreen extends ConsumerStatefulWidget {
 }
 
 class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
-  AppLanguage _language = AppLanguage.mg;
+  late AppLanguage _language =
+      AppLanguage.tryParse(
+        WidgetsBinding.instance.platformDispatcher.locale.languageCode,
+      ) ??
+      AppLanguage.fr;
 
   /// Anonymous statistics: off unless ticked (decision D7).
   bool _usageStats = false;
@@ -34,7 +38,6 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
   Widget _build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     String name(AppLanguage language) => switch (language) {
-      AppLanguage.mg => l10n.languageMg,
       AppLanguage.fr => l10n.languageFr,
       AppLanguage.en => l10n.languageEn,
     };

@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import '../helpers/component_sheet.dart';
 import '../helpers/test_host.dart';
 
-/// Renders every component in light/dark × phone/tablet × mg/fr/en, at
+/// Renders every component in light/dark × phone/tablet × fr/en, at
 /// normal and doubled font size, and checks accessibility guidelines.
 void main() {
   for (final variant in allVariants) {

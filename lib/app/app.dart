@@ -6,8 +6,8 @@ import '../features/app_lock/presentation/app_lock_gate.dart';
 import '../features/legal/presentation/legal_screens.dart';
 import '../features/settings/domain/app_settings.dart';
 import '../features/settings/presentation/app_settings_controller.dart';
+import '../l10n/framework_localizations.dart';
 import '../l10n/generated/app_localizations.dart';
-import '../l10n/mg_fallback_localizations.dart';
 import 'router/app_router.dart';
 
 /// Root widget: theme (light/dark), languages, reduced motion and router.

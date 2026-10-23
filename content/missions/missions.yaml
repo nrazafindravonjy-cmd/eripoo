@@ -3,232 +3,176 @@
 - id: m.observe_problem
   title:
     fr: "Observer le problème en vrai"
-    mg: "Mandinika ny olana amin'ny tena izy"
     en: "Observe the problem for real"
   objective:
     fr: "Voir de tes propres yeux comment les gens vivent le problème."
-    mg: "Mahita maso ny fomba iainan'ny olona ny olana."
     en: "See with your own eyes how people live with the problem."
   instructions:
     - fr: "Va là où le problème arrive (marché, arrêt de taxi-be, quartier…)."
-      mg: "Mandehana any amin'ny toerana itrangan'ny olana (tsena, fiantsonan'ny taxi-be, fokontany…)."
       en: "Go where the problem happens (market, minibus stop, neighbourhood…)."
     - fr: "Observe pendant 20 minutes, sans rien vendre."
-      mg: "Mandinika mandritra ny 20 minitra, nefa aza mivarotra na inona na inona."
       en: "Watch for 20 minutes without selling anything."
     - fr: "Note ce que les gens font, ce qui leur prend du temps, ce qui les agace. Pas de nom, pas de numéro de téléphone."
-      mg: "Soraty izay ataon'ny olona, izay mandany fotoana azy, izay mahasosotra azy. Aza misy anarana na laharana finday."
       en: "Note what people do, what takes them time, what annoys them. No names, no phone numbers."
   deliverable:
     fr: "Ce que tu as vu, en deux ou trois phrases."
-    mg: "Izay hitanao, fehezanteny roa na telo."
     en: "What you saw, in two or three sentences."
   duration_minutes: 30
   difficulty: 1
   example:
     fr: "« Au marché, 6 mères sur 10 demandent du savon aux voisines avant de rentrer. »"
-    mg: "« Eny an-tsena, reny 6 amin'ny 10 no mangataka savony amin'ny mpifanolo-bodirindrina alohan'ny hodiana. »"
     en: "\"At the market, 6 mothers out of 10 ask neighbours for soap before going home.\""
 - id: m.talk_three
   title:
     fr: "Parler à trois personnes concernées"
-    mg: "Miresaka amin'olona telo voakasika"
     en: "Talk to three people concerned"
   objective:
     fr: "Comprendre comment trois personnes vivent le problème, sans leur vendre ton idée."
-    mg: "Mahatakatra ny fomba iainan'olona telo ny olana, nefa tsy mivarotra ny hevitrao aminy."
     en: "Understand how three people live with the problem, without selling them your idea."
   instructions:
     - fr: "Choisis trois personnes qui correspondent à ton client. Demande-leur si elles acceptent de parler cinq minutes."
-      mg: "Mifidiana olona telo mifanaraka amin'ny mpanjifanao. Anontanio raha manaiky hiresaka dimy minitra izy ireo."
       en: "Pick three people who match your customer. Ask if they agree to talk for five minutes."
     - fr: "Demande : « Raconte-moi la dernière fois que cela t'est arrivé. » Puis écoute."
-      mg: "Anontanio hoe: « Tantarao ahy ny fotoana farany nitrangan'izany taminao. » Avy eo mihainoa."
       en: "Ask: \"Tell me about the last time this happened to you.\" Then listen."
     - fr: "Ne parle pas de ton idée avant la fin. N'enregistre personne et ne note ni nom ni numéro."
-      mg: "Aza miresaka ny hevitrao raha tsy amin'ny farany. Aza mandrakitra feon'olona ary aza manoratra anarana na laharana."
       en: "Don't mention your idea until the end. Don't record anyone and don't note names or numbers."
   deliverable:
     fr: "Pour chaque personne, une phrase sur ce qu'elle vit et ce qu'elle fait aujourd'hui."
-    mg: "Ho an'ny olona tsirairay, fehezanteny iray momba izay iainany sy izay ataony ankehitriny."
     en: "For each person, one sentence on what they live and what they do today."
   duration_minutes: 60
   difficulty: 2
   example:
     fr: "« Personne 1 : vend au marché, achète son savon le dimanche, trouve la boutique trop loin. »"
-    mg: "« Olona 1: mivarotra eny an-tsena, mividy savony ny alahady, mahita fa lavitra loatra ny magazay. »"
     en: "\"Person 1: sells at the market, buys soap on Sundays, finds the shop too far.\""
 - id: m.observe_competitors
   title:
     fr: "Visiter deux concurrents"
-    mg: "Mitsidika mpifaninana roa"
     en: "Visit two competitors"
   objective:
     fr: "Voir où tes clients achètent aujourd'hui, à quel prix et comment ils sont servis."
-    mg: "Mahita hoe aiza no ividianan'ny mpanjifanao ankehitriny, amin'ny vidiny ohatrinona ary ahoana no fikarakarana azy."
     en: "See where your customers buy today, at what price and how they are served."
   instructions:
     - fr: "Choisis deux endroits où tes clients règlent leur problème : une boutique, un marchand, ou ce qu'ils font sans acheter."
-      mg: "Mifidiana toerana roa amahan'ny mpanjifanao ny olany: magazay, mpivarotra, na izay ataony tsy mividy."
       en: "Pick two places where your customers deal with their problem: a shop, a seller, or what they do without buying."
     - fr: "Regarde les prix affichés ou demande-les comme un client. Observe la file, le service, ce qui manque."
-      mg: "Jereo ny vidiny voasoratra na anontanio toy ny mpanjifa. Jereo ny filaharana, ny fikarakarana, izay tsy ampy."
       en: "Look at the displayed prices or ask like a customer. Watch the queue, the service, what is missing."
     - fr: "Ne prends pas de photo des personnes et ne note ni nom ni numéro."
-      mg: "Aza maka sarin'olona ary aza manoratra anarana na laharana."
       en: "Don't photograph people and don't note names or numbers."
   deliverable:
     fr: "Pour chaque endroit : le prix vu, ce qui plaît et ce qui manque."
-    mg: "Ho an'ny toerana tsirairay: ny vidiny hita, izay tiana ary izay tsy ampy."
     en: "For each place: the price seen, what people like and what is missing."
   duration_minutes: 60
   difficulty: 1
   example:
     fr: "« Boutique du centre : savon vendu à l'unité, prix affiché, fermée le dimanche, rien n'est livré. » (Exemple inventé.)"
-    mg: "« Magazay afovoan-tanàna: savony amidy tsirairay, misy vidiny voasoratra, mihidy ny alahady, tsy misy aterina. » (Ohatra noforonina.)"
     en: "\"Town-centre shop: soap sold by the piece, price displayed, closed on Sundays, nothing is delivered.\" (Invented example.)"
 - id: m.present_offer
   title:
     fr: "Présenter ton offre à cinq personnes"
-    mg: "Atolory olona dimy ny tolotrao"
     en: "Present your offer to five people"
   objective:
     fr: "Voir comment de vrais clients réagissent à ton offre et à ton prix."
-    mg: "Mahita ny fihetsiky ny mpanjifa tena izy manoloana ny tolotrao sy ny vidinao."
     en: "See how real customers react to your offer and your price."
   instructions:
     - fr: "Présente ton offre en une phrase, avec son prix, à cinq personnes qui correspondent à ton client."
-      mg: "Atolory amin'ny fehezanteny iray ny tolotrao, miaraka amin'ny vidiny, amin'olona dimy mifanaraka amin'ny mpanjifanao."
       en: "Present your offer in one sentence, with its price, to five people who match your customer."
     - fr: "Propose-leur de commander ou de réserver. Une commande vaut plus qu'un « c'est bien »."
-      mg: "Asao izy ireo hanafatra na hitahiry. Mihoatra lavitra noho ny « tsara izany » ny baiko iray."
       en: "Offer them to order or book. An order is worth more than a \"that's nice\"."
     - fr: "N'enregistre personne et ne note ni nom ni numéro de téléphone."
-      mg: "Aza mandrakitra feon'olona ary aza manoratra anarana na laharana finday."
       en: "Don't record anyone and don't note names or phone numbers."
   deliverable:
     fr: "Combien ont commandé ou réservé, et ce qu'ont dit les autres."
-    mg: "Firy no nanafatra na nitahiry, ary izay nolazain'ny hafa."
     en: "How many ordered or booked, and what the others said."
   duration_minutes: 90
   difficulty: 2
   example:
     fr: "« 2 commandes sur 5. Deux trouvent le prix trop haut, une veut une livraison le vendredi. » (Exemple inventé.)"
-    mg: "« Baiko 2 amin'ny 5. Roa no mahita fa lafo loatra ny vidiny, iray te haterina ny zoma. » (Ohatra noforonina.)"
     en: "\"2 orders out of 5. Two find the price too high, one wants delivery on Friday.\" (Invented example.)"
 - id: m.check_costs
   title:
     fr: "Demander les prix à deux fournisseurs"
-    mg: "Manontany vidiny amin'ny mpamatsy roa"
     en: "Ask two suppliers for prices"
   objective:
     fr: "Remplacer les prix devinés par des prix vérifiés."
-    mg: "Manolo ny vidiny vinavinaina amin'ny vidiny voamarina."
     en: "Replace guessed prices with checked ones."
   instructions:
     - fr: "Fais la liste de ce que tu dois acheter pour produire et pour commencer."
-      mg: "Ataovy ny lisitr'izay tsy maintsy vidianao hamokarana sy hanombohana."
       en: "List what you must buy to produce and to start."
     - fr: "Demande le prix de chaque chose à deux fournisseurs (boutique, grossiste, marché)."
-      mg: "Anontanio amin'ny mpamatsy roa (magazay, mpivarotra ambongadiny, tsena) ny vidin'ny zavatra tsirairay."
       en: "Ask two suppliers (shop, wholesaler, market) the price of each thing."
     - fr: "Note la date : les prix changent."
-      mg: "Soraty ny daty: miova ny vidiny."
       en: "Note the date: prices change."
   deliverable:
     fr: "Une liste : chaque chose, les deux prix demandés, et la date."
-    mg: "Lisitra iray: ny zavatra tsirairay, ireo vidiny roa nanontaniana, ary ny daty."
     en: "A list: each thing, the two prices asked, and the date."
   duration_minutes: 60
   difficulty: 1
   example:
     fr: "« Huile, 1 litre : grossiste du port et marché du Bazary Be, prix notés le 3 mars. » (Exemple inventé.)"
-    mg: "« Menaka, 1 litatra: mpivarotra ambongadiny eo amin'ny seranana sy tsena Bazary Be, voasoratra ny vidiny tamin'ny 3 martsa. » (Ohatra noforonina.)"
     en: "\"Oil, 1 litre: port wholesaler and Bazary Be market, prices noted on 3 March.\" (Invented example.)"
 - id: m.pre_sell
   title:
     fr: "Prévendre à dix personnes"
-    mg: "Mivarotra mialoha amin'olona folo"
     en: "Pre-sell to ten people"
   objective:
     fr: "Savoir combien de clients paient ou réservent vraiment à ton prix."
-    mg: "Mahafantatra hoe mpanjifa firy no tena mandoa na mitahiry amin'ny vidinao."
     en: "Find out how many customers really pay or book at your price."
   instructions:
     - fr: "Avant de commencer, écris combien de réservations il faut pour que le test soit réussi."
-      mg: "Alohan'ny hanombohana, soraty hoe firy ny fitahirizana ilaina mba hahomby ny fitsapana."
       en: "Before starting, write how many bookings are needed for the test to succeed."
     - fr: "Présente ton offre et ton prix à dix personnes qui correspondent à ton client, et propose de réserver avec une petite avance."
-      mg: "Atolory olona folo mifanaraka amin'ny mpanjifanao ny tolotrao sy ny vidinao, ary asao hitahiry amin'ny vola mialoha kely."
       en: "Present your offer and price to ten people who match your customer, and offer to book with a small deposit."
     - fr: "Note chaque avance reçue. Ne note ni nom ni numéro de téléphone ; un surnom suffit pour livrer."
-      mg: "Soraty ny vola mialoha voaray tsirairay. Aza manoratra anarana na laharana finday; ampy ny anaram-bositra hanaterana."
       en: "Record each deposit received. Don't note names or phone numbers; a nickname is enough to deliver."
   deliverable:
     fr: "Le nombre de réservations sur dix, et ce qu'ont dit ceux qui ont refusé."
-    mg: "Ny isan'ny fitahirizana amin'ny folo, sy izay nolazain'ireo nandà."
     en: "The number of bookings out of ten, and what those who refused said."
   duration_minutes: 120
   difficulty: 2
   example:
     fr: "« 5 réservations sur 10. Trois trouvent le prix juste, deux veulent payer à la livraison. » (Exemple inventé.)"
-    mg: "« Fitahirizana 5 amin'ny 10. Telo no mahita fa mety ny vidiny, roa te handoa rehefa tonga ny entana. » (Ohatra noforonina.)"
     en: "\"5 bookings out of 10. Three find the price fair, two want to pay on delivery.\" (Invented example.)"
 - id: m.launch_week
   title:
     fr: "Vendre pendant une semaine"
-    mg: "Mivarotra mandritra ny herinandro iray"
     en: "Sell for one week"
   objective:
     fr: "Faire tes premières vraies ventes et apprendre de chacune."
-    mg: "Manao ny varotra voalohany tena izy ary mianatra amin'ny tsirairay."
     en: "Make your first real sales and learn from each one."
   instructions:
     - fr: "Suis les premières étapes de ton plan de lancement."
-      mg: "Araho ireo dingana voalohany amin'ny drafitra fanombohanao."
       en: "Follow the first steps of your launch plan."
     - fr: "Chaque soir, note les ventes du jour, l'argent reçu et ce que tu as dépensé."
-      mg: "Isaky ny hariva, soraty ny varotra natao androany, ny vola voaray ary izay nolanianao."
       en: "Every evening, write down the day's sales, the money received and what you spent."
     - fr: "Note aussi ce que les clients ont demandé ou reproché, sans nom ni numéro."
-      mg: "Soraty koa izay nangatahin'ny mpanjifa na nomeny tsiny, tsy misy anarana na laharana."
       en: "Also note what customers asked for or complained about, without names or numbers."
   deliverable:
     fr: "Le total de la semaine (ventes, argent reçu, dépenses) et deux choses apprises."
-    mg: "Ny fitambaran'ny herinandro (varotra, vola voaray, fandaniana) sy zavatra roa nianarana."
     en: "The week's totals (sales, money received, spending) and two things learned."
   duration_minutes: 420
   difficulty: 3
   example:
     fr: "« 18 lots vendus, tout payé ; une cliente veut un parfum citron. » (Exemple inventé.)"
-    mg: "« Fehezana 18 lafo, voaloa daholo; mpanjifa iray te hanana fofona voasarimakirana. » (Ohatra noforonina.)"
     en: "\"18 packs sold, all paid; one customer wants a lemon scent.\" (Invented example.)"
 - id: m.observation_walk
   title:
     fr: "Une promenade pour observer"
-    mg: "Fitsangatsanganana handinihana"
     en: "A walk to observe"
   objective:
     fr: "Repérer cinq petits problèmes que les gens vivent autour de toi."
-    mg: "Mahita olana kely dimy iainan'ny olona manodidina anao."
     en: "Spot five small problems people live with around you."
   instructions:
     - fr: "Marche 30 minutes dans ton quartier, au marché ou à un arrêt de taxi-be."
-      mg: "Mandehana tongotra 30 minitra ao amin'ny fokontaninao, eny an-tsena na eo amin'ny fiantsonan'ny taxi-be."
       en: "Walk for 30 minutes in your neighbourhood, at the market or at a minibus stop."
     - fr: "Cherche les plaintes, les files d'attente, les longs trajets et les solutions bricolées."
-      mg: "Tadiavo ny fitarainana, ny filaharana, ny dia lavitra ary ny vahaolana vonjimaika."
       en: "Look for complaints, queues, long trips and improvised fixes."
     - fr: "Note ce que tu vois, sans nom, sans numéro et sans photo de visage."
-      mg: "Soraty izay hitanao, tsy misy anarana, tsy misy laharana ary tsy misy sarin-tarehy."
       en: "Write what you see, without names, numbers or photos of faces."
   deliverable:
     fr: "Cinq problèmes observés, chacun en une phrase."
-    mg: "Olana dimy hita, fehezanteny iray avy."
     en: "Five problems observed, one sentence each."
   duration_minutes: 30
   difficulty: 1
   example:
     fr: "« Arrêt de taxi-be : 20 minutes d'attente sous la pluie, aucun abri. » (Exemple inventé.)"
-    mg: "« Fiantsonan'ny taxi-be: 20 minitra fiandrasana ao anaty orana, tsy misy fialofana. » (Ohatra noforonina.)"
     en: "\"Minibus stop: 20 minutes waiting in the rain, no shelter.\" (Invented example.)"

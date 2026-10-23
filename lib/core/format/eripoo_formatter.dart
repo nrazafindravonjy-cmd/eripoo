@@ -1,19 +1,13 @@
 import '../i18n/app_language.dart';
 
-/// Formats numbers, ariary amounts, dates and durations for mg, fr and en.
-///
-/// Eripoo's own implementation: `intl` has no Malagasy date or number
-/// symbols (verified in intl 0.20.3), and amounts are always integers in
-/// ariary (no floating point).
-///
-/// ⚠️ Malagasy month and weekday names and duration wording must be
-/// validated by a native reviewer (decision D13, docs/DESIGN_SYSTEM.md).
+/// Formats numbers, ariary amounts, dates and durations for fr and en.
+/// Amounts are always integers in ariary (no floating point).
 class EripooFormatter {
   const EripooFormatter(this.language);
 
   final AppLanguage language;
 
-  /// U+202F NARROW NO-BREAK SPACE: thousands separator (mg, fr).
+  /// U+202F NARROW NO-BREAK SPACE: thousands separator (fr).
   static const _narrowNbsp = ' ';
 
   /// U+00A0 NO-BREAK SPACE: between a number and its unit.
@@ -23,10 +17,6 @@ class EripooFormatter {
   static const _minus = '−';
 
   static const _months = {
-    AppLanguage.mg: [
-      'Janoary', 'Febroary', 'Martsa', 'Aprily', 'Mey', 'Jona', //
-      'Jolay', 'Aogositra', 'Septambra', 'Oktobra', 'Novambra', 'Desambra',
-    ],
     AppLanguage.fr: [
       'janvier', 'février', 'mars', 'avril', 'mai', 'juin', //
       'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre',
@@ -39,10 +29,6 @@ class EripooFormatter {
 
   /// Monday first, as [DateTime.weekday] (1 = Monday).
   static const _weekdays = {
-    AppLanguage.mg: [
-      'Alatsinainy', 'Talata', 'Alarobia', 'Alakamisy', //
-      'Zoma', 'Asabotsy', 'Alahady',
-    ],
     AppLanguage.fr: [
       'lundi', 'mardi', 'mercredi', 'jeudi', //
       'vendredi', 'samedi', 'dimanche',
@@ -53,7 +39,7 @@ class EripooFormatter {
     ],
   };
 
-  /// Whole number with grouping: `15 000` (mg, fr) or `15,000` (en).
+  /// Whole number with grouping: `15 000` (fr) or `15,000` (en).
   String integer(int value) {
     final digits = value.abs().toString();
     final separator = language == AppLanguage.en ? ',' : _narrowNbsp;
@@ -65,20 +51,20 @@ class EripooFormatter {
     return value < 0 ? '$_minus$buffer' : buffer.toString();
   }
 
-  /// Ariary amount: `15 000 Ar` (mg, fr) or `15,000 Ar` (en).
+  /// Ariary amount: `15 000 Ar` (fr) or `15,000 Ar` (en).
   String money(int ariary) => '${integer(ariary)}${_nbsp}Ar';
 
   /// Progress fraction, never broken across lines: `4 / 12`.
   String fraction(int done, int total) =>
       '${integer(done)}$_nbsp/$_nbsp${integer(total)}';
 
-  /// Percentage: `40 %` (mg, fr) or `40%` (en).
+  /// Percentage: `40 %` (fr) or `40%` (en).
   String percent(int value) => language == AppLanguage.en
       ? '${integer(value)}%'
       : '${integer(value)}$_nbsp%';
 
   /// Rate in basis points (1 % = 100), at most one decimal, rounded:
-  /// `25 %`, `33,3 %` (mg, fr) or `33.3%` (en).
+  /// `25 %`, `33,3 %` (fr) or `33.3%` (en).
   String percentBp(int bp) {
     final tenths = (bp.abs() + 5) ~/ 10;
     final whole = integer(tenths ~/ 10);
@@ -102,13 +88,12 @@ class EripooFormatter {
 
   String weekday(DateTime value) => _weekdays[language]![value.weekday - 1];
 
-  /// Estimated duration, rounded to the minute: `15 min`, `1 h 30 min`
-  /// (`1 ora 30 min` in Malagasy).
+  /// Estimated duration, rounded to the minute: `15 min`, `1 h 30 min`.
   String duration(Duration value) {
     final totalMinutes = (value.inSeconds / 60).round();
     final hours = totalMinutes ~/ 60;
     final minutes = totalMinutes % 60;
-    final hourUnit = language == AppLanguage.mg ? 'ora' : 'h';
+    const hourUnit = 'h';
     if (hours == 0) return '$minutes${_nbsp}min';
     if (minutes == 0) return '$hours$_nbsp$hourUnit';
     return '$hours$_nbsp$hourUnit $minutes${_nbsp}min';

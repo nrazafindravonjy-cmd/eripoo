@@ -27,7 +27,7 @@ phases). Ensuite, un chantier = une branche = une PR.
 | P-3 | **Juriste** : politique de confidentialité et CGU, transferts hors de Madagascar (loi 2014-038), durées de conservation | C-12, publication | oui |
 | P-3b | Juriste : mineurs 14–17 ans | ouverture aux mineurs | non si la v1 est réservée aux 18 ans et plus |
 | P-3c | Juriste : relecture du contenu EDBM (`content/formalization.yaml`) | préparation administrative | non si cet outil est masqué en v1 |
-| P-4 | **Relecteur natif malagasy** : 585 chaînes `needs_review` (`lib/l10n/mg_review_status.json`), ~40 chaînes Material, tout le contenu (brouillon automatique) | publication en malagasy | oui (sauf sortie en français d'abord) |
+| P-4 | ~~Relecteur natif malagasy~~ — **sans objet** : malagasy abandonné le 2026-10-23 (décision du porteur ; interface, contenu, base et back-office en fr/en seulement, slogan conservé) | — | non |
 | P-5 | **Auteurs du contenu** : valider quêtes, missions, outils, sections, guide de financement (fr/en), avis d'entrepreneurs malgaches | C-2, publication | oui (peut être le porteur) |
 | P-6 | **Décisions** : identifiant Android définitif + domaine (D6), clé d'envoi Play, région de production (D9, après mesures + juriste), âge minimum de la v1, analytics (D7), transcription vocale (aucune ou sur l'appareil) | C-11, C-13, C-14 | oui pour D6, clé, D9, âge |
 | P-7 | Audit de sécurité et revue cryptographique par un tiers | ouverture au grand public | non pour un test fermé |

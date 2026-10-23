@@ -6,11 +6,9 @@ maturity: construction
 priority: 3
 title:
   fr: "Tes premiers chiffres"
-  mg: "Ny isa voalohanao"
   en: "Your first numbers"
 summary:
   fr: "Note ce que coûte ton projet chaque mois et ce qu'il faut acheter pour commencer."
-  mg: "Soraty izay lany amin'ny tetikasanao isam-bolana sy izay tsy maintsy vidiana hanombohana."
   en: "Note what your project costs each month and what you must buy to start."
 available_when: {quest: q06, is: completed}
 steps:
@@ -18,53 +16,44 @@ steps:
     type: learn
     title:
       fr: "Trois sortes de dépenses"
-      mg: "Karazana fandaniana telo"
       en: "Three kinds of spending"
     blocks:
       - id: intro
         type: text
         body:
           fr: "Certaines dépenses suivent tes ventes, d'autres reviennent chaque mois même sans rien vendre, et d'autres se font une seule fois avant de commencer."
-          mg: "Misy fandaniana manaraka ny varotrao, misy miverina isam-bolana na dia tsy mivarotra na inona na inona aza, ary misy atao indray mandeha monja alohan'ny hanombohana."
           en: "Some spending follows your sales, some comes back every month even if you sell nothing, and some happens only once before you start."
       - id: term
         type: term
         plain:
           fr: "Ce que je paie chaque mois, même sans vendre"
-          mg: "Izay aloako isam-bolana, na dia tsy mivarotra aza"
           en: "What I pay every month, even without selling"
         term:
           fr: "Charges fixes"
-          mg: "Fandaniana raikitra"
           en: "Fixed costs"
         definition:
           fr: "Les dépenses qui ne changent pas avec le nombre de ventes : loyer, crédit téléphone, transport régulier."
-          mg: "Ireo fandaniana tsy miova arakaraka ny isan'ny varotra: hofan-trano, fahana finday, fitaterana tsy tapaka."
           en: "Spending that does not change with the number of sales: rent, phone credit, regular transport."
       - id: example
         type: example
         body:
           fr: "Pour Fara : l'huile et l'emballage suivent les ventes ; le taxi-be du lundi revient chaque semaine ; les moules s'achètent une fois."
-          mg: "Ho an'i Fara: manaraka ny varotra ny menaka sy ny fonosana; miverina isan-kerinandro ny taxi-be ny alatsinainy; indray mandeha monja no hividianana ny bobongolo."
           en: "For Fara: oil and packaging follow sales; the Monday minibus comes back every week; the moulds are bought once."
       - id: tip
         type: tip
         body:
           fr: "Ces chiffres t'aident à réfléchir. Ils ne disent pas si ton projet réussira."
-          mg: "Manampy anao hieritreritra ireo isa ireo. Tsy milaza izy ireo raha hahomby ny tetikasanao."
           en: "These numbers help you think. They do not say whether your project will succeed."
   - id: q08.s02
     type: act
     title:
       fr: "Vérifie les vrais prix"
-      mg: "Hamarino ny tena vidiny"
       en: "Check the real prices"
     blocks:
       - id: why
         type: text
         body:
           fr: "Un chiffre deviné peut cacher une perte. Demande les prix à deux fournisseurs avant de les noter."
-          mg: "Mety hanafina fatiantoka ny isa vinavinaina. Anontanio amin'ny mpamatsy roa ny vidiny alohan'ny hanoratanao azy."
           en: "A guessed number can hide a loss. Ask two suppliers for prices before writing them down."
       - id: go
         type: mission
@@ -74,33 +63,28 @@ steps:
     type: act
     title:
       fr: "Note tes dépenses du mois"
-      mg: "Soraty ny fandanianao isam-bolana"
       en: "Write down your monthly costs"
     blocks:
       - id: how
         type: text
         body:
           fr: "Ouvre l'onglet Projet, puis « Mes chiffres ». Dans « Ce que coûte chaque mois », note au moins une dépense. Reviens ensuite ici."
-          mg: "Sokafy ny tabilao Tetikasa, avy eo « Ny isako ». Ao amin'ny « Ny lany isam-bolana », soraty fandaniana iray farafahakeliny. Miverena eto avy eo."
           en: "Open the Project tab, then \"My numbers\". Under \"What each month costs\", note at least one cost. Then come back here."
     complete_when: {count: finance_items, where: {kind: fixed_cost}, gte: 1}
   - id: q08.s04
     type: act
     title:
       fr: "Ce qu'il faut acheter pour commencer"
-      mg: "Izay tsy maintsy vidiana hanombohana"
       en: "What you must buy to start"
     blocks:
       - id: how
         type: text
         body:
           fr: "Toujours dans « Mes chiffres », note dans « À acheter avant de commencer » le matériel ou le premier stock dont tu as besoin."
-          mg: "Mbola ao amin'ny « Ny isako », soraty ao amin'ny « Hovidiana alohan'ny hanombohana » ny fitaovana na ny tahiry voalohany ilainao."
           en: "Still in \"My numbers\", note under \"To buy before starting\" the equipment or first stock you need."
       - id: tip
         type: tip
         body:
           fr: "Commence petit : ce qu'il faut pour vendre les premières unités, pas pour une grande boutique."
-          mg: "Manomboka kely: izay ilaina hivarotana ireo singa voalohany, fa tsy ho an'ny magazay lehibe."
           en: "Start small: what you need to sell the first units, not a big shop."
     complete_when: {count: finance_items, where: {kind: investment}, gte: 1}

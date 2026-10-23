@@ -101,12 +101,12 @@ void main() {
     await tester.pumpWidget(
       testHost(
         const EripooStepTrack(steps: ['A', 'B', 'C'], currentIndex: 1),
-        languageCode: 'mg',
+        languageCode: 'fr',
       ),
     );
     expect(
       tester.getSemantics(find.byType(EripooStepTrack)),
-      matchesSemantics(label: "Dingana 2 amin'ny 3: B"),
+      matchesSemantics(label: 'Étape 2 sur 3 : B'),
     );
     handle.dispose();
   });
@@ -142,9 +142,9 @@ void main() {
 
     testWidgets('loading view uses the default message', (tester) async {
       await tester.pumpWidget(
-        testHost(const EripooLoadingView(), languageCode: 'mg'),
+        testHost(const EripooLoadingView(), languageCode: 'fr'),
       );
-      expect(find.text('Andraso kely…'), findsOneWidget);
+      expect(find.text('Un instant…'), findsOneWidget);
     });
 
     testWidgets('offline banner is calm and localized', (tester) async {

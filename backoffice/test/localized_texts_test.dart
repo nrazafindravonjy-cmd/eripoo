@@ -6,7 +6,7 @@ void main() {
   test('finds every localized text with its pointer', () {
     final texts = localizedTexts({
       'id': 'q05',
-      'title': {'fr': 'Titre', 'mg': 'Lohateny', 'en': 'Title'},
+      'title': {'fr': 'Titre', 'en': 'Title'},
       'steps': [
         {
           'id': 's1',
@@ -22,11 +22,7 @@ void main() {
       'title',
       'steps/0/blocks/0/body',
     ]);
-    expect(texts.first.values, {
-      'mg': 'Lohateny',
-      'fr': 'Titre',
-      'en': 'Title',
-    });
+    expect(texts.first.values, {'fr': 'Titre', 'en': 'Title'});
     expect(texts.last.values, {'fr': 'Texte'});
   });
 

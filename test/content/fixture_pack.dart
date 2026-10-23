@@ -1,15 +1,9 @@
 /// A small valid pack (as decoded JSON) for content tests. Tests copy and
 /// mutate it to check what the parser and validator refuse.
-Map<String, Object?> lt(
-  String fr, {
-  String? mg,
-  String? en,
-  String? mgStatus,
-}) => {
+Map<String, Object?> lt(String fr, {String? en, String? enStatus}) => {
   'fr': fr,
-  'mg': ?mg,
   'en': ?en,
-  if (mgStatus != null) 'status': {'mg': mgStatus},
+  if (enStatus != null) 'status': {'en': enStatus},
 };
 
 Map<String, Object?> help() => {
@@ -51,7 +45,7 @@ Map<String, Object?> fixturePack() => {
       'kind': 'diagnostic',
       'order': 0,
       'maturity': 'exploration',
-      'title': lt('Diagnostic', mg: 'Fanadihadiana', mgStatus: 'needs_review'),
+      'title': lt('Diagnostic', en: 'Diagnostic', enStatus: 'needs_review'),
       'summary': lt('Faisons connaissance'),
       'steps': [
         {

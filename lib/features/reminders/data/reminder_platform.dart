@@ -60,11 +60,13 @@ class AndroidReminderPlatform implements ReminderPlatform {
   @override
   Future<void> cancel() => Workmanager().cancelByUniqueName(uniqueName);
 
-  /// Shows the reminder, in the app's language (Malagasy by default).
+  /// Shows the reminder, in the app's language (the phone's by default).
   static Future<void> show(AppLanguage? language) async {
-    final l10n = lookupAppLocalizations(
-      Locale((language ?? AppLanguage.mg).name),
-    );
+    final resolved =
+        language ??
+        AppLanguage.tryParse(PlatformDispatcher.instance.locale.languageCode) ??
+        AppLanguage.fr;
+    final l10n = lookupAppLocalizations(Locale(resolved.name));
     await (await _plugin()).show(
       id: 1,
       title: l10n.reminderTitle,

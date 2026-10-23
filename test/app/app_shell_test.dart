@@ -41,10 +41,10 @@ Future<ProviderContainer> pumpApp(
 }
 
 void main() {
-  test('supports exactly mg, fr and en', () {
+  test('supports exactly fr and en', () {
     expect(
       AppLocalizations.supportedLocales.map((l) => l.languageCode).toSet(),
-      {'mg', 'fr', 'en'},
+      {'fr', 'en'},
     );
   });
 
@@ -138,7 +138,6 @@ void main() {
   });
 
   for (final (language, home) in [
-    (AppLanguage.mg, 'Fandraisana'),
     (AppLanguage.fr, 'Accueil'),
     (AppLanguage.en, 'Home'),
   ]) {
@@ -147,8 +146,7 @@ void main() {
       expect(find.widgetWithText(AppBar, home), findsOneWidget);
       final context = tester.element(find.byType(NavigationBar));
       expect(AppLocalizations.of(context).localeName, language.name);
-      // Framework strings must resolve in every language (mg falls back
-      // to French until Malagasy framework localizations exist).
+      // Framework strings must resolve in every language.
       expect(MaterialLocalizations.of(context).okButtonLabel, isNotEmpty);
       expect(tester.takeException(), isNull);
     });

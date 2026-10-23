@@ -28,7 +28,7 @@ class PdfLabels {
   final String Function(int page, int pages) footer;
 }
 
-/// Bundled so every character of mg, fr and en prints (Apache 2.0,
+/// Bundled so every character of fr and en prints (Apache 2.0,
 /// assets/fonts/Roboto_LICENSE.txt).
 const _regularFont = 'assets/fonts/Roboto-Regular.ttf';
 const _boldFont = 'assets/fonts/Roboto-Bold.ttf';

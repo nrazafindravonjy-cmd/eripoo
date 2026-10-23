@@ -56,8 +56,8 @@ n'est pas possible** — les points bloquants de la section 1 sont ouverts.
      `eripoo-release-encrypted` et le déchiffrer :
      `gpg -d eripoo-release.tar.gpg > release.tar && tar -xf release.tar`
      (bundle, empreinte SHA-256, symboles de débogage).
-- [ ] **Relecture native du malagasy** (interface, contenu, localisations
-  Material) et des textes fr/en par les auteurs.
+- [ ] **Relecture des textes fr/en** par les auteurs (le malagasy a été
+  abandonné le 2026-10-23).
 - [ ] **Appareils A et B** : toute la section 4 ci-dessous.
 
 ## 2. Vérifié automatiquement par la CI
@@ -74,7 +74,7 @@ lancer au moins une fois avant toute release.
 | ✅ auto — Manifeste : permissions attendues, sauvegarde désactivée, clair refusé, une activité exportée, signature hors Git | `android_release_test.dart` |
 | ✅ auto — APK release fusionnée : permissions dangereuses limitées à caméra et micro, `INTERNET` présent, `usesCleartextTraffic=false`, `allowBackup=false`, non `debuggable`, ≤ 40 Mio | `tool/check_apk.sh` (job émulateur) |
 | ✅ auto — Démarrage et mémoire dans les budgets sur émulateurs Android 8 et 14 | `tool/android_cold_start.sh`, [PERFORMANCE.md](PERFORMANCE.md) |
-| ✅ auto — Accessibilité : cibles ≥ 48 dp, cibles libellées, contraste, sur 13 écrans, clair/sombre, mg/fr ; aucun débordement à 200 % de texte | `test/accessibility/` |
+| ✅ auto — Accessibilité : cibles ≥ 48 dp, cibles libellées, contraste, sur 13 écrans, clair/sombre, fr/en ; aucun débordement à 200 % de texte | `test/accessibility/` |
 | ✅ auto — Tests SQL (RLS, RPC, révocation, rotation, suppression de compte, quota) sur PostgreSQL et Supabase local ; contrat RPC client ↔ Supabase | jobs « Database tests », « Supabase local » |
 | ✅ auto — Aucune donnée privée dans les journaux, erreurs, corps d'appels ni fichiers hors base chiffrée | `privacy_leak_test.dart` |
 | ✅ auto — Pack de contenu construit depuis `content/`, validé, 100 % des faits réglementaires sourcés | `tool/content_build.dart --check` |

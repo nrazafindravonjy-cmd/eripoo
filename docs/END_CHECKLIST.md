@@ -38,11 +38,8 @@ publication, ce qui reste à prouver.
   tiers (assemblage SECURITY §4, transfert §6, rotation §4.10) — Phase 10.
 - [ ] **Identifiant Android définitif** (D6) et **clé d'envoi Play** (hors
   Git) — Phase 10, avant toute publication.
-- [ ] **Relecteurs natifs malagasy** — P9 / D13 : 583 chaînes d'interface
-  `needs_review` (`lib/l10n/mg_review_status.json`), les ~40 chaînes
-  Material malagasy (`lib/l10n/mg_material_localizations.dart`) et tout le contenu
-  malagasy en `machine_draft` (quêtes, missions, sections, outils, guide
-  de financement, contenu réglementaire).
+- [x] ~~Relecteurs natifs malagasy~~ — P9 / D13 : sans objet, le malagasy
+  a été abandonné le 2026-10-23 (décision du porteur).
 - [ ] **Auteurs du contenu** — D14 : relecture du français et de
   l'anglais ; validation des quêtes, missions, sections du projet, **règles
   de déblocage des outils** et textes des outils, sections amenées par

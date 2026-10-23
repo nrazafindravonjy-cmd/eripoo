@@ -168,8 +168,8 @@ abstract final class EripooTheme {
         backgroundColor: c.surface,
         indicatorColor: c.brand.container,
         elevation: 0,
-        // Navigation labels are short single words; 12 sp keeps long
-        // Malagasy words on one line at 360 dp (tested).
+        // Navigation labels are short single words; 12 sp keeps them on
+        // one line at 360 dp (tested).
         labelTextStyle: WidgetStatePropertyAll(
           text.labelSmall?.copyWith(color: c.textPrimary),
         ),

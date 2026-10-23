@@ -83,7 +83,7 @@ void main() {
       tools: pack.tools,
       formalization: FormalizationContent.read(JsonReader(json)),
     );
-    Map<String, Object?> text(String fr) => {'fr': fr, 'mg': fr, 'en': fr};
+    Map<String, Object?> text(String fr) => {'fr': fr, 'en': fr};
     Map<String, Object?> source(String id, {String consulted = '2026-10-08'}) =>
         {
           'id': id,
