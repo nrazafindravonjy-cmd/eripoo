@@ -514,7 +514,7 @@ règles) posés en Phase 2.
 |---|---|---|---|
 | ~~D2~~ | **Décidée le 2026-10-06 : récupération sans séquestre** (voir Portes) | — | — |
 | ~~D4~~ | **Décidée le 2026-10-06 : verrou facultatif**, chiffrement toujours actif (voir Portes) | — | — |
-| **D5** | Contenu en YAML dans le dépôt jusqu'à la Phase 6 | oui — **appliquée en Phases 3 à 6** ; à revoir avant la production (édition hors dépôt) | Phase 10 |
+| **D5** | Contenu en YAML dans le dépôt jusqu'à la Phase 6 | **revue le 2026-10-23** : édition dans le schéma Supabase `authoring` par le back-office (Flutter web, GitHub Pages, MFA) ; le YAML du dépôt sert d'import initial | Phase 10 |
 | **D6** | Identifiant Android définitif (domaine possédé) | à fixer avant la création de l'app dans la Play Console | publication |
 | **D7** | Analytics opt-in, sans identifiant, auto-hébergés | oui | Phase 2 (onboarding) |
 | **D8** | Rapports de crash maison | oui au départ | — |
