@@ -55,3 +55,4 @@ test/screenshots/goldens/
 # Environment files (never commit real keys)
 env/*.json
 !env/example.json
+/eripoo-malagasy.xlsx
