@@ -161,6 +161,11 @@ enregistrement du consentement côté serveur (`consents`) pour les comptes.
 Environnement Supabase de production, édition du contenu hors du dépôt
 (D5) et back-office (§44 : contenu, traductions, statistiques agrégées,
 santé technique, jamais d'accès aux projets privés).
+**Fait (2026-10-23)** : région eu-west-3 (Paris) ; workflow manuel
+`supabase-production.yml` (environnement protégé `production`, depuis
+`main`, vérification de la région, essai à blanc par défaut) et procédure
+de création dans RELEASE_CHECKLIST §1. **Reste** : création du projet par
+le porteur, édition du contenu hors dépôt (D5) et back-office.
 
 Facultatifs (« éventuellement » dans le cahier des charges) : niveau de
 préparation (§23), aide à la recherche d'associés (§48), plusieurs

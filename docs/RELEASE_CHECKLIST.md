@@ -16,10 +16,25 @@ n'est pas possible** — les points bloquants de la section 1 sont ouverts.
 - [ ] **Revue cryptographique externe** de l'assemblage (SECURITY §4, §6,
   rotation §4.10) et **audit de sécurité** (application + base) par un
   tiers. L'audit automatisé de la Phase 10 n'en tient pas lieu.
-- [ ] **Région de production** Supabase (D9) puis **création de
-  l'environnement de production** (non créé, sur décision du porteur) :
-  migrations versionnées appliquées, RLS testées sur cet environnement,
-  confirmation d'e-mail activée, limites de débit Auth.
+- [x] **Région de production** Supabase (D9) — **eu-west-3 (Paris)**,
+  décidée par le porteur le 2026-10-23. L'avis juridique sur le transfert
+  hors de Madagascar (P6) reste à obtenir.
+- [ ] **Création de l'environnement de production** (non créé ; c'est le
+  porteur qui le crée) :
+  1. Supabase → New project, région **West EU (Paris) `eu-west-3`**, mot
+     de passe de base long gardé au coffre ;
+  2. Authentication : confirmation d'e-mail activée, limites de débit
+     Auth vérifiées, inscriptions par e-mail seulement (pas de SMS, de
+     Google ni de téléphone sans décision) ;
+  3. dans l'environnement GitHub `production`, secrets
+     `PROD_SUPABASE_ACCESS_TOKEN` (jeton personnel Supabase),
+     `PROD_SUPABASE_PROJECT_REF`, `PROD_SUPABASE_DB_PASSWORD`,
+     `PROD_SUPABASE_URL`, `PROD_SUPABASE_ANON_KEY` (publique) ;
+  4. Actions → **Supabase production** → Run workflow depuis `main`, case
+     « apply » décochée (essai à blanc : vérifie la région, liste les
+     migrations en attente), puis cochée pour les appliquer ;
+  5. aucune donnée de test en production : les tests SQL et de contrat
+     tournent sur Supabase local et sur le projet de développement.
 - [x] **Identifiant Android définitif** (D6) — `com.eripoo.app`, décidé le
   2026-10-22 (le domaine `eripoo.com` doit appartenir au porteur ; à
   vérifier avant de créer l'application dans la Play Console, après quoi il

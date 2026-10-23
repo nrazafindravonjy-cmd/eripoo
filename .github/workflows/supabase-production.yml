@@ -1,0 +1,58 @@
+name: Supabase production
+
+# Production project (decision D9: region eu-west-3, Paris). Manual only,
+# from main, in the protected "production" environment (required
+# reviewer: the project owner). Environment secrets:
+# PROD_SUPABASE_ACCESS_TOKEN, PROD_SUPABASE_PROJECT_REF,
+# PROD_SUPABASE_DB_PASSWORD. No test data is ever written here: SQL and
+# contract tests run on Supabase local and on the dev project.
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Apply the pending migrations (unchecked = dry run)
+        type: boolean
+        default: false
+
+concurrency:
+  group: supabase-production
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    name: Migrations (production)
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    timeout-minutes: 15
+    env:
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.PROD_SUPABASE_ACCESS_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.PROD_SUPABASE_DB_PASSWORD }}
+      PROJECT_REF: ${{ secrets.PROD_SUPABASE_PROJECT_REF }}
+      EXPECTED_REGION: eu-west-3
+    steps:
+      - uses: actions/checkout@v4
+      # Refuse a project created in another region (D9).
+      - name: Check the project region
+        run: |
+          region=$(curl -fsS -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+            "https://api.supabase.com/v1/projects/$PROJECT_REF" | jq -r .region)
+          if [ "$region" != "$EXPECTED_REGION" ]; then
+            echo "Project region is '$region', expected $EXPECTED_REGION" >&2
+            exit 1
+          fi
+      # Same pinned version as the CI job "Supabase local".
+      - uses: supabase/setup-cli@v1
+        with:
+          version: 2.120.0
+      - run: supabase link --project-ref "$PROJECT_REF"
+      - name: Pending migrations
+        run: supabase migration list --linked
+      - name: Dry run
+        run: supabase db push --linked --dry-run
+      - name: Apply
+        if: inputs.apply
+        run: supabase db push --linked --yes
+      - name: Applied migrations
+        if: inputs.apply
+        run: supabase migration list --linked
