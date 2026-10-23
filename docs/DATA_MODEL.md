@@ -263,7 +263,7 @@ les fonctions `staff_*`, qui exigent un rôle **et** une session à second
 facteur (`aal2`) : `staff_my_roles`, `staff_list_documents`,
 `staff_get_document`, `staff_save_document` (verrou optimiste),
 `staff_set_translation` (un texte localisé seulement), `staff_usage_stats`
-(totaux < 10 masqués). Tests : `supabase/tests/sql/90_backoffice_test.sql`.
+(totaux < 10 masqués), `staff_health` (totaux techniques du service, masqués sous 10 ; migration `20261023000003`). Tests : `supabase/tests/sql/90_backoffice_test.sql`.
 
 ### 2.5 Administration et audit
 

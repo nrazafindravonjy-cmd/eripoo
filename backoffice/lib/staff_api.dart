@@ -59,17 +59,17 @@ class StaffApi {
     ];
   }
 
-  Future<(Map<String, Object?>, int)?> document(String path) async {
+  Future<(Object, int)?> document(String path) async {
     final rows =
         (await _call('staff_get_document', {'p_path': path}))! as List<Object?>;
     if (rows.isEmpty) return null;
     final row = rows.first! as Map<String, Object?>;
-    return (row['body']! as Map<String, Object?>, row['version']! as int);
+    return (row['body']!, row['version']! as int);
   }
 
   Future<int> saveDocument(
     String path,
-    Map<String, Object?> body,
+    Object body,
     int expectedVersion,
   ) async =>
       (await _call('staff_save_document', {
@@ -94,6 +94,10 @@ class StaffApi {
             'p_expected_version': expectedVersion,
           }))!
           as int;
+
+  /// Service-wide technical totals; a hidden total is null.
+  Future<Map<String, Object?>> health() async =>
+      (await _call('staff_health'))! as Map<String, Object?>;
 
   Future<List<UsageRow>> usage(DateTime from, DateTime to) async {
     String d(DateTime t) => t.toIso8601String().substring(0, 10);

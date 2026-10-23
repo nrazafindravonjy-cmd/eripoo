@@ -3,6 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'documents.dart';
 import 'errors.dart';
+import 'health.dart';
 import 'l10n/generated/app_localizations.dart';
 import 'staff_api.dart';
 import 'stats.dart';
@@ -54,6 +55,13 @@ class _HomeState extends State<Home> {
                 label: Text(l.statistics),
               ),
               StatsPage(api: _api),
+            ));
+            sections.add((
+              NavigationRailDestination(
+                icon: const Icon(Icons.monitor_heart_outlined),
+                label: Text(l.health),
+              ),
+              HealthPage(api: _api),
             ));
           }
           if (sections.isEmpty) {
