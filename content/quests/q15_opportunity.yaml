@@ -7,11 +7,9 @@ maturity: exploration
 priority: 40
 title:
   fr: "Découvrir une opportunité"
-  mg: "Mahita fahafahana"
   en: "Discover an opportunity"
 summary:
   fr: "Parmi ce que tu as observé, choisis le problème qui vaut la peine d'être creusé."
-  mg: "Amin'izay hitanao, fidio ny olana mendrika hodinihina lalina."
   en: "Among what you observed, choose the problem worth digging into."
 available_when: {quest: q14, is: completed}
 hide_when_locked: true
@@ -20,47 +18,39 @@ steps:
     type: learn
     title:
       fr: "Un bon problème à résoudre"
-      mg: "Olana tsara hovahana"
       en: "A good problem to solve"
     blocks:
       - id: intro
         type: text
         body:
           fr: "Tous les problèmes ne se valent pas. Un bon problème touche beaucoup de gens, revient souvent, et ces gens dépensent déjà du temps ou de l'argent pour s'en sortir."
-          mg: "Tsy mitovy lanja ny olana rehetra. Ny olana tsara dia mahakasika olona maro, miverimberina matetika, ary efa mandany fotoana na vola ireo olona ireo mba hialana aminy."
           en: "Not all problems are equal. A good problem affects many people, comes back often, and those people already spend time or money to get by."
       - id: term
         type: term
         plain:
           fr: "Un problème que tu peux transformer en activité"
-          mg: "Olana azonao avadika ho asa"
           en: "A problem you can turn into an activity"
         term:
           fr: "Opportunité"
-          mg: "Fahafahana"
           en: "Opportunity"
         definition:
           fr: "Un besoin réel, mal satisfait aujourd'hui, auquel tu peux répondre avec tes atouts."
-          mg: "Filana tena misy, tsy voavaly tsara ankehitriny, azonao valiana amin'ny fahaiza-manao sy fananananao."
           en: "A real need, poorly met today, that you can answer with your assets."
       - id: example
         type: example
         body:
           fr: "Hery hésite entre trois problèmes. Il choisit les téléphones en panne : tout le monde en a un, les pannes reviennent, les gens paient déjà en allant en ville, et il sait réparer."
-          mg: "Misalasala amin'ny olana telo i Hery. Ny finday simba no fidiny: samy manana iray ny rehetra, miverina ny fahasimbana, efa mandoa vola ny olona amin'ny fandehanana any an-tanàna, ary mahay manamboatra izy."
           en: "Hery hesitates between three problems. He chooses broken phones: everyone has one, breakdowns come back, people already pay by going to town, and he knows how to repair."
   - id: q15.s02
     type: reflect
     title:
       fr: "Choisis ton opportunité"
-      mg: "Fidio ny fahafahanao"
       en: "Choose your opportunity"
     blocks:
       - id: candidate
         type: question
         prompt:
           fr: "Parmi tes observations, quel problème choisis-tu de creuser ?"
-          mg: "Amin'ny fandinihanao, olana inona no fidinao hodinihina lalina?"
           en: "Among your observations, which problem do you choose to dig into?"
         answer:
           kind: text
@@ -68,49 +58,41 @@ steps:
         help:
           rephrase:
             - fr: "Quel problème vu pendant ta promenade te semble le plus important ?"
-              mg: "Olana inona hita nandritra ny fitsangatsanganana no toa manan-danja indrindra aminao?"
               en: "Which problem seen during your walk seems most important to you?"
           example:
             fr: "« Les téléphones en panne : les gens doivent aller en ville pour les faire réparer. »"
-            mg: "« Ny finday simba: tsy maintsy mankany an-tanàna ny olona vao mahavita manamboatra azy. »"
             en: "\"Broken phones: people must go to town to get them repaired.\""
           hints:
             - fr: "Relis ton journal d'observation et cherche ce qui revient."
-              mg: "Vakio indray ny diary fandinihanao ary tadiavo izay miverimberina."
               en: "Reread your observation journal and look for what comes back."
       - id: many
         type: question
         prompt:
           fr: "Combien de personnes autour de toi vivent ce problème ?"
-          mg: "Olona firy manodidina anao no miaina io olana io?"
           en: "How many people around you live with this problem?"
         answer:
           kind: choice
           options:
             - value: few
-              label: {fr: "Quelques-unes", mg: "Vitsivitsy", en: "A few"}
+              label: {fr: "Quelques-unes", en: "A few"}
             - value: many
-              label: {fr: "Beaucoup", mg: "Maro", en: "Many"}
+              label: {fr: "Beaucoup", en: "Many"}
             - value: unknown_yet
-              label: {fr: "Je ne sais pas encore", mg: "Mbola tsy fantatro", en: "I don't know yet"}
+              label: {fr: "Je ne sais pas encore", en: "I don't know yet"}
         help:
           rephrase:
             - fr: "Ce problème touche-t-il seulement toi et un ami, ou beaucoup de gens ?"
-              mg: "Ianao sy namana iray ihany ve no voakasik'io olana io, sa olona maro?"
               en: "Does this problem affect only you and a friend, or many people?"
           example:
             fr: "Les téléphones en panne : beaucoup."
-            mg: "Ny finday simba: maro."
             en: "Broken phones: many."
           hints:
             - fr: "« Je ne sais pas encore » est une bonne réponse : la quête suivante t'aidera à le découvrir."
-              mg: "Valiny tsara ny « Mbola tsy fantatro »: hanampy anao hahafantatra izany ny dia manaraka."
               en: "\"I don't know yet\" is a good answer: the next quest will help you find out."
       - id: assets
         type: question
         prompt:
           fr: "Pourquoi es-tu bien placé pour y répondre ?"
-          mg: "Nahoana ianao no mety hamaly izany?"
           en: "Why are you well placed to answer it?"
         answer:
           kind: text
@@ -118,20 +100,16 @@ steps:
         help:
           rephrase:
             - fr: "Quels atouts de la première quête t'aident pour ce problème ?"
-              mg: "Inona amin'ireo fahaiza-manao tamin'ny dia voalohany no manampy anao amin'io olana io?"
               en: "Which assets from the first quest help you with this problem?"
           example:
             fr: "« Je sais réparer, et j'ai un coin à la maison pour travailler. »"
-            mg: "« Mahay manamboatra aho, ary manana zoro ao an-trano hiasana. »"
             en: "\"I know how to repair, and I have a spot at home to work.\""
           hints:
             - fr: "Tu n'as pas besoin de tout savoir : ce qui manque s'apprend ou se trouve chez un partenaire."
-              mg: "Tsy voatery hahalala ny zava-drehetra ianao: azo ianarana na hita amin'ny mpiara-miasa izay tsy ampy."
               en: "You don't need to know everything: what is missing can be learned or found in a partner."
       - id: recap
         type: synthesis
         intro:
           fr: "Voici l'opportunité que tu as choisie. La quête « Trouver un problème qui compte » t'aide maintenant à la décrire précisément."
-          mg: "Ity ny fahafahana nofidinao. Ny dia « Mitady olana manan-danja » no manampy anao hamaritra azy tsara izao."
           en: "Here is the opportunity you chose. The quest \"Find a problem that matters\" now helps you describe it precisely."
         shows: [candidate, many, assets]

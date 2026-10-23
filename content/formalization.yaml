@@ -6,7 +6,7 @@
 # - nothing is added from secondary sites (they contradict each other);
 # - after review_after, the app says the information may be out of date;
 # - legal_review stays "pending" until a Malagasy lawyer has read it.
-# The French follows the source wording; mg and en are drafts.
+# The French follows the source wording; en is a draft.
 review_after: "2027-01-08"
 legal_review: pending
 
@@ -20,7 +20,6 @@ sources:
     sha256: "b95cecca74ad3c099c0a188a9f0fcd00930c48d318d89fa9386c164a92d03a97"
     scope:
       fr: "Création de société, Analamanga (pièces, frais, documents délivrés, services, horaires)"
-      mg: "Fananganana orinasa, Analamanga (taratasy, sarany, antontan-taratasy omena, sampandraharaha, ora)"
       en: "Company creation, Analamanga (documents, fees, papers issued, services, opening hours)"
   - id: edbm_page_creation
     publisher: "EDBM — Economic Development Board of Madagascar"
@@ -29,7 +28,6 @@ sources:
     consulted: "2026-10-08"
     scope:
       fr: "Création en ligne (Orinasa), simulateur de frais, formulaires et modèles de statuts"
-      mg: "Fananganana an-tserasera (Orinasa), fanombanana sarany, taratasy fenoina sy modely sata"
       en: "Online creation (Orinasa), fee simulator, forms and model articles"
   - id: edbm_statuts_sarlu
     publisher: "EDBM — Economic Development Board of Madagascar"
@@ -39,7 +37,6 @@ sources:
     sha256: "d69d6d65ee0fd2930db87cab88f3e43a17ad53c984e3dc85ac685ec4020a7a4e"
     scope:
       fr: "Modèle officiel de statuts d'une SARL à associé unique"
-      mg: "Modely ofisialy sata SARL tompon'anjara tokana"
       en: "Official model articles of a single-member SARL"
   - id: edbm_statuts_sarl
     publisher: "EDBM — Economic Development Board of Madagascar"
@@ -49,219 +46,187 @@ sources:
     sha256: "bf7dc9224365935a4c6e91e9b0f11cfbd2ba703d9decbf2ed2dc0e4059b682f0"
     scope:
       fr: "Modèle officiel de statuts d'une SARL à plusieurs associés"
-      mg: "Modely ofisialy sata SARL tompon'anjara maromaro"
       en: "Official model articles of a SARL with several members"
 
 topics:
   - id: where
-    title: {fr: "Où et comment", mg: "Aiza ary ahoana", en: "Where and how"}
+    title: {fr: "Où et comment", en: "Where and how"}
     facts:
       - text:
           fr: "À l'EDBM, un même guichet regroupe les impôts (Direction Générale des Impôts), le registre du commerce (greffe du tribunal de commerce) et l'INSTAT (statistique)."
-          mg: "Ao amin'ny EDBM, varavarankely iray no mampivondrona ny hetra (Direction Générale des Impôts), ny rejisitry ny varotra (greffe an'ny fitsarana ara-barotra) ary ny INSTAT (statistika)."
           en: "At the EDBM, one counter brings together taxes (Direction Générale des Impôts), the trade register (commercial court registry) and INSTAT (statistics)."
         source: edbm_creation_v28
         where: "p. 2, Département(s) concerné(s)"
       - text:
           fr: "Le dossier se soumet en ligne sur orinasa.edbm.mg."
-          mg: "Alefa an-tserasera amin'ny orinasa.edbm.mg ny antontan-taratasy."
           en: "The file is submitted online at orinasa.edbm.mg."
         source: edbm_creation_v28
         where: "p. 1, en-tête"
       - text:
           fr: "Les frais se paient en espèces au Front Office de l'EDBM."
-          mg: "Aloa amin'ny vola madinika ao amin'ny Front Office an'ny EDBM ny sarany."
           en: "Fees are paid in cash at the EDBM Front Office."
         source: edbm_creation_v28
         where: "p. 2, Frais"
       - text:
           fr: "Les documents sont délivrés 2 jours après le paiement, à condition que le dossier soit complet."
-          mg: "Omena 2 andro aorian'ny fandoavana ny antontan-taratasy, raha feno ny taratasy."
           en: "Papers are issued 2 days after payment, provided the file is complete."
         source: edbm_creation_v28
         where: "p. 2, Documents délivrés"
       - text:
           fr: "Dépôt des dossiers de 8 h 30 à 11 h 30, retrait à partir de 14 h 30 jusqu'à 16 h ; pas de réception de dossiers le dernier jour du mois."
-          mg: "Fametrahana taratasy amin'ny 8 ora sy sasany ka hatramin'ny 11 ora sy sasany, fakana manomboka amin'ny 2 ora sy sasany hariva ka hatramin'ny 4 ora ; tsy misy fandraisana taratasy amin'ny andro farany amin'ny volana."
           en: "Files are received from 8:30 to 11:30 and collected from 14:30 to 16:00; no files are received on the last day of the month."
         source: edbm_creation_v28
         where: "p. 2, Horaire"
       - text:
           fr: "Adresse : Immeuble EDBM, Avenue Général Ramanantsoa, Antaninarenina, Antananarivo 101. Téléphone : +261 20 22 670 40 / 22 681 21."
-          mg: "Adiresy: Immeuble EDBM, Avenue Général Ramanantsoa, Antaninarenina, Antananarivo 101. Telefaonina: +261 20 22 670 40 / 22 681 21."
           en: "Address: Immeuble EDBM, Avenue Général Ramanantsoa, Antaninarenina, Antananarivo 101. Phone: +261 20 22 670 40 / 22 681 21."
         source: edbm_creation_v28
         where: "pied de page"
       - text:
           fr: "Le site de l'EDBM propose un simulateur des frais de création."
-          mg: "Manolotra fanombanana ny sarany amin'ny fananganana ny tranonkalan'ny EDBM."
           en: "The EDBM website offers a simulator of creation fees."
         source: edbm_page_creation
         where: "rubrique « Estimation des frais »"
     advice:
       - fr: "Cette liste vaut pour la région Analamanga. Ailleurs, demande à l'antenne de l'EDBM ou aux services de ta région ce qui s'applique chez toi."
-        mg: "Ho an'ny faritra Analamanga ity lisitra ity. Any an-kafa, anontanio ny sampan'ny EDBM na ny sampandraharaha ao amin'ny faritrao izay mihatra aminao."
         en: "This list is for the Analamanga region. Elsewhere, ask the EDBM branch or your region's offices what applies to you."
       - fr: "Eripoo prépare ton dossier avec toi ; il ne fait aucune démarche à ta place. La démarche officielle se fait auprès de l'EDBM."
-        mg: "Manampy anao hanomana ny antontan-taratasinao i Eripoo ; tsy manao dingana ho anao izy. Ao amin'ny EDBM no atao ny dingana ofisialy."
         en: "Eripoo prepares your file with you; it does no procedure for you. The official procedure is done with the EDBM."
 
   - id: forms
-    title: {fr: "Les formes de société", mg: "Ireo karazana orinasa", en: "Forms of company"}
+    title: {fr: "Les formes de société", en: "Forms of company"}
     facts:
       - text:
           fr: "L'EDBM met à disposition des modèles de statuts pour la SA, la SARL, la SARLU, la SAU et la SC."
-          mg: "Manome modely sata ho an'ny SA, SARL, SARLU, SAU ary SC ny EDBM."
           en: "The EDBM provides model articles for the SA, SARL, SARLU, SAU and SC."
         source: edbm_page_creation
         where: "rubrique « Formulaires & modèles »"
       - text:
           fr: "La SARL est une société à responsabilité limitée formée par plusieurs associés ; son modèle de statuts la place sous la loi 2003-036 du 30 janvier 2004."
-          mg: "Ny SARL dia orinasa tsy misy andraikitra mihoatra ny anjara, ataon'ny tompon'anjara maromaro ; ny modely satany dia mametraka azy eo ambanin'ny lalàna 2003-036 tamin'ny 30 janoary 2004."
           en: "The SARL is a limited liability company formed by several members; its model articles place it under law 2003-036 of 30 January 2004."
         source: edbm_statuts_sarl
         where: "préambule et article 1.2"
       - text:
           fr: "La SARLU est une SARL à associé unique. Selon le modèle de statuts, l'associé unique n'est tenu, même envers les tiers, que jusqu'à concurrence du montant de sa mise."
-          mg: "Ny SARLU dia SARL misy tompon'anjara tokana. Araka ny modely sata, ny tompon'anjara tokana dia tsy tompon'andraikitra, na amin'ny olon-kafa aza, mihoatra ny vola napetrany."
           en: "The SARLU is a SARL with a single member. Under the model articles, the single member is liable, even towards third parties, only up to the amount contributed."
         source: edbm_statuts_sarlu
         where: "article 9"
     advice:
       - fr: "La forme choisie change ta responsabilité, tes impôts et ta façon de gérer. Avant de choisir, fais-toi conseiller par le guichet ou un professionnel."
-        mg: "Manova ny andraikitrao, ny hetranao ary ny fomba fitantananao ny karazana orinasa nofidiana. Alohan'ny hisafidianana, mangataha torohevitra amin'ny varavarankely na matihanina."
         en: "The form you choose changes your liability, your taxes and how you run things. Before choosing, get advice from the counter or a professional."
       - fr: "Eripoo n'a pas encore de source officielle vérifiée sur l'entreprise individuelle (à ton nom, sans société) : renseigne-toi au guichet avant de choisir."
-        mg: "Mbola tsy manana loharano ofisialy voamarina momba ny orinasa tsy miankina (amin'ny anaranao, tsy misy orinasa) i Eripoo : manontania any amin'ny varavarankely alohan'ny hisafidianana."
         en: "Eripoo does not yet have a verified official source on the sole proprietorship (in your own name, without a company): ask at the counter before choosing."
 
   - id: delivered
-    title: {fr: "Ce que tu reçois", mg: "Izay azonao", en: "What you receive"}
+    title: {fr: "Ce que tu reçois", en: "What you receive"}
     facts:
       - text:
           fr: "Une fois le dossier traité, l'EDBM délivre notamment : les statuts et le bail enregistrés, la carte statistique, la carte fiscale, l'extrait du registre du commerce et des sociétés (RCS) avec ton numéro RCS, et les récépissés de paiement."
-          mg: "Rehefa voakarakara ny antontan-taratasy, omen'ny EDBM indrindra : ny sata sy ny fifanarahana fanofana voasoratra, ny karatra statistika, ny karatra hetra, ny kopian'ny rejisitry ny varotra sy ny orinasa (RCS) misy ny laharanao RCS, ary ny tapakila fandoavana."
           en: "Once the file is processed, the EDBM issues in particular: the registered articles and lease, the statistics card, the tax card, the trade and companies register (RCS) extract with your RCS number, and the payment receipts."
         source: edbm_creation_v28
         where: "p. 2, Documents délivrés"
 
   - id: taxes
-    title: {fr: "L'impôt au démarrage", mg: "Ny hetra amin'ny fanombohana", en: "Tax at the start"}
+    title: {fr: "L'impôt au démarrage", en: "Tax at the start"}
     facts:
       - text:
           fr: "Un montant d'impôt synthétique (IS) se paie à la création ; il dépend de l'activité (voir l'estimation des frais)."
-          mg: "Misy hetra synthétique (IS) aloa amin'ny fananganana ; miankina amin'ny asa izy (jereo ny fanombanana ny sarany)."
           en: "An amount of synthetic tax (IS) is paid at creation; it depends on the activity (see the fee estimate)."
         source: edbm_creation_v28
         where: "p. 2, Frais"
       - text:
           fr: "Le dossier prévoit aussi une option pour le régime du réel ou de l'impôt sur le revenu (IR), avec une lettre d'engagement selon le chiffre d'affaires : 400 000 000 Ar ou plus pour le réel avec TVA, 200 000 000 Ar ou plus pour l'IR sans TVA ; les montants payés au départ sont alors différents."
-          mg: "Misy safidy ihany koa ho an'ny fitondrana « réel » na ny hetra amin'ny fidiram-bola (IR), miaraka amin'ny taratasy fanekena arakaraka ny tahan'ny varotra : 400 000 000 Ar na mihoatra ho an'ny « réel » misy TVA, 200 000 000 Ar na mihoatra ho an'ny IR tsy misy TVA ; hafa noho izany ny vola aloa am-piandohana."
           en: "The file also provides for an option for the actual-income regime or income tax (IR), with a commitment letter depending on turnover: 400,000,000 Ar or more for the actual regime with VAT, 200,000,000 Ar or more for IR without VAT; the amounts paid at the start are then different."
         source: edbm_creation_v28
         where: "p. 1, Complément en cas d'option ; p. 2, Frais"
     advice:
       - fr: "Les impôts changent avec les lois de finances : vérifie les montants au guichet ou sur le simulateur de l'EDBM avant de payer."
-        mg: "Miova arakaraka ny lalàna momba ny fitantanam-bola ny hetra : hamarino any amin'ny varavarankely na amin'ny fanombanana an'ny EDBM ny vola alohan'ny handoavana."
         en: "Taxes change with finance laws: check the amounts at the counter or on the EDBM simulator before paying."
 
 checklist:
   - id: statutes
     text:
       fr: "Les statuts de la société, en 2 exemplaires, paraphés à chaque page et signés à la dernière page par tous les associés."
-      mg: "Ny satan'ny orinasa, kopia 2, voasonia fohy isaky ny pejy ary voasonia amin'ny pejy farany avy amin'ny tompon'anjara rehetra."
       en: "The company's articles, 2 copies, initialled on each page and signed on the last page by all members."
     source: edbm_creation_v28
     where: "p. 1, Procédure de base"
   - id: identity
     text:
       fr: "Une copie de la carte d'identité nationale (CIN) de chaque dirigeant et associé ; pour une personne étrangère, une copie du passeport avec visa long séjour."
-      mg: "Kopian'ny karapanondrom-pirenena (CIN) an'ny mpitantana sy tompon'anjara tsirairay ; ho an'ny vahiny, kopian'ny pasipaoro misy visa maharitra."
       en: "A copy of the national identity card (CIN) of each manager and member; for a foreign person, a copy of the passport with a long-stay visa."
     source: edbm_creation_v28
     where: "p. 1, Procédure de base"
   - id: lease
     text:
       fr: "Le contrat de bail, en 2 exemplaires paraphés et signés par les deux parties, avec un certificat de propriété ou une copie du rôle des impôts, un certificat de situation juridique de moins de 3 mois et une copie du titre de propriété."
-      mg: "Ny fifanarahana fanofana, kopia 2 voasonia fohy sy voasonia avy amin'ny andaniny roa, miaraka amin'ny taratasy fananana na kopian'ny lisitry ny hetra, taratasy momba ny toe-javatra ara-dalàna latsaky ny 3 volana ary kopian'ny titra."
       en: "The lease, 2 copies initialled and signed by both parties, with a certificate of ownership or a copy of the tax roll, a legal status certificate under 3 months old and a copy of the title deed."
-    when: {fr: "Si tu loues ton local", mg: "Raha manofa ny toerana ianao", en: "If you rent your premises"}
+    when: {fr: "Si tu loues ton local", en: "If you rent your premises"}
     source: edbm_creation_v28
     where: "p. 1, Jouissance de local, cas 1"
   - id: sublease
     text:
       fr: "Le contrat de sous-location ou de domiciliation, en 2 exemplaires paraphés et signés par les deux parties, avec une copie du bail précédent régulièrement enregistré et l'autorisation expresse du propriétaire."
-      mg: "Ny fifanarahana fanofana faharoa na fametrahana adiresy, kopia 2 voasonia fohy sy voasonia, miaraka amin'ny kopian'ny fifanarahana teo aloha voasoratra ara-dalàna sy ny fanomezan-dalana mazava avy amin'ny tompon-trano."
       en: "The sublease or domiciliation contract, 2 copies initialled and signed by both parties, with a copy of the previous duly registered lease and the owner's express authorisation."
-    when: {fr: "Si tu sous-loues ou te fais domicilier", mg: "Raha manofa avy amin'ny mpanofa na mametraka adiresy any an-kafa", en: "If you sublet or use a domiciliation"}
+    when: {fr: "Si tu sous-loues ou te fais domicilier", en: "If you sublet or use a domiciliation"}
     source: edbm_creation_v28
     where: "p. 1, Jouissance de local, cas 2"
   - id: landlord_id
     text:
       fr: "Une copie de la CIN du bailleur s'il s'agit d'une personne, ou de sa carte fiscale non expirée s'il s'agit d'une société."
-      mg: "Kopian'ny CIN an'ny tompon-trano raha olona, na ny karatra hetra mbola manan-kery raha orinasa."
       en: "A copy of the landlord's CIN if a person, or their unexpired tax card if a company."
     source: edbm_creation_v28
     where: "p. 1, Jouissance de local"
   - id: location_plan
     text:
       fr: "Un plan de repérage visé par le Fokontany."
-      mg: "Sarintany fitadiavana ny toerana voamarina avy amin'ny Fokontany."
       en: "A location map stamped by the Fokontany."
     source: edbm_creation_v28
     where: "p. 1, Procédure de base"
   - id: managers_declaration
     text:
       fr: "La déclaration relative aux dirigeants sociaux (formulaire de l'EDBM) pour le gérant et les autres dirigeants."
-      mg: "Ny fanambarana momba ny mpitantana (taratasy fenoina an'ny EDBM) ho an'ny mpitantana sy ny mpitarika hafa."
       en: "The declaration on company managers (EDBM form) for the manager and other directors."
     source: edbm_creation_v28
     where: "p. 1, Procédure de base"
   - id: proxy
     text:
       fr: "Une procuration et une copie de la CIN de la personne qui dépose, en 2 exemplaires."
-      mg: "Taratasy fanomezam-pahefana sy kopian'ny CIN an'ilay olona mametraka, kopia 2."
       en: "A power of attorney and a copy of the CIN of the person filing, 2 copies."
-    when: {fr: "Si quelqu'un dépose le dossier à ta place", mg: "Raha olon-kafa no mametraka ny taratasy ho anao", en: "If someone files for you"}
+    when: {fr: "Si quelqu'un dépose le dossier à ta place", en: "If someone files for you"}
     source: edbm_creation_v28
     where: "p. 1, Procédure de base"
   - id: authorisations
     text:
       fr: "Les autorisations des ministères ou organismes habilités."
-      mg: "Ny fahazoan-dalana avy amin'ny minisitera na ny sampandraharaha mahefa."
       en: "Authorisations from the competent ministries or bodies."
-    when: {fr: "Si ton activité est réglementée", mg: "Raha asa voafehin'ny lalàna ny anao", en: "If your activity is regulated"}
+    when: {fr: "Si ton activité est réglementée", en: "If your activity is regulated"}
     source: edbm_creation_v28
     where: "p. 1, Procédure de base"
   - id: contribution_report
     text:
       fr: "Le rapport du commissaire aux apports."
-      mg: "Ny tatitry ny commissaire aux apports."
       en: "The contributions auditor's report."
-    when: {fr: "Si un associé apporte un bien plutôt que de l'argent", mg: "Raha fananana fa tsy vola no entin'ny tompon'anjara iray", en: "If a member contributes an asset instead of money"}
+    when: {fr: "Si un associé apporte un bien plutôt que de l'argent", en: "If a member contributes an asset instead of money"}
     source: edbm_creation_v28
     where: "p. 1, Procédure de base"
   - id: tax_regularity
     text:
       fr: "Un justificatif que les associés sont en règle avec les impôts : copie de la carte fiscale non expirée des sociétés où ils ont des parts, ou de leur entreprise individuelle."
-      mg: "Porofo fa ara-dalàna amin'ny hetra ny tompon'anjara : kopian'ny karatra hetra mbola manan-kery an'ireo orinasa misy anjarany, na ny orinasany tsy miankina."
       en: "Proof that members are up to date with taxes: a copy of the unexpired tax card of the companies where they hold shares, or of their sole proprietorship."
-    when: {fr: "Si un associé a déjà une société ou une entreprise", mg: "Raha efa manana orinasa ny tompon'anjara iray", en: "If a member already has a company or business"}
+    when: {fr: "Si un associé a déjà une société ou une entreprise", en: "If a member already has a company or business"}
     source: edbm_creation_v28
     where: "p. 1, Procédure de base"
   - id: original_signatures
     text:
       fr: "Des signatures et paraphes originaux sur toutes les pièces."
-      mg: "Sonia sy sonia fohy tany am-boalohany amin'ny taratasy rehetra."
       en: "Original signatures and initials on every document."
     source: edbm_creation_v28
     where: "p. 1, NB"
   - id: other_cases
     text:
       fr: "D'autres pièces sont demandées pour une SA, une succursale, un associé qui est une société, ou une activité de grossiste, d'industriel, de collecteur, d'importateur ou d'exportateur : consulte le document de l'EDBM."
-      mg: "Misy taratasy hafa angatahina ho an'ny SA, sampana, tompon'anjara izay orinasa, na asa mpivarotra ambongadiny, mpanao indostria, mpanangona, mpanafatra na mpanondrana : jereo ny taratasin'ny EDBM."
       en: "Other documents are required for an SA, a branch, a member that is a company, or a wholesale, industrial, collection, import or export activity: see the EDBM document."
-    when: {fr: "Dans ces cas particuliers", mg: "Amin'ireo tranga manokana ireo", en: "In these particular cases"}
+    when: {fr: "Dans ces cas particuliers", en: "In these particular cases"}
     source: edbm_creation_v28
     where: "p. 1, Compléments"
 
@@ -277,24 +242,20 @@ fees:
     - id: primary
       label:
         fr: "Agriculteurs, éleveurs, pêcheurs, petits exploitants miniers, transporteurs en véhicule non motorisé (charrette, pousse-pousse, pirogue…)"
-        mg: "Mpamboly, mpiompy, mpanjono, mpitrandraka harena an-kibon'ny tany madinika, mpitatitra amin'ny fiara tsy misy motera (sarety, posy, lakana…)"
         en: "Farmers, herders, fishers, small miners, carriers using non-motorised vehicles (cart, rickshaw, canoe…)"
       amount_mga: 16000
     - id: artisans
       label:
         fr: "Artisans, gargotiers, petits producteurs"
-        mg: "Mpanao asa tanana, tompon'ny hotely madinika, mpamokatra madinika"
         en: "Craftspeople, small eatery owners, small producers"
       amount_mga: 50000
     - id: trade
       label:
         fr: "Artisans miniers, artistes et assimilés, commerçants, hôteliers, prestataires, restaurateurs"
-        mg: "Mpitrandraka harena an-kibon'ny tany amin'ny tanana, mpanakanto, mpivarotra, tompon'ny hotely, mpanome tolotra, tompon'ny trano fisakafoanana"
         en: "Artisanal miners, artists and similar, traders, hoteliers, service providers, restaurant owners"
       amount_mga: 100000
     - id: other
       label:
         fr: "Professions libérales, activités multiples et autres"
-        mg: "Asa tsy miankina, asa maro samihafa ary ny hafa"
         en: "Liberal professions, multiple activities and others"
       amount_mga: 150000

@@ -36,7 +36,7 @@ void main() {
   }
 
   for (final (name, size, language, theme) in [
-    ('shell_phone_mg', phoneSize, AppLanguage.mg, ThemePreference.light),
+    ('shell_phone_en', phoneSize, AppLanguage.en, ThemePreference.light),
     ('shell_tablet_fr', tabletSize, AppLanguage.fr, ThemePreference.dark),
   ]) {
     testWidgets(name, (tester) async {

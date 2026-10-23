@@ -1,9 +1,8 @@
-"""Adds interface strings to the fr/en/mg ARB files and marks the Malagasy
-ones `needs_review` in lib/l10n/mg_review_status.json.
+"""Adds interface strings to the fr/en ARB files.
 
 Usage (from the repository root), then run `flutter gen-l10n`:
     python3 tool/add_l10n.py strings.json
-strings.json: {key: {"fr": .., "en": .., "mg": .., "desc": ..,
+strings.json: {key: {"fr": .., "en": .., "desc": ..,
                      "placeholders": {name: {"type": ..}}}}
 """
 import collections
@@ -23,7 +22,7 @@ def save(path, data):
         f.write('\n')
 
 
-for lang in ['fr', 'en', 'mg']:
+for lang in ['fr', 'en']:
     path = f'lib/l10n/app_{lang}.arb'
     arb = load(path)
     for key, value in spec.items():
@@ -37,9 +36,4 @@ for lang in ['fr', 'en', 'mg']:
             arb['@' + key] = meta
     save(path, arb)
 
-path = 'lib/l10n/mg_review_status.json'
-status = load(path)
-for key in spec:
-    status['strings'][key] = 'needs_review'
-save(path, status)
 print('added', len(spec))

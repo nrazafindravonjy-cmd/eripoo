@@ -3,20 +3,18 @@
 # drafted by the team. While status is "pending", the app shows these
 # placeholders as such and asks for NO acceptance (no consent is collected
 # on a text that does not exist). Once the lawyer's texts are in: paste
-# them (mg/fr/en), set status to "validated", bump version: every user is
+# them (fr/en), set status to "validated", bump version: every user is
 # then asked to accept, again at each new version.
 version: "0"
 status: pending
 documents:
   - id: privacy
-    title: {fr: "Politique de confidentialité", mg: "Politikan'ny fiainana manokana", en: "Privacy policy"}
+    title: {fr: "Politique de confidentialité", en: "Privacy policy"}
     body:
       - fr: "Ce texte est en attente de rédaction par un juriste. Il sera publié ici avant l'ouverture d'Eripoo au public."
-        mg: "Mbola andrasana ny fanoratan'ny mpahay lalàna ity lahatsoratra ity. Havoaka eto izy alohan'ny hanokafana ny Eripoo ho an'ny besinimaro."
         en: "This text is waiting to be written by a lawyer. It will be published here before Eripoo opens to the public."
   - id: terms
-    title: {fr: "Conditions d'utilisation", mg: "Fepetra fampiasana", en: "Terms of use"}
+    title: {fr: "Conditions d'utilisation", en: "Terms of use"}
     body:
       - fr: "Ce texte est en attente de rédaction par un juriste. Il sera publié ici avant l'ouverture d'Eripoo au public."
-        mg: "Mbola andrasana ny fanoratan'ny mpahay lalàna ity lahatsoratra ity. Havoaka eto izy alohan'ny hanokafana ny Eripoo ho an'ny besinimaro."
         en: "This text is waiting to be written by a lawyer. It will be published here before Eripoo opens to the public."

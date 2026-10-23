@@ -86,10 +86,11 @@ void main() {
     );
 
     test('falls back along the chain and says which language is shown', () {
-      final mg = const ContentLocalizer(AppLanguage.mg).resolve(text);
-      expect(mg.text, 'Bonjour');
-      expect(mg.language, AppLanguage.fr);
-      expect(mg.status, ReviewStatus.needsReview);
+      const frOnly = LocalizedText({AppLanguage.fr: 'Bonjour'});
+      final fallback = const ContentLocalizer(AppLanguage.en).resolve(frOnly);
+      expect(fallback.text, 'Bonjour');
+      expect(fallback.language, AppLanguage.fr);
+      expect(fallback.status, ReviewStatus.reviewed);
 
       final en = const ContentLocalizer(AppLanguage.en).resolve(text);
       expect(en.text, 'Hello');
@@ -175,8 +176,8 @@ void main() {
 
     test('review status is counted per language', () {
       final report = validatePack(parse(pack()));
-      expect(report.reviewCounts[AppLanguage.mg]![ReviewStatus.needsReview], 1);
-      expect(report.missing[AppLanguage.mg], greaterThan(10));
+      expect(report.reviewCounts[AppLanguage.en]![ReviewStatus.needsReview], 1);
+      expect(report.missing[AppLanguage.en], greaterThan(10));
     });
   });
 }

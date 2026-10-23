@@ -1,6 +1,6 @@
 // Accessibility audit of the app's screens (CLAUDE.md §27, Phase 10):
 // touch targets of at least 48 dp, every target labelled for screen
-// readers, text contrast, in light and dark, Malagasy and French; and no
+// readers, text contrast, in light and dark, French and English; and no
 // layout overflow with the text at 200 % on a small phone. Automated
 // checks only: TalkBack on real phones stays to do (END_CHECKLIST).
 import 'dart:io';
@@ -133,7 +133,7 @@ void main() {
     }
   }
 
-  for (final language in [AppLanguage.mg, AppLanguage.fr]) {
+  for (final language in [AppLanguage.fr, AppLanguage.en]) {
     for (final theme in [ThemePreference.light, ThemePreference.dark]) {
       testWidgets('guidelines on every screen (${language.name}, '
           '${theme.name})', (tester) async {
@@ -173,7 +173,7 @@ void main() {
     await someWork(tester);
     final container = await launch(
       tester,
-      language: AppLanguage.mg,
+      language: AppLanguage.fr,
       theme: ThemePreference.light,
       textScale: 2,
     );

@@ -23,9 +23,9 @@ LegalContent legal({
       for (final id in ids)
         {
           'id': id,
-          'title': {'fr': 'Titre', 'mg': 'Lohateny', 'en': 'Title'},
+          'title': {'fr': 'Titre', 'en': 'Title'},
           'body': [
-            {'fr': 'Texte.', 'mg': 'Lahatsoratra.', 'en': 'Text.'},
+            {'fr': 'Texte.', 'en': 'Text.'},
           ],
         },
     ],

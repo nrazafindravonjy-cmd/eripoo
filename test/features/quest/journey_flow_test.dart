@@ -94,12 +94,13 @@ void main() {
 
     await launch(tester);
 
-    // ---- welcome: Malagasy preselected, French chosen
-    expect(find.text("Tongasoa eto amin'ny Eripoo"), findsOneWidget);
+    // ---- welcome: the phone's language (English in tests) preselected,
+    // French chosen
+    expect(find.text('Welcome to Eripoo'), findsOneWidget);
     final group = tester.widget<RadioGroup<AppLanguage>>(
       find.byType(RadioGroup<AppLanguage>),
     );
-    expect(group.groupValue, AppLanguage.mg);
+    expect(group.groupValue, AppLanguage.en);
     await tapText(tester, 'Français');
     expect(find.text('Bienvenue sur Eripoo'), findsOneWidget);
     await tapText(tester, 'Commencer');

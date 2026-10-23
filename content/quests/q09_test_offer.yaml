@@ -6,11 +6,9 @@ maturity: construction
 priority: 2
 title:
   fr: "Tester ton offre"
-  mg: "Andramo ny tolotrao"
   en: "Test your offer"
 summary:
   fr: "Vérifie que des clients paient vraiment ton offre, à ton prix."
-  mg: "Hamarino fa tena mandoa ny tolotrao amin'ny vidinao ny mpanjifa."
   en: "Check that customers really pay for your offer, at your price."
 available_when: {quest: q06, is: completed}
 steps:
@@ -18,67 +16,56 @@ steps:
     type: learn
     title:
       fr: "Dire oui n'est pas acheter"
-      mg: "Tsy fividianana ny hoe eny"
       en: "Saying yes is not buying"
     blocks:
       - id: intro
         type: text
         body:
           fr: "Beaucoup de gens disent « j'achèterais » pour être polis. La seule vraie preuve, c'est un client qui paie ou qui réserve en donnant une avance."
-          mg: "Olona maro no milaza hoe « hividy aho » noho ny fahalalam-pomba. Ny hany porofo marina dia mpanjifa mandoa vola na mitahiry amin'ny fanomezana vola mialoha."
           en: "Many people say \"I would buy\" to be polite. The only real proof is a customer who pays or books by giving a deposit."
       - id: term
         type: term
         plain:
           fr: "Vendre avant d'avoir tout fabriqué"
-          mg: "Mivarotra alohan'ny hanamboarana ny zava-drehetra"
           en: "Selling before making everything"
         term:
           fr: "Prévente"
-          mg: "Varotra mialoha"
           en: "Pre-sale"
         definition:
           fr: "Prendre des commandes payées (ou avec une avance) avant de produire, pour vérifier la demande sans risquer ton stock."
-          mg: "Mandray baiko voaloa (na misy vola mialoha) alohan'ny hamokarana, mba hanamarinana ny filana tsy atahorana ny tahirinao."
           en: "Taking paid orders (or with a deposit) before producing, to check demand without risking your stock."
       - id: example
         type: example
         body:
           fr: "Fara propose à 10 vendeuses de réserver un lot avec une petite avance. Elle a décidé avant : réussi si au moins 4 réservent. (Exemple inventé.)"
-          mg: "Manolotra mpivarotra 10 i Fara mba hitahiry fehezana iray amin'ny vola mialoha kely. Efa nanapa-kevitra mialoha izy: mahomby raha 4 farafahakeliny no mitahiry. (Ohatra noforonina.)"
           en: "Fara offers 10 sellers to book a pack with a small deposit. She decided beforehand: it succeeds if at least 4 book. (Invented example.)"
       - id: tip
         type: tip
         body:
           fr: "Si personne ne paie, ce n'est pas un échec : change le prix, l'offre ou les clients visés, et teste encore."
-          mg: "Raha tsy misy mandoa, tsy fahataperana izany: ovay ny vidiny, ny tolotra na ny mpanjifa kendrena, ary andramo indray."
           en: "If nobody pays, it is not a failure: change the price, the offer or the target customers, and test again."
   - id: q09.s02
     type: act
     title:
       fr: "Écris ton hypothèse sur le prix"
-      mg: "Soraty ny vinavinanao momba ny vidiny"
       en: "Write your price hypothesis"
     blocks:
       - id: how
         type: text
         body:
           fr: "Ouvre l'onglet Projet, puis « Hypothèses ». Ajoute une hypothèse de catégorie « Le prix », par exemple : « Je pense que 4 vendeuses sur 10 réserveront à ce prix. » Reviens ensuite ici."
-          mg: "Sokafy ny tabilao Tetikasa, avy eo « Vinavina ». Ampio vinavina iray ao amin'ny sokajy « Ny vidiny », ohatra: « Mihevitra aho fa mpivarotra 4 amin'ny 10 no hitahiry amin'io vidiny io. » Miverena eto avy eo."
           en: "Open the Project tab, then \"Hypotheses\". Add a hypothesis in the \"The price\" category, for example: \"I think 4 sellers out of 10 will book at this price.\" Then come back here."
     complete_when: {count: hypotheses, where: {category: price}, gte: 1}
   - id: q09.s03
     type: act
     title:
       fr: "Lance une prévente"
-      mg: "Atombohy ny varotra mialoha"
       en: "Start a pre-sale"
     blocks:
       - id: how
         type: text
         body:
           fr: "Dans cette hypothèse, prépare un test avec la méthode « Prévendre » ou « Tester un prix », puis commence-le."
-          mg: "Ao amin'io vinavina io, omano fitsapana amin'ny fomba « Mivarotra mialoha » na « Manandrana vidiny », avy eo atombohy."
           en: "In this hypothesis, plan a test with the \"Pre-sell\" or \"Test a price\" method, then start it."
       - id: go
         type: mission
@@ -93,14 +80,12 @@ steps:
     type: checkpoint
     title:
       fr: "Conclure sur ton prix"
-      mg: "Mamarana momba ny vidinao"
       en: "Conclude on your price"
     blocks:
       - id: how
         type: text
         body:
           fr: "Ajoute tes preuves (une vente, un chiffre, une note), puis conclus ton hypothèse sur le prix. Infirmée ou non, tu sais maintenant quelque chose de vrai."
-          mg: "Ampio ireo porofonao (varotra, isa, fanamarihana), avy eo famarano ny vinavinanao momba ny vidiny. Na tsy marina aza izy, efa mahafantatra zavatra marina ianao izao."
           en: "Add your evidence (a sale, a number, a note), then conclude your price hypothesis. Disproved or not, you now know something true."
     complete_when:
       any:

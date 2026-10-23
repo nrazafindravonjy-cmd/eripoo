@@ -1,8 +1,9 @@
 # Eripoo — consignes pour Claude Code
 
 Application Android Flutter d'accompagnement de projets entrepreneuriaux pour
-Madagascar (« Mihary ho an'ny ho avy. »), offline-first, en malagasy,
-français et anglais, chiffrée de bout en bout. Les dix phases du cahier des
+Madagascar (« Mihary ho an'ny ho avy. »), offline-first, en français et en
+anglais (malagasy abandonné le 2026-10-23 par décision du porteur ; seul
+le slogan reste en malagasy), chiffrée de bout en bout. Les dix phases du cahier des
 charges sont livrées ; ce qui reste à faire est dans
 [docs/NEXT_STEPS.md](docs/NEXT_STEPS.md). Documentation de référence :
 `docs/` (ARCHITECTURE, SECURITY, DATA_MODEL, OFFLINE_SYNC, PRODUCT_ARCHITECTURE,
@@ -43,7 +44,7 @@ Le porteur du projet écrit en français : rapports et réponses en français.
 - `lib/core` et `lib/**/domain` restent en Dart pur (pas de Flutter).
 - Aucun texte en dur dans l'interface (`Text('...')` interdit) : tout passe
   par les ARB. Ajouter des chaînes : `python3 tool/add_l10n.py strings.json`
-  puis `flutter gen-l10n` (le malagasy est marqué `needs_review`).
+  puis `flutter gen-l10n`.
 - Les exceptions ne portent pas de texte (types seulement).
 - Couleurs uniquement depuis les tokens du design system.
 - Imports triés (`dart fix --apply --code=directives_ordering`).

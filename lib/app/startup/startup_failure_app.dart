@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../../design_system/design_system.dart';
+import '../../l10n/framework_localizations.dart';
 import '../../l10n/generated/app_localizations.dart';
-import '../../l10n/mg_fallback_localizations.dart';
 import '../../security/key_manager.dart';
 
 /// Shown instead of the app when local data cannot be opened. Explains

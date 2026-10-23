@@ -47,9 +47,9 @@ Set<String> usedBlockTypes(List<Object?> quests) => {
         b['type']! as String,
 };
 
-const _languageKeys = {'fr', 'mg', 'en'};
+const _languageKeys = {'fr', 'en'};
 
-/// True for a localized text (`{fr: ..., mg: ..., en: ..., status: ...}`).
+/// True for a localized text (`{fr: ..., en: ..., status: ...}`).
 bool _isText(Map<String, Object?> map) =>
     map.containsKey('fr') &&
     map.keys.every((k) => _languageKeys.contains(k) || k == 'status');

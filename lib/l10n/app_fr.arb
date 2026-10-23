@@ -231,10 +231,6 @@
   "@welcomeStart": {
     "description": "Bouton pour commencer après le choix de la langue."
   },
-  "languageMg": "Malagasy",
-  "@languageMg": {
-    "description": "Nom de la langue malagasy (toujours écrit en malagasy)."
-  },
   "languageFr": "Français",
   "@languageFr": {
     "description": "Nom de la langue française (toujours écrit en français)."

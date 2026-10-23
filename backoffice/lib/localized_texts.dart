@@ -5,11 +5,11 @@ class LocalizedText {
 
   final List<String> pointer;
 
-  /// Texts by locale (mg, fr, en); a missing locale is absent.
+  /// Texts by locale (fr, en); a missing locale is absent.
   final Map<String, String> values;
 }
 
-const locales = ['mg', 'fr', 'en'];
+const locales = ['fr', 'en'];
 
 /// Every localized text of [document], in document order.
 List<LocalizedText> localizedTexts(Object? document) {

@@ -1,6 +1,6 @@
 import 'package:eripoo/design_system/design_system.dart';
+import 'package:eripoo/l10n/framework_localizations.dart';
 import 'package:eripoo/l10n/generated/app_localizations.dart';
-import 'package:eripoo/l10n/mg_fallback_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -27,7 +27,7 @@ class Variant {
 final allVariants = [
   for (final b in Brightness.values)
     for (final s in [phoneSize, tabletSize])
-      for (final l in ['mg', 'fr', 'en']) Variant(b, s, l),
+      for (final l in ['fr', 'en']) Variant(b, s, l),
 ];
 
 /// Sets the test window size; restored automatically after the test.

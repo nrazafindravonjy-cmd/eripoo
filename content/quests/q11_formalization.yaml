@@ -8,11 +8,9 @@ maturity: preparation
 priority: 0
 title:
   fr: "Préparer tes formalités"
-  mg: "Omano ny fombafomba ara-pitantanana"
   en: "Prepare your formalities"
 summary:
   fr: "Rassemble ce qu'il te faut avant d'aller au guichet."
-  mg: "Angony izay ilainao alohan'ny handehananao any amin'ny varavarankely."
   en: "Gather what you need before going to the counter."
 # The administrative preparation tool opens when q04 is completed.
 available_when:
@@ -24,39 +22,33 @@ steps:
     type: learn
     title:
       fr: "Pourquoi se déclarer ?"
-      mg: "Nahoana no tokony hanambara?"
       en: "Why register?"
     blocks:
       - id: intro
         type: text
         body:
           fr: "Selon les cas, une activité déclarée peut plus facilement travailler avec des entreprises, demander un financement et rassurer ses clients. Les démarches dépendent de ta situation et de ta région."
-          mg: "Arakaraka ny toe-javatra, ny asa voambara dia mety ho mora kokoa miara-miasa amin'ny orinasa, mangataka famatsiam-bola ary manome toky ny mpanjifany. Miankina amin'ny toe-javatra misy anao sy ny faritrao ny fombafomba."
           en: "Depending on the case, a registered activity can more easily work with businesses, ask for funding and reassure customers. The steps depend on your situation and your region."
       - id: tip
         type: tip
         body:
           fr: "L'outil « Préparation administrative » (onglet Outils) présente les informations avec leur source et leur date. Ce qui n'est pas vérifié y est indiqué. Confirme toujours au guichet."
-          mg: "Ny fitaovana « Fanomanana ara-pitantanana » (tabilao Fitaovana) dia manolotra ireo fampahalalana miaraka amin'ny loharanony sy ny daty. Voalaza ao izay tsy voamarina. Hamarino foana any amin'ny varavarankely."
           en: "The \"Administrative preparation\" tool (Tools tab) shows the information with its source and date. What is not checked is marked as such. Always confirm at the counter."
       - id: example
         type: example
         body:
           fr: "Avant d'y aller, Fara écrit le nom envisagé, son activité en une phrase et la liste de ses questions. Au guichet, elle gagne du temps."
-          mg: "Alohan'ny handehanany, manoratra ny anarana kasaina i Fara, ny asany amin'ny fehezanteny iray ary ny lisitry ny fanontaniany. Any amin'ny varavarankely, mahazo fotoana izy."
           en: "Before going, Fara writes the name she is considering, her activity in one sentence and her list of questions. At the counter, she saves time."
   - id: q11.s02
     type: reflect
     title:
       fr: "Ce que tu apportes au guichet"
-      mg: "Izay entinao any amin'ny varavarankely"
       en: "What you bring to the counter"
     blocks:
       - id: business_name
         type: question
         prompt:
           fr: "Quel nom envisages-tu pour ton activité ?"
-          mg: "Anarana inona no kasainao ho an'ny asanao?"
           en: "What name are you considering for your activity?"
         answer:
           kind: text
@@ -64,21 +56,17 @@ steps:
         help:
           rephrase:
             - fr: "Comment veux-tu que les clients appellent ton activité ?"
-              mg: "Ahoana no tianao hiantsoan'ny mpanjifa ny asanao?"
               en: "What do you want customers to call your activity?"
           example:
             fr: "« Savon Fara Livraison » (exemple inventé)."
-            mg: "« Savony Fara Fanaterana » (ohatra noforonina)."
             en: "\"Fara Soap Delivery\" (invented example)."
           hints:
             - fr: "Un nom court, facile à dire et à retenir. Tu pourras le changer avant de déclarer."
-              mg: "Anarana fohy, mora tononina sy tadidiana. Azonao ovaina alohan'ny hanambarana."
               en: "A short name, easy to say and remember. You can change it before registering."
       - id: activity
         type: question
         prompt:
           fr: "Quelle est ton activité principale, en une phrase ?"
-          mg: "Inona ny asanao fototra, amin'ny fehezanteny iray?"
           en: "What is your main activity, in one sentence?"
         answer:
           kind: text
@@ -86,21 +74,17 @@ steps:
         help:
           rephrase:
             - fr: "Que fais-tu, pour qui, en quelques mots ?"
-              mg: "Inona no ataonao, ho an'iza, amin'ny teny vitsivitsy?"
               en: "What do you do, for whom, in a few words?"
           example:
             fr: "« Fabrication et livraison de savon pour les vendeuses du marché. »"
-            mg: "« Fanamboarana sy fanaterana savony ho an'ireo mpivarotra eny an-tsena. »"
             en: "\"Making and delivering soap for market sellers.\""
           hints:
             - fr: "Reprends ton offre : ce que tu vends et à qui."
-              mg: "Avereno ny tolotrao: izay amidinao sy ho an'iza."
               en: "Reuse your offer: what you sell and to whom."
       - id: questions
         type: question
         prompt:
           fr: "Quelles questions veux-tu poser au guichet ?"
-          mg: "Fanontaniana inona no tianao apetraka any amin'ny varavarankely?"
           en: "What questions do you want to ask at the counter?"
         answer:
           kind: text
@@ -108,21 +92,17 @@ steps:
         help:
           rephrase:
             - fr: "Qu'est-ce que tu ne sais pas encore sur les démarches ?"
-              mg: "Inona no mbola tsy fantatrao momba ny fombafomba?"
               en: "What do you not know yet about the steps?"
           example:
             fr: "« Quelle forme me convient ? Quels papiers apporter ? Combien cela coûte et combien de temps cela prend ? »"
-            mg: "« Karazana inona no mety amiko? Taratasy inona no entina? Ohatrinona ary haharitra hafiriana? »"
             en: "\"Which form suits me? Which papers should I bring? How much does it cost and how long does it take?\""
           hints:
             - fr: "Regarde dans l'outil « Préparation administrative » ce qui est marqué non vérifié : ce sont de bonnes questions."
-              mg: "Jereo ao amin'ny fitaovana « Fanomanana ara-pitantanana » izay voamarika ho tsy voamarina: fanontaniana tsara ireo."
               en: "Look in the \"Administrative preparation\" tool for what is marked unchecked: those are good questions."
       - id: recap
         type: synthesis
         intro:
           fr: "Voici ce que tu apportes au guichet. Retrouve-le dans l'outil « Préparation administrative »."
-          mg: "Ity izay entinao any amin'ny varavarankely. Hitanao ao amin'ny fitaovana « Fanomanana ara-pitantanana » izany."
           en: "Here is what you bring to the counter. Find it in the \"Administrative preparation\" tool."
         shows: [business_name, activity, questions]
     outputs:

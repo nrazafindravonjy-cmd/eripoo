@@ -38,12 +38,12 @@ reset role;
 select tests.login_aal('00000000-0000-4000-8000-0000000000e1', 'aal2');
 select tests.ok(public.staff_my_roles() = array['content_editor'], 'roles are listed');
 select tests.ok(public.staff_save_document('quests/q99_test.yaml',
-  '{"id": "q99", "title": {"fr": "Titre", "mg": "Lohateny", "en": "Title"}}', 0) = 1,
+  '{"id": "q99", "title": {"fr": "Titre", "en": "Title"}}', 0) = 1,
   'an editor creates a document');
 select tests.throws($$select public.staff_save_document('quests/q99_test.yaml', '{}', 0)$$,
   'version_conflict', 'an existing document is not created twice');
 select tests.ok(public.staff_save_document('quests/q99_test.yaml',
-  '{"id": "q99", "title": {"fr": "Titre 2", "mg": "Lohateny", "en": "Title"}}', 1) = 2,
+  '{"id": "q99", "title": {"fr": "Titre 2", "en": "Title"}}', 1) = 2,
   'an editor saves a new version');
 select tests.throws($$select public.staff_save_document('quests/q99_test.yaml', '{}', 1)$$,
   'version_conflict', 'a stale version is refused');
@@ -58,13 +58,13 @@ select tests.logout();
 -- Translator.
 select tests.login_aal('00000000-0000-4000-8000-0000000000e2', 'aal2');
 select tests.ok(public.staff_set_translation('quests/q99_test.yaml',
-  array['title'], 'mg', 'Lohateny vaovao', 2) = 3, 'a translator changes a localized text');
+  array['title'], 'en', 'New title', 2) = 3, 'a translator changes a localized text');
 select tests.ok((select body from public.staff_get_document('quests/q99_test.yaml'))
-  #>> '{title,mg}' = 'Lohateny vaovao', 'the translation is stored');
+  #>> '{title,en}' = 'New title', 'the translation is stored');
 select tests.throws($$select public.staff_set_translation('quests/q99_test.yaml',
-  array['id'], 'mg', 'x', 3)$$, 'invalid_translation', 'only localized texts can be translated');
+  array['id'], 'en', 'x', 3)$$, 'invalid_translation', 'only localized texts can be translated');
 select tests.throws($$select public.staff_set_translation('quests/q99_test.yaml',
-  array['title'], 'de', 'x', 3)$$, 'invalid_translation', 'only mg, fr and en are accepted');
+  array['title'], 'mg', 'x', 3)$$, 'invalid_translation', 'only fr and en are accepted');
 select tests.throws($$select public.staff_save_document('quests/q99_test.yaml', '{}', 3)$$,
   'not_staff', 'a translator cannot rewrite a document');
 select tests.logout();

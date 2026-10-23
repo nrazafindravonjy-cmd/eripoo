@@ -46,7 +46,7 @@ void main() {
     expect(pack.missions, isNotEmpty);
   });
 
-  test('every text has French, Malagasy and English', () {
+  test('every text has French and English', () {
     final report = validatePack(pack);
     for (final language in AppLanguage.values) {
       expect(report.missing[language] ?? 0, 0, reason: language.name);
@@ -54,10 +54,9 @@ void main() {
   });
 
   test('nothing is presented as reviewed before a person reviewed it', () {
-    // Phase 3 drafts (DEVELOPMENT_PLAN D14): Malagasy are first drafts,
-    // French and English still need a human review.
+    // Phase 3 drafts (DEVELOPMENT_PLAN D14): French and English still
+    // need a human review.
     for (final text in allTexts(pack)) {
-      expect(text.statusOf(AppLanguage.mg), ReviewStatus.machineDraft);
       expect(text.statusOf(AppLanguage.fr), ReviewStatus.needsReview);
       expect(text.statusOf(AppLanguage.en), ReviewStatus.needsReview);
     }

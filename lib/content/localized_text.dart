@@ -15,7 +15,7 @@ enum ReviewStatus {
   machineDraft,
 }
 
-/// A text of the content in mg / fr / en, each with its review status.
+/// A text of the content in fr / en, each with its review status.
 class LocalizedText {
   const LocalizedText(this.texts, [this.status = const {}]);
 
@@ -25,9 +25,9 @@ class LocalizedText {
   ReviewStatus statusOf(AppLanguage language) =>
       status[language] ?? ReviewStatus.reviewed;
 
-  /// `{fr: "...", mg: "...", en: "...", status: {mg: needs_review}}`.
+  /// `{fr: "...", en: "...", status: {en: needs_review}}`.
   factory LocalizedText.read(JsonReader json) {
-    json.onlyKeys({'fr', 'mg', 'en', 'status'});
+    json.onlyKeys({'fr', 'en', 'status'});
     final texts = <AppLanguage, String>{
       for (final language in AppLanguage.values)
         if (json.has(language.name)) language: json[language.name].string,
@@ -72,9 +72,8 @@ class ContentLocalizer {
   final Map<AppLanguage, List<AppLanguage>> _chains;
 
   static const defaultChains = {
-    AppLanguage.mg: [AppLanguage.mg, AppLanguage.fr, AppLanguage.en],
-    AppLanguage.fr: [AppLanguage.fr, AppLanguage.mg, AppLanguage.en],
-    AppLanguage.en: [AppLanguage.en, AppLanguage.fr, AppLanguage.mg],
+    AppLanguage.fr: [AppLanguage.fr, AppLanguage.en],
+    AppLanguage.en: [AppLanguage.en, AppLanguage.fr],
   };
 
   ResolvedText resolve(LocalizedText text) {

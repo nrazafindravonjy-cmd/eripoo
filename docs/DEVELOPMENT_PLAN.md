@@ -522,8 +522,8 @@ règles) posés en Phase 2.
 | **D10** | Fournisseur SMS (OTP) | après test de délivrabilité et de coût | connexion par téléphone |
 | **D11** | Appareils de référence | voir P7 : au minimum catégories A et B, idéalement A à E | acceptation de la Phase 2 |
 | **D12** | Analyse juridique (mineurs, loi 2014-038, transferts hors de Madagascar) | volet mineurs avant la Phase 2 | Phase 2 (onboarding des mineurs) |
-| **D13** | Relecteurs natifs malagasy | dès la Phase 1 | — (améliore la Phase 1) |
-| **D14** | Langue de rédaction du contenu | co-rédaction mg + fr par des auteurs natifs | Phase 3 |
+| **D13** | Relecteurs natifs malagasy | **sans objet depuis le 2026-10-23** : malagasy abandonné par le porteur (peur que les utilisateurs ne s'identifient pas à la traduction) ; application en français et en anglais, langue du téléphone par défaut, slogan conservé en malagasy | — |
+| **D14** | Langue de rédaction du contenu | français de référence, anglais traduit (malagasy abandonné le 2026-10-23) | Phase 3 |
 | **D15** | Plafond de 10 Mo par média | oui | Phase 4 |
 | ~~D17~~ | **Rotation de l'UMK : implémentée en Phase 10** (SECURITY §4.10) | — | — |
 

@@ -96,7 +96,7 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('no language yet: the welcome screen, in Malagasy', (
+  testWidgets("no language yet: the welcome screen, in the phone's language", (
     tester,
   ) async {
     setSurfaceSize(tester, phoneSize);
@@ -111,10 +111,10 @@ void main() {
       UncontrolledProviderScope(container: container, child: const EripooApp()),
     );
     await tester.pumpAndSettle();
-    expect(find.text("Tongasoa eto amin'ny Eripoo"), findsOneWidget);
+    expect(find.text('Welcome to Eripoo'), findsOneWidget);
     expect(find.byType(NavigationBar), findsNothing);
-    await tapText(tester, 'Hanomboka');
-    expect(container.read(appSettingsProvider).language, AppLanguage.mg);
+    await tapText(tester, 'Start');
+    expect(container.read(appSettingsProvider).language, AppLanguage.en);
     expect(find.byType(NavigationBar), findsOneWidget);
   });
 
@@ -176,17 +176,17 @@ void main() {
     expect(find.text('Il manque encore une réponse.'), findsOneWidget);
   });
 
-  testWidgets('Malagasy drafts are shown with the review note', (tester) async {
+  testWidgets('drafts are shown with the review note', (tester) async {
     await diagnosticDone(tester);
     await launch(
       tester,
-      language: AppLanguage.mg,
+      language: AppLanguage.en,
       at: AppRoutes.step('q01.s01'),
     );
-    expect(find.text("Nahoana no manomboka amin'ny olana?"), findsWidgets);
+    expect(find.text('Why start from a problem?'), findsWidgets);
     expect(
       find.text(
-        "Misy lahatsoratra mbola hojerena na aseho amin'ny fiteny hafa.",
+        'Some texts are still being reviewed or shown in another language.',
       ),
       findsOneWidget,
     );
