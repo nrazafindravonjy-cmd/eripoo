@@ -66,3 +66,15 @@ $$;
 grant execute on function public.gen_random_bytes_stub(integer) to authenticated;
 
 grant execute on all functions in schema tests to anon, authenticated;
+
+-- Acts as user p_uid with an authenticator assurance level ('aal1' for a
+-- password only, 'aal2' after a second factor).
+create or replace function tests.login_aal(p_uid uuid, p_aal text)
+returns void language plpgsql as $$
+begin
+  perform set_config('request.jwt.claims', jsonb_build_object(
+    'sub', p_uid, 'role', 'authenticated', 'aal', p_aal)::text, true);
+  execute 'set local role authenticated';
+end;
+$$;
+grant execute on function tests.login_aal(uuid, text) to anon, authenticated;

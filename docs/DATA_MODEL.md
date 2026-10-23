@@ -253,10 +253,17 @@ content_releases (
 -- Les fichiers de packs sont dans le bucket `content` (lecture publique).
 ```
 
-Quand le back-office existera (après Phase 6), ses tables d'édition
-(`content_items`, `content_translations`, `regulatory_sources`, …) seront
-ajoutées dans un schéma `authoring`, accessible seulement aux rôles
-éditoriaux.
+**Back-office, lot 1 (migration `20261023000001_backoffice.sql`,
+2026-10-23)** : schéma `authoring` non exposé par l'API, avec
+`staff_roles` (`content_editor`, `translator`, `content_publisher`,
+`analyst` ; attribués par le porteur dans l'éditeur SQL), `documents` (un
+fichier de `content/` par ligne, YAML converti en JSON, versionné) et
+`audit_log` (qui, quoi, quand, jamais de contenu). Accès uniquement par
+les fonctions `staff_*`, qui exigent un rôle **et** une session à second
+facteur (`aal2`) : `staff_my_roles`, `staff_list_documents`,
+`staff_get_document`, `staff_save_document` (verrou optimiste),
+`staff_set_translation` (un texte localisé seulement), `staff_usage_stats`
+(totaux < 10 masqués). Tests : `supabase/tests/sql/90_backoffice_test.sql`.
 
 ### 2.5 Administration et audit
 

@@ -166,6 +166,14 @@ santé technique, jamais d'accès aux projets privés).
 `main`, vérification de la région, essai à blanc par défaut) et procédure
 de création dans RELEASE_CHECKLIST §1. **Reste** : création du projet par
 le porteur, édition du contenu hors dépôt (D5) et back-office.
+**Back-office** (décisions du 2026-10-23 : contenu édité dans le schéma
+Supabase `authoring`, Flutter web, GitHub Pages, Supabase Auth + MFA
+TOTP). **Lot 1 fait** : schéma, rôles, fonctions `staff_*`, tests SQL
+(DATA_MODEL §2.4). **Reste** : lot 2, application Flutter web
+(`backoffice/`, connexion + MFA, liste et édition des documents,
+traductions, statistiques) et déploiement GitHub Pages ; lot 3, import du
+YAML du dépôt et publication d'un pack signé depuis `authoring` ; santé
+technique.
 
 Facultatifs (« éventuellement » dans le cahier des charges) : niveau de
 préparation (§23), aide à la recherche d'associés (§48), plusieurs
