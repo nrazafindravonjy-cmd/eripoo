@@ -86,3 +86,33 @@ select tests.ok(not exists (select from pg_policies
      and qual ilike '%staff_roles%'),
   'no staff policy on private tables');
 rollback;
+
+-- Technical health: service-wide totals, small ones hidden.
+begin;
+select tests.create_user('00000000-0000-4000-8000-0000000000e5');
+insert into authoring.staff_roles (user_id, role)
+  values ('00000000-0000-4000-8000-0000000000e5', 'analyst');
+select tests.login_aal('00000000-0000-4000-8000-0000000000e5', 'aal2');
+select tests.ok((public.staff_health() -> 'accounts') = 'null'::jsonb,
+  'fewer than 10 accounts are not shown');
+select tests.ok(public.staff_health() ? 'sync_bytes'
+  and jsonb_typeof(public.staff_health() -> 'app_versions') = 'array',
+  'the health report lists totals and app versions');
+select tests.logout();
+reset role;
+do $$
+begin
+  for i in 1..12 loop
+    perform tests.create_user(gen_random_uuid());
+  end loop;
+end;
+$$;
+select tests.login_aal('00000000-0000-4000-8000-0000000000e5', 'aal2');
+select tests.ok((public.staff_health() ->> 'accounts')::int >= 10,
+  'a total of 10 or more is shown');
+select tests.logout();
+select tests.login_aal('00000000-0000-4000-8000-0000000000e4', 'aal2');
+select tests.throws($$select public.staff_health()$$, 'not_staff',
+  'only analysts see the health report');
+select tests.logout();
+rollback;

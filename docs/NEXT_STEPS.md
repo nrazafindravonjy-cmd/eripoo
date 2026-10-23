@@ -183,7 +183,11 @@ Supabase ; l'export valide le pack puis ouvre une PR, le contenu part
 avec la prochaine APK). Non vérifié contre un vrai projet. **Reste** :
 mises à jour du contenu sans nouvelle APK (packs signés Ed25519,
 SECURITY §15 : clé de publication hors ligne à créer par le porteur,
-vérification dans l'app) ; santé technique.
+vérification dans l'app). **Santé technique faite** : fonction
+`staff_health` (analystes, MFA) et écran du back-office : comptes,
+appareils actifs et vus, éléments et volume synchronisés, médias,
+documents, versions de l'application, uniquement des totaux du service,
+masqués sous 10.
 
 Facultatifs (« éventuellement » dans le cahier des charges) : niveau de
 préparation (§23), aide à la recherche d'associés (§48), plusieurs

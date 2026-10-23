@@ -32,5 +32,18 @@
   "errorInvalid": "Content refused (invalid format).",
   "errorSignIn": "Sign-in refused.",
   "errorJson": "Invalid JSON.",
-  "reload": "Reload"
+  "reload": "Reload",
+  "health": "Technical health",
+  "healthAccounts": "Accounts",
+  "healthAccountsNew": "New accounts (7 days)",
+  "healthDevicesActive": "Active devices",
+  "healthDevicesSeen": "Devices seen (7 days)",
+  "healthSyncRecords": "Synced items (encrypted)",
+  "healthSyncBytes": "Synced volume (bytes)",
+  "healthSync24h": "Synced changes (24 h)",
+  "healthSync7d": "Synced changes (7 days)",
+  "healthMediaFiles": "Media files (encrypted)",
+  "healthMediaBytes": "Media volume (bytes)",
+  "healthDocuments": "Content documents",
+  "healthAppVersions": "App versions (devices seen in 30 days, groups ≥ 10)"
 }

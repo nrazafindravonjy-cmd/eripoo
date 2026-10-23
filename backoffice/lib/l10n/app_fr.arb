@@ -17,7 +17,13 @@
   "save": "Enregistrer",
   "saved": "Enregistré",
   "version": "Version {version}",
-  "@version": {"placeholders": {"version": {"type": "int"}}},
+  "@version": {
+    "placeholders": {
+      "version": {
+        "type": "int"
+      }
+    }
+  },
   "noDocuments": "Aucun document. L'import du contenu du dépôt viendra au lot 3.",
   "noRole": "Ce compte n'a aucun rôle dans le back-office.",
   "hidden": "< 10",
@@ -33,5 +39,18 @@
   "errorInvalid": "Contenu refusé (format invalide).",
   "errorSignIn": "Connexion refusée.",
   "errorJson": "JSON invalide.",
-  "reload": "Recharger"
+  "reload": "Recharger",
+  "health": "Santé technique",
+  "healthAccounts": "Comptes",
+  "healthAccountsNew": "Nouveaux comptes (7 jours)",
+  "healthDevicesActive": "Appareils actifs",
+  "healthDevicesSeen": "Appareils vus (7 jours)",
+  "healthSyncRecords": "Éléments synchronisés (chiffrés)",
+  "healthSyncBytes": "Volume synchronisé (octets)",
+  "healthSync24h": "Modifications synchronisées (24 h)",
+  "healthSync7d": "Modifications synchronisées (7 jours)",
+  "healthMediaFiles": "Fichiers médias (chiffrés)",
+  "healthMediaBytes": "Volume des médias (octets)",
+  "healthDocuments": "Documents de contenu",
+  "healthAppVersions": "Versions de l'application (appareils vus en 30 jours, groupes ≥ 10)"
 }
