@@ -76,6 +76,45 @@ class EripooButton extends StatelessWidget {
           icon: Icon(icon),
           label: content,
         ),
+      // The main action carries a dark pastille with an arrow: it reads as
+      // "go" at a glance and stays the one dominant element.
+      EripooButtonVariant.primary when !isLoading => FilledButton(
+        onPressed: callback,
+        style: FilledButton.styleFrom(
+          padding: const EdgeInsets.only(
+            left: EripooSpacing.sm,
+            right: EripooSpacing.xl,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
+          children: [
+            ExcludeSemantics(
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: onPressed == null
+                      ? colors.textSecondary
+                      : colors.brand.onBase,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.arrow_forward,
+                  size: 20,
+                  color: colors.brand.base,
+                ),
+              ),
+            ),
+            const SizedBox(width: EripooSpacing.md),
+            if (expand)
+              Expanded(child: Center(child: content))
+            else
+              Flexible(child: content),
+            if (expand) const SizedBox(width: 40),
+          ],
+        ),
+      ),
       EripooButtonVariant.primary => FilledButton(
         onPressed: callback,
         child: content,

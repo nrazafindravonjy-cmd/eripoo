@@ -631,5 +631,20 @@
   "legalVersion": "Version {version}",
   "settingsUsageStats": "Anonymous statistics",
   "settingsUsageStatsHelp": "Sends only daily totals (app opened, quests and missions finished, PDFs exported), with no identifier and nothing from your project. Off by default.",
-  "welcomeUsageStats": "Help improve Eripoo with anonymous statistics (can be changed any time in Profile)"
+  "welcomeUsageStats": "Help improve Eripoo with anonymous statistics (can be changed any time in Profile)",
+  "greetingMorning": "Good morning",
+  "greetingAfternoon": "Good afternoon",
+  "greetingEvening": "Good evening",
+  "homeHeroLabel": "Your current quest",
+  "homeHeroProgress": "{done} of {total} steps",
+  "statSteps": "Steps done",
+  "statHypotheses": "Hypotheses validated",
+  "statNotes": "Field notes",
+  "statPrice": "Your price",
+  "statPriceNone": "To set",
+  "statFraction": "{done} / {total}",
+  "deltaThisWeek": "+{count} this week",
+  "activityTitle": "Your last 7 days",
+  "activityDayDone": "{day}: you made progress",
+  "activityDayNone": "{day}: nothing recorded"
 }

@@ -3170,5 +3170,96 @@
   "welcomeUsageStats": "Aider à améliorer Eripoo avec des statistiques anonymes (modifiable à tout moment dans le Profil)",
   "@welcomeUsageStats": {
     "description": "Case à cocher de l'écran d'accueil, décochée par défaut."
+  },
+  "greetingMorning": "Bonjour",
+  "@greetingMorning": {
+    "description": "Home greeting before noon."
+  },
+  "greetingAfternoon": "Bon après-midi",
+  "@greetingAfternoon": {
+    "description": "Home greeting from noon to 6 pm."
+  },
+  "greetingEvening": "Bonsoir",
+  "@greetingEvening": {
+    "description": "Home greeting after 6 pm."
+  },
+  "homeHeroLabel": "Ta quête en cours",
+  "@homeHeroLabel": {
+    "description": "Label above the current quest on the home hero card."
+  },
+  "homeHeroProgress": "{done} étapes sur {total}",
+  "@homeHeroProgress": {
+    "description": "Progress of the current quest.",
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "statSteps": "Étapes faites",
+  "@statSteps": {
+    "description": "Home stat card: steps completed."
+  },
+  "statHypotheses": "Hypothèses validées",
+  "@statHypotheses": {
+    "description": "Home stat card: hypotheses validated."
+  },
+  "statNotes": "Notes de terrain",
+  "@statNotes": {
+    "description": "Home stat card: observations and interviews."
+  },
+  "statPrice": "Ton prix",
+  "@statPrice": {
+    "description": "Home stat card: chosen price."
+  },
+  "statPriceNone": "À fixer",
+  "@statPriceNone": {
+    "description": "Home stat card when no price is chosen yet."
+  },
+  "statFraction": "{done} / {total}",
+  "@statFraction": {
+    "description": "A done/total figure on a stat card.",
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "deltaThisWeek": "+{count} cette semaine",
+  "@deltaThisWeek": {
+    "description": "Badge: new items in the last 7 days.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "activityTitle": "Tes 7 derniers jours",
+  "@activityTitle": {
+    "description": "Title of the home week strip."
+  },
+  "activityDayDone": "{day} : tu as avancé",
+  "@activityDayDone": {
+    "description": "Screen reader text for a day with progress.",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "activityDayNone": "{day} : rien de noté",
+  "@activityDayNone": {
+    "description": "Screen reader text for a day without progress.",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
   }
 }

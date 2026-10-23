@@ -278,95 +278,118 @@ class _StepScreenState extends ConsumerState<StepScreen> {
         QuestKind.diagnostic;
     return Scaffold(
       appBar: AppBar(title: Text(contentText(context, step.title))),
+      // The main action stays at the bottom, above the keyboard, so it is
+      // always within reach of the thumb.
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
+        child: Column(
           children: [
-            ReadableColumn(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
                 children: [
-                  EripooProgress(
-                    done: session.index + 1,
-                    total: session.blocks.length,
-                  ),
-                  const SizedBox(height: EripooSpacing.xl),
-                  KeyedSubtree(
-                    key: ValueKey(block.id),
-                    child: _BlockView(
-                      block: block,
-                      session: session,
-                      field: _field,
-                      onChoice: (value) async {
-                        final q = block as QuestionBlock;
-                        await _save(q, session.answer(q, value));
-                        setState(() => _error = null);
-                      },
-                      onOpenMission: (id) =>
-                          context.push(AppRoutes.mission(id)),
-                      onVoiceKept: _voiceKept,
-                      onVoiceDeleted: _voiceDeleted,
+                  ReadableColumn(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        EripooProgress(
+                          done: session.index + 1,
+                          total: session.blocks.length,
+                        ),
+                        const SizedBox(height: EripooSpacing.xl),
+                        KeyedSubtree(
+                          key: ValueKey(block.id),
+                          child: _BlockView(
+                            block: block,
+                            session: session,
+                            field: _field,
+                            onChoice: (value) async {
+                              final q = block as QuestionBlock;
+                              await _save(q, session.answer(q, value));
+                              setState(() => _error = null);
+                            },
+                            onOpenMission: (id) =>
+                                context.push(AppRoutes.mission(id)),
+                            onVoiceKept: _voiceKept,
+                            onVoiceDeleted: _voiceDeleted,
+                          ),
+                        ),
+                        if (_error != null) ...[
+                          const SizedBox(height: EripooSpacing.md),
+                          Text(
+                            _error!,
+                            style: context.textStyles.bodyMedium?.copyWith(
+                              color: context.colors.danger.base,
+                            ),
+                          ),
+                        ],
+                        if (needsReviewNote(context, _textsOf(block)))
+                          const ContentReviewNote(),
+                      ],
                     ),
                   ),
-                  if (_error != null) ...[
-                    const SizedBox(height: EripooSpacing.md),
-                    Text(
-                      _error!,
-                      style: context.textStyles.bodyMedium?.copyWith(
-                        color: context.colors.danger.base,
-                      ),
-                    ),
-                  ],
-                  const SizedBox(height: EripooSpacing.xl),
-                  EripooButton(
-                    label: session.isLast ? l10n.stepFinish : l10n.stepNext,
-                    expand: true,
-                    isLoading: _busy,
-                    onPressed: session.isLast ? _finish : _next,
-                  ),
-                  const SizedBox(height: EripooSpacing.sm),
-                  // Side by side when they fit, stacked otherwise (narrow
-                  // phones, large text).
-                  OverflowBar(
-                    alignment: session.isFirst
-                        ? MainAxisAlignment.end
-                        : MainAxisAlignment.spaceBetween,
-                    overflowAlignment: OverflowBarAlignment.end,
-                    overflowSpacing: EripooSpacing.xs,
+                ],
+              ),
+            ),
+            DecoratedBox(
+              decoration: BoxDecoration(color: context.colors.background),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: EripooSpacing.sm,
+                  bottom: EripooSpacing.sm,
+                ),
+                child: ReadableColumn(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      if (!session.isFirst)
-                        EripooButton(
-                          label: l10n.stepBack,
-                          icon: Icons.arrow_back,
-                          variant: EripooButtonVariant.tertiary,
-                          onPressed: () => setState(() {
-                            _error = null;
-                            session.back();
-                          }),
-                        ),
-                      // The diagnostic is not set aside: the journey starts
-                      // after it, and "I don't know" is always possible.
-                      if (isQuestion || !inDiagnostic)
-                        EripooHelpButton(
-                          onSelected: _onHelp,
-                          actions: [
-                            if (isQuestion) ...[
-                              HelpAction.dontKnow,
-                              HelpAction.dontUnderstand,
-                              HelpAction.showExample,
-                              HelpAction.askHelp,
-                            ],
-                            if (!inDiagnostic) ...[
-                              HelpAction.skipForNow,
-                              HelpAction.comeBackLater,
-                            ],
-                          ],
-                        ),
+                      EripooButton(
+                        label: session.isLast ? l10n.stepFinish : l10n.stepNext,
+                        expand: true,
+                        isLoading: _busy,
+                        onPressed: session.isLast ? _finish : _next,
+                      ),
+                      const SizedBox(height: EripooSpacing.sm),
+                      // Side by side when they fit, stacked otherwise (narrow
+                      // phones, large text).
+                      OverflowBar(
+                        alignment: session.isFirst
+                            ? MainAxisAlignment.end
+                            : MainAxisAlignment.spaceBetween,
+                        overflowAlignment: OverflowBarAlignment.end,
+                        overflowSpacing: EripooSpacing.xs,
+                        children: [
+                          if (!session.isFirst)
+                            EripooButton(
+                              label: l10n.stepBack,
+                              icon: Icons.arrow_back,
+                              variant: EripooButtonVariant.tertiary,
+                              onPressed: () => setState(() {
+                                _error = null;
+                                session.back();
+                              }),
+                            ),
+                          // The diagnostic is not set aside: the journey starts
+                          // after it, and "I don't know" is always possible.
+                          if (isQuestion || !inDiagnostic)
+                            EripooHelpButton(
+                              onSelected: _onHelp,
+                              actions: [
+                                if (isQuestion) ...[
+                                  HelpAction.dontKnow,
+                                  HelpAction.dontUnderstand,
+                                  HelpAction.showExample,
+                                  HelpAction.askHelp,
+                                ],
+                                if (!inDiagnostic) ...[
+                                  HelpAction.skipForNow,
+                                  HelpAction.comeBackLater,
+                                ],
+                              ],
+                            ),
+                        ],
+                      ),
                     ],
                   ),
-                  if (needsReviewNote(context, _textsOf(block)))
-                    const ContentReviewNote(),
-                ],
+                ),
               ),
             ),
           ],
@@ -563,7 +586,8 @@ class _QuestionView extends StatelessWidget {
             ),
           ),
         switch (spec.kind) {
-          AnswerKind.choice => Column(
+          AnswerKind.choice => _OptionGrid(
+            short: spec.options.every((o) => t(o.label).length <= 22),
             children: [
               for (final o in spec.options)
                 _OptionTile(
@@ -574,7 +598,8 @@ class _QuestionView extends StatelessWidget {
                 ),
             ],
           ),
-          AnswerKind.multiChoice => Column(
+          AnswerKind.multiChoice => _OptionGrid(
+            short: spec.options.every((o) => t(o.label).length <= 22),
             children: [
               for (final o in spec.options)
                 _OptionTile(
@@ -641,6 +666,34 @@ class _QuestionView extends StatelessWidget {
   }
 }
 
+/// Options as tiles: two per row when every label is short (recognised at
+/// a glance), one per row otherwise so long sentences stay readable.
+class _OptionGrid extends StatelessWidget {
+  const _OptionGrid({required this.short, required this.children});
+
+  final bool short;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    if (!short) return Column(children: children);
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final width = (constraints.maxWidth - EripooSpacing.sm) / 2;
+        return Wrap(
+          spacing: EripooSpacing.sm,
+          children: [
+            for (final c in children) SizedBox(width: width, child: c),
+          ],
+        );
+      },
+    );
+  }
+}
+
+/// One option, in the signature shape. Selected: yellow outline, raised
+/// surface and a filled Eripoo mark; not selected: an empty mark (shape
+/// and fill, not colour alone, say the state).
 class _OptionTile extends StatelessWidget {
   const _OptionTile({
     required this.label,
@@ -657,22 +710,26 @@ class _OptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.colors;
+    final shape = EripooCutBorder(
+      radius: EripooRadii.lg,
+      cut: 12,
+      side: BorderSide(
+        color: selected ? colors.brand.base : colors.border,
+        width: selected ? 2 : 1,
+      ),
+    );
     return Padding(
       padding: const EdgeInsets.only(bottom: EripooSpacing.sm),
       child: Semantics(
         selected: selected,
+        checked: multi ? selected : null,
+        inMutuallyExclusiveGroup: multi ? null : true,
         button: true,
         child: Material(
-          color: selected ? colors.brand.container : colors.surface,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(EripooRadii.md),
-            side: BorderSide(
-              color: selected ? colors.brand.base : colors.borderStrong,
-              width: selected ? 2 : 1,
-            ),
-          ),
+          color: selected ? colors.surfaceMuted : colors.surface,
+          shape: shape,
+          clipBehavior: Clip.antiAlias,
           child: InkWell(
-            borderRadius: BorderRadius.circular(EripooRadii.md),
             onTap: () {
               HapticFeedback.selectionClick();
               onTap();
@@ -688,17 +745,16 @@ class _OptionTile extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    Icon(
-                      multi
-                          ? (selected
-                                ? Icons.check_box
-                                : Icons.check_box_outline_blank)
-                          : (selected
-                                ? Icons.radio_button_checked
-                                : Icons.radio_button_unchecked),
-                      color: selected
-                          ? colors.brand.base
-                          : colors.textSecondary,
+                    ExcludeSemantics(
+                      child: CustomPaint(
+                        size: const Size(18, 18.7),
+                        painter: _OptionMarkPainter(
+                          color: selected
+                              ? colors.brand.base
+                              : colors.textSecondary,
+                          filled: selected,
+                        ),
+                      ),
                     ),
                     const SizedBox(width: EripooSpacing.md),
                     Expanded(
@@ -713,6 +769,28 @@ class _OptionTile extends StatelessWidget {
       ),
     );
   }
+}
+
+class _OptionMarkPainter extends CustomPainter {
+  _OptionMarkPainter({required this.color, required this.filled});
+
+  final Color color;
+  final bool filled;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = color;
+    if (!filled) {
+      paint
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.5;
+    }
+    canvas.drawPath(eripooMarkPath(Offset.zero & size), paint);
+  }
+
+  @override
+  bool shouldRepaint(_OptionMarkPainter old) =>
+      old.color != color || old.filled != filled;
 }
 
 /// Shows back what the user wrote in this step.

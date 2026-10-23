@@ -26,7 +26,20 @@ l'app (`EripooGrain`, dessiné une fois) ; formes organiques derrière les
 marques du logo (`EripooPathItem`) ; onglet actif posé sur une marque du
 logo ; transitions de page en diagonale, pression des cartes et validation
 d'étape par l'apparition du logo (`EripooDoneMark`), toutes coupées quand
-l'utilisateur réduit les animations. Les 69 règles
+l'utilisateur réduit les animations.
+
+**Accueil et parcours (2026-10-23)**, inspirés de références sans les
+copier : salutation selon l'heure avec le nom du projet (aucun prénom
+demandé) ; carte héros jaune avec la quête en cours, sa progression
+dessinée sur le contour du logo (`EripooProgressMark`) et une seule
+action ; quatre chiffres du projet en grille (`EripooStatCard` : étapes,
+hypothèses validées, notes de terrain, prix ; badge « +N cette semaine »
+en texte, jamais culpabilisant) ; frise des 7 derniers jours
+(`EripooWeekStrip`, sans série à tenir) ; logo géant en filigrane ;
+bouton principal avec pastille fléchée, fixé en bas des étapes et de
+l'écran de bienvenue ; options de réponse en tuiles à coin coupé, deux
+par ligne quand les libellés sont courts, avec marque du logo pleine ou
+vide. Les 69 règles
 UX/UI transmises par le porteur s'appliquent à tous les écrans ; l'audit
 écran par écran est en cours (NEXT_STEPS, chantier C-15).
 

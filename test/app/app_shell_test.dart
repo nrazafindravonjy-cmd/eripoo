@@ -142,7 +142,7 @@ void main() {
   ]) {
     testWidgets('renders in ${language.name}', (tester) async {
       await pumpApp(tester, settings: AppSettings(language: language));
-      expect(find.widgetWithText(AppBar, home), findsOneWidget);
+      expect(find.widgetWithText(NavigationBar, home), findsOneWidget);
       final context = tester.element(find.byType(NavigationBar));
       expect(AppLocalizations.of(context).localeName, language.name);
       // Framework strings must resolve in every language.
