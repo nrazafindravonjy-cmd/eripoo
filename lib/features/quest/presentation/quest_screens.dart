@@ -119,6 +119,17 @@ class QuestDetailScreen extends ConsumerWidget {
           body: ListView(
             padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
             children: [
+              // Context first (yellow italics), then the goal (large serif).
+              if (plan.quests.indexOf(q) case final i when i >= 0)
+                ReadableColumn(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: EripooSpacing.lg),
+                    child: EripooHeadline(
+                      '*${AppLocalizations.of(context).questNumber(i + 1)}*\n'
+                      '${contentText(context, q.quest.title)}',
+                    ),
+                  ),
+                ),
               ReadableColumn(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: EripooSpacing.lg),

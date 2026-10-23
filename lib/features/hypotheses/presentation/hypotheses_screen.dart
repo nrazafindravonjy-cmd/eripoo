@@ -53,7 +53,16 @@ class HypothesesScreen extends ConsumerWidget {
                         96,
                       ),
                       children: [
-                        for (final h in hypotheses.reversed)
+                        ReadableColumn(
+                          child: _StatusFilters(hypotheses: hypotheses),
+                        ),
+                        for (final h in hypotheses.reversed.where(
+                          (h) =>
+                              ref.watch(hypothesisFilterProvider).isEmpty ||
+                              ref
+                                  .watch(hypothesisFilterProvider)
+                                  .contains(h.status),
+                        ))
                           ReadableColumn(
                             child: Padding(
                               padding: const EdgeInsets.only(
@@ -65,6 +74,65 @@ class HypothesesScreen extends ConsumerWidget {
                       ],
                     ),
             ),
+    );
+  }
+}
+
+/// Statuses shown in the list; empty means all. Kept while the user goes
+/// back and forth (rule 11).
+class HypothesisFilter extends Notifier<Set<HypothesisStatus>> {
+  @override
+  Set<HypothesisStatus> build() => const {};
+
+  void toggle(HypothesisStatus status) => state = state.contains(status)
+      ? ({...state}..remove(status))
+      : {...state, status};
+
+  void clear() => state = const {};
+}
+
+final hypothesisFilterProvider =
+    NotifierProvider<HypothesisFilter, Set<HypothesisStatus>>(
+      HypothesisFilter.new,
+    );
+
+/// Pastilles of the statuses present; an active one shows a cross to
+/// remove it in one gesture.
+class _StatusFilters extends ConsumerWidget {
+  const _StatusFilters({required this.hypotheses});
+
+  final List<Hypothesis> hypotheses;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final active = ref.watch(hypothesisFilterProvider);
+    final filter = ref.read(hypothesisFilterProvider.notifier);
+    final present = [
+      for (final s in HypothesisStatus.values)
+        if (hypotheses.any((h) => h.status == s)) s,
+    ];
+    if (present.length < 2) return const SizedBox.shrink();
+    return Padding(
+      padding: const EdgeInsets.only(bottom: EripooSpacing.md),
+      child: Wrap(
+        spacing: EripooSpacing.sm,
+        runSpacing: EripooSpacing.xs,
+        children: [
+          for (final s in present)
+            FilterChip(
+              label: Text(statusLabel(l10n, s)),
+              selected: active.contains(s),
+              onSelected: (_) => filter.toggle(s),
+              onDeleted: active.contains(s) ? () => filter.toggle(s) : null,
+              deleteButtonTooltipMessage: l10n.filterRemove(
+                statusLabel(l10n, s),
+              ),
+            ),
+          if (active.isNotEmpty)
+            ActionChip(label: Text(l10n.filterAll), onPressed: filter.clear),
+        ],
+      ),
     );
   }
 }

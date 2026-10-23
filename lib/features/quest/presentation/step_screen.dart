@@ -322,6 +322,35 @@ class _StepScreenState extends ConsumerState<StepScreen> {
                             ),
                           ),
                         ],
+                        // Before finishing: what happens, said plainly.
+                        if (session.isLast) ...[
+                          const SizedBox(height: EripooSpacing.xl),
+                          EripooCard(
+                            child: Row(
+                              children: [
+                                const EripooDoneMark(size: 28),
+                                const SizedBox(width: EripooSpacing.md),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        l10n.stepRecapTitle,
+                                        style: context.textStyles.titleSmall,
+                                      ),
+                                      const SizedBox(height: EripooSpacing.xxs),
+                                      Text(
+                                        l10n.stepSavedNote,
+                                        style: context.textStyles.bodySmall,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                         if (needsReviewNote(context, _textsOf(block)))
                           const ContentReviewNote(),
                       ],
@@ -625,7 +654,8 @@ class _QuestionView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // A spoken answer takes the place of the written one.
-              if (answer == null || !answer.isVoice)
+              if ((answer == null || !answer.isVoice) &&
+                  !session.canAnswerByVoice(block))
                 EripooTextField(
                   label: l10n.stepYourAnswer,
                   controller: controller,
@@ -636,12 +666,22 @@ class _QuestionView extends StatelessWidget {
                   keyboardType: TextInputType.multiline,
                 ),
               if (session.canAnswerByVoice(block)) ...[
-                const SizedBox(height: EripooSpacing.sm),
                 VoiceAnswer(
                   mediaId: answer != null && answer.isVoice
                       ? answer.value! as String
                       : null,
                   written: controller,
+                  // Writing or speaking, in the same field.
+                  fieldBuilder: (voice) => EripooTextField(
+                    label: l10n.stepYourAnswer,
+                    controller: controller,
+                    isOptional: block.optional,
+                    minLines: 3,
+                    maxLines: 8,
+                    maxLength: spec.maxLength,
+                    keyboardType: TextInputType.multiline,
+                    footer: voice,
+                  ),
                   onKept: onVoiceKept,
                   onDeleted: onVoiceDeleted,
                 ),

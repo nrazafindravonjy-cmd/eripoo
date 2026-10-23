@@ -39,7 +39,18 @@ en texte, jamais culpabilisant) ; frise des 7 derniers jours
 bouton principal avec pastille fléchée, fixé en bas des étapes et de
 l'écran de bienvenue ; options de réponse en tuiles à coin coupé, deux
 par ligne quand les libellés sont courts, avec marque du logo pleine ou
-vide. Les 69 règles
+vide.
+
+**Deuxième série de références (2026-10-23)** : carte « prêt à terminer »
+en fin d'étape (enregistré sur le téléphone, chiffré) ; filtres en
+pastilles à coin coupé retirables d'un geste, conservés au retour
+(hypothèses) ; barre flottante pendant une sélection (`EripooSelectionBar`,
+corbeille : « Restaurer N ») ; carte d'identité du projet partageable en
+image (exactement la carte affichée, sans réponse privée) ; outils en
+grille, le plus utile en pleine largeur ; champ de réponse avec l'action
+« Répondre à l'oral » à l'intérieur ; forme organique qui respire pendant
+l'enregistrement (`EripooListeningShape`) ; titres de quête en deux tons
+(« *Quête 3* » puis l'objectif). Les 69 règles
 UX/UI transmises par le porteur s'appliquent à tous les écrans ; l'audit
 écran par écran est en cours (NEXT_STEPS, chantier C-15).
 

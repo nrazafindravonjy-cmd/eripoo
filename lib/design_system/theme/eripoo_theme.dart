@@ -231,6 +231,23 @@ abstract final class EripooTheme {
         actionTextColor: c.background,
         shape: const EripooCutBorder(radius: EripooRadii.md, cut: 12),
       ),
+      // Filters and tags: cut-corner pastilles; the selected one gets the
+      // yellow outline (and a tick, so colour is never alone).
+      chipTheme: ChipThemeData(
+        backgroundColor: c.surface,
+        selectedColor: c.surfaceMuted,
+        checkmarkColor: c.brand.base,
+        deleteIconColor: c.textSecondary,
+        labelStyle: text.labelMedium,
+        shape: const EripooCutBorder(radius: EripooRadii.md, cut: 8),
+        side: WidgetStateBorderSide.resolveWith(
+          (states) => BorderSide(
+            color: states.contains(WidgetState.selected)
+                ? c.brand.base
+                : c.border,
+          ),
+        ),
+      ),
       pageTransitionsTheme: const PageTransitionsTheme(
         builders: {
           TargetPlatform.android: EripooPageTransitionsBuilder(),

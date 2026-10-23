@@ -3261,5 +3261,82 @@
         "type": "String"
       }
     }
+  },
+  "stepRecapTitle": "Prêt à terminer cette étape",
+  "@stepRecapTitle": {
+    "description": "Recap card above the Finish button of a step."
+  },
+  "stepSavedNote": "Tes réponses sont enregistrées sur ton téléphone, chiffrées.",
+  "@stepSavedNote": {
+    "description": "Transparency line on the step recap card."
+  },
+  "questNumber": "Quête {number}",
+  "@questNumber": {
+    "description": "Context line above a quest title.",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "projectCardSince": "Depuis le {date}",
+  "@projectCardSince": {
+    "description": "Project card: creation date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "projectCardSteps": "{count, plural, =0{Aucune étape faite} =1{1 étape faite} other{{count} étapes faites}}",
+  "@projectCardSteps": {
+    "description": "Project card: steps done.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "projectCardShare": "Partager ma carte",
+  "@projectCardShare": {
+    "description": "Button sharing the project card as an image."
+  },
+  "projectCardShareNote": "Seuls le nom du projet, son stade, sa date et le nombre d'étapes sont partagés : exactement la carte ci-dessus.",
+  "@projectCardShareNote": {
+    "description": "What sharing the project card reveals."
+  },
+  "filterRemove": "Retirer le filtre {name}",
+  "@filterRemove": {
+    "description": "Screen reader label of a filter chip's remove icon.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "filterAll": "Tout afficher",
+  "@filterAll": {
+    "description": "Clears every filter of a list."
+  },
+  "selectionCount": "{count, plural, =1{1 sélectionné} other{{count} sélectionnés}}",
+  "@selectionCount": {
+    "description": "Number of selected items in the floating selection bar.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectionClear": "Annuler la sélection",
+  "@selectionClear": {
+    "description": "Clears the selection."
+  },
+  "selectItem": "Sélectionner",
+  "@selectItem": {
+    "description": "Screen reader label of an item's selection mark."
+  },
+  "trashRestoreSelected": "Restaurer",
+  "@trashRestoreSelected": {
+    "description": "Restores the selected trash items."
   }
 }

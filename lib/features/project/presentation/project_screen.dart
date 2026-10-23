@@ -17,6 +17,7 @@ import '../../tools/presentation/tools_providers.dart';
 import '../../trash/presentation/trash_screen.dart';
 import '../data/project_repository.dart';
 import '../domain/project.dart';
+import 'project_card.dart';
 
 /// The project: its sections (filled by the journey, editable, with a
 /// light "before / now" history) and the way to test its ideas.
@@ -58,6 +59,10 @@ class _ProjectBody extends ConsumerWidget {
     final trashed = ref.watch(trashItemsProvider).value?.length ?? 0;
     final conflicts = ref.watch(pendingConflictsProvider).value?.length ?? 0;
     final toReview = ref.watch(reviewPointsProvider).value?.length ?? 0;
+    final plan = ref.watch(journeyPlanProvider).value;
+    final steps = plan == null
+        ? 0
+        : [?plan.diagnostic, ...plan.quests].fold(0, (n, q) => n + q.done);
     final unlocked = {
       for (final t in ref.watch(toolsProvider).value ?? const <ToolState>[])
         if (t.unlocked) t.tool.id,
@@ -77,12 +82,7 @@ class _ProjectBody extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                l10n.projectMaturity(
-                  maturityLabel(l10n, project.maturityStage),
-                ),
-                style: context.textStyles.labelLarge,
-              ),
+              ProjectCard(project: project, steps: steps),
               const SizedBox(height: EripooSpacing.lg),
               Text(
                 l10n.projectResearchTitle,

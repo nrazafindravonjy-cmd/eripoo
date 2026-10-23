@@ -50,15 +50,48 @@ Future<void> deleteWithUndo(
 }
 
 /// Deleted elements, restorable for 30 days (docs/OFFLINE_SYNC.md §7).
-class TrashScreen extends ConsumerWidget {
+class TrashScreen extends ConsumerStatefulWidget {
   const TrashScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<TrashScreen> createState() => _TrashScreenState();
+}
+
+class _TrashScreenState extends ConsumerState<TrashScreen> {
+  /// Selected elements, as "kind:id".
+  final _selected = <String>{};
+
+  static String _key(TrashItem item) => '${item.kind.name}:${item.id}';
+
+  Future<void> _restoreSelected(List<TrashItem> items) async {
+    final trash = ref.read(trashServiceProvider);
+    for (final item in items) {
+      if (_selected.contains(_key(item))) {
+        await trash.restore(item.kind, item.id);
+      }
+    }
+    if (mounted) setState(_selected.clear);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final items = ref.watch(trashItemsProvider);
+    final list = items.value ?? const <TrashItem>[];
+    // Forget what disappeared (restored or purged elsewhere).
+    _selected.retainWhere((k) => list.any((i) => _key(i) == k));
     return Scaffold(
       appBar: AppBar(title: Text(l10n.trashTitle)),
+      bottomNavigationBar: SafeArea(
+        child: EripooSelectionBar(
+          visible: _selected.isNotEmpty,
+          countLabel: l10n.selectionCount(_selected.length),
+          actionLabel: l10n.trashRestoreSelected,
+          onAction: () => _restoreSelected(list),
+          clearLabel: l10n.selectionClear,
+          onClear: () => setState(_selected.clear),
+        ),
+      ),
       body: items.when(
         loading: () => const EripooLoadingView(),
         error: (_, _) => const EripooErrorView(),
@@ -75,7 +108,15 @@ class TrashScreen extends ConsumerWidget {
                     Text(l10n.trashEmpty, style: context.textStyles.titleMedium)
                   else ...[
                     for (final item in items) ...[
-                      _TrashCard(item),
+                      _TrashCard(
+                        item,
+                        selected: _selected.contains(_key(item)),
+                        onSelect: (v) => setState(
+                          () => v
+                              ? _selected.add(_key(item))
+                              : _selected.remove(_key(item)),
+                        ),
+                      ),
                       const SizedBox(height: EripooSpacing.sm),
                     ],
                     const SizedBox(height: EripooSpacing.md),
@@ -83,7 +124,7 @@ class TrashScreen extends ConsumerWidget {
                       label: l10n.trashEmptyAll,
                       icon: Icons.delete_forever_outlined,
                       variant: EripooButtonVariant.danger,
-                      onPressed: () => _emptyAll(context, ref, items),
+                      onPressed: () => _emptyAll(context, items),
                     ),
                   ],
                 ],
@@ -95,11 +136,7 @@ class TrashScreen extends ConsumerWidget {
     );
   }
 
-  Future<void> _emptyAll(
-    BuildContext context,
-    WidgetRef ref,
-    List<TrashItem> items,
-  ) async {
+  Future<void> _emptyAll(BuildContext context, List<TrashItem> items) async {
     final l10n = AppLocalizations.of(context);
     final ok = await showEripooConfirmDialog(
       context,
@@ -117,8 +154,10 @@ class TrashScreen extends ConsumerWidget {
 }
 
 class _TrashCard extends ConsumerWidget {
-  const _TrashCard(this.item);
+  const _TrashCard(this.item, {required this.selected, required this.onSelect});
   final TrashItem item;
+  final bool selected;
+  final ValueChanged<bool> onSelect;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -133,9 +172,20 @@ class _TrashCard extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            l10n.trashKind(item.kind.name),
-            style: context.textStyles.labelLarge,
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  l10n.trashKind(item.kind.name),
+                  style: context.textStyles.labelLarge,
+                ),
+              ),
+              Checkbox(
+                value: selected,
+                semanticLabel: l10n.selectItem,
+                onChanged: (v) => onSelect(v ?? false),
+              ),
+            ],
           ),
           if (item.mediaId != null)
             Padding(
