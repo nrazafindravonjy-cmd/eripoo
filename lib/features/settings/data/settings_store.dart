@@ -12,20 +12,14 @@ class SettingsStore {
   final AppDatabase _db;
 
   static const _language = 'settings.language';
-  static const _theme = 'settings.theme';
   static const _reducedMotion = 'settings.reduced_motion';
   static const _celebrations = 'settings.celebrations';
   static const _missionReminders = MissionReminders.enabledKey;
   static const _usageStats = UsageCounter.enabledKey;
 
   Future<AppSettings> load() async {
-    final theme = await _db.readValue(_theme);
     return AppSettings(
       language: AppLanguage.tryParse(await _db.readValue(_language)),
-      theme: ThemePreference.values.firstWhere(
-        (t) => t.name == theme,
-        orElse: () => ThemePreference.system,
-      ),
       reducedMotion: await _db.readValue(_reducedMotion) == 'true',
       celebrations: await _db.readValue(_celebrations) != 'false',
       missionReminders: await _db.readValue(_missionReminders) == 'true',
@@ -36,7 +30,6 @@ class SettingsStore {
   Future<void> save(AppSettings settings) async {
     final language = settings.language;
     if (language != null) await _db.writeValue(_language, language.name);
-    await _db.writeValue(_theme, settings.theme.name);
     await _db.writeValue(_reducedMotion, '${settings.reducedMotion}');
     await _db.writeValue(_celebrations, '${settings.celebrations}');
     await _db.writeValue(_missionReminders, '${settings.missionReminders}');

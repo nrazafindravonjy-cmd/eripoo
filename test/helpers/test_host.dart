@@ -25,7 +25,7 @@ class Variant {
 
 /// Every combination of theme × screen size × language.
 final allVariants = [
-  for (final b in Brightness.values)
+  for (final b in [Brightness.dark])
     for (final s in [phoneSize, tabletSize])
       for (final l in ['fr', 'en']) Variant(b, s, l),
 ];
@@ -41,16 +41,14 @@ void setSurfaceSize(WidgetTester tester, Size size) {
 /// router.
 Widget testHost(
   Widget child, {
-  Brightness brightness = Brightness.light,
+  Brightness brightness = Brightness.dark,
   String languageCode = 'fr',
   double textScale = 1,
   bool disableAnimations = false,
 }) {
   return MaterialApp(
     debugShowCheckedModeBanner: false,
-    theme: brightness == Brightness.light
-        ? EripooTheme.light()
-        : EripooTheme.dark(),
+    theme: EripooTheme.dark(),
     locale: Locale(languageCode),
     supportedLocales: AppLocalizations.supportedLocales,
     localizationsDelegates: const [

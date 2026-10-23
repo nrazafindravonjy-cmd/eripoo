@@ -1,14 +1,21 @@
 # Eripoo — Design system
 
-Statut : **Phase 1 implémentée, en attente de validation.** Code dans
-`lib/design_system/`. Palette et choix visuels **proposés** : à valider
-(idéalement avec un regard de designer et des utilisateurs cibles).
+Statut : **refonte visuelle du 2026-10-23** (direction du porteur). Code
+dans `lib/design_system/`.
 
-Direction : minimaliste, lisible, sérieux sans être froid — la progression
-et l'encouragement d'une app d'apprentissage, la structure calme d'un espace
-de travail. Surfaces plates à bordure (pas d'ombres), grandes zones
-tactiles, peu de texte par écran. La spécificité malgache est dans le
-contenu, pas dans l'esthétique.
+Direction : UI premium, minimaliste et immersive. **Mode sombre uniquement**
+(le réglage clair/sombre a été retiré), palette de marque **#232123** (fond)
+et **#FDCB20** (jaune, actions principales), typographies **Instrument
+Serif** (titres, voix de la marque) et **Arimo** (texte et libellés), toutes
+deux embarquées sous licence SIL OFL (`assets/fonts/`). Cartes épurées sans
+bordure sur une surface légèrement plus claire, boutons en pilule,
+micro-interactions discrètes. Logo officiel tracé en vecteur
+(`EripooLogo`), icône Android et écran de démarrage générés depuis le
+fichier du porteur. Les « visuels 3D organiques » sont des formes douces en
+dégradé dessinées en code (`EripooOrganicShape`) : légères, nettes, sans
+image lourde ; remplaçables par de vrais rendus plus tard. Les 69 règles
+UX/UI transmises par le porteur s'appliquent à tous les écrans ; l'audit
+écran par écran est en cours (NEXT_STEPS, chantier C-15).
 
 ---
 
@@ -24,8 +31,8 @@ contenu, pas dans l'esthétique.
 | Cibles tactiles ≥ 48 dp, actions principales 56 dp | `androidTapTargetGuideline` sur tous les composants |
 | Tout élément interactif a un libellé | `labeledTapTargetGuideline` |
 | Texte agrandi jusqu'à 200 % sans débordement | matrice de tests à `textScaler` 2,0 |
-| Clair et sombre, téléphone et tablette, mg/fr/en | matrice 2 × 2 × 3 = 12 variantes, chacune à 100 % et 200 % |
-| Navigation lisible en malagasy | test avec la vraie police Roboto : chaque libellé tient sur une ligne à 360 dp dans les 3 langues |
+| Sombre, téléphone et tablette, fr/en | matrice 1 × 2 × 2 = 4 variantes, chacune à 100 % et 200 % |
+| Navigation lisible | chaque libellé tient sur une ligne à 360 dp en fr et en |
 
 Ces tests ont été vérifiés comme **capables d'échouer** : une violation
 volontaire (couleur, texte, import, `print`) et l'ancien style de navigation

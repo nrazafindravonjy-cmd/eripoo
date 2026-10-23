@@ -84,7 +84,6 @@ void main() {
   Future<ProviderContainer> launch(
     WidgetTester tester, {
     required AppLanguage language,
-    required ThemePreference theme,
     double textScale = 1,
   }) async {
     setSurfaceSize(tester, phoneSize);
@@ -95,7 +94,7 @@ void main() {
         secureKeyStoreProvider.overrideWithValue(MemorySecureKeyStore()),
         ...journeyOverrides(db: db),
         initialSettingsProvider.overrideWithValue(
-          AppSettings(language: language, theme: theme),
+          AppSettings(language: language),
         ),
         mediaStoreProvider.overrideWithValue(
           MediaStore(
@@ -134,15 +133,12 @@ void main() {
   }
 
   for (final language in [AppLanguage.fr, AppLanguage.en]) {
-    for (final theme in [ThemePreference.light, ThemePreference.dark]) {
-      testWidgets('guidelines on every screen (${language.name}, '
-          '${theme.name})', (tester) async {
+    {
+      testWidgets('guidelines on every screen (${language.name})', (
+        tester,
+      ) async {
         await someWork(tester);
-        final container = await launch(
-          tester,
-          language: language,
-          theme: theme,
-        );
+        final container = await launch(tester, language: language);
         final handle = tester.ensureSemantics();
         for (final route in routes) {
           await open(tester, container, route);
@@ -174,7 +170,6 @@ void main() {
     final container = await launch(
       tester,
       language: AppLanguage.fr,
-      theme: ThemePreference.light,
       textScale: 2,
     );
     for (final route in routes) {

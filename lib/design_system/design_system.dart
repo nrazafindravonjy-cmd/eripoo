@@ -6,6 +6,8 @@ export 'components/eripoo_button.dart';
 export 'components/eripoo_card.dart';
 export 'components/eripoo_dialogs.dart';
 export 'components/eripoo_help.dart';
+export 'components/eripoo_logo.dart';
+export 'components/eripoo_organic_shape.dart';
 export 'components/eripoo_progress.dart';
 export 'components/eripoo_state_views.dart';
 export 'components/eripoo_text_field.dart';

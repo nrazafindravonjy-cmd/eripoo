@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../tokens/eripoo_colors.dart';
 import '../tokens/eripoo_dimens.dart';
 import '../tokens/eripoo_typography.dart';
 
-/// Builds the Material theme from Eripoo tokens, for light or dark mode.
+/// Builds the Material theme from Eripoo tokens (dark only).
 ///
 /// Material widgets are themed here so that screens never pass colours,
 /// radii or text styles by hand.
 abstract final class EripooTheme {
-  static ThemeData light() => _build(Brightness.light, EripooColors.light);
   static ThemeData dark() => _build(Brightness.dark, EripooColors.dark);
 
   static ThemeData _build(Brightness brightness, EripooColors c) {
@@ -57,7 +57,7 @@ abstract final class EripooTheme {
     ).textTheme;
 
     final actionShape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(EripooRadii.md),
+      borderRadius: BorderRadius.circular(EripooRadii.pill),
     );
     const actionSize = Size(
       EripooLayout.minTouchTarget,
@@ -93,6 +93,10 @@ abstract final class EripooTheme {
         scrolledUnderElevation: 0,
         centerTitle: false,
         titleTextStyle: text.titleLarge,
+        systemOverlayStyle: SystemUiOverlayStyle.light.copyWith(
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: c.background,
+        ),
       ),
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
@@ -135,8 +139,7 @@ abstract final class EripooTheme {
         elevation: 0,
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(EripooRadii.lg),
-          side: BorderSide(color: c.border),
+          borderRadius: BorderRadius.circular(EripooRadii.xl),
         ),
       ),
       inputDecorationTheme: InputDecorationTheme(
@@ -165,7 +168,7 @@ abstract final class EripooTheme {
         circularTrackColor: c.brand.container,
       ),
       navigationBarTheme: NavigationBarThemeData(
-        backgroundColor: c.surface,
+        backgroundColor: c.background,
         indicatorColor: c.brand.container,
         elevation: 0,
         // Navigation labels are short single words; 12 sp keeps them on
@@ -182,7 +185,7 @@ abstract final class EripooTheme {
         ),
       ),
       navigationRailTheme: NavigationRailThemeData(
-        backgroundColor: c.surface,
+        backgroundColor: c.background,
         indicatorColor: c.brand.container,
         selectedIconTheme: IconThemeData(color: c.brand.onContainer),
         unselectedIconTheme: IconThemeData(color: c.textSecondary),

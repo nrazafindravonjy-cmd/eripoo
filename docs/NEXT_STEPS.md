@@ -193,6 +193,15 @@ Facultatifs (« éventuellement » dans le cahier des charges) : niveau de
 préparation (§23), aide à la recherche d'associés (§48), plusieurs
 scénarios de prix.
 
+### C-15. Refonte design et audit UX (direction du porteur, 2026-10-23)
+**Lot 1 fait** : design system sombre (#232123 / #FDCB20), Instrument Serif
+et Arimo embarquées, cartes sans bordure, boutons en pilule, logo vectoriel,
+icône et écran de démarrage, formes organiques, réglage de thème retiré.
+**Reste** : audit écran par écran selon les 69 règles du porteur (une action
+principale, états vides/chargement/erreur/hors ligne, profondeur, retours,
+reprise du travail en cours…), en s'appuyant sur ses retours de test sur
+téléphone.
+
 ## 3. Vérifications (après P-1 et P-2)
 
 - **V-1, sur téléphone** : procédure complète dans

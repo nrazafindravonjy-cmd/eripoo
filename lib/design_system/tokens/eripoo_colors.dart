@@ -83,97 +83,52 @@ class EripooColors extends ThemeExtension<EripooColors> {
   final ToneColors danger;
   final ToneColors info;
 
-  static const light = EripooColors(
-    background: Color(0xFFFAFAF7),
-    surface: Color(0xFFFFFFFF),
-    surfaceMuted: Color(0xFFF2F2EE),
-    border: Color(0xFFD9D9D2),
-    borderStrong: Color(0xFF7D7F78),
-    textPrimary: Color(0xFF1B1C1A),
-    textSecondary: Color(0xFF5C5E58),
-    scrim: Color(0x80000000),
-    brand: ToneColors(
-      base: Color(0xFF0B6E5F),
-      onBase: Color(0xFFFFFFFF),
-      container: Color(0xFFD3F0EA),
-      onContainer: Color(0xFF053D35),
-    ),
-    accent: ToneColors(
-      base: Color(0xFFE8A317),
-      onBase: Color(0xFF1B1C1A),
-      container: Color(0xFFFCEFD0),
-      onContainer: Color(0xFF5A3D00),
-    ),
-    success: ToneColors(
-      base: Color(0xFF1E7A3C),
-      onBase: Color(0xFFFFFFFF),
-      container: Color(0xFFDDF3E4),
-      onContainer: Color(0xFF0E4021),
-    ),
-    warning: ToneColors(
-      base: Color(0xFF8A5A00),
-      onBase: Color(0xFFFFFFFF),
-      container: Color(0xFFFFF1D6),
-      onContainer: Color(0xFF4D3200),
-    ),
-    danger: ToneColors(
-      base: Color(0xFFB3261E),
-      onBase: Color(0xFFFFFFFF),
-      container: Color(0xFFF9DEDC),
-      onContainer: Color(0xFF5C1411),
-    ),
-    info: ToneColors(
-      base: Color(0xFF2457C5),
-      onBase: Color(0xFFFFFFFF),
-      container: Color(0xFFDCE6FB),
-      onContainer: Color(0xFF0E2C6B),
-    ),
-  );
-
+  /// The Eripoo palette (dark only, owner's decision 2026-10-23): brand
+  /// background #232123 and brand yellow #FDCB20.
   static const dark = EripooColors(
-    background: Color(0xFF121412),
-    surface: Color(0xFF1A1C1A),
-    surfaceMuted: Color(0xFF242723),
-    border: Color(0xFF4A4E48),
-    borderStrong: Color(0xFF7E8179),
-    textPrimary: Color(0xFFECEDE8),
-    textSecondary: Color(0xFFB0B2AB),
-    scrim: Color(0xB3000000),
+    background: Color(0xFF232123),
+    surface: Color(0xFF2C2A2C),
+    surfaceMuted: Color(0xFF363336),
+    border: Color(0xFF433F43),
+    borderStrong: Color(0xFF8C878C),
+    textPrimary: Color(0xFFF6F3EC),
+    textSecondary: Color(0xFFBDB8BD),
+    scrim: Color(0xCC000000),
     brand: ToneColors(
-      base: Color(0xFF5CCFB9),
-      onBase: Color(0xFF00382F),
-      container: Color(0xFF12493F),
-      onContainer: Color(0xFFC6F1E8),
+      base: Color(0xFFFDCB20),
+      onBase: Color(0xFF232123),
+      container: Color(0xFF4A3E14),
+      onContainer: Color(0xFFFFE78F),
     ),
     accent: ToneColors(
-      base: Color(0xFFF5BE4A),
-      onBase: Color(0xFF2A1C00),
-      container: Color(0xFF4A3500),
-      onContainer: Color(0xFFFCE3A8),
+      base: Color(0xFFFFE07A),
+      onBase: Color(0xFF232123),
+      container: Color(0xFF3F3618),
+      onContainer: Color(0xFFFFEDB3),
     ),
     success: ToneColors(
-      base: Color(0xFF6FD08C),
-      onBase: Color(0xFF00391A),
-      container: Color(0xFF12452A),
-      onContainer: Color(0xFFC4EED1),
+      base: Color(0xFF86DBA0),
+      onBase: Color(0xFF0F2E19),
+      container: Color(0xFF1E3D29),
+      onContainer: Color(0xFFCFF1D9),
     ),
     warning: ToneColors(
-      base: Color(0xFFF0C05A),
-      onBase: Color(0xFF3A2700),
-      container: Color(0xFF4A3500),
-      onContainer: Color(0xFFFCE3A8),
+      base: Color(0xFFFFB46B),
+      onBase: Color(0xFF3A2000),
+      container: Color(0xFF4A2E12),
+      onContainer: Color(0xFFFFDDBC),
     ),
     danger: ToneColors(
-      base: Color(0xFFF2B8B5),
-      onBase: Color(0xFF601410),
-      container: Color(0xFF8C1D18),
-      onContainer: Color(0xFFF9DEDC),
+      base: Color(0xFFFF8F85),
+      onBase: Color(0xFF4A0F0A),
+      container: Color(0xFF5C201C),
+      onContainer: Color(0xFFFFDAD5),
     ),
     info: ToneColors(
-      base: Color(0xFFA9C3F8),
-      onBase: Color(0xFF0E2C6B),
-      container: Color(0xFF1E3E8A),
-      onContainer: Color(0xFFDCE6FB),
+      base: Color(0xFFA3C6FF),
+      onBase: Color(0xFF0E2550),
+      container: Color(0xFF1F3456),
+      onContainer: Color(0xFFD9E6FF),
     ),
   );
 
@@ -233,7 +188,7 @@ class EripooColors extends ThemeExtension<EripooColors> {
 }
 
 /// Colours that must not follow the theme: QR codes are read by cameras,
-/// which need black on white in light and dark mode alike.
+/// which need black on white.
 abstract final class EripooFixedColors {
   static const qrDark = Color(0xFF000000);
   static const qrLight = Color(0xFFFFFFFF);

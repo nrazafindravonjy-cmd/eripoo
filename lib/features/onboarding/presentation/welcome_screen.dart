@@ -50,9 +50,18 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      EripooLogo(size: 56, semanticLabel: l10n.appTitle),
+                      const Spacer(),
+                      const EripooOrganicShape(size: 120, seed: 3),
+                    ],
+                  ),
+                  const SizedBox(height: EripooSpacing.xl),
                   Text(
                     l10n.welcomeTitle,
-                    style: context.textStyles.headlineMedium,
+                    style: context.textStyles.displaySmall,
                   ),
                   const SizedBox(height: EripooSpacing.xs),
                   Text(l10n.slogan, style: context.textStyles.bodyLarge),
