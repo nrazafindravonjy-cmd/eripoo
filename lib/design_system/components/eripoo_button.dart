@@ -76,6 +76,45 @@ class EripooButton extends StatelessWidget {
           icon: Icon(icon),
           label: content,
         ),
+      // The main action carries a dark pastille with an arrow: it reads as
+      // "go" at a glance and stays the one dominant element.
+      EripooButtonVariant.primary when !isLoading => FilledButton(
+        onPressed: callback,
+        style: FilledButton.styleFrom(
+          padding: const EdgeInsets.only(
+            left: EripooSpacing.sm,
+            right: EripooSpacing.xl,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
+          children: [
+            ExcludeSemantics(
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: onPressed == null
+                      ? colors.textSecondary
+                      : colors.brand.onBase,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.arrow_forward,
+                  size: 20,
+                  color: colors.brand.base,
+                ),
+              ),
+            ),
+            const SizedBox(width: EripooSpacing.md),
+            if (expand)
+              Expanded(child: Center(child: content))
+            else
+              Flexible(child: content),
+            if (expand) const SizedBox(width: 40),
+          ],
+        ),
+      ),
       EripooButtonVariant.primary => FilledButton(
         onPressed: callback,
         child: content,
@@ -96,10 +135,11 @@ class EripooButton extends StatelessWidget {
         onPressed: callback,
         child: content,
       ),
-      EripooButtonVariant.danger => FilledButton(
-        style: FilledButton.styleFrom(
-          backgroundColor: colors.danger.base,
-          foregroundColor: colors.danger.onBase,
+      // Outlined, so yellow stays the one dominant element of a screen.
+      EripooButtonVariant.danger => OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: colors.danger.base,
+          side: BorderSide(color: colors.danger.base),
         ),
         onPressed: callback,
         child: content,
@@ -122,9 +162,9 @@ class EripooButton extends StatelessWidget {
     final colors = context.colors;
     return switch (variant) {
       EripooButtonVariant.primary => colors.brand.onBase,
-      EripooButtonVariant.danger => colors.danger.onBase,
+      EripooButtonVariant.danger => colors.danger.base,
       EripooButtonVariant.secondary => colors.textPrimary,
-      EripooButtonVariant.tertiary => colors.brand.base,
+      EripooButtonVariant.tertiary => colors.textPrimary,
     };
   }
 }

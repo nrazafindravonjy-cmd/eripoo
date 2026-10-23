@@ -4,7 +4,6 @@ library;
 import 'package:eripoo/app/app.dart';
 import 'package:eripoo/app/di/core_providers.dart';
 import 'package:eripoo/core/i18n/app_language.dart';
-import 'package:eripoo/features/settings/domain/app_settings.dart';
 import 'package:eripoo/features/settings/presentation/app_settings_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +20,7 @@ import '../helpers/test_host.dart';
 void main() {
   setUpAll(loadRealFonts);
 
-  for (final brightness in Brightness.values) {
+  for (final brightness in [Brightness.dark]) {
     testWidgets('components ${brightness.name}', (tester) async {
       setSurfaceSize(tester, const Size(360, 1760));
       await tester.pumpWidget(
@@ -35,9 +34,9 @@ void main() {
     });
   }
 
-  for (final (name, size, language, theme) in [
-    ('shell_phone_en', phoneSize, AppLanguage.en, ThemePreference.light),
-    ('shell_tablet_fr', tabletSize, AppLanguage.fr, ThemePreference.dark),
+  for (final (name, size, language) in [
+    ('shell_phone_en', phoneSize, AppLanguage.en),
+    ('shell_tablet_fr', tabletSize, AppLanguage.fr),
   ]) {
     testWidgets(name, (tester) async {
       setSurfaceSize(tester, size);
@@ -48,9 +47,7 @@ void main() {
         ],
       );
       addTearDown(container.dispose);
-      container.read(appSettingsProvider.notifier)
-        ..setLanguage(language)
-        ..setTheme(theme);
+      container.read(appSettingsProvider.notifier).setLanguage(language);
       await tester.pumpWidget(
         UncontrolledProviderScope(
           container: container,

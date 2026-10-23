@@ -25,8 +25,6 @@ class AppSettingsController extends Notifier<AppSettings> {
     if (store != null) unawaited(store.save(next));
   }
 
-  void setTheme(ThemePreference theme) => _set(state.copyWith(theme: theme));
-
   void setLanguage(AppLanguage? language) =>
       _set(state.copyWith(language: () => language));
 

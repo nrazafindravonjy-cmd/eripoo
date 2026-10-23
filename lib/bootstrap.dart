@@ -153,6 +153,12 @@ Future<void> bootstrap() async {
     yield LicenseEntryWithLineBreaks(const [
       'Roboto',
     ], await rootBundle.loadString('assets/fonts/Roboto_LICENSE.txt'));
+    yield LicenseEntryWithLineBreaks(const [
+      'Instrument Serif',
+    ], await rootBundle.loadString('assets/fonts/InstrumentSerif_OFL.txt'));
+    yield LicenseEntryWithLineBreaks(const [
+      'Jost',
+    ], await rootBundle.loadString('assets/fonts/Jost_OFL.txt'));
   });
 
   runApp(

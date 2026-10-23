@@ -12,6 +12,20 @@ import 'research_providers.dart';
 
 /// What the user saw and what people told them: written notes, photos as
 /// evidence, pseudonyms only, no recording of other people.
+enum NotesFilter { all, observations, interviews }
+
+/// Which notes are shown; kept while the user goes back and forth.
+class NotesFilterNotifier extends Notifier<NotesFilter> {
+  @override
+  NotesFilter build() => NotesFilter.all;
+
+  void set(NotesFilter value) => state = value;
+}
+
+final notesFilterProvider = NotifierProvider<NotesFilterNotifier, NotesFilter>(
+  NotesFilterNotifier.new,
+);
+
 class FieldNotesScreen extends ConsumerWidget {
   const FieldNotesScreen({super.key});
 
@@ -30,6 +44,7 @@ class FieldNotesScreen extends ConsumerWidget {
       );
     }
     final notes = ref.watch(fieldNotesProvider(project.id));
+    final filter = ref.watch(notesFilterProvider);
     return Scaffold(
       appBar: AppBar(title: Text(l10n.fieldNotesTitle)),
       body: notes.when(
@@ -63,7 +78,29 @@ class FieldNotesScreen extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  if (notes.observations.isNotEmpty) ...[
+                  // Switch kind without leaving the screen.
+                  if (notes.observations.isNotEmpty &&
+                      notes.interviews.isNotEmpty) ...[
+                    const SizedBox(height: EripooSpacing.lg),
+                    Wrap(
+                      spacing: EripooSpacing.sm,
+                      children: [
+                        for (final (f, label) in [
+                          (NotesFilter.all, l10n.notesFilterAll),
+                          (NotesFilter.observations, l10n.observationsTitle),
+                          (NotesFilter.interviews, l10n.interviewsTitle),
+                        ])
+                          ChoiceChip(
+                            label: Text(label),
+                            selected: filter == f,
+                            onSelected: (_) =>
+                                ref.read(notesFilterProvider.notifier).set(f),
+                          ),
+                      ],
+                    ),
+                  ],
+                  if (notes.observations.isNotEmpty &&
+                      filter != NotesFilter.interviews) ...[
                     const SizedBox(height: EripooSpacing.xl),
                     Text(
                       l10n.observationsTitle,
@@ -118,7 +155,8 @@ class FieldNotesScreen extends ConsumerWidget {
                       ),
                     ],
                   ],
-                  if (notes.interviews.isNotEmpty) ...[
+                  if (notes.interviews.isNotEmpty &&
+                      filter != NotesFilter.observations) ...[
                     const SizedBox(height: EripooSpacing.xl),
                     Text(
                       l10n.interviewsTitle,

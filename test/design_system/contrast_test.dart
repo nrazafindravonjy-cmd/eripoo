@@ -15,10 +15,7 @@ void main() {
   const text = 4.5; // WCAG AA, normal text.
   const ui = 3.0; // WCAG AA, UI components and graphical objects.
 
-  for (final (name, c) in [
-    ('light', EripooColors.light),
-    ('dark', EripooColors.dark),
-  ]) {
+  for (final (name, c) in [('dark', EripooColors.dark)]) {
     group('$name palette', () {
       final surfaces = {
         'background': c.background,

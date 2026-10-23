@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/router/app_router.dart';
+import '../../../content/content_pack.dart';
 import '../../../content/planner.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
@@ -22,20 +23,30 @@ class QuestListScreen extends ConsumerWidget {
       body: plan.when(
         loading: () => const EripooLoadingView(),
         error: (_, _) => const EripooErrorView(),
-        data: (plan) => ListView(
-          padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
-          children: [
-            for (final q in plan.quests.where(
-              (q) => q.available || !q.quest.hideWhenLocked,
-            ))
-              ReadableColumn(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: EripooSpacing.md),
-                  child: _QuestCard(quest: q),
+        data: (plan) {
+          final quests = plan.quests
+              .where((q) => q.available || !q.quest.hideWhenLocked)
+              .toList();
+          // The journey reads as a path: one mark per quest.
+          return ListView(
+            padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
+            children: [
+              for (final (i, q) in quests.indexed)
+                ReadableColumn(
+                  child: EripooPathItem(
+                    state: !q.available
+                        ? EripooPathState.locked
+                        : q.done >= q.total
+                        ? EripooPathState.done
+                        : EripooPathState.current,
+                    isFirst: i == 0,
+                    isLast: i == quests.length - 1,
+                    child: _QuestCard(quest: q),
+                  ),
                 ),
-              ),
-          ],
-        ),
+            ],
+          );
+        },
       ),
     );
   }
@@ -105,20 +116,58 @@ class QuestDetailScreen extends ConsumerWidget {
         if (quest.isEmpty) return const Scaffold(body: EripooErrorView());
         final q = quest.single;
         return Scaffold(
-          appBar: AppBar(title: Text(contentText(context, q.quest.title))),
+          // The title is the headline below (not repeated in the bar).
+          appBar: AppBar(),
           body: ListView(
             padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
             children: [
+              // Context first (yellow italics), then the goal (large serif).
+              if (plan.quests
+                      .where((x) => x.available || !x.quest.hideWhenLocked)
+                      .toList()
+                      .indexOf(q)
+                  case final i when i >= 0)
+                ReadableColumn(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: EripooSpacing.lg),
+                    child: EripooHeadline(
+                      '*${AppLocalizations.of(context).questNumber(i + 1)}*\n'
+                      '${contentText(context, q.quest.title)}',
+                    ),
+                  ),
+                ),
+              // What to expect, read before starting.
               ReadableColumn(
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: EripooSpacing.lg),
-                  child: EripooProgress(done: q.done, total: q.total),
+                  child: EripooMetrics(
+                    items: [
+                      (
+                        AppLocalizations.of(context).metricSteps,
+                        '${q.done} / ${q.total}',
+                      ),
+                      (
+                        AppLocalizations.of(context).metricStage,
+                        _stageLabel(context, q.quest.maturity),
+                      ),
+                      (
+                        AppLocalizations.of(context).metricMissions,
+                        '${q.steps.fold(0, (n, s) => n + s.step.missionIds.length)}',
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              for (final s in q.steps)
+              for (final (i, s) in q.steps.indexed)
                 ReadableColumn(
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: EripooSpacing.sm),
+                  child: EripooPathItem(
+                    state: s.isDone
+                        ? EripooPathState.done
+                        : s.canStart
+                        ? EripooPathState.current
+                        : EripooPathState.locked,
+                    isFirst: i == 0,
+                    isLast: i == q.steps.length - 1,
                     child: _StepTile(step: s),
                   ),
                 ),
@@ -128,6 +177,18 @@ class QuestDetailScreen extends ConsumerWidget {
       },
     );
   }
+}
+
+String _stageLabel(BuildContext context, String maturity) {
+  final l10n = AppLocalizations.of(context);
+  return switch (maturity) {
+    'exploration' => l10n.maturityExploration,
+    'validation' => l10n.maturityValidation,
+    'construction' => l10n.maturityConstruction,
+    'preparation' => l10n.maturityPreparation,
+    'launch' => l10n.maturityLaunch,
+    _ => maturity,
+  };
 }
 
 class _StepTile extends StatelessWidget {
@@ -143,14 +204,38 @@ class _StepTile extends StatelessWidget {
     return EripooCard(
       semanticLabel: title,
       onTap: open ? () => context.push(AppRoutes.step(step.step.id)) : null,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Text(title, style: context.textStyles.titleSmall),
-          const SizedBox(height: EripooSpacing.xs),
-          StepStatusLabel(step: step),
+          // A small organic form per kind of step (learn, act, reflect…).
+          EripooOrganicShape(size: 40, seed: step.step.type.index * 3 + 1),
+          const SizedBox(width: EripooSpacing.md),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  _typeLabel(context, step.step.type),
+                  style: context.textStyles.labelSmall,
+                ),
+                Text(title, style: context.textStyles.titleSmall),
+                const SizedBox(height: EripooSpacing.xs),
+                StepStatusLabel(step: step),
+              ],
+            ),
+          ),
         ],
       ),
     );
   }
+}
+
+String _typeLabel(BuildContext context, StepType type) {
+  final l10n = AppLocalizations.of(context);
+  return switch (type) {
+    StepType.learn => l10n.stepTypeLearn,
+    StepType.reflect => l10n.stepTypeReflect,
+    StepType.act => l10n.stepTypeAct,
+    StepType.checkpoint => l10n.stepTypeCheckpoint,
+    StepType.tool => l10n.stepTypeTool,
+  };
 }

@@ -4,6 +4,7 @@ import '../../l10n/generated/app_localizations.dart';
 import '../theme/eripoo_theme.dart';
 import '../tokens/eripoo_dimens.dart';
 import 'eripoo_button.dart';
+import 'eripoo_organic_shape.dart';
 
 /// Loading state. Announced to screen readers.
 class EripooLoadingView extends StatelessWidget {
@@ -60,10 +61,18 @@ class EripooMessageView extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              icon,
-              size: EripooSpacing.xxxl,
-              color: iconColor ?? colors.textSecondary,
+            // An organic form behind the icon: empty and error states keep
+            // the brand's matter instead of a bare symbol.
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                const EripooOrganicShape(size: 112, seed: 5),
+                Icon(
+                  icon,
+                  size: EripooSpacing.xxxl,
+                  color: iconColor ?? colors.brand.onBase,
+                ),
+              ],
             ),
             const SizedBox(height: EripooSpacing.lg),
             Text(title, style: text.titleLarge, textAlign: TextAlign.center),
@@ -98,8 +107,8 @@ class EripooErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     return EripooMessageView(
+      // Dark on the yellow form for contrast; the title says it is an error.
       icon: Icons.error_outline,
-      iconColor: context.colors.danger.base,
       title: title ?? l10n.stateErrorTitle,
       message: message ?? l10n.stateErrorBody,
       action: onRetry == null

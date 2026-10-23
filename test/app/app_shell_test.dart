@@ -29,7 +29,6 @@ Future<ProviderContainer> pumpApp(
   );
   addTearDown(container.dispose);
   final controller = container.read(appSettingsProvider.notifier)
-    ..setTheme(settings.theme)
     ..setLanguage(settings.language)
     ..setReducedMotion(settings.reducedMotion);
   expect(controller.state, settings);
@@ -143,7 +142,7 @@ void main() {
   ]) {
     testWidgets('renders in ${language.name}', (tester) async {
       await pumpApp(tester, settings: AppSettings(language: language));
-      expect(find.widgetWithText(AppBar, home), findsOneWidget);
+      expect(find.widgetWithText(NavigationBar, home), findsOneWidget);
       final context = tester.element(find.byType(NavigationBar));
       expect(AppLocalizations.of(context).localeName, language.name);
       // Framework strings must resolve in every language.
@@ -152,13 +151,10 @@ void main() {
     });
   }
 
-  testWidgets('dark theme setting applies the dark palette', (tester) async {
+  testWidgets('the app always uses the dark brand palette', (tester) async {
     await pumpApp(
       tester,
-      settings: const AppSettings(
-        theme: ThemePreference.dark,
-        language: AppLanguage.fr,
-      ),
+      settings: const AppSettings(language: AppLanguage.fr),
     );
     final context = tester.element(find.byType(NavigationBar));
     expect(Theme.of(context).brightness, Brightness.dark);

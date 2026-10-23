@@ -21,7 +21,7 @@ class StartupFailureApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: EripooTheme.light(),
+      theme: EripooTheme.dark(),
       darkTheme: EripooTheme.dark(),
       supportedLocales: AppLocalizations.supportedLocales,
       localizationsDelegates: const [

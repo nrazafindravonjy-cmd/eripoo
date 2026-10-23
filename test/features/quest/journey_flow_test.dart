@@ -128,9 +128,9 @@ void main() {
     await next(tester);
     await finish(tester);
 
-    // The project exists and is named.
-    expect(find.widgetWithText(AppBar, 'Savon du quartier'), findsOneWidget);
-    expect(find.text('Ta prochaine étape'), findsOneWidget);
+    // The project exists and is named (under the greeting).
+    expect(find.text('Savon du quartier'), findsOneWidget);
+    expect(find.text('Ta quête en cours'), findsOneWidget);
     expect(find.text('Trouver un problème qui compte'), findsOneWidget);
 
     // ---- quest 1, step 1 (learn): four screens
@@ -180,6 +180,9 @@ void main() {
     // Back on the step, which can now be finished.
     expect(find.text('Observer le problème en vrai'), findsOneWidget);
     await finish(tester);
+    // A finished quest gets its moment, closed with one action.
+    expect(find.text('Quête terminée'), findsOneWidget);
+    await tapText(tester, 'Continuer');
 
     // ---- quest 2 is now the next action
     expect(find.text('Comprendre tes futurs clients'), findsOneWidget);
@@ -219,7 +222,7 @@ void main() {
     // ---- restart: same database, the journey continues where it was
     await tester.pumpWidget(const SizedBox());
     await launch(tester);
-    expect(find.widgetWithText(AppBar, 'Savon du quartier'), findsOneWidget);
+    expect(find.text('Savon du quartier'), findsOneWidget);
     expect(find.text('Comprendre tes futurs clients'), findsOneWidget);
     expect(find.text('Bienvenue sur Eripoo'), findsNothing);
   });

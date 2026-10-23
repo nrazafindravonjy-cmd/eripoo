@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand background (design system: EripooColors.background). -->
+    <color name="eripoo_background">#FF232123</color>
+</resources>

@@ -1,14 +1,69 @@
 # Eripoo — Design system
 
-Statut : **Phase 1 implémentée, en attente de validation.** Code dans
-`lib/design_system/`. Palette et choix visuels **proposés** : à valider
-(idéalement avec un regard de designer et des utilisateurs cibles).
+Statut : **refonte visuelle du 2026-10-23** (direction du porteur). Code
+dans `lib/design_system/`.
 
-Direction : minimaliste, lisible, sérieux sans être froid — la progression
-et l'encouragement d'une app d'apprentissage, la structure calme d'un espace
-de travail. Surfaces plates à bordure (pas d'ombres), grandes zones
-tactiles, peu de texte par écran. La spécificité malgache est dans le
-contenu, pas dans l'esthétique.
+Direction : UI premium, minimaliste et immersive. **Mode sombre uniquement**
+(le réglage clair/sombre a été retiré), palette de marque **#232123** (fond)
+et **#FDCB20** (jaune, actions principales), typographies **Instrument
+Serif** (titres, voix de la marque) et **Jost** (texte et libellés), toutes
+deux embarquées sous licence SIL OFL (`assets/fonts/`). Cartes épurées sans
+bordure sur une surface légèrement plus claire, boutons en pilule,
+micro-interactions discrètes. Logo officiel tracé en vecteur
+(`EripooLogo`), icône Android et écran de démarrage générés depuis le
+fichier du porteur. Les « visuels 3D organiques » sont des formes douces en
+dégradé dessinées en code (`EripooOrganicShape`) : légères, nettes, sans
+image lourde ; remplaçables par de vrais rendus plus tard.
+
+**Signature visuelle (validée le 2026-10-23)**, construite sur la forme du
+logo : coin bas-droit coupé en diagonale sur toutes les cartes, boutons,
+dialogues et confirmations (`EripooCutBorder`) ; titres éditoriaux avec mot
+clé en italique jaune (`EripooHeadline`, marqueurs `*…*` dans les ARB) ;
+jaune réservé à l'action ou l'information principale (boutons secondaires
+et liens en blanc, suppression en contour) ; grain très léger sur toute
+l'app (`EripooGrain`, dessiné une fois) ; formes organiques derrière les
+états vides et d'erreur ; parcours des quêtes et des étapes en chemin de
+marques du logo (`EripooPathItem`) ; onglet actif posé sur une marque du
+logo ; transitions de page en diagonale, pression des cartes et validation
+d'étape par l'apparition du logo (`EripooDoneMark`), toutes coupées quand
+l'utilisateur réduit les animations.
+
+**Accueil et parcours (2026-10-23)**, inspirés de références sans les
+copier : salutation selon l'heure avec le nom du projet (aucun prénom
+demandé) ; carte héros jaune avec la quête en cours, sa progression
+dessinée sur le contour du logo (`EripooProgressMark`) et une seule
+action ; quatre chiffres du projet en grille (`EripooStatCard` : étapes,
+hypothèses validées, notes de terrain, prix ; badge « +N cette semaine »
+en texte, jamais culpabilisant) ; frise des 7 derniers jours
+(`EripooWeekStrip`, sans série à tenir) ; logo géant en filigrane ;
+bouton principal avec pastille fléchée, fixé en bas des étapes et de
+l'écran de bienvenue ; options de réponse en tuiles à coin coupé, deux
+par ligne quand les libellés sont courts, avec marque du logo pleine ou
+vide.
+
+**Deuxième série de références (2026-10-23)** : carte « prêt à terminer »
+en fin d'étape (enregistré sur le téléphone, chiffré) ; filtres en
+pastilles à coin coupé retirables d'un geste, conservés au retour
+(hypothèses) ; barre flottante pendant une sélection (`EripooSelectionBar`,
+corbeille : « Restaurer N ») ; carte d'identité du projet partageable en
+image (exactement la carte affichée, sans réponse privée) ; outils en
+grille, le plus utile en pleine largeur ; champ de réponse avec l'action
+« Répondre à l'oral » à l'intérieur ; forme organique qui respire pendant
+l'enregistrement (`EripooListeningShape`) ; titres de quête en deux tons
+(« *Quête 3* » puis l'objectif).
+
+**Troisième série de références (2026-10-23)** : feuille jaune de
+célébration à la fin d'une quête (`showEripooCelebration`, une fois, une
+action) ; repères chiffrés en tête de quête (`EripooMetrics` : étapes,
+stade, missions — aucune durée inventée, le contenu n'en donne pas) ;
+lignes de navigation à flèche (`EripooNavRow`, onglet Projet) ; étapes
+avec vignette organique et type (Apprendre, Agir…) ; grand chiffre serif
+de progression dans l'étape (`EripooStepCounter`) ; « Retour » et
+« Suivant » côte à côte ; jauge de confiance des hypothèses avec un mot au
+centre ; pastilles Tout / Observations / Rencontres dans les notes de
+terrain. Les 69 règles
+UX/UI transmises par le porteur s'appliquent à tous les écrans ; l'audit
+écran par écran est en cours (NEXT_STEPS, chantier C-15).
 
 ---
 
@@ -24,8 +79,8 @@ contenu, pas dans l'esthétique.
 | Cibles tactiles ≥ 48 dp, actions principales 56 dp | `androidTapTargetGuideline` sur tous les composants |
 | Tout élément interactif a un libellé | `labeledTapTargetGuideline` |
 | Texte agrandi jusqu'à 200 % sans débordement | matrice de tests à `textScaler` 2,0 |
-| Clair et sombre, téléphone et tablette, mg/fr/en | matrice 2 × 2 × 3 = 12 variantes, chacune à 100 % et 200 % |
-| Navigation lisible en malagasy | test avec la vraie police Roboto : chaque libellé tient sur une ligne à 360 dp dans les 3 langues |
+| Sombre, téléphone et tablette, fr/en | matrice 1 × 2 × 2 = 4 variantes, chacune à 100 % et 200 % |
+| Navigation lisible | chaque libellé tient sur une ligne à 360 dp en fr et en |
 
 Ces tests ont été vérifiés comme **capables d'échouer** : une violation
 volontaire (couleur, texte, import, `print`) et l'ancien style de navigation

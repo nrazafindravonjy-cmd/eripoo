@@ -43,71 +43,96 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
     };
     return Scaffold(
       body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(vertical: EripooSpacing.xxl),
+        child: Column(
           children: [
-            ReadableColumn(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(
+                  vertical: EripooSpacing.xxl,
+                ),
                 children: [
-                  Text(
-                    l10n.welcomeTitle,
-                    style: context.textStyles.headlineMedium,
-                  ),
-                  const SizedBox(height: EripooSpacing.xs),
-                  Text(l10n.slogan, style: context.textStyles.bodyLarge),
-                  const SizedBox(height: EripooSpacing.xl),
-                  Text(
-                    l10n.welcomeChooseLanguage,
-                    style: context.textStyles.titleMedium,
-                  ),
-                  const SizedBox(height: EripooSpacing.sm),
-                  RadioGroup<AppLanguage>(
-                    groupValue: _language,
-                    onChanged: (value) {
-                      if (value != null) setState(() => _language = value);
-                    },
+                  ReadableColumn(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        for (final language in AppLanguage.values)
-                          RadioListTile<AppLanguage>(
-                            value: language,
-                            title: Text(name(language)),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            EripooLogo(size: 56, semanticLabel: l10n.appTitle),
+                            const Spacer(),
+                            const EripooOrganicShape(size: 120, seed: 3),
+                          ],
+                        ),
+                        const SizedBox(height: EripooSpacing.xl),
+                        EripooHeadline(
+                          l10n.welcomeTitle,
+                          style: context.textStyles.displaySmall,
+                        ),
+                        const SizedBox(height: EripooSpacing.xs),
+                        Text(l10n.slogan, style: context.textStyles.bodyLarge),
+                        const SizedBox(height: EripooSpacing.xl),
+                        Text(
+                          l10n.welcomeChooseLanguage,
+                          style: context.textStyles.titleMedium,
+                        ),
+                        const SizedBox(height: EripooSpacing.sm),
+                        RadioGroup<AppLanguage>(
+                          groupValue: _language,
+                          onChanged: (value) {
+                            if (value != null) {
+                              setState(() => _language = value);
+                            }
+                          },
+                          child: Column(
+                            children: [
+                              for (final language in AppLanguage.values)
+                                RadioListTile<AppLanguage>(
+                                  value: language,
+                                  title: Text(name(language)),
+                                ),
+                            ],
                           ),
+                        ),
+                        const SizedBox(height: EripooSpacing.lg),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.lock_outline,
+                              color: context.colors.brand.base,
+                            ),
+                            const SizedBox(width: EripooSpacing.sm),
+                            Expanded(child: Text(l10n.welcomePrivacy)),
+                          ],
+                        ),
+                        const SizedBox(height: EripooSpacing.md),
+                        CheckboxListTile(
+                          contentPadding: EdgeInsets.zero,
+                          controlAffinity: ListTileControlAffinity.leading,
+                          value: _usageStats,
+                          title: Text(l10n.welcomeUsageStats),
+                          onChanged: (v) =>
+                              setState(() => _usageStats = v ?? false),
+                        ),
                       ],
                     ),
                   ),
-                  const SizedBox(height: EripooSpacing.lg),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Icon(
-                        Icons.lock_outline,
-                        color: context.colors.brand.base,
-                      ),
-                      const SizedBox(width: EripooSpacing.sm),
-                      Expanded(child: Text(l10n.welcomePrivacy)),
-                    ],
-                  ),
-                  const SizedBox(height: EripooSpacing.md),
-                  CheckboxListTile(
-                    contentPadding: EdgeInsets.zero,
-                    controlAffinity: ListTileControlAffinity.leading,
-                    value: _usageStats,
-                    title: Text(l10n.welcomeUsageStats),
-                    onChanged: (v) => setState(() => _usageStats = v ?? false),
-                  ),
-                  const SizedBox(height: EripooSpacing.xl),
-                  EripooButton(
-                    label: l10n.welcomeStart,
-                    expand: true,
-                    onPressed: () {
-                      final settings = ref.read(appSettingsProvider.notifier);
-                      if (_usageStats) settings.setUsageStats(true);
-                      settings.setLanguage(_language);
-                    },
-                  ),
                 ],
+              ),
+            ),
+            // Always visible, within reach of the thumb.
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: EripooSpacing.md),
+              child: ReadableColumn(
+                child: EripooButton(
+                  label: l10n.welcomeStart,
+                  expand: true,
+                  onPressed: () {
+                    final settings = ref.read(appSettingsProvider.notifier);
+                    if (_usageStats) settings.setUsageStats(true);
+                    settings.setLanguage(_language);
+                  },
+                ),
               ),
             ),
           ],

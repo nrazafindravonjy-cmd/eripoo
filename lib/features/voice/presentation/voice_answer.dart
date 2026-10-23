@@ -21,7 +21,12 @@ class VoiceAnswer extends ConsumerStatefulWidget {
     required this.written,
     required this.onKept,
     required this.onDeleted,
+    this.fieldBuilder,
   });
+
+  /// Builds the written field with the "answer aloud" action inside it;
+  /// without it, the action is a separate button.
+  final Widget Function(Widget voiceAction)? fieldBuilder;
 
   /// The current spoken answer, if any.
   final String? mediaId;
@@ -187,17 +192,13 @@ class _VoiceAnswerState extends ConsumerState<VoiceAnswer> {
     final busy = _mode == _Mode.saving;
     final children = <Widget>[
       if (_mode == _Mode.recording) ...[
-        Row(
-          children: [
-            Icon(Icons.mic, color: context.colors.danger.base),
-            const SizedBox(width: EripooSpacing.sm),
-            Expanded(
-              child: Text(
-                l10n.voiceRecording(_clock(_elapsed)),
-                style: styles.bodyLarge,
-              ),
-            ),
-          ],
+        // The organic form breathes while the phone listens.
+        const Center(child: EripooListeningShape(size: 96)),
+        const SizedBox(height: EripooSpacing.sm),
+        Text(
+          l10n.voiceRecording(_clock(_elapsed)),
+          style: styles.titleLarge,
+          textAlign: TextAlign.center,
         ),
         const SizedBox(height: EripooSpacing.sm),
         Wrap(
@@ -260,16 +261,29 @@ class _VoiceAnswerState extends ConsumerState<VoiceAnswer> {
           ],
         ),
       ] else ...[
-        Align(
-          alignment: AlignmentDirectional.centerStart,
-          child: EripooButton(
-            label: l10n.voiceAnswer,
-            icon: Icons.mic_none,
-            variant: EripooButtonVariant.secondary,
-            isLoading: busy,
-            onPressed: _start,
+        if (widget.fieldBuilder case final build?)
+          build(
+            FilledButton.icon(
+              onPressed: busy ? null : _start,
+              style: FilledButton.styleFrom(
+                backgroundColor: context.colors.brand.container,
+                foregroundColor: context.colors.brand.onContainer,
+              ),
+              icon: const Icon(Icons.mic_none),
+              label: Text(l10n.voiceAnswer),
+            ),
+          )
+        else
+          Align(
+            alignment: AlignmentDirectional.centerStart,
+            child: EripooButton(
+              label: l10n.voiceAnswer,
+              icon: Icons.mic_none,
+              variant: EripooButtonVariant.secondary,
+              isLoading: busy,
+              onPressed: _start,
+            ),
           ),
-        ),
         ListenableBuilder(
           listenable: widget.written,
           builder: (context, _) => widget.written.text.trim().isEmpty

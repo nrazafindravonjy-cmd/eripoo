@@ -215,7 +215,7 @@
   "@startupResetConfirmBody": {
     "description": "Conséquence de l'effacement, dite simplement."
   },
-  "welcomeTitle": "Bienvenue sur Eripoo",
+  "welcomeTitle": "Bienvenue sur *Eripoo*",
   "@welcomeTitle": {
     "description": "Titre de l'écran d'accueil (premier lancement)."
   },
@@ -3170,5 +3170,263 @@
   "welcomeUsageStats": "Aider à améliorer Eripoo avec des statistiques anonymes (modifiable à tout moment dans le Profil)",
   "@welcomeUsageStats": {
     "description": "Case à cocher de l'écran d'accueil, décochée par défaut."
+  },
+  "greetingMorning": "Bonjour",
+  "@greetingMorning": {
+    "description": "Home greeting before noon."
+  },
+  "greetingAfternoon": "Bon après-midi",
+  "@greetingAfternoon": {
+    "description": "Home greeting from noon to 6 pm."
+  },
+  "greetingEvening": "Bonsoir",
+  "@greetingEvening": {
+    "description": "Home greeting after 6 pm."
+  },
+  "homeHeroLabel": "Ta quête en cours",
+  "@homeHeroLabel": {
+    "description": "Label above the current quest on the home hero card."
+  },
+  "homeHeroProgress": "{done} étapes sur {total}",
+  "@homeHeroProgress": {
+    "description": "Progress of the current quest.",
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "statSteps": "Étapes faites",
+  "@statSteps": {
+    "description": "Home stat card: steps completed."
+  },
+  "statHypotheses": "Hypothèses validées",
+  "@statHypotheses": {
+    "description": "Home stat card: hypotheses validated."
+  },
+  "statNotes": "Notes de terrain",
+  "@statNotes": {
+    "description": "Home stat card: observations and interviews."
+  },
+  "statPrice": "Ton prix",
+  "@statPrice": {
+    "description": "Home stat card: chosen price."
+  },
+  "statPriceNone": "À fixer",
+  "@statPriceNone": {
+    "description": "Home stat card when no price is chosen yet."
+  },
+  "statFraction": "{done} / {total}",
+  "@statFraction": {
+    "description": "A done/total figure on a stat card.",
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "deltaThisWeek": "+{count} cette semaine",
+  "@deltaThisWeek": {
+    "description": "Badge: new items in the last 7 days.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "activityTitle": "Tes 7 derniers jours",
+  "@activityTitle": {
+    "description": "Title of the home week strip."
+  },
+  "activityDayDone": "{day} : tu as avancé",
+  "@activityDayDone": {
+    "description": "Screen reader text for a day with progress.",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "activityDayNone": "{day} : rien de noté",
+  "@activityDayNone": {
+    "description": "Screen reader text for a day without progress.",
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "stepRecapTitle": "Prêt à terminer cette étape",
+  "@stepRecapTitle": {
+    "description": "Recap card above the Finish button of a step."
+  },
+  "stepSavedNote": "Tes réponses sont enregistrées sur ton téléphone, chiffrées.",
+  "@stepSavedNote": {
+    "description": "Transparency line on the step recap card."
+  },
+  "questNumber": "Quête {number}",
+  "@questNumber": {
+    "description": "Context line above a quest title.",
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "projectCardSince": "Depuis le {date}",
+  "@projectCardSince": {
+    "description": "Project card: creation date.",
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "projectCardSteps": "{count, plural, =0{Aucune étape faite} =1{1 étape faite} other{{count} étapes faites}}",
+  "@projectCardSteps": {
+    "description": "Project card: steps done.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "projectCardShare": "Partager ma carte",
+  "@projectCardShare": {
+    "description": "Button sharing the project card as an image."
+  },
+  "projectCardShareNote": "Seuls le nom du projet, son stade, sa date et le nombre d'étapes sont partagés : exactement la carte ci-dessus.",
+  "@projectCardShareNote": {
+    "description": "What sharing the project card reveals."
+  },
+  "filterRemove": "Retirer le filtre {name}",
+  "@filterRemove": {
+    "description": "Screen reader label of a filter chip's remove icon.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "filterAll": "Tout afficher",
+  "@filterAll": {
+    "description": "Clears every filter of a list."
+  },
+  "selectionCount": "{count, plural, =1{1 sélectionné} other{{count} sélectionnés}}",
+  "@selectionCount": {
+    "description": "Number of selected items in the floating selection bar.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "selectionClear": "Annuler la sélection",
+  "@selectionClear": {
+    "description": "Clears the selection."
+  },
+  "selectItem": "Sélectionner",
+  "@selectItem": {
+    "description": "Screen reader label of an item's selection mark."
+  },
+  "trashRestoreSelected": "Restaurer",
+  "@trashRestoreSelected": {
+    "description": "Restores the selected trash items."
+  },
+  "questDoneTitle": "Quête *terminée*",
+  "@questDoneTitle": {
+    "description": "Title of the quest-complete sheet (asterisks: yellow italics)."
+  },
+  "questDoneBody": "« {quest} » est terminée. La suite t'attend dans ton parcours.",
+  "@questDoneBody": {
+    "description": "Body of the quest-complete sheet.",
+    "placeholders": {
+      "quest": {
+        "type": "String"
+      }
+    }
+  },
+  "questDoneContinue": "Continuer",
+  "@questDoneContinue": {
+    "description": "Closes the quest-complete sheet."
+  },
+  "metricSteps": "Étapes",
+  "@metricSteps": {
+    "description": "Quest header metric label."
+  },
+  "metricStage": "Stade",
+  "@metricStage": {
+    "description": "Quest header metric label: maturity stage."
+  },
+  "metricMissions": "Missions",
+  "@metricMissions": {
+    "description": "Quest header metric label: number of field missions."
+  },
+  "stepTypeLearn": "Apprendre",
+  "@stepTypeLearn": {
+    "description": "Kind of step."
+  },
+  "stepTypeReflect": "Réfléchir",
+  "@stepTypeReflect": {
+    "description": "Kind of step."
+  },
+  "stepTypeAct": "Agir",
+  "@stepTypeAct": {
+    "description": "Kind of step."
+  },
+  "stepTypeCheckpoint": "Point d'étape",
+  "@stepTypeCheckpoint": {
+    "description": "Kind of step."
+  },
+  "stepTypeTool": "Outil",
+  "@stepTypeTool": {
+    "description": "Kind of step."
+  },
+  "stepCounter": "Écran {current} sur {total}",
+  "@stepCounter": {
+    "description": "Screen reader text of the step's screen counter.",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "confidenceTitle": "Ta confiance",
+  "@confidenceTitle": {
+    "description": "Label of the confidence gauge of a hypothesis."
+  },
+  "confidenceLow": "Faible",
+  "@confidenceLow": {
+    "description": "Confidence level 1-2."
+  },
+  "confidenceMedium": "Moyenne",
+  "@confidenceMedium": {
+    "description": "Confidence level 3."
+  },
+  "confidenceHigh": "Forte",
+  "@confidenceHigh": {
+    "description": "Confidence level 4-5."
+  },
+  "confidenceOf": "{value} sur 5",
+  "@confidenceOf": {
+    "description": "Confidence value under the gauge.",
+    "placeholders": {
+      "value": {
+        "type": "int"
+      }
+    }
+  },
+  "notesFilterAll": "Tout",
+  "@notesFilterAll": {
+    "description": "Field notes filter: everything."
   }
 }

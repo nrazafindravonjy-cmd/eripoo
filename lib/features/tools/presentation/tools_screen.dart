@@ -109,7 +109,7 @@ class _ToolsScreenState extends ConsumerState<ToolsScreen> {
                   children: [
                     Text(l10n.toolsIntro),
                     if (usable.isNotEmpty)
-                      ..._section(context, l10n.toolsUnlockedTitle, usable),
+                      ..._grid(context, l10n.toolsUnlockedTitle, usable),
                     if (locked.isNotEmpty)
                       ..._section(context, l10n.toolsLockedTitle, locked),
                     if (planned.isNotEmpty)
@@ -122,6 +122,43 @@ class _ToolsScreenState extends ConsumerState<ToolsScreen> {
         },
       ),
     );
+  }
+
+  /// Usable tools: the most relevant one (a new one first) takes the full
+  /// width, the others share rows of two (hierarchy at a glance).
+  List<Widget> _grid(
+    BuildContext context,
+    String title,
+    List<ToolState> tools,
+  ) {
+    final ordered = [
+      ...tools.where((t) => t.isNew),
+      ...tools.where((t) => !t.isNew),
+    ];
+    final rest = ordered.skip(1).toList();
+    return [
+      const SizedBox(height: EripooSpacing.xl),
+      Text(title, style: context.textStyles.titleMedium),
+      const SizedBox(height: EripooSpacing.sm),
+      _ToolCard(ordered.first, featured: true),
+      for (var i = 0; i < rest.length; i += 2) ...[
+        const SizedBox(height: EripooSpacing.sm),
+        IntrinsicHeight(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(child: _ToolCard(rest[i], compact: true)),
+              const SizedBox(width: EripooSpacing.sm),
+              Expanded(
+                child: i + 1 < rest.length
+                    ? _ToolCard(rest[i + 1], compact: true)
+                    : const SizedBox.shrink(),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ];
   }
 
   List<Widget> _section(
@@ -139,8 +176,14 @@ class _ToolsScreenState extends ConsumerState<ToolsScreen> {
 }
 
 class _ToolCard extends StatelessWidget {
-  const _ToolCard(this.state);
+  const _ToolCard(this.state, {this.featured = false, this.compact = false});
   final ToolState state;
+
+  /// The full-width tile of the grid: larger title.
+  final bool featured;
+
+  /// A half-width tile: icon above the text.
+  final bool compact;
 
   Future<void> _help(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -186,6 +229,30 @@ class _ToolCard extends StatelessWidget {
         : tool.unlockHint == null
         ? null
         : contentText(context, tool.unlockHint!);
+    if (compact) {
+      return EripooCard(
+        semanticLabel: contentText(context, tool.title),
+        onTap: () => context.go(toolRoute(tool.kind)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(Icons.handyman_outlined, color: context.colors.textSecondary),
+            const SizedBox(height: EripooSpacing.sm),
+            Text(
+              contentText(context, tool.title),
+              style: context.textStyles.titleSmall,
+            ),
+            const SizedBox(height: EripooSpacing.xxs),
+            Text(
+              contentText(context, tool.summary),
+              style: context.textStyles.bodySmall,
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      );
+    }
     return EripooCard(
       onTap: state.usable
           ? () => context.go(toolRoute(tool.kind))
@@ -206,7 +273,9 @@ class _ToolCard extends StatelessWidget {
                     Flexible(
                       child: Text(
                         contentText(context, tool.title),
-                        style: context.textStyles.titleSmall,
+                        style: featured
+                            ? context.textStyles.titleLarge
+                            : context.textStyles.titleSmall,
                       ),
                     ),
                     if (state.isNew) ...[

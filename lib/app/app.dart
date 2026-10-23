@@ -4,13 +4,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../design_system/design_system.dart';
 import '../features/app_lock/presentation/app_lock_gate.dart';
 import '../features/legal/presentation/legal_screens.dart';
-import '../features/settings/domain/app_settings.dart';
 import '../features/settings/presentation/app_settings_controller.dart';
 import '../l10n/framework_localizations.dart';
 import '../l10n/generated/app_localizations.dart';
 import 'router/app_router.dart';
 
-/// Root widget: theme (light/dark), languages, reduced motion and router.
+/// Root widget: theme, languages, reduced motion and router.
 class EripooApp extends ConsumerWidget {
   const EripooApp({super.key});
 
@@ -38,17 +37,16 @@ class EripooApp extends ConsumerWidget {
         }
         return const Locale('fr');
       },
-      themeMode: switch (settings.theme) {
-        ThemePreference.system => ThemeMode.system,
-        ThemePreference.light => ThemeMode.light,
-        ThemePreference.dark => ThemeMode.dark,
-      },
-      theme: EripooTheme.light(),
+      // Dark only (owner's decision, 2026-10-23).
+      themeMode: ThemeMode.dark,
+      theme: EripooTheme.dark(),
       darkTheme: EripooTheme.dark(),
       // The Eripoo "reduce animations" setting is applied through
       // MediaQuery so that every widget has a single source of truth.
       builder: (context, child) {
-        final gated = AppLockGate(child: LegalGate(child: child!));
+        final gated = EripooGrain(
+          child: AppLockGate(child: LegalGate(child: child!)),
+        );
         if (!settings.reducedMotion) return gated;
         return MediaQuery(
           data: MediaQuery.of(context).copyWith(disableAnimations: true),
