@@ -113,7 +113,8 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Welcome to Eripoo'), findsOneWidget);
     expect(find.byType(NavigationBar), findsNothing);
-    await tapText(tester, 'Start');
+    await tapText(tester, 'Continue');
+    await tapText(tester, 'Skip');
     expect(container.read(appSettingsProvider).language, AppLanguage.en);
     expect(find.byType(NavigationBar), findsOneWidget);
   });

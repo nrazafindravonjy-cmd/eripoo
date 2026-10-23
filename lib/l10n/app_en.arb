@@ -677,5 +677,15 @@
   "confidenceMedium": "Medium",
   "confidenceHigh": "High",
   "confidenceOf": "{value} of 5",
-  "notesFilterAll": "All"
+  "notesFilterAll": "All",
+  "welcomeContinue": "Continue",
+  "onboardingSkip": "Skip",
+  "onboardingNext": "Next",
+  "onboardingPage": "Screen {current} of {total}",
+  "onboarding1Title": "Your project, *step by step*",
+  "onboarding1Body": "Short quests guide you from the idea to the launch, at your own pace.",
+  "onboarding2Title": "Act *in the field*",
+  "onboarding2Body": "Real missions: talk to future customers, observe, test a price. Eripoo helps you make sense of what you learn.",
+  "onboarding3Title": "Your project stays *yours*",
+  "onboarding3Body": "Everything is encrypted on your phone and works without internet. Nobody else can read it."
 }

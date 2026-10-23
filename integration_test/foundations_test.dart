@@ -468,7 +468,8 @@ void main() {
 
     var container = await launch();
     await tapText('Français');
-    await tapText('Commencer'); // welcome
+    await tapText('Continuer'); // welcome
+    await tapText('Passer'); // introduction
     await tapText('Commencer'); // home: start the diagnostic
     await tapText('Suivant');
     await tapText("J'ai une idée, encore floue");
