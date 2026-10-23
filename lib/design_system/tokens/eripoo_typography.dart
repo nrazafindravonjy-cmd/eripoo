@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 /// Type scale: Instrument Serif for display and headings (the brand
-/// voice), Arimo for everything people read or tap. Both bundled (SIL OFL,
+/// voice), Jost for everything people read or tap. Both bundled (SIL OFL,
 /// assets/fonts/), so the app looks the same offline on every phone.
-/// Instrument Serif has one weight; Arimo is a variable font, so its
+/// Instrument Serif has one weight; Jost is a variable font, so its
 /// weight is set through the `wght` axis as well.
 ///
 /// Body text is 17 sp for readability; all sizes scale with the user's
 /// system font size.
 abstract final class EripooTypography {
   static const serif = 'InstrumentSerif';
-  static const sans = 'Arimo';
+  static const sans = 'Jost';
 
   static TextTheme textTheme(Color primary, Color secondary) {
     TextStyle display(double size, double height) => TextStyle(

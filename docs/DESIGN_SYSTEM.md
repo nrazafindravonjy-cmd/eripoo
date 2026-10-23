@@ -6,7 +6,7 @@ dans `lib/design_system/`.
 Direction : UI premium, minimaliste et immersive. **Mode sombre uniquement**
 (le réglage clair/sombre a été retiré), palette de marque **#232123** (fond)
 et **#FDCB20** (jaune, actions principales), typographies **Instrument
-Serif** (titres, voix de la marque) et **Arimo** (texte et libellés), toutes
+Serif** (titres, voix de la marque) et **Jost** (texte et libellés), toutes
 deux embarquées sous licence SIL OFL (`assets/fonts/`). Cartes épurées sans
 bordure sur une surface légèrement plus claire, boutons en pilule,
 micro-interactions discrètes. Logo officiel tracé en vecteur

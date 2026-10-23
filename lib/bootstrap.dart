@@ -157,8 +157,8 @@ Future<void> bootstrap() async {
       'Instrument Serif',
     ], await rootBundle.loadString('assets/fonts/InstrumentSerif_OFL.txt'));
     yield LicenseEntryWithLineBreaks(const [
-      'Arimo',
-    ], await rootBundle.loadString('assets/fonts/Arimo_OFL.txt'));
+      'Jost',
+    ], await rootBundle.loadString('assets/fonts/Jost_OFL.txt'));
   });
 
   runApp(

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/services.dart';
 
-/// Loads the bundled interface fonts (Instrument Serif, Arimo) and the
+/// Loads the bundled interface fonts (Instrument Serif, Jost) and the
 /// Material icon font shipped with the Flutter SDK, so text is measured as
 /// on a phone instead of with the square test font.
 Future<void> loadRealFonts() async {
@@ -33,5 +33,5 @@ Future<void> loadRealFonts() async {
   }
 
   await asset('InstrumentSerif', ['InstrumentSerif-Regular.ttf']);
-  await asset('Arimo', ['Arimo-Variable.ttf']);
+  await asset('Jost', ['Jost-Variable.ttf']);
 }

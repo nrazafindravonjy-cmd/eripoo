@@ -195,7 +195,7 @@ scénarios de prix.
 
 ### C-15. Refonte design et audit UX (direction du porteur, 2026-10-23)
 **Lot 1 fait** : design system sombre (#232123 / #FDCB20), Instrument Serif
-et Arimo embarquées, cartes sans bordure, boutons en pilule, logo vectoriel,
+et Jost embarquées, cartes sans bordure, boutons en pilule, logo vectoriel,
 icône et écran de démarrage, formes organiques, réglage de thème retiré.
 **Lot 2 fait** : signature visuelle tirée du logo (coin coupé, titres
 éditoriaux, jaune réservé, grain, parcours en chemin, onglet actif,
