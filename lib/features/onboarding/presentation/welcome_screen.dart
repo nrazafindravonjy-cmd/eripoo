@@ -92,9 +92,22 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
-                            child: EripooOrganicShape(
-                              size: 200,
-                              seed: _page * 5 + 2,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                EripooOrganicShape(
+                                  size: 200,
+                                  seed: _page * 5 + 2,
+                                ),
+                                EripooMascot(
+                                  height: 190,
+                                  mood: switch (_page) {
+                                    1 => EripooMood.neutral,
+                                    2 => EripooMood.focused,
+                                    _ => EripooMood.happy,
+                                  },
+                                ),
+                              ],
                             ),
                           ),
                           const SizedBox(height: EripooSpacing.xxl),
@@ -174,7 +187,13 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                           children: [
                             EripooLogo(size: 56, semanticLabel: l10n.appTitle),
                             const Spacer(),
-                            const EripooOrganicShape(size: 120, seed: 3),
+                            const Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                EripooOrganicShape(size: 120, seed: 3),
+                                EripooMascot(height: 150),
+                              ],
+                            ),
                           ],
                         ),
                         const SizedBox(height: EripooSpacing.xl),

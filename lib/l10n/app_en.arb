@@ -711,5 +711,7 @@
   "storyCurrentQuest": "Right now",
   "storyFooter": "Built step by step with Eripoo",
   "storyPreviewTitle": "Share preview",
-  "storyShare": "Share"
+  "storyShare": "Share",
+  "settingsMascot": "Mascot",
+  "settingsMascotHelp": "Eripoo keeps you company along the journey."
 }

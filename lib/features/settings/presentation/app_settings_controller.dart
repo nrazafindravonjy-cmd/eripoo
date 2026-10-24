@@ -33,6 +33,8 @@ class AppSettingsController extends Notifier<AppSettings> {
 
   void setCelebrations(bool value) => _set(state.copyWith(celebrations: value));
 
+  void setMascot(bool value) => _set(state.copyWith(mascot: value));
+
   void setUsageStats(bool value) => _set(state.copyWith(usageStats: value));
 
   void setMissionReminders(bool value) =>

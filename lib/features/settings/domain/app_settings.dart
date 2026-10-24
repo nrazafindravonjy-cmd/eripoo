@@ -6,6 +6,7 @@ class AppSettings {
     this.language,
     this.reducedMotion = false,
     this.celebrations = true,
+    this.mascot = true,
     this.missionReminders = false,
     this.usageStats = false,
   });
@@ -19,6 +20,9 @@ class AppSettings {
   /// Short celebrations (a tool unlocked…); can be turned off.
   final bool celebrations;
 
+  /// The Eripoo mascot on the welcome, step, celebration and empty screens.
+  final bool mascot;
+
   /// Local mission reminders (CLAUDE.md §46); off until the user asks.
   final bool missionReminders;
 
@@ -29,12 +33,14 @@ class AppSettings {
     AppLanguage? Function()? language,
     bool? reducedMotion,
     bool? celebrations,
+    bool? mascot,
     bool? missionReminders,
     bool? usageStats,
   }) => AppSettings(
     language: language == null ? this.language : language(),
     reducedMotion: reducedMotion ?? this.reducedMotion,
     celebrations: celebrations ?? this.celebrations,
+    mascot: mascot ?? this.mascot,
     missionReminders: missionReminders ?? this.missionReminders,
     usageStats: usageStats ?? this.usageStats,
   );
@@ -45,6 +51,7 @@ class AppSettings {
       other.language == language &&
       other.reducedMotion == reducedMotion &&
       other.celebrations == celebrations &&
+      other.mascot == mascot &&
       other.missionReminders == missionReminders &&
       other.usageStats == usageStats;
 
@@ -53,6 +60,7 @@ class AppSettings {
     language,
     reducedMotion,
     celebrations,
+    mascot,
     missionReminders,
     usageStats,
   );

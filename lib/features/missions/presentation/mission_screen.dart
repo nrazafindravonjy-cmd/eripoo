@@ -247,6 +247,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
         ];
       case MissionStatus.abandoned:
         return [
+          const Center(child: EripooMascot(mood: EripooMood.disappointed)),
           EripooButton(
             label: l10n.missionTakeUpAgain,
             expand: true,
@@ -259,6 +260,7 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
         return [
           EripooMessageView(
             icon: Icons.emoji_events_outlined,
+            mood: EripooMood.happy,
             title: l10n.missionStatusCompleted,
             message: _reflection.text,
           ),

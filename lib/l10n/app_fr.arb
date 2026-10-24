@@ -3582,5 +3582,13 @@
   "storyShare": "Partager",
   "@storyShare": {
     "description": "Opens the system share sheet (Instagram, WhatsApp, Facebook…)."
+  },
+  "settingsMascot": "Mascotte",
+  "@settingsMascot": {
+    "description": "Profile switch: show the mascot"
+  },
+  "settingsMascotHelp": "Eripoo t'accompagne dans le parcours.",
+  "@settingsMascotHelp": {
+    "description": "Profile switch help: mascot"
   }
 }

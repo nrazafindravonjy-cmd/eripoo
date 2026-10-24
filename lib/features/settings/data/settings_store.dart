@@ -14,6 +14,7 @@ class SettingsStore {
   static const _language = 'settings.language';
   static const _reducedMotion = 'settings.reduced_motion';
   static const _celebrations = 'settings.celebrations';
+  static const _mascot = 'settings.mascot';
   static const _missionReminders = MissionReminders.enabledKey;
   static const _usageStats = UsageCounter.enabledKey;
 
@@ -22,6 +23,7 @@ class SettingsStore {
       language: AppLanguage.tryParse(await _db.readValue(_language)),
       reducedMotion: await _db.readValue(_reducedMotion) == 'true',
       celebrations: await _db.readValue(_celebrations) != 'false',
+      mascot: await _db.readValue(_mascot) != 'false',
       missionReminders: await _db.readValue(_missionReminders) == 'true',
       usageStats: await _db.readValue(_usageStats) == 'true',
     );
@@ -32,6 +34,7 @@ class SettingsStore {
     if (language != null) await _db.writeValue(_language, language.name);
     await _db.writeValue(_reducedMotion, '${settings.reducedMotion}');
     await _db.writeValue(_celebrations, '${settings.celebrations}');
+    await _db.writeValue(_mascot, '${settings.mascot}');
     await _db.writeValue(_missionReminders, '${settings.missionReminders}');
     await _db.writeValue(_usageStats, '${settings.usageStats}');
   }

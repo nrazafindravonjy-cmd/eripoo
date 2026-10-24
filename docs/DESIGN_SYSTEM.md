@@ -219,3 +219,18 @@ machines) ; il est ignoré par défaut.
   **en mémoire seulement** : ils sont perdus au redémarrage jusqu'à la base
   locale (Phase 2), et aucun écran ne permet encore de les changer.
 - La palette est une proposition, non validée par des utilisateurs.
+
+## Mascotte (test, 2026-10-24)
+
+Eripoo, la mascotte, est un essai décidé par le porteur. Les quatre
+expressions (`assets/mascot/`, WebP transparents d'environ 80 Ko) viennent
+d'images générées par IA par le porteur, détourées à partir d'un fond vert.
+`EripooMascot` les anime sans bibliothèque : quelques respirations à
+l'apparition, un saut au toucher et en fin de quête, et aucune animation
+quand elles sont réduites. Elle est décorative, donc masquée aux lecteurs
+d'écran, et l'interrupteur « Mascotte » du Profil la retire partout.
+Emplacements : bienvenue et introduction, en-tête des étapes, célébration de
+fin de quête, mission terminée ou abandonnée, états vides et erreurs.
+Droits sur des images générées par IA : **NON VÉRIFIÉ** (protection par le
+droit d'auteur et conditions commerciales de l'outil à confirmer avant une
+diffusion publique).

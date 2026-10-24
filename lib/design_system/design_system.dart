@@ -12,6 +12,7 @@ export 'components/eripoo_headline.dart';
 export 'components/eripoo_help.dart';
 export 'components/eripoo_listening_shape.dart';
 export 'components/eripoo_logo.dart';
+export 'components/eripoo_mascot.dart';
 export 'components/eripoo_metrics.dart';
 export 'components/eripoo_nav_row.dart';
 export 'components/eripoo_organic_shape.dart';
