@@ -11,6 +11,8 @@ import 'package:eripoo/content/progress_state.dart';
 import 'package:eripoo/core/i18n/app_language.dart';
 import 'package:eripoo/data/local/app_database.dart';
 import 'package:eripoo/features/diagnostic/data/facts_repository.dart';
+import 'package:eripoo/features/formalization/presentation/admin_preparation_screen.dart'
+    show clockProvider;
 import 'package:eripoo/features/missions/data/mission_repository.dart';
 import 'package:eripoo/features/project/data/project_repository.dart';
 import 'package:eripoo/features/quest/data/progress_repository.dart';
@@ -20,6 +22,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../helpers/activate.dart';
 import '../../helpers/journey_overrides.dart';
 import '../../helpers/memory_secure_store.dart';
 import '../../helpers/test_database.dart';
@@ -44,6 +47,10 @@ void main() {
       overrides: [
         secureKeyStoreProvider.overrideWithValue(MemorySecureKeyStore()),
         ...journeyOverrides(db: db),
+        // The field work is supposed done: the mission's time is over.
+        clockProvider.overrideWithValue(
+          () => DateTime.now().add(const Duration(days: 1)),
+        ),
         settingsStoreProvider.overrideWithValue(store),
         initialSettingsProvider.overrideWithValue(
           await tester.runAsync(store.load) ?? (throw StateError('load')),
@@ -60,7 +67,7 @@ void main() {
   Future<void> tap(WidgetTester tester, Finder finder) async {
     await tester.ensureVisible(finder);
     await tester.pumpAndSettle();
-    await tester.tap(finder);
+    await activate(tester, finder);
     await tester.pumpAndSettle();
   }
 

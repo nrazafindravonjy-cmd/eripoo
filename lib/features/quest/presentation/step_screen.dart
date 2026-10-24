@@ -409,13 +409,12 @@ class _StepScreenState extends ConsumerState<StepScreen> {
                           ],
                           Expanded(
                             flex: 3,
-                            child: EripooButton(
+                            child: EripooSwipeAction(
                               label: session.isLast
                                   ? l10n.stepFinish
                                   : l10n.stepNext,
-                              expand: true,
                               isLoading: _busy,
-                              onPressed: session.isLast ? _finish : _next,
+                              onAction: session.isLast ? _finish : _next,
                             ),
                           ),
                         ],

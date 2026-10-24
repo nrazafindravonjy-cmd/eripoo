@@ -137,10 +137,9 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: EripooSpacing.md),
               child: ReadableColumn(
-                child: EripooButton(
+                child: EripooSwipeAction(
                   label: last ? l10n.welcomeStart : l10n.onboardingNext,
-                  expand: true,
-                  onPressed: last ? _start : () => setState(() => _page++),
+                  onAction: last ? _start : () => setState(() => _page++),
                 ),
               ),
             ),
@@ -239,10 +238,9 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: EripooSpacing.md),
               child: ReadableColumn(
-                child: EripooButton(
+                child: EripooSwipeAction(
                   label: l10n.welcomeContinue,
-                  expand: true,
-                  onPressed: () => setState(() => _page = 1),
+                  onAction: () => setState(() => _page = 1),
                 ),
               ),
             ),

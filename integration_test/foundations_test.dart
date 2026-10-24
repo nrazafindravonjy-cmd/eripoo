@@ -15,6 +15,7 @@ import 'package:eripoo/app/startup/app_services.dart';
 import 'package:eripoo/content/content_pack.dart';
 import 'package:eripoo/core/i18n/app_language.dart';
 import 'package:eripoo/core/logging/app_logger.dart';
+import 'package:eripoo/design_system/design_system.dart';
 import 'package:eripoo/features/app_lock/data/app_lock_adapters.dart';
 import 'package:eripoo/features/app_lock/domain/app_lock_service.dart';
 import 'package:eripoo/features/app_lock/presentation/app_lock_controller.dart';
@@ -459,7 +460,24 @@ void main() {
       await tester.ensureVisible(finder);
       await tester.pumpAndSettle();
       final w = Stopwatch()..start();
-      await tester.tap(finder);
+      // The main "go on" actions are slid, the rest tapped.
+      final swipe = find.ancestor(
+        of: finder,
+        matching: find.byType(EripooSwipeAction),
+      );
+      if (swipe.evaluate().isEmpty) {
+        await tester.tap(finder);
+      } else {
+        final box = tester.getRect(swipe.first);
+        final g = await tester.startGesture(
+          Offset(box.left + 28, box.center.dy),
+        );
+        for (var i = 0; i < 10; i++) {
+          await g.moveBy(Offset(box.width / 10, 0));
+          await tester.pump();
+        }
+        await g.up();
+      }
       await tester.pumpAndSettle();
       if (text == "Terminer l'étape") {
         measure('step_finish_ui_ms', w.elapsedMilliseconds);

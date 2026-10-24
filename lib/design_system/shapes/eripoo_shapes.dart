@@ -119,35 +119,4 @@ Path eripooMarkPath(Rect rect) {
   return path..close();
 }
 
-/// Navigation indicator: the selected icon sits on an Eripoo mark instead
-/// of the generic Material pill.
-class EripooNavMarkBorder extends ShapeBorder {
-  const EripooNavMarkBorder();
-
-  static const _size = Size(36, 37.4);
-
-  @override
-  EdgeInsetsGeometry get dimensions => EdgeInsets.zero;
-
-  Rect _markRect(Rect rect) => Rect.fromCenter(
-    center: rect.center,
-    width: _size.width,
-    height: _size.height,
-  );
-
-  @override
-  Path getOuterPath(Rect rect, {TextDirection? textDirection}) =>
-      eripooMarkPath(_markRect(rect));
-
-  @override
-  Path getInnerPath(Rect rect, {TextDirection? textDirection}) =>
-      getOuterPath(rect);
-
-  @override
-  void paint(Canvas canvas, Rect rect, {TextDirection? textDirection}) {}
-
-  @override
-  ShapeBorder scale(double t) => this;
-}
-
 double _lerp(double a, double b, double t) => a + (b - a) * t;

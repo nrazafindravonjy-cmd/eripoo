@@ -110,10 +110,7 @@ class HomeScreen extends ConsumerWidget {
                       ReadableColumn(child: HomeStats(data: dashboard)),
                       const SizedBox(height: EripooSpacing.md),
                       ReadableColumn(
-                        child: HomeWeek(
-                          activeDays: dashboard.activeDays,
-                          now: now,
-                        ),
+                        child: HomeWeek(days: dashboard.days, now: now),
                       ),
                     ],
                     if (open.isNotEmpty) ...[

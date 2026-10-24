@@ -22,6 +22,7 @@ export 'components/eripoo_selection_bar.dart';
 export 'components/eripoo_stat_card.dart';
 export 'components/eripoo_state_views.dart';
 export 'components/eripoo_step_counter.dart';
+export 'components/eripoo_swipe_action.dart';
 export 'components/eripoo_text_field.dart';
 export 'components/eripoo_week_strip.dart';
 export 'layout/adaptive_scaffold.dart';

@@ -3476,5 +3476,34 @@
   "onboarding3Body": "Tout est chiffré sur ton téléphone et marche sans internet. Personne d'autre ne peut le lire.",
   "@onboarding3Body": {
     "description": "Introduction screen 3 text."
+  },
+  "missionWaitTitle": "Place au terrain",
+  "@missionWaitTitle": {
+    "description": "Mission accepted, its time not over yet: title of the waiting card."
+  },
+  "missionWaitBody": "Ton compte rendu s'ouvrira dans {time}. Prends ce temps pour faire la mission, puis reviens raconter ce que tu as vu.",
+  "@missionWaitBody": {
+    "description": "Waiting card body; time is a duration like '25 min'.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "activityDayEmpty": "Rien de noté ce jour-là. Pas de souci : avance à ton rythme.",
+  "@activityDayEmpty": {
+    "description": "Day summary when nothing was done."
+  },
+  "activityStepDone": "Étape terminée",
+  "@activityStepDone": {
+    "description": "Day summary item label."
+  },
+  "activityMissionDone": "Mission accomplie",
+  "@activityMissionDone": {
+    "description": "Day summary item label."
+  },
+  "swipeHint": "Glisse vers la droite",
+  "@swipeHint": {
+    "description": "Hint shown when the swipe action is tapped instead of slid."
   }
 }

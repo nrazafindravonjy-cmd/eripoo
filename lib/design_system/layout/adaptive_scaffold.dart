@@ -25,7 +25,7 @@ Widget _icon(IconData icon, bool dot) =>
 
 /// App shell: bottom navigation bar on phones, navigation rail on wider
 /// windows. One widget tree for both, chosen from the available width.
-class AdaptiveScaffold extends StatelessWidget {
+class AdaptiveScaffold extends StatefulWidget {
   const AdaptiveScaffold({
     super.key,
     required this.destinations,
@@ -40,18 +40,38 @@ class AdaptiveScaffold extends StatelessWidget {
   final Widget body;
 
   @override
+  State<AdaptiveScaffold> createState() => _AdaptiveScaffoldState();
+}
+
+class _AdaptiveScaffoldState extends State<AdaptiveScaffold> {
+  /// Counts taps, so the selected icon pops at every tap (even on the tab
+  /// already open).
+  int _taps = 0;
+
+  void _select(int index) {
+    setState(() => _taps++);
+    widget.onDestinationSelected(index);
+  }
+
+  Widget _selected(IconData icon, bool dot) =>
+      _PopIcon(key: ValueKey(_taps), child: _icon(icon, dot));
+
+  @override
   Widget build(BuildContext context) {
+    final destinations = widget.destinations;
+    final selectedIndex = widget.selectedIndex;
+    final body = widget.body;
     if (context.windowSize.isCompact) {
       return Scaffold(
         body: body,
         bottomNavigationBar: NavigationBar(
           selectedIndex: selectedIndex,
-          onDestinationSelected: onDestinationSelected,
+          onDestinationSelected: _select,
           destinations: [
             for (final d in destinations)
               NavigationDestination(
                 icon: _icon(d.icon, d.dot),
-                selectedIcon: _icon(d.selectedIcon, d.dot),
+                selectedIcon: _selected(d.selectedIcon, d.dot),
                 label: d.label,
               ),
           ],
@@ -65,14 +85,14 @@ class AdaptiveScaffold extends StatelessWidget {
             right: false,
             child: NavigationRail(
               selectedIndex: selectedIndex,
-              onDestinationSelected: onDestinationSelected,
+              onDestinationSelected: _select,
               groupAlignment: -1,
               minWidth: EripooLayout.primaryActionHeight + EripooSpacing.xl,
               destinations: [
                 for (final d in destinations)
                   NavigationRailDestination(
                     icon: _icon(d.icon, d.dot),
-                    selectedIcon: _icon(d.selectedIcon, d.dot),
+                    selectedIcon: _selected(d.selectedIcon, d.dot),
                     label: Text(d.label),
                   ),
               ],
@@ -82,6 +102,27 @@ class AdaptiveScaffold extends StatelessWidget {
           Expanded(child: body),
         ],
       ),
+    );
+  }
+}
+
+/// A subtle pop of the selected icon (scale 0.8 → 1), at each tap; still
+/// with reduced motion.
+class _PopIcon extends StatelessWidget {
+  const _PopIcon({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    if (MediaQuery.disableAnimationsOf(context)) return child;
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.8, end: 1),
+      duration: const Duration(milliseconds: 260),
+      curve: Curves.easeOutBack,
+      builder: (context, scale, child) =>
+          Transform.scale(scale: scale, child: child),
+      child: child,
     );
   }
 }

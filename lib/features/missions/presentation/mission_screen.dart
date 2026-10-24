@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../formalization/presentation/admin_preparation_screen.dart'
+    show clockProvider;
 import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
 import '../../quest/presentation/step_screen.dart' show missionStatusLabel;
@@ -33,10 +35,25 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
   bool _empty = false;
   bool _prefilled = false;
 
+  /// Refreshes the countdown while the mission's time runs.
+  Timer? _tick;
+
   @override
   void dispose() {
+    _tick?.cancel();
     _reflection.dispose();
     super.dispose();
+  }
+
+  /// Time left before the report opens: the mission's duration counted
+  /// from its acceptance, so the field work happens before the writing.
+  Duration _remaining(MissionInstance? instance, int minutes) {
+    final accepted = instance?.acceptedAt;
+    if (accepted == null) return Duration.zero;
+    final left = accepted
+        .add(Duration(minutes: minutes))
+        .difference(ref.read(clockProvider)());
+    return left.isNegative ? Duration.zero : left;
   }
 
   Future<void> _run(Future<void> Function() action) async {
@@ -198,7 +215,11 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
                       const SizedBox(height: EripooSpacing.sm),
                       Text(contentText(context, template.deliverable)),
                       const SizedBox(height: EripooSpacing.xl),
-                      ..._actions(l10n, status),
+                      ..._actions(
+                        l10n,
+                        status,
+                        _remaining(instance, template.durationMinutes),
+                      ),
                     ],
                   ),
                 ),
@@ -207,7 +228,11 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
     );
   }
 
-  List<Widget> _actions(AppLocalizations l10n, MissionStatus status) {
+  List<Widget> _actions(
+    AppLocalizations l10n,
+    MissionStatus status,
+    Duration remaining,
+  ) {
     final service = ref.read(journeyServiceProvider);
     switch (status) {
       case MissionStatus.proposed:
@@ -238,9 +263,52 @@ class _MissionScreenState extends ConsumerState<MissionScreen> {
             message: _reflection.text,
           ),
         ];
+      case MissionStatus.accepted || MissionStatus.inProgress
+          when remaining > Duration.zero:
+        _tick ??= Timer.periodic(const Duration(seconds: 30), (_) {
+          if (mounted) setState(() {});
+        });
+        return [
+          EripooCard(
+            child: Row(
+              children: [
+                const EripooListeningShape(size: 56),
+                const SizedBox(width: EripooSpacing.md),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.missionWaitTitle,
+                        style: context.textStyles.titleMedium,
+                      ),
+                      const SizedBox(height: EripooSpacing.xs),
+                      Text(
+                        l10n.missionWaitBody(
+                          context.formatter.duration(
+                            remaining + const Duration(seconds: 59),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: EripooSpacing.sm),
+          EripooButton(
+            label: l10n.missionAbandon,
+            variant: EripooButtonVariant.tertiary,
+            expand: true,
+            onPressed: _busy ? null : _abandon,
+          ),
+        ];
       case MissionStatus.accepted ||
           MissionStatus.inProgress ||
           MissionStatus.submitted:
+        _tick?.cancel();
+        _tick = null;
         return [
           EripooTextField(
             label: l10n.missionReflectionLabel,

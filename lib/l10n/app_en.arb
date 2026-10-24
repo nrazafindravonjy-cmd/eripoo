@@ -687,5 +687,11 @@
   "onboarding2Title": "Act *in the field*",
   "onboarding2Body": "Real missions: talk to future customers, observe, test a price. Eripoo helps you make sense of what you learn.",
   "onboarding3Title": "Your project stays *yours*",
-  "onboarding3Body": "Everything is encrypted on your phone and works without internet. Nobody else can read it."
+  "onboarding3Body": "Everything is encrypted on your phone and works without internet. Nobody else can read it.",
+  "missionWaitTitle": "Time for the field",
+  "missionWaitBody": "Your report opens in {time}. Use this time to do the mission, then come back to tell what you saw.",
+  "activityDayEmpty": "Nothing recorded that day. No worries: go at your own pace.",
+  "activityStepDone": "Step completed",
+  "activityMissionDone": "Mission done",
+  "swipeHint": "Slide to the right"
 }

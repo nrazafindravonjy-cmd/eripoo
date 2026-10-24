@@ -1,13 +1,15 @@
 import 'dart:async';
 
-// Screens of the journey, one behaviour at a time (the whole path is in
-// journey_flow_test.dart). Real content pack, in-memory database.
 import 'package:eripoo/app/app.dart';
 import 'package:eripoo/app/di/core_providers.dart';
 import 'package:eripoo/app/router/app_router.dart';
 import 'package:eripoo/content/progress_state.dart';
 import 'package:eripoo/core/i18n/app_language.dart';
 import 'package:eripoo/data/local/app_database.dart';
+// Screens of the journey, one behaviour at a time (the whole path is in
+// journey_flow_test.dart). Real content pack, in-memory database.
+import 'package:eripoo/features/formalization/presentation/admin_preparation_screen.dart'
+    show clockProvider;
 import 'package:eripoo/features/missions/data/mission_repository.dart';
 import 'package:eripoo/features/quest/application/journey_service.dart';
 import 'package:eripoo/features/quest/data/progress_repository.dart';
@@ -18,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../helpers/activate.dart';
 import '../../helpers/journey_overrides.dart';
 import '../../helpers/memory_secure_store.dart';
 import '../../helpers/test_database.dart';
@@ -65,12 +68,17 @@ void main() {
     WidgetTester tester, {
     AppLanguage language = AppLanguage.fr,
     String? at,
+    bool missionTimeOver = true,
   }) async {
     setSurfaceSize(tester, phoneSize);
     final container = ProviderContainer(
       overrides: [
         secureKeyStoreProvider.overrideWithValue(MemorySecureKeyStore()),
         ...journeyOverrides(db: db),
+        if (missionTimeOver)
+          clockProvider.overrideWithValue(
+            () => DateTime.now().add(const Duration(days: 1)),
+          ),
         initialSettingsProvider.overrideWithValue(
           AppSettings(language: language),
         ),
@@ -92,7 +100,7 @@ void main() {
     final finder = find.text(text).last;
     await tester.ensureVisible(finder);
     await tester.pumpAndSettle();
-    await tester.tap(finder);
+    await activate(tester, finder);
     await tester.pumpAndSettle();
   }
 
@@ -175,6 +183,28 @@ void main() {
     // An empty reflection is refused with a message.
     await tapText(tester, "J'ai terminé");
     expect(find.text('Il manque encore une réponse.'), findsOneWidget);
+  });
+
+  testWidgets('the report opens only once the mission time is over', (
+    tester,
+  ) async {
+    await diagnosticDone(tester);
+    await launch(
+      tester,
+      at: AppRoutes.mission('m.observe_problem'),
+      missionTimeOver: false,
+    );
+    // The waiting card breathes: pump, never settle, while it is shown.
+    final accept = find.text("J'accepte la mission");
+    await tester.ensureVisible(accept);
+    await tester.pumpAndSettle();
+    await tester.tap(accept);
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 200));
+    }
+    expect(find.text('Place au terrain'), findsOneWidget);
+    expect(find.text("J'ai terminé"), findsNothing);
+    expect(find.text('Abandonner la mission'), findsOneWidget);
   });
 
   testWidgets('drafts are shown with the review note', (tester) async {
