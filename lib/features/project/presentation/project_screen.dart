@@ -12,6 +12,7 @@ import '../../hypotheses/presentation/research_providers.dart';
 import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
 import '../../review/presentation/review_screen.dart';
+import '../../tips/presentation/feature_tip.dart';
 import '../../tools/application/tool_service.dart';
 import '../../tools/presentation/tools_providers.dart';
 import '../../trash/presentation/trash_screen.dart';
@@ -82,7 +83,21 @@ class _ProjectBody extends ConsumerWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              ProjectCard(project: project, steps: steps),
+              FeatureTip(
+                id: 'project.card',
+                message: l10n.tipProjectCard,
+                child: ProjectCard(
+                  project: project,
+                  steps: steps,
+                  currentQuest: switch (plan?.next) {
+                    final next? => switch (pack.questOfStep(next.step.id)) {
+                      final q? => contentText(context, q.title),
+                      null => null,
+                    },
+                    null => null,
+                  },
+                ),
+              ),
               const SizedBox(height: EripooSpacing.lg),
               Text(
                 l10n.projectResearchTitle,

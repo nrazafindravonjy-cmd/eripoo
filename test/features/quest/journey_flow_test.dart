@@ -144,8 +144,9 @@ void main() {
     await next(tester);
     await finish(tester);
 
-    // The project exists and is named (under the greeting).
-    expect(find.text('Savon du quartier'), findsOneWidget);
+    // The project exists and is named (under the greeting, possibly
+    // scrolled up by the previous slide).
+    expect(find.text('Savon du quartier', skipOffstage: false), findsOneWidget);
     expect(find.text('Ta quête en cours'), findsOneWidget);
     expect(find.text('Trouver un problème qui compte'), findsOneWidget);
 

@@ -3301,7 +3301,7 @@
   "@projectCardShare": {
     "description": "Button sharing the project card as an image."
   },
-  "projectCardShareNote": "Seuls le nom du projet, son stade, sa date et le nombre d'étapes sont partagés : exactement la carte ci-dessus.",
+  "projectCardShareNote": "Seuls le nom du projet, son stade, sa quête en cours, le nombre d'étapes et ton logo sont partagés : exactement l'image ci-dessus, sans aucune réponse privée.",
   "@projectCardShareNote": {
     "description": "What sharing the project card reveals."
   },
@@ -3505,5 +3505,82 @@
   "swipeHint": "Glisse vers la droite",
   "@swipeHint": {
     "description": "Hint shown when the swipe action is tapped instead of slid."
+  },
+  "tipGotIt": "Compris",
+  "@tipGotIt": {
+    "description": "Closes a guide bubble."
+  },
+  "tipStopAll": "Ne plus afficher les astuces",
+  "@tipStopAll": {
+    "description": "Turns all guide bubbles off."
+  },
+  "tipHomeHero": "Glisse la flèche vers la droite pour avancer. C'est le geste de toutes les actions principales.",
+  "@tipHomeHero": {
+    "description": "Guide bubble on the home hero card."
+  },
+  "tipHomeStats": "Les chiffres de ton projet, mis à jour à mesure que tu avances. Touche une carte pour ouvrir l'outil.",
+  "@tipHomeStats": {
+    "description": "Guide bubble on the home figures."
+  },
+  "tipHomeWeek": "Chaque jour où tu avances est marqué. Touche un jour pour revoir ce que tu as fait.",
+  "@tipHomeWeek": {
+    "description": "Guide bubble on the week strip."
+  },
+  "tipQuestPath": "Ton parcours : chaque marque est une étape. Elle se remplit en jaune quand tu la termines.",
+  "@tipQuestPath": {
+    "description": "Guide bubble on the quest path."
+  },
+  "tipProjectCard": "La carte de ton projet : ajoute ton logo, puis partage-la sur tes réseaux.",
+  "@tipProjectCard": {
+    "description": "Guide bubble on the project card."
+  },
+  "tipToolsNew": "Un outil se débloque à chaque étape franchie. Le plus utile du moment est en grand.",
+  "@tipToolsNew": {
+    "description": "Guide bubble on the tools screen."
+  },
+  "projectLogoAdd": "Ajouter un logo",
+  "@projectLogoAdd": {
+    "description": "Adds the business logo on the project card."
+  },
+  "projectLogoChange": "Changer le logo",
+  "@projectLogoChange": {
+    "description": "Replaces the business logo."
+  },
+  "projectLogoRemove": "Retirer le logo",
+  "@projectLogoRemove": {
+    "description": "Removes the business logo."
+  },
+  "projectLogoTake": "Prendre une photo",
+  "@projectLogoTake": {
+    "description": "Logo from the camera."
+  },
+  "projectLogoChoose": "Choisir dans la galerie",
+  "@projectLogoChoose": {
+    "description": "Logo from the gallery."
+  },
+  "projectLogoLabel": "Logo de {name}",
+  "@projectLogoLabel": {
+    "description": "Screen reader label of the business logo.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "storyCurrentQuest": "En ce moment",
+  "@storyCurrentQuest": {
+    "description": "Share story: label above the current quest."
+  },
+  "storyFooter": "Construit pas à pas avec Eripoo",
+  "@storyFooter": {
+    "description": "Share story footer."
+  },
+  "storyPreviewTitle": "Aperçu du partage",
+  "@storyPreviewTitle": {
+    "description": "Title of the share preview sheet."
+  },
+  "storyShare": "Partager",
+  "@storyShare": {
+    "description": "Opens the system share sheet (Instagram, WhatsApp, Facebook…)."
   }
 }

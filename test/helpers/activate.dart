@@ -1,4 +1,5 @@
 import 'package:eripoo/design_system/design_system.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Activates what [finder] designates as a user would: slides it when it
@@ -12,6 +13,14 @@ Future<void> activate(WidgetTester tester, Finder finder) async {
     await tester.tap(finder);
     return;
   }
+  // A confirmation may float over it: wait until it goes, as a user would.
+  if (find.byType(SnackBar).evaluate().isNotEmpty) {
+    await tester.pump(const Duration(seconds: 5));
+    await tester.pumpAndSettle();
+  }
+  // Centred, so no bar overlaps the pastille.
+  await Scrollable.ensureVisible(tester.element(swipe.first), alignment: 0.5);
+  await tester.pumpAndSettle();
   final box = tester.getRect(swipe.first);
   final gesture = await tester.startGesture(
     Offset(box.left + 28, box.center.dy),

@@ -7,6 +7,7 @@ import '../../../content/content_pack.dart';
 import '../../../content/planner.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
+import '../../tips/presentation/feature_tip.dart';
 import 'content_widgets.dart';
 import 'journey_providers.dart';
 
@@ -31,6 +32,13 @@ class QuestListScreen extends ConsumerWidget {
           return ListView(
             padding: const EdgeInsets.symmetric(vertical: EripooSpacing.lg),
             children: [
+              ReadableColumn(
+                child: FeatureTip(
+                  id: 'quest.path',
+                  message: AppLocalizations.of(context).tipQuestPath,
+                  child: const SizedBox.shrink(),
+                ),
+              ),
               for (final (i, q) in quests.indexed)
                 ReadableColumn(
                   child: EripooPathItem(
