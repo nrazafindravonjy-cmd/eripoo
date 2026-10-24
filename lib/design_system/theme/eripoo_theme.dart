@@ -170,9 +170,9 @@ abstract final class EripooTheme {
       ),
       navigationBarTheme: NavigationBarThemeData(
         backgroundColor: c.background,
-        // The selected icon sits on an Eripoo mark (not the generic pill).
-        indicatorColor: c.brand.container,
-        indicatorShape: const EripooNavMarkBorder(),
+        // No indicator: the selected icon turns yellow, its label bold, and
+        // the icon pops on tap (AdaptiveScaffold).
+        indicatorColor: Colors.transparent,
         elevation: 0,
         // Navigation labels are short single words; 12 sp keeps them on
         // one line at 360 dp (tested).
@@ -187,16 +187,15 @@ abstract final class EripooTheme {
         iconTheme: WidgetStateProperty.resolveWith(
           (states) => IconThemeData(
             color: states.contains(WidgetState.selected)
-                ? c.brand.onContainer
+                ? c.brand.base
                 : c.textSecondary,
           ),
         ),
       ),
       navigationRailTheme: NavigationRailThemeData(
         backgroundColor: c.background,
-        indicatorColor: c.brand.container,
-        indicatorShape: const EripooNavMarkBorder(),
-        selectedIconTheme: IconThemeData(color: c.brand.onContainer),
+        indicatorColor: Colors.transparent,
+        selectedIconTheme: IconThemeData(color: c.brand.base),
         unselectedIconTheme: IconThemeData(color: c.textSecondary),
         selectedLabelTextStyle: text.labelMedium,
         unselectedLabelTextStyle: text.labelMedium?.copyWith(

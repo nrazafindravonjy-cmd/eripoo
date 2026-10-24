@@ -92,9 +92,22 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Center(
-                            child: EripooOrganicShape(
-                              size: 200,
-                              seed: _page * 5 + 2,
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                EripooOrganicShape(
+                                  size: 200,
+                                  seed: _page * 5 + 2,
+                                ),
+                                EripooMascot(
+                                  height: 190,
+                                  mood: switch (_page) {
+                                    1 => EripooMood.neutral,
+                                    2 => EripooMood.focused,
+                                    _ => EripooMood.happy,
+                                  },
+                                ),
+                              ],
                             ),
                           ),
                           const SizedBox(height: EripooSpacing.xxl),
@@ -137,10 +150,9 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: EripooSpacing.md),
               child: ReadableColumn(
-                child: EripooButton(
+                child: EripooSwipeAction(
                   label: last ? l10n.welcomeStart : l10n.onboardingNext,
-                  expand: true,
-                  onPressed: last ? _start : () => setState(() => _page++),
+                  onAction: last ? _start : () => setState(() => _page++),
                 ),
               ),
             ),
@@ -175,7 +187,13 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                           children: [
                             EripooLogo(size: 56, semanticLabel: l10n.appTitle),
                             const Spacer(),
-                            const EripooOrganicShape(size: 120, seed: 3),
+                            const Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                EripooOrganicShape(size: 120, seed: 3),
+                                EripooMascot(height: 150),
+                              ],
+                            ),
                           ],
                         ),
                         const SizedBox(height: EripooSpacing.xl),
@@ -239,10 +257,9 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: EripooSpacing.md),
               child: ReadableColumn(
-                child: EripooButton(
+                child: EripooSwipeAction(
                   label: l10n.welcomeContinue,
-                  expand: true,
-                  onPressed: () => setState(() => _page = 1),
+                  onAction: () => setState(() => _page = 1),
                 ),
               ),
             ),

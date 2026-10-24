@@ -168,6 +168,7 @@ class _PreferencesCard extends ConsumerWidget {
     final celebrations = ref.watch(
       appSettingsProvider.select((s) => s.celebrations),
     );
+    final mascot = ref.watch(appSettingsProvider.select((s) => s.mascot));
     final reminders = ref.watch(
       appSettingsProvider.select((s) => s.missionReminders),
     );
@@ -200,6 +201,13 @@ class _PreferencesCard extends ConsumerWidget {
             title: Text(l10n.settingsCelebrations),
             subtitle: Text(l10n.settingsCelebrationsHelp),
             onChanged: ref.read(appSettingsProvider.notifier).setCelebrations,
+          ),
+          SwitchListTile(
+            contentPadding: EdgeInsets.zero,
+            value: mascot,
+            title: Text(l10n.settingsMascot),
+            subtitle: Text(l10n.settingsMascotHelp),
+            onChanged: ref.read(appSettingsProvider.notifier).setMascot,
           ),
           SwitchListTile(
             contentPadding: EdgeInsets.zero,

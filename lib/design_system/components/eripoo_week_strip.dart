@@ -12,7 +12,11 @@ class EripooDay {
     required this.active,
     required this.semanticLabel,
     this.today = false,
+    this.onTap,
   });
+
+  /// Opens the summary of that day.
+  final VoidCallback? onTap;
 
   final String letter;
   final String number;
@@ -41,29 +45,35 @@ class EripooWeekStrip extends StatelessWidget {
           Expanded(
             child: Semantics(
               label: d.semanticLabel,
+              button: d.onTap != null,
               excludeSemantics: true,
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: EripooSpacing.sm),
-                decoration: d.today
-                    ? ShapeDecoration(
-                        color: c.surfaceMuted,
-                        shape: const EripooCutBorder(radius: 14, cut: 8),
-                      )
-                    : null,
-                child: Column(
-                  children: [
-                    Text(d.letter, style: t.labelSmall),
-                    const SizedBox(height: EripooSpacing.xxs),
-                    Text(d.number, style: t.titleSmall),
-                    const SizedBox(height: EripooSpacing.xs),
-                    CustomPaint(
-                      size: const Size(10, 10.4),
-                      painter: _DayMarkPainter(
-                        d.active ? c.brand.base : c.border,
-                        filled: d.active,
+              child: InkWell(
+                onTap: d.onTap,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: EripooSpacing.sm,
+                  ),
+                  decoration: d.today
+                      ? ShapeDecoration(
+                          color: c.surfaceMuted,
+                          shape: const EripooCutBorder(radius: 14, cut: 8),
+                        )
+                      : null,
+                  child: Column(
+                    children: [
+                      Text(d.letter, style: t.labelSmall),
+                      const SizedBox(height: EripooSpacing.xxs),
+                      Text(d.number, style: t.titleSmall),
+                      const SizedBox(height: EripooSpacing.xs),
+                      CustomPaint(
+                        size: const Size(10, 10.4),
+                        painter: _DayMarkPainter(
+                          d.active ? c.brand.base : c.border,
+                          filled: d.active,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

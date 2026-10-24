@@ -21,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../helpers/activate.dart';
 import '../../helpers/journey_overrides.dart';
 import '../../helpers/memory_secure_store.dart';
 import '../../helpers/test_database.dart';
@@ -92,7 +93,7 @@ void main() {
   Future<void> tap(WidgetTester tester, Finder finder) async {
     await tester.ensureVisible(finder);
     await tester.pumpAndSettle();
-    await tester.tap(finder);
+    await activate(tester, finder);
     await tester.pumpAndSettle();
   }
 

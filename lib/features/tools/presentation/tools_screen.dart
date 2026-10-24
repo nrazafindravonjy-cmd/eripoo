@@ -9,6 +9,7 @@ import '../../../l10n/generated/app_localizations.dart';
 import '../../hypotheses/presentation/research_forms.dart';
 import '../../quest/presentation/content_widgets.dart';
 import '../../settings/presentation/app_settings_controller.dart';
+import '../../tips/presentation/feature_tip.dart';
 import '../application/tool_service.dart';
 import 'tools_providers.dart';
 
@@ -140,7 +141,11 @@ class _ToolsScreenState extends ConsumerState<ToolsScreen> {
       const SizedBox(height: EripooSpacing.xl),
       Text(title, style: context.textStyles.titleMedium),
       const SizedBox(height: EripooSpacing.sm),
-      _ToolCard(ordered.first, featured: true),
+      FeatureTip(
+        id: 'tools.new',
+        message: AppLocalizations.of(context).tipToolsNew,
+        child: _ToolCard(ordered.first, featured: true),
+      ),
       for (var i = 0; i < rest.length; i += 2) ...[
         const SizedBox(height: EripooSpacing.sm),
         IntrinsicHeight(

@@ -10,6 +10,7 @@ import '../../badges/presentation/badges_screen.dart';
 import '../../devices/presentation/new_device_notice.dart';
 import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
+import '../../tips/presentation/feature_tip.dart';
 import '../../usage/presentation/usage_opened_tracker.dart';
 import 'erasure_notice.dart';
 import 'home_dashboard.dart';
@@ -70,18 +71,22 @@ class HomeScreen extends ConsumerWidget {
                     const UsageOpenedTracker(),
                     ReadableColumn(
                       child: !plan.diagnosticDone
-                          ? HomeHeroCard(
-                              label: l10n.homeHeroLabel,
-                              title: l10n.homeStartTitle,
-                              subtitle: l10n.homeStartBody,
-                              done: 0,
-                              total: 0,
-                              actionLabel: l10n.homeBegin,
-                              onAction: next == null
-                                  ? null
-                                  : () => context.push(
-                                      AppRoutes.step(next.step.id),
-                                    ),
+                          ? FeatureTip(
+                              id: 'home.hero',
+                              message: l10n.tipHomeHero,
+                              child: HomeHeroCard(
+                                label: l10n.homeHeroLabel,
+                                title: l10n.homeStartTitle,
+                                subtitle: l10n.homeStartBody,
+                                done: 0,
+                                total: 0,
+                                actionLabel: l10n.homeBegin,
+                                onAction: next == null
+                                    ? null
+                                    : () => context.push(
+                                        AppRoutes.step(next.step.id),
+                                      ),
+                              ),
                             )
                           : next == null
                           ? EripooMessageView(
@@ -107,12 +112,19 @@ class HomeScreen extends ConsumerWidget {
                     ),
                     if (plan.diagnosticDone && dashboard != null) ...[
                       const SizedBox(height: EripooSpacing.lg),
-                      ReadableColumn(child: HomeStats(data: dashboard)),
+                      ReadableColumn(
+                        child: FeatureTip(
+                          id: 'home.stats',
+                          message: l10n.tipHomeStats,
+                          child: HomeStats(data: dashboard),
+                        ),
+                      ),
                       const SizedBox(height: EripooSpacing.md),
                       ReadableColumn(
-                        child: HomeWeek(
-                          activeDays: dashboard.activeDays,
-                          now: now,
+                        child: FeatureTip(
+                          id: 'home.week',
+                          message: l10n.tipHomeWeek,
+                          child: HomeWeek(days: dashboard.days, now: now),
                         ),
                       ),
                     ],

@@ -53,6 +53,7 @@ flutter:
   assets:
     # Built from content/ by tool/content_build.dart (do not edit by hand).
     - assets/content/base_pack.json
+    - assets/mascot/
     # Embedded in exported PDFs (Apache 2.0, see Roboto_LICENSE.txt).
     - assets/fonts/Roboto-Regular.ttf
     - assets/fonts/Roboto-Bold.ttf

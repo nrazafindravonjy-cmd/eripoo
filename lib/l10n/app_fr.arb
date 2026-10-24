@@ -3301,7 +3301,7 @@
   "@projectCardShare": {
     "description": "Button sharing the project card as an image."
   },
-  "projectCardShareNote": "Seuls le nom du projet, son stade, sa date et le nombre d'étapes sont partagés : exactement la carte ci-dessus.",
+  "projectCardShareNote": "Seuls le nom du projet, son stade, sa quête en cours, le nombre d'étapes et ton logo sont partagés : exactement l'image ci-dessus, sans aucune réponse privée.",
   "@projectCardShareNote": {
     "description": "What sharing the project card reveals."
   },
@@ -3476,5 +3476,119 @@
   "onboarding3Body": "Tout est chiffré sur ton téléphone et marche sans internet. Personne d'autre ne peut le lire.",
   "@onboarding3Body": {
     "description": "Introduction screen 3 text."
+  },
+  "missionWaitTitle": "Place au terrain",
+  "@missionWaitTitle": {
+    "description": "Mission accepted, its time not over yet: title of the waiting card."
+  },
+  "missionWaitBody": "Ton compte rendu s'ouvrira dans {time}. Prends ce temps pour faire la mission, puis reviens raconter ce que tu as vu.",
+  "@missionWaitBody": {
+    "description": "Waiting card body; time is a duration like '25 min'.",
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "activityDayEmpty": "Rien de noté ce jour-là. Pas de souci : avance à ton rythme.",
+  "@activityDayEmpty": {
+    "description": "Day summary when nothing was done."
+  },
+  "activityStepDone": "Étape terminée",
+  "@activityStepDone": {
+    "description": "Day summary item label."
+  },
+  "activityMissionDone": "Mission accomplie",
+  "@activityMissionDone": {
+    "description": "Day summary item label."
+  },
+  "swipeHint": "Glisse vers la droite",
+  "@swipeHint": {
+    "description": "Hint shown when the swipe action is tapped instead of slid."
+  },
+  "tipGotIt": "Compris",
+  "@tipGotIt": {
+    "description": "Closes a guide bubble."
+  },
+  "tipStopAll": "Ne plus afficher les astuces",
+  "@tipStopAll": {
+    "description": "Turns all guide bubbles off."
+  },
+  "tipHomeHero": "Glisse la flèche vers la droite pour avancer. C'est le geste de toutes les actions principales.",
+  "@tipHomeHero": {
+    "description": "Guide bubble on the home hero card."
+  },
+  "tipHomeStats": "Les chiffres de ton projet, mis à jour à mesure que tu avances. Touche une carte pour ouvrir l'outil.",
+  "@tipHomeStats": {
+    "description": "Guide bubble on the home figures."
+  },
+  "tipHomeWeek": "Chaque jour où tu avances est marqué. Touche un jour pour revoir ce que tu as fait.",
+  "@tipHomeWeek": {
+    "description": "Guide bubble on the week strip."
+  },
+  "tipQuestPath": "Ton parcours : chaque marque est une étape. Elle se remplit en jaune quand tu la termines.",
+  "@tipQuestPath": {
+    "description": "Guide bubble on the quest path."
+  },
+  "tipProjectCard": "La carte de ton projet : ajoute ton logo, puis partage-la sur tes réseaux.",
+  "@tipProjectCard": {
+    "description": "Guide bubble on the project card."
+  },
+  "tipToolsNew": "Un outil se débloque à chaque étape franchie. Le plus utile du moment est en grand.",
+  "@tipToolsNew": {
+    "description": "Guide bubble on the tools screen."
+  },
+  "projectLogoAdd": "Ajouter un logo",
+  "@projectLogoAdd": {
+    "description": "Adds the business logo on the project card."
+  },
+  "projectLogoChange": "Changer le logo",
+  "@projectLogoChange": {
+    "description": "Replaces the business logo."
+  },
+  "projectLogoRemove": "Retirer le logo",
+  "@projectLogoRemove": {
+    "description": "Removes the business logo."
+  },
+  "projectLogoTake": "Prendre une photo",
+  "@projectLogoTake": {
+    "description": "Logo from the camera."
+  },
+  "projectLogoChoose": "Choisir dans la galerie",
+  "@projectLogoChoose": {
+    "description": "Logo from the gallery."
+  },
+  "projectLogoLabel": "Logo de {name}",
+  "@projectLogoLabel": {
+    "description": "Screen reader label of the business logo.",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "storyCurrentQuest": "En ce moment",
+  "@storyCurrentQuest": {
+    "description": "Share story: label above the current quest."
+  },
+  "storyFooter": "Construit pas à pas avec Eripoo",
+  "@storyFooter": {
+    "description": "Share story footer."
+  },
+  "storyPreviewTitle": "Aperçu du partage",
+  "@storyPreviewTitle": {
+    "description": "Title of the share preview sheet."
+  },
+  "storyShare": "Partager",
+  "@storyShare": {
+    "description": "Opens the system share sheet (Instagram, WhatsApp, Facebook…)."
+  },
+  "settingsMascot": "Mascotte",
+  "@settingsMascot": {
+    "description": "Profile switch: show the mascot"
+  },
+  "settingsMascotHelp": "Eripoo t'accompagne dans le parcours.",
+  "@settingsMascotHelp": {
+    "description": "Profile switch help: mascot"
   }
 }

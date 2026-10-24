@@ -5,6 +5,7 @@ import '../theme/eripoo_theme.dart';
 import '../tokens/eripoo_dimens.dart';
 import 'eripoo_done_mark.dart';
 import 'eripoo_headline.dart';
+import 'eripoo_mascot.dart';
 
 /// A yellow sheet rising from the bottom when something big is finished
 /// (a quest): the Eripoo mark appears, a serif title, one line and one
@@ -32,7 +33,14 @@ Future<void> showEripooCelebration(
             mainAxisSize: MainAxisSize.min,
             children: [
               const SizedBox(height: EripooSpacing.lg),
-              EripooDoneMark(size: 72, color: ink),
+              if (EripooMascotScope.enabledOf(context))
+                const EripooMascot(
+                  mood: EripooMood.happy,
+                  height: 150,
+                  hop: true,
+                )
+              else
+                EripooDoneMark(size: 72, color: ink),
               const SizedBox(height: EripooSpacing.xl),
               DefaultTextStyle.merge(
                 textAlign: TextAlign.center,

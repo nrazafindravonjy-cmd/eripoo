@@ -4,6 +4,7 @@ import '../../l10n/generated/app_localizations.dart';
 import '../theme/eripoo_theme.dart';
 import '../tokens/eripoo_dimens.dart';
 import 'eripoo_button.dart';
+import 'eripoo_mascot.dart';
 import 'eripoo_organic_shape.dart';
 
 /// Loading state. Announced to screen readers.
@@ -43,6 +44,7 @@ class EripooMessageView extends StatelessWidget {
     this.message,
     this.action,
     this.iconColor,
+    this.mood = EripooMood.neutral,
   });
 
   final IconData icon;
@@ -50,6 +52,9 @@ class EripooMessageView extends StatelessWidget {
   final String? message;
   final Widget? action;
   final Color? iconColor;
+
+  /// The mascot's expression, shown instead of the icon when it is on.
+  final EripooMood mood;
 
   @override
   Widget build(BuildContext context) {
@@ -63,17 +68,20 @@ class EripooMessageView extends StatelessWidget {
           children: [
             // An organic form behind the icon: empty and error states keep
             // the brand's matter instead of a bare symbol.
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                const EripooOrganicShape(size: 112, seed: 5),
-                Icon(
-                  icon,
-                  size: EripooSpacing.xxxl,
-                  color: iconColor ?? colors.brand.onBase,
-                ),
-              ],
-            ),
+            if (EripooMascotScope.enabledOf(context))
+              EripooMascot(mood: mood, height: 140)
+            else
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  const EripooOrganicShape(size: 112, seed: 5),
+                  Icon(
+                    icon,
+                    size: EripooSpacing.xxxl,
+                    color: iconColor ?? colors.brand.onBase,
+                  ),
+                ],
+              ),
             const SizedBox(height: EripooSpacing.lg),
             Text(title, style: text.titleLarge, textAlign: TextAlign.center),
             if (message != null) ...[
@@ -109,6 +117,7 @@ class EripooErrorView extends StatelessWidget {
     return EripooMessageView(
       // Dark on the yellow form for contrast; the title says it is an error.
       icon: Icons.error_outline,
+      mood: EripooMood.disappointed,
       title: title ?? l10n.stateErrorTitle,
       message: message ?? l10n.stateErrorBody,
       action: onRetry == null

@@ -305,13 +305,24 @@ class _StepScreenState extends ConsumerState<StepScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        EripooStepCounter(
-                          current: session.index + 1,
-                          total: session.blocks.length,
-                          semanticLabel: l10n.stepCounter(
-                            session.index + 1,
-                            session.blocks.length,
-                          ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: EripooStepCounter(
+                                current: session.index + 1,
+                                total: session.blocks.length,
+                                semanticLabel: l10n.stepCounter(
+                                  session.index + 1,
+                                  session.blocks.length,
+                                ),
+                              ),
+                            ),
+                            const EripooMascot(
+                              mood: EripooMood.focused,
+                              height: 72,
+                            ),
+                          ],
                         ),
                         const SizedBox(height: EripooSpacing.xl),
                         KeyedSubtree(
@@ -409,13 +420,12 @@ class _StepScreenState extends ConsumerState<StepScreen> {
                           ],
                           Expanded(
                             flex: 3,
-                            child: EripooButton(
+                            child: EripooSwipeAction(
                               label: session.isLast
                                   ? l10n.stepFinish
                                   : l10n.stepNext,
-                              expand: true,
                               isLoading: _busy,
-                              onPressed: session.isLast ? _finish : _next,
+                              onAction: session.isLast ? _finish : _next,
                             ),
                           ),
                         ],

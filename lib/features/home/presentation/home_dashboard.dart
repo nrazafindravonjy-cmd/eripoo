@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../app/router/app_router.dart';
+import '../../../content/localized_text.dart';
 import '../../../design_system/design_system.dart';
 import '../../../l10n/generated/app_localizations.dart';
 import '../../finance/presentation/finance_providers.dart';
 import '../../hypotheses/domain/research.dart';
 import '../../hypotheses/presentation/research_providers.dart';
+import '../../quest/presentation/content_widgets.dart';
 import '../../quest/presentation/journey_providers.dart';
 
 /// Figures of the project shown on Home: all already recorded on the
@@ -17,7 +19,7 @@ class HomeDashboard {
     required this.stepsDone,
     required this.stepsTotal,
     required this.stepsThisWeek,
-    required this.activeDays,
+    required this.days,
     required this.hypothesesValidated,
     required this.hypothesesTotal,
     required this.notes,
@@ -28,8 +30,10 @@ class HomeDashboard {
   final int stepsTotal;
   final int stepsThisWeek;
 
-  /// Days (local midnight) on which a step or a mission was completed.
-  final Set<DateTime> activeDays;
+  /// What was completed each day (local midnight): steps and missions.
+  final Map<DateTime, List<DayEvent>> days;
+
+  Set<DateTime> get activeDays => days.keys.toSet();
   final int hypothesesValidated;
   final int hypothesesTotal;
   final int notes;
@@ -38,14 +42,40 @@ class HomeDashboard {
 
 DateTime _day(DateTime t) => DateTime(t.year, t.month, t.day);
 
+/// Something completed on a day, for the day summary.
+class DayEvent {
+  const DayEvent({required this.mission, required this.title});
+
+  /// A mission (else a step).
+  final bool mission;
+  final LocalizedText title;
+}
+
 final homeDashboardProvider = FutureProvider<HomeDashboard?>((ref) async {
   final plan = await ref.watch(journeyPlanProvider.future);
   final project = await ref.watch(activeProjectProvider.future);
   final input = await ref.watch(journeyServiceProvider).input();
-  final completions = [
-    for (final s in input.steps.values) ?s.completedAt,
-    for (final m in input.missions.values) ?m.completedAt,
-  ];
+  final pack = input.pack;
+  final days = <DateTime, List<DayEvent>>{};
+  void add(DateTime? at, DayEvent? event) {
+    if (at == null || event == null) return;
+    (days[_day(at.toLocal())] ??= []).add(event);
+  }
+
+  for (final e in input.steps.entries) {
+    final step = pack.step(e.key);
+    add(
+      e.value.completedAt,
+      step == null ? null : DayEvent(mission: false, title: step.title),
+    );
+  }
+  for (final e in input.missions.entries) {
+    final mission = pack.mission(e.key);
+    add(
+      e.value.completedAt,
+      mission == null ? null : DayEvent(mission: true, title: mission.title),
+    );
+  }
   final weekAgo = input.now.subtract(const Duration(days: 7));
   final quests = [?plan.diagnostic, ...plan.quests];
   final hypotheses = project == null
@@ -63,7 +93,7 @@ final homeDashboardProvider = FutureProvider<HomeDashboard?>((ref) async {
     stepsThisWeek: [for (final s in input.steps.values) ?s.completedAt]
         .where((t) => t.isAfter(weekAgo))
         .length,
-    activeDays: {for (final t in completions) _day(t)},
+    days: days,
     hypothesesValidated: hypotheses
         .where((h) => h.status == HypothesisStatus.validated)
         .length,
@@ -171,62 +201,12 @@ class HomeHeroCard extends StatelessWidget {
               ],
             ),
             const SizedBox(height: EripooSpacing.xl),
-            _DarkAction(label: actionLabel, onPressed: onAction),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// The hero card's action: dark on yellow, with a yellow arrow pastille
-/// (the inverse of the primary button, same gesture).
-class _DarkAction extends StatelessWidget {
-  const _DarkAction({required this.label, required this.onPressed});
-
-  final String label;
-  final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.colors;
-    return Semantics(
-      button: true,
-      enabled: onPressed != null,
-      label: label,
-      excludeSemantics: true,
-      child: SizedBox(
-        width: double.infinity,
-        child: FilledButton(
-          onPressed: onPressed,
-          style: FilledButton.styleFrom(
-            backgroundColor: c.brand.onBase,
-            foregroundColor: c.textPrimary,
-            padding: const EdgeInsets.only(
-              left: EripooSpacing.sm,
-              right: EripooSpacing.xl,
+            EripooSwipeAction(
+              label: actionLabel,
+              onAction: onAction,
+              onDark: true,
             ),
-          ),
-          child: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: c.brand.base,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(
-                  Icons.arrow_forward,
-                  size: 20,
-                  color: c.brand.onBase,
-                ),
-              ),
-              const SizedBox(width: EripooSpacing.md),
-              Expanded(child: Center(child: Text(label))),
-              const SizedBox(width: 40),
-            ],
-          ),
+          ],
         ),
       ),
     );
@@ -299,10 +279,68 @@ class HomeStats extends StatelessWidget {
 
 /// The last seven days, ending today.
 class HomeWeek extends StatelessWidget {
-  const HomeWeek({super.key, required this.activeDays, required this.now});
+  const HomeWeek({super.key, required this.days, required this.now});
 
-  final Set<DateTime> activeDays;
+  final Map<DateTime, List<DayEvent>> days;
   final DateTime now;
+
+  /// A short summary of what was done that day, in a bubble.
+  Future<void> _summary(BuildContext context, DateTime day, String name) {
+    final l10n = AppLocalizations.of(context);
+    final events = days[day] ?? const <DayEvent>[];
+    return showModalBottomSheet<void>(
+      context: context,
+      builder: (context) => SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(
+            EripooSpacing.xl,
+            0,
+            EripooSpacing.xl,
+            EripooSpacing.xl,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(name, style: context.textStyles.headlineSmall),
+              const SizedBox(height: EripooSpacing.md),
+              if (events.isEmpty)
+                Text(l10n.activityDayEmpty)
+              else
+                for (final e in events)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: EripooSpacing.sm),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(
+                          e.mission ? Icons.directions_walk : Icons.flag,
+                          color: context.colors.brand.base,
+                        ),
+                        const SizedBox(width: EripooSpacing.md),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                e.mission
+                                    ? l10n.activityMissionDone
+                                    : l10n.activityStepDone,
+                                style: context.textStyles.labelSmall,
+                              ),
+                              Text(contentText(context, e.title)),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -320,8 +358,9 @@ class HomeWeek extends StatelessWidget {
               () {
                 final d = today.subtract(Duration(days: i));
                 final name = f.weekday(d);
-                final active = activeDays.contains(d);
+                final active = days.containsKey(d);
                 return EripooDay(
+                  onTap: () => _summary(context, d, '$name ${d.day}'),
                   letter: name.substring(0, 1).toUpperCase(),
                   number: '${d.day}',
                   active: active,
