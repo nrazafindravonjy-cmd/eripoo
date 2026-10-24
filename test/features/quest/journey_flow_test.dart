@@ -103,6 +103,15 @@ void main() {
     expect(group.groupValue, AppLanguage.en);
     await tapText(tester, 'Français');
     expect(find.text('Bienvenue sur Eripoo'), findsOneWidget);
+    await tapText(tester, 'Continuer');
+
+    // ---- three introduction screens, in the language chosen
+    expect(find.text('Ton projet, étape par étape'), findsOneWidget);
+    await tapText(tester, 'Suivant');
+    expect(find.text('Agis sur le terrain'), findsOneWidget);
+    await tapText(tester, 'Suivant');
+    expect(find.text('Ton projet reste à toi'), findsOneWidget);
+    expect(find.text('Passer'), findsNothing);
     await tapText(tester, 'Commencer');
 
     // ---- home: the diagnostic comes first; the journey is locked

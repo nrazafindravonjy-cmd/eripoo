@@ -3428,5 +3428,53 @@
   "notesFilterAll": "Tout",
   "@notesFilterAll": {
     "description": "Field notes filter: everything."
+  },
+  "welcomeContinue": "Continuer",
+  "@welcomeContinue": {
+    "description": "Welcome screen: goes to the short introduction."
+  },
+  "onboardingSkip": "Passer",
+  "@onboardingSkip": {
+    "description": "Skips the introduction screens."
+  },
+  "onboardingNext": "Suivant",
+  "@onboardingNext": {
+    "description": "Next introduction screen."
+  },
+  "onboardingPage": "Écran {current} sur {total}",
+  "@onboardingPage": {
+    "description": "Screen reader text of the introduction dots.",
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "onboarding1Title": "Ton projet, *étape par étape*",
+  "@onboarding1Title": {
+    "description": "Introduction screen 1 title (asterisks: yellow italics)."
+  },
+  "onboarding1Body": "De courtes quêtes te guident de l'idée jusqu'au lancement, à ton rythme.",
+  "@onboarding1Body": {
+    "description": "Introduction screen 1 text."
+  },
+  "onboarding2Title": "Agis *sur le terrain*",
+  "@onboarding2Title": {
+    "description": "Introduction screen 2 title."
+  },
+  "onboarding2Body": "Des missions réelles : parler à de futurs clients, observer, tester un prix. Eripoo t'aide à comprendre ce que tu apprends.",
+  "@onboarding2Body": {
+    "description": "Introduction screen 2 text."
+  },
+  "onboarding3Title": "Ton projet reste *à toi*",
+  "@onboarding3Title": {
+    "description": "Introduction screen 3 title."
+  },
+  "onboarding3Body": "Tout est chiffré sur ton téléphone et marche sans internet. Personne d'autre ne peut le lire.",
+  "@onboarding3Body": {
+    "description": "Introduction screen 3 text."
   }
 }
