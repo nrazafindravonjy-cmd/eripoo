@@ -174,3 +174,97 @@ steps:
       - {from: area, section: market, field: area, tracked: true}
       - {from: estimate, section: market, field: estimate, tracked: true}
       - {from: how_known, section: market, field: how_known, tracked: true}
+  - id: q05.s05
+    type: reflect
+    title:
+      fr: "Tes forces et tes risques"
+      en: "Your strengths and risks"
+    blocks:
+      - id: strengths
+        type: question
+        prompt:
+          fr: "Qu'est-ce que tu fais mieux que les autres ?"
+          en: "What do you do better than others?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Pourquoi un client te choisirait-il plutôt qu'un concurrent ?"
+              en: "Why would a customer choose you over a competitor?"
+          example:
+            fr: "« Je livre au marché, la boutique ne livre pas. »"
+            en: "\"I deliver to the market, the shop doesn't.\""
+          hints:
+            - fr: "Relis ce qui manque chez tes concurrents."
+              en: "Read again what your competitors lack."
+      - id: weaknesses
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui te manque ?"
+          en: "What do you lack?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Qu'est-ce que tes concurrents ont et que tu n'as pas encore ?"
+              en: "What do your competitors have that you don't have yet?"
+          example:
+            fr: "« Pas de stock d'avance, et pas de vélo pour livrer loin. »"
+            en: "\"No stock in advance, and no bicycle to deliver far.\""
+          hints:
+            - fr: "Être honnête ici t'évite des surprises plus tard."
+              en: "Being honest here avoids surprises later."
+      - id: opportunities
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui pourrait t'aider ?"
+          en: "What could help you?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Quelle personne, quel lieu ou quel moment pourrait t'apporter des clients ?"
+              en: "Which person, place or moment could bring you customers?"
+          example:
+            fr: "« La rentrée scolaire, quand les familles achètent en grande quantité. »"
+            en: "\"The start of the school year, when families buy in bulk.\""
+          hints:
+            - fr: "Pense aux fêtes, aux saisons, aux associations et aux voisins."
+              en: "Think of celebrations, seasons, associations and neighbours."
+      - id: threats
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui pourrait te gêner ?"
+          en: "What could get in your way?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Que se passerait-il si un prix montait ou si un concurrent copiait ton idée ?"
+              en: "What would happen if a price went up or a competitor copied your idea?"
+          example:
+            fr: "« Le prix de l'huile peut monter, et la boutique pourrait se mettre à livrer. »"
+            en: "\"The price of oil may rise, and the shop could start delivering.\""
+          hints:
+            - fr: "Pour chaque risque, pense à ce que tu ferais."
+              en: "For each risk, think of what you would do."
+      - id: framework
+        type: tip
+        body:
+          fr: "Ce que tu viens de faire, lister tes forces, tes manques, ce qui peut t'aider et ce qui peut te gêner, s'appelle une analyse SWOT. Les partenaires et les financeurs connaissent ce mot."
+          en: "What you just did, listing your strengths, gaps, what can help and what can get in the way, is called a SWOT analysis. Partners and funders know this term."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici tes forces et tes risques. Ils complètent le chapitre « Le marché » de ton dossier."
+          en: "Here are your strengths and risks. They complete the \"Market\" chapter of your file."
+        shows: [strengths, weaknesses, opportunities, threats]
+    outputs:
+      - {from: strengths, section: swot, field: strengths, tracked: true}
+      - {from: weaknesses, section: swot, field: weaknesses, tracked: true}
+      - {from: opportunities, section: swot, field: opportunities, tracked: true}
+      - {from: threats, section: swot, field: threats, tracked: true}

@@ -149,12 +149,19 @@ void main() {
         'frequency',
         const Answer(AnswerType.choice, 'daily'),
       );
+      for (final id in ['causes', 'effects']) {
+        await journey.saveAnswer(
+          'q01.s02',
+          id,
+          const Answer(AnswerType.text, 'Loin'),
+        );
+      }
       expect(await journey.complete('q01.s02'), isA<StepCompleted>());
       final answers = await journey.answersOf('q01.s02');
       expect(answers['problem']!.type, AnswerType.voice);
       expect(answers['problem']!.value, id);
       final sections = await ProjectRepository(db).sections(project.id);
-      expect(sections['problem'], isNull);
+      expect(sections['problem']!.fields['statement'], isNull);
       expect(sections['customers']!.fields['first_guess'], 'Des voisins');
     });
 

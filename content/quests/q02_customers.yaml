@@ -10,8 +10,9 @@ summary:
   fr: "Découvre qui vit le problème et ce qu'ils font aujourd'hui pour s'en sortir."
   en: "Find out who has the problem and what they do about it today."
 available_when:
-  step: q01.s02
-  is: [completed, fast_tracked]
+  any:
+    - {step: q01.s02, is: [completed, fast_tracked]}
+    - {step: q01.s06, is: [completed, fast_tracked]}
 steps:
   - id: q02.s01
     type: learn
@@ -160,8 +161,8 @@ steps:
       - id: confirmed
         type: question
         prompt:
-          fr: "Le problème est-il confirmé ?"
-          en: "Is the problem confirmed?"
+          fr: "Tes rencontres confirment-elles ton idée de départ ?"
+          en: "Do your conversations confirm your starting idea?"
         answer:
           kind: choice
           options:
@@ -173,8 +174,8 @@ steps:
               label: {fr: "Non, pas vraiment", en: "No, not really"}
         help:
           rephrase:
-            - fr: "Les personnes rencontrées vivent-elles vraiment ce problème ?"
-              en: "Do the people you met really have this problem?"
+            - fr: "Les personnes rencontrées vivent-elles vraiment ce problème, ou ont-elles vraiment cette envie ?"
+              en: "Do the people you met really have this problem, or really have this desire?"
           example:
             fr: "Deux personnes sur trois en parlent sans que tu poses la question : c'est « Oui »."
             en: "Two people out of three bring it up without you asking: that's a \"Yes\"."
@@ -190,3 +191,97 @@ steps:
     outputs:
       - {from: learned, section: customers, field: interview_learnings, tracked: true}
       - {from: confirmed, fact: customers.problem_confirmed}
+  - id: q02.s05
+    type: reflect
+    title:
+      fr: "À la place de tes clients"
+      en: "In your customers' shoes"
+    blocks:
+      - id: says
+        type: question
+        prompt:
+          fr: "Que disent-ils quand ils en parlent ?"
+          en: "What do they say when they talk about it?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Quelle phrase as-tu entendue plusieurs fois pendant tes rencontres ?"
+              en: "Which sentence did you hear several times during your conversations?"
+          example:
+            fr: "« Le savon, on y pense toujours trop tard. »"
+            en: "\"Soap, we always think of it too late.\""
+          hints:
+            - fr: "Reprends leurs mots, pas les tiens."
+              en: "Use their words, not yours."
+      - id: does
+        type: question
+        prompt:
+          fr: "Que font-ils aujourd'hui ?"
+          en: "What do they do today?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Comment s'organisent-ils, concrètement ?"
+              en: "How do they manage, concretely?"
+          example:
+            fr: "« Elles empruntent du savon aux voisines et achètent un gros lot une fois par mois. »"
+            en: "\"They borrow soap from neighbours and buy a big batch once a month.\""
+          hints:
+            - fr: "Décris ce que tu as vu ou entendu, pas ce que tu supposes."
+              en: "Describe what you saw or heard, not what you suppose."
+      - id: feels
+        type: question
+        prompt:
+          fr: "Que ressentent-ils ?"
+          en: "How do they feel?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Sont-ils agacés, fatigués, fiers, pressés, inquiets ?"
+              en: "Are they annoyed, tired, proud, rushed, worried?"
+          example:
+            fr: "« De la gêne de toujours demander aux voisines. »"
+            en: "\"Embarrassed to always ask the neighbours.\""
+          hints:
+            - fr: "Un sentiment fort, c'est souvent une bonne raison d'acheter."
+              en: "A strong feeling is often a good reason to buy."
+      - id: lacks
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui les gêne ou leur manque le plus ?"
+          en: "What bothers them or is missing the most?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "S'ils pouvaient changer une seule chose, laquelle serait-ce ?"
+              en: "If they could change one thing only, what would it be?"
+          example:
+            fr: "« Avoir du savon sous la main sans faire le trajet. »"
+            en: "\"Having soap at hand without the trip.\""
+          hints:
+            - fr: "C'est souvent là que se cache ta future offre."
+              en: "That is often where your future offer hides."
+      - id: framework
+        type: tip
+        body:
+          fr: "Ce que tu viens de faire, te mettre à la place de tes clients, s'appelle une carte d'empathie. Les partenaires et les financeurs connaissent ce mot."
+          en: "What you just did, putting yourself in your customers' shoes, is called an empathy map. Partners and funders know this term."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici tes clients vus de l'intérieur. C'est enregistré dans ton projet."
+          en: "Here are your customers seen from the inside. It is saved in your project."
+        shows: [says, does, feels, lacks]
+    outputs:
+      - {from: says, section: customers, field: says, tracked: true}
+      - {from: does, section: customers, field: does, tracked: true}
+      - {from: feels, section: customers, field: feels, tracked: true}
+      - {from: lacks, section: customers, field: lacks, tracked: true}

@@ -116,3 +116,59 @@ steps:
       - {from: solution, section: solution, field: first_idea, tracked: true}
       - {from: different, section: solution, field: advantage, tracked: true}
       - {from: kind, fact: solution.kind}
+  - id: q03.s03
+    type: reflect
+    title:
+      fr: "Ce que ton client y gagne"
+      en: "What your customer gains"
+    blocks:
+      - id: gains
+        type: question
+        prompt:
+          fr: "Qu'est-ce que ton client y gagne ?"
+          en: "What does your customer gain?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Qu'est-ce qui sera plus facile, plus beau ou plus agréable pour lui ?"
+              en: "What will be easier, more beautiful or more pleasant for them?"
+          example:
+            fr: "« Du temps pour vendre, et la tranquillité d'avoir toujours du savon. »"
+            en: "\"Time to sell, and the peace of mind of always having soap.\""
+          hints:
+            - fr: "Pense au temps, à l'argent, au plaisir et à la fierté."
+              en: "Think of time, money, pleasure and pride."
+      - id: relieves
+        type: question
+        prompt:
+          fr: "Quelle gêne ou quel manque ta solution enlève-t-elle ?"
+          en: "What trouble or lack does your solution remove?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Reprends ce qui les gêne le plus : ta solution y répond-elle ?"
+              en: "Take what bothers them most: does your solution answer it?"
+          example:
+            fr: "« Plus besoin de marcher une heure ni de demander aux voisines. »"
+            en: "\"No more walking an hour or asking the neighbours.\""
+          hints:
+            - fr: "Si ta solution n'enlève rien d'important, modifie-la avant de la tester."
+              en: "If your solution removes nothing important, change it before testing it."
+      - id: framework
+        type: tip
+        body:
+          fr: "Ce que tu viens de faire, relier ton offre à ce que tes clients gagnent et à ce qui les gêne, s'appelle une proposition de valeur. Les partenaires et les financeurs connaissent ce mot."
+          en: "What you just did, linking your offer to what customers gain and what bothers them, is called a value proposition. Partners and funders know this term."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ce que ta solution apporte. C'est enregistré dans ton projet."
+          en: "Here is what your solution brings. It is saved in your project."
+        shows: [gains, relieves]
+    outputs:
+      - {from: gains, section: solution, field: gains, tracked: true}
+      - {from: relieves, section: solution, field: relieves, tracked: true}

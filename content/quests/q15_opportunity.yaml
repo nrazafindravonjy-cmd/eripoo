@@ -1,5 +1,5 @@
 # Quest 15: from the hassles observed to one opportunity worth digging
-# into, which "Find a problem that matters" (q01) then turns into a
+# into, which "Find what matters to your customers" (q01) then turns into a
 # problem statement.
 id: q15
 order: 3
@@ -110,6 +110,6 @@ steps:
       - id: recap
         type: synthesis
         intro:
-          fr: "Voici l'opportunité que tu as choisie. La quête « Trouver un problème qui compte » t'aide maintenant à la décrire précisément."
-          en: "Here is the opportunity you chose. The quest \"Find a problem that matters\" now helps you describe it precisely."
+          fr: "Voici l'opportunité que tu as choisie. La quête « Trouver ce qui compte pour tes clients » t'aide maintenant à la décrire précisément."
+          en: "Here is the opportunity you chose. The quest \"Find what matters to your customers\" now helps you describe it precisely."
         shows: [candidate, many, assets]

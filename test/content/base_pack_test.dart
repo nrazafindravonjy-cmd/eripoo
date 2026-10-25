@@ -123,4 +123,43 @@ void main() {
         '${const JsonEncoder.withIndent(' ').convert(jsonDecode(raw))}\n';
     expect(raw, reencoded);
   });
+
+  test('the first quest follows the chosen door: problem or desire', () {
+    const done = StepRecord(StepStatus.completed);
+    List<String> stepsOf(String? origin) {
+      final p = plan(
+        PlannerInput(
+          pack: pack,
+          now: DateTime.utc(2026, 10, 25),
+          facts: {'diag.entry_profile': 'vague_idea', 'idea.origin': ?origin},
+          steps: {for (final s in pack.diagnostic!.steps) s.id: done},
+        ),
+      );
+      return [
+        for (final s in p.quests.firstWhere((q) => q.quest.id == 'q01').steps)
+          s.step.id,
+      ];
+    }
+
+    expect(stepsOf('desire'), ['q01.s01', 'q01.s05', 'q01.s06', 'q01.s07']);
+    expect(stepsOf('problem'), ['q01.s01', 'q01.s05', 'q01.s02', 'q01.s03']);
+    // Before the choice (and for journeys started earlier): the problem door.
+    expect(stepsOf(null), ['q01.s01', 'q01.s05', 'q01.s02', 'q01.s03']);
+  });
+
+  test('without an idea, the first quest waits for quest 15', () {
+    final p = plan(
+      PlannerInput(
+        pack: pack,
+        now: DateTime.utc(2026, 10, 25),
+        facts: const {'diag.entry_profile': 'no_idea'},
+        steps: {
+          for (final s in pack.diagnostic!.steps)
+            s.id: const StepRecord(StepStatus.completed),
+        },
+      ),
+    );
+    expect(p.quests.firstWhere((q) => q.quest.id == 'q01').available, isFalse);
+    expect(p.quests.firstWhere((q) => q.quest.id == 'q13').available, isTrue);
+  });
 }

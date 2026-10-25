@@ -84,6 +84,10 @@ Pack ─► Quête (16 grandes quêtes minimum) ─► Étape ─► Blocs
   d'étapes, résultat attendu dans le projet.
   `hide_when_locked` : quête absente de la liste tant qu'elle est
   verrouillée (quêtes réservées à certains profils).
+  Une étape peut porter `applies_when` : si la règle est fausse, l'étape
+  ne fait pas partie du parcours de l'utilisateur (ni affichée, ni
+  comptée, ni bloquante). Exemple : porte « problème » ou « envie » de la
+  quête 1 selon le fait `idea.origin`.
 - **Étape** : type (`learn`, `reflect`, `act`, `checkpoint`, `tool`), blocs,
   règle de complétion, **sorties** (quels champs du projet ou quels faits elle
   écrit), éventuelles missions.

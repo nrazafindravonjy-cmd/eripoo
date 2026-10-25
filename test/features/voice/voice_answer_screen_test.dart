@@ -294,6 +294,12 @@ void main() {
     await tapSettled(tester, 'Suivant');
     await tapSettled(tester, 'Tous les jours');
     await tapSettled(tester, 'Suivant');
+    for (final text in ['La boutique est loin.', 'Une heure de marche.']) {
+      await tester.enterText(textField(), text);
+      await tester.pumpAndSettle();
+      await tapSettled(tester, 'Suivant');
+    }
+    await tapSettled(tester, 'Suivant');
     await settle(
       tester,
       () => find

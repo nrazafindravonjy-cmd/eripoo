@@ -157,3 +157,78 @@ steps:
     outputs:
       - {from: first_steps, section: launch, field: first_steps, tracked: true}
       - {from: when, section: launch, field: when, tracked: true}
+  - id: q10.s04
+    type: reflect
+    title:
+      fr: "Ton objectif du premier mois"
+      en: "Your first month's goal"
+    blocks:
+      - id: goal
+        type: question
+        prompt:
+          fr: "Que veux-tu avoir réussi à la fin du premier mois ?"
+          en: "What do you want to have achieved by the end of the first month?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Quel résultat te rendrait fier dans un mois ?"
+              en: "What result would make you proud in a month?"
+          example:
+            fr: "« Avoir des clientes régulières au marché du lundi. »"
+            en: "\"Having regular customers at the Monday market.\""
+          hints:
+            - fr: "Un seul objectif, précis, vaut mieux que plusieurs flous."
+              en: "One precise goal beats several vague ones."
+      - id: goal_measure
+        type: question
+        prompt:
+          fr: "Combien ? Comment sauras-tu que c'est atteint ?"
+          en: "How many? How will you know it is reached?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Quel chiffre vas-tu compter pour vérifier ?"
+              en: "What number will you count to check?"
+          example:
+            fr: "« 15 clientes qui commandent au moins deux lundis de suite. »"
+            en: "\"15 customers who order at least two Mondays in a row.\""
+          hints:
+            - fr: "Choisis un chiffre que tu peux atteindre avec tes moyens d'aujourd'hui."
+              en: "Choose a number you can reach with what you have today."
+      - id: goal_who
+        type: question
+        prompt:
+          fr: "Qui s'en occupe ?"
+          en: "Who takes care of it?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Est-ce toi, ou quelqu'un qui t'aide ?"
+              en: "Is it you, or someone who helps you?"
+          example:
+            fr: "« Moi pour les ventes, ma sœur pour les livraisons. »"
+            en: "\"Me for sales, my sister for deliveries.\""
+          hints:
+            - fr: "Un objectif sans responsable n'avance pas."
+              en: "A goal without someone in charge doesn't move."
+      - id: framework
+        type: tip
+        body:
+          fr: "Un objectif précis, chiffré, confié à quelqu'un, réaliste et daté s'appelle un objectif SMART. Les partenaires et les financeurs connaissent ce mot."
+          en: "A goal that is precise, measured, assigned, realistic and dated is called a SMART goal. Partners and funders know this term."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ton objectif. Il est enregistré dans ton plan de lancement."
+          en: "Here is your goal. It is saved in your launch plan."
+        shows: [goal, goal_measure, goal_who]
+    outputs:
+      - {from: goal, section: launch, field: goal, tracked: true}
+      - {from: goal_measure, section: launch, field: goal_measure, tracked: true}
+      - {from: goal_who, section: launch, field: goal_who, tracked: true}

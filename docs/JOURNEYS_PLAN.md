@@ -1,10 +1,22 @@
-# Plan des trois parcours (proposition, 2026-10-25, à valider par le porteur)
+# Plan des trois parcours (validé par le porteur le 2026-10-25)
 
 Objectif : la réponse « Où en es-tu ? » du diagnostic choisit un parcours
 adapté, au rythme de 8 à 12 semaines (délais terrain réels). Aucun cadre
 n'utilise d'IA : ce sont des grilles remplies par l'utilisateur, qui
-alimentent le dossier. Chaque cadre est nommé dans l'app avec une phrase
-d'explication.
+alimentent le dossier. Décision du porteur : les cadres ne sont jamais
+présentés comme des outils ; ils deviennent des questions simples, une à
+la fois, avec exemple et aide, et seule une petite ligne à la fin nomme le
+cadre (« Ce que tu viens de faire s'appelle… »).
+
+## État
+
+- Livraison 1 (faite, pack 2026.10.8) : parcours A raccordé au B, porte
+  « problème » ou « envie » dans la quête 1 (`applies_when` sur les
+  étapes), arbre à problèmes, carte d'empathie (q02.s05), proposition de
+  valeur (q03.s03), fiche de test (q04.s03, sur l'outil Expériences
+  existant), SWOT (q05.s05), objectif SMART (q10.s04), effectuation
+  (q13.s02).
+- Livraison 2 (à faire) : parcours C.
 
 ## Aiguillage
 

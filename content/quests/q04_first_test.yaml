@@ -67,6 +67,16 @@ steps:
         body:
           fr: "Dans ton hypothèse, choisis « Préparer un test ». Écris ce que tu vas faire et quand ce sera réussi, puis commence le test."
           en: "In your hypothesis, choose \"Plan a test\". Write what you will do and when it succeeds, then start the test."
+      - id: questions
+        type: tip
+        body:
+          fr: "Quatre questions suffisent : qu'est-ce que je crois ? Comment le vérifier ? Qu'est-ce que je vais compter ? À partir de combien c'est gagné ? Si ton idée part d'une envie, teste avec une dégustation, une prévente ou des photos montrées à des clients."
+          en: "Four questions are enough: what do I believe? How do I check it? What will I count? From how many is it a win? If your idea starts from a desire, test with a tasting, a pre-sale or photos shown to customers."
+      - id: framework
+        type: tip
+        body:
+          fr: "Ce que tu prépares s'appelle une fiche de test (« Test Card »). Les partenaires et les financeurs connaissent ce mot."
+          en: "What you are preparing is called a Test Card. Partners and funders know this term."
     complete_when:
       any:
         - {count: experiments, where: {status: running}, gte: 1}
