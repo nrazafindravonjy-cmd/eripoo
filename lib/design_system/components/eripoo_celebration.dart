@@ -47,6 +47,8 @@ Future<void> showEripooCelebration(
                 child: EripooHeadline(
                   title,
                   style: t.headlineMedium?.copyWith(color: ink),
+                  // Yellow italics would vanish on the yellow sheet.
+                  emphasisColor: ink,
                 ),
               ),
               const SizedBox(height: EripooSpacing.sm),
