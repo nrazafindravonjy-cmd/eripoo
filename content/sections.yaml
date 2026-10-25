@@ -6,6 +6,29 @@
     - key: statement
       label: {fr: "Le problème observé", en: "The problem observed"}
       max_length: 280
+    - key: causes
+      label: {fr: "Pourquoi il arrive", en: "Why it happens"}
+      max_length: 300
+    - key: effects
+      label: {fr: "Ce qu'il coûte aux gens", en: "What it costs people"}
+      max_length: 300
+# The desire (quest q01, "desire" door): a business can start from what
+# people want for pleasure, pride or a celebration, not only from a problem.
+- key: desire
+  title: {fr: "L'envie", en: "The desire"}
+  fields:
+    - key: what
+      label: {fr: "L'envie que tu satisfais", en: "The desire you meet"}
+      max_length: 280
+    - key: occasion
+      label: {fr: "À quelle occasion", en: "On what occasion"}
+      max_length: 200
+    - key: special
+      label: {fr: "Ce qui rend ton offre spéciale", en: "What makes your offer special"}
+      max_length: 280
+    - key: today
+      label: {fr: "Ce qu'ils achètent déjà pour se faire plaisir", en: "What they already buy to treat themselves"}
+      max_length: 280
 - key: customers
   title: {fr: "Les clients", en: "The customers"}
   fields:
@@ -21,6 +44,18 @@
     - key: interview_learnings
       label: {fr: "Ce que les rencontres ont appris", en: "What the conversations taught"}
       max_length: 400
+    - key: says
+      label: {fr: "Ce qu'ils disent", en: "What they say"}
+      max_length: 300
+    - key: does
+      label: {fr: "Ce qu'ils font aujourd'hui", en: "What they do today"}
+      max_length: 300
+    - key: feels
+      label: {fr: "Ce qu'ils ressentent", en: "What they feel"}
+      max_length: 300
+    - key: lacks
+      label: {fr: "Ce qui les gêne ou leur manque", en: "What bothers them or is missing"}
+      max_length: 300
 - key: solution
   title: {fr: "La solution", en: "The solution"}
   fields:
@@ -30,6 +65,12 @@
     - key: advantage
       label: {fr: "Ce qui est mieux qu'aujourd'hui", en: "What is better than today"}
       max_length: 200
+    - key: gains
+      label: {fr: "Ce que le client y gagne", en: "What the customer gains"}
+      max_length: 300
+    - key: relieves
+      label: {fr: "La gêne ou le manque que tu enlèves", en: "The trouble or lack you remove"}
+      max_length: 300
 # The market (quest q05): what the user saw and estimated, with how they
 # know it. No figure is given by Eripoo (docs/NEXT_STEPS.md C-6).
 - key: market
@@ -46,6 +87,22 @@
       max_length: 200
     - key: how_known
       label: {fr: "Comment tu le sais", en: "How you know"}
+      max_length: 300
+# Strengths and weaknesses (quest q05), asked as four plain questions.
+- key: swot
+  title: {fr: "Tes forces et tes risques", en: "Your strengths and risks"}
+  fields:
+    - key: strengths
+      label: {fr: "Ce que tu fais mieux que les autres", en: "What you do better than others"}
+      max_length: 300
+    - key: weaknesses
+      label: {fr: "Ce qui te manque", en: "What you lack"}
+      max_length: 300
+    - key: opportunities
+      label: {fr: "Ce qui pourrait t'aider", en: "What could help you"}
+      max_length: 300
+    - key: threats
+      label: {fr: "Ce qui pourrait te gêner", en: "What could get in your way"}
       max_length: 300
 # The offer (quest q06): what is sold, how it is received, at what price.
 - key: offer
@@ -136,6 +193,15 @@
     - key: when
       label: {fr: "Quand tu veux commencer", en: "When you want to start"}
       max_length: 100
+    - key: goal
+      label: {fr: "L'objectif du premier mois", en: "The first month's goal"}
+      max_length: 200
+    - key: goal_measure
+      label: {fr: "Comment tu sauras qu'il est atteint", en: "How you will know it is reached"}
+      max_length: 200
+    - key: goal_who
+      label: {fr: "Qui s'en occupe", en: "Who takes care of it"}
+      max_length: 200
 # Phase 8: brought by the administrative preparation tool. What the user
 # collects for the counter; nothing is filed by Eripoo.
 - key: formalization

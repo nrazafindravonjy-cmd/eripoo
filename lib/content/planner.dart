@@ -154,12 +154,18 @@ class _Context implements RuleContext {
   QuestState questState(String questId) {
     final quest = input.pack.quest(questId);
     if (quest == null) return QuestState.notStarted;
-    final statuses = [for (final s in quest.steps) stepStatus(s.id)];
+    final statuses = [
+      for (final s in quest.steps)
+        if (applies(s)) stepStatus(s.id),
+    ];
     if (statuses.every((s) => s.isDone)) return QuestState.completed;
     return quest.steps.any((s) => input.steps.containsKey(s.id))
         ? QuestState.inProgress
         : QuestState.notStarted;
   }
+
+  /// Whether [step] is part of this user's journey.
+  bool applies(Step step) => step.appliesWhen?.evaluate(this) ?? true;
 
   @override
   MissionStatus? missionStatus(String missionId) =>
@@ -236,8 +242,7 @@ JourneyPlan plan(PlannerInput input) {
   PlannedQuest planQuest(Quest quest, {required bool open}) {
     final available = open && (quest.availableWhen?.evaluate(context) ?? true);
     final planned = <PlannedStep>[];
-    for (var i = 0; i < quest.steps.length; i++) {
-      final step = quest.steps[i];
+    for (final step in quest.steps.where(context.applies)) {
       final record = input.steps[step.id];
       final fastTrack =
           (step.fastTrackWhen ?? quest.fastTrackWhen)?.evaluate(context) ??
@@ -258,12 +263,13 @@ JourneyPlan plan(PlannerInput input) {
         continue;
       }
       // A step skipped for now or postponed does not block the next ones.
+      final previous = planned.lastOrNull;
       final previousPassed =
-          i == 0 ||
-          planned[i - 1].isDone ||
-          planned[i - 1].status == StepStatus.deferred ||
-          planned[i - 1].status == StepStatus.postponed ||
-          planned[i - 1].resurfaced;
+          previous == null ||
+          previous.isDone ||
+          previous.status == StepStatus.deferred ||
+          previous.status == StepStatus.postponed ||
+          previous.resurfaced;
       final unlocked = step.availableWhen?.evaluate(context) ?? previousPassed;
       if (!unlocked) {
         planned.add(

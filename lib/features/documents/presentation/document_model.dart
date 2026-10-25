@@ -200,6 +200,7 @@ class DocumentBuilder {
     _part('summary', _section('vision')),
     _part('problem', [
       ..._section('problem'),
+      ..._section('desire'),
       ..._concluded(_s.validated(HypothesisCategory.problem)),
     ]),
     _part('customers', _section('customers')),
@@ -210,7 +211,7 @@ class DocumentBuilder {
         _groundwork(),
       ..._concluded(_s.concluded),
     ]),
-    _part('market', _section('market')),
+    _part('market', [..._section('market'), ..._section('swot')]),
     _part('competition', _competitors()),
     _part('businessModel', _canvas()),
     _part('finance', _finance()),

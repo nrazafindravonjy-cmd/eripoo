@@ -22,13 +22,35 @@
   example:
     fr: "« Au marché, 6 mères sur 10 demandent du savon aux voisines avant de rentrer. »"
     en: "\"At the market, 6 mothers out of 10 ask neighbours for soap before going home.\""
+- id: m.observe_desire
+  title:
+    fr: "Observer l'envie en vrai"
+    en: "Observe the desire for real"
+  objective:
+    fr: "Voir où et comment les gens se font ce plaisir aujourd'hui."
+    en: "See where and how people treat themselves today."
+  instructions:
+    - fr: "Va là où les gens achètent ce plaisir (pâtisserie, marché, salon de coiffure, boutique…)."
+      en: "Go where people buy this treat (pastry shop, market, hair salon, shop…)."
+    - fr: "Observe pendant 20 minutes, sans rien vendre."
+      en: "Watch for 20 minutes without selling anything."
+    - fr: "Note ce qu'ils choisissent, combien ils paient, ce qui les fait sourire ou hésiter. Pas de nom, pas de numéro de téléphone."
+      en: "Note what they choose, how much they pay, what makes them smile or hesitate. No names, no phone numbers."
+  deliverable:
+    fr: "Ce que tu as vu, en deux ou trois phrases."
+    en: "What you saw, in two or three sentences."
+  duration_minutes: 30
+  difficulty: 1
+  example:
+    fr: "« À la pâtisserie, 8 clients sur 10 achètent pour une fête ; les gâteaux décorés partent en premier. » (Exemple inventé.)"
+    en: "\"At the pastry shop, 8 customers out of 10 buy for a celebration; decorated cakes go first.\" (Invented example.)"
 - id: m.talk_three
   title:
     fr: "Parler à trois personnes concernées"
     en: "Talk to three people concerned"
   objective:
-    fr: "Comprendre comment trois personnes vivent le problème, sans leur vendre ton idée."
-    en: "Understand how three people live with the problem, without selling them your idea."
+    fr: "Comprendre comment trois personnes vivent le problème ou l'envie, sans leur vendre ton idée."
+    en: "Understand how three people live with the problem or the desire, without selling them your idea."
   instructions:
     - fr: "Choisis trois personnes qui correspondent à ton client. Demande-leur si elles acceptent de parler cinq minutes."
       en: "Pick three people who match your customer. Ask if they agree to talk for five minutes."

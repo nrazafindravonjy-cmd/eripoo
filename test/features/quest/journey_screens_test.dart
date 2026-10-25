@@ -150,7 +150,7 @@ void main() {
     );
     expect(progress!.status, StepStatus.deferred);
     // Back home: the next step is proposed, the skipped one is not lost.
-    expect(find.text('Le problème que tu vois'), findsOneWidget);
+    expect(find.text('Ton point de départ'), findsOneWidget);
   });
 
   testWidgets('a mission can be abandoned (confirmed) and taken up again', (
@@ -214,7 +214,7 @@ void main() {
       language: AppLanguage.en,
       at: AppRoutes.step('q01.s01'),
     );
-    expect(find.text('Why start from a problem?'), findsWidgets);
+    expect(find.text('Two ways to start'), findsWidgets);
     expect(
       find.text(
         'Some texts are still being reviewed or shown in another language.',

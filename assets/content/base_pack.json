@@ -1,7 +1,7 @@
 {
  "format": 1,
  "pack_id": "base",
- "version": "2026.10.7",
+ "version": "2026.10.8",
  "min_app_version": 1,
  "block_types": [
   "example",
@@ -654,24 +654,37 @@
    "maturity": "exploration",
    "priority": 30,
    "title": {
-    "fr": "Trouver un problème qui compte",
-    "en": "Find a problem that matters",
+    "fr": "Trouver ce qui compte pour tes clients",
+    "en": "Find what matters to your customers",
     "status": {
      "fr": "needs_review",
      "en": "needs_review"
     }
    },
    "summary": {
-    "fr": "Une entreprise commence par un problème que des gens veulent voir résolu.",
-    "en": "A business starts with a problem people want solved.",
+    "fr": "Une entreprise commence par un problème que des gens veulent voir résolu, ou par une envie qu'ils veulent satisfaire.",
+    "en": "A business starts with a problem people want solved, or a desire they want to satisfy.",
     "status": {
      "fr": "needs_review",
      "en": "needs_review"
     }
    },
+   "available_when": {
+    "any": [
+     {
+      "fact": "diag.entry_profile",
+      "ne": "no_idea"
+     },
+     {
+      "quest": "q15",
+      "is": "completed"
+     }
+    ]
+   },
    "fast_track_when": {
     "fact": "diag.entry_profile",
     "in": [
+     "no_idea",
      "problem_identified",
      "existing_activity",
      "existing_customers"
@@ -682,8 +695,8 @@
      "id": "q01.s01",
      "type": "learn",
      "title": {
-      "fr": "Pourquoi partir d'un problème ?",
-      "en": "Why start from a problem?",
+      "fr": "Deux façons de commencer",
+      "en": "Two ways to start",
       "status": {
        "fr": "needs_review",
        "en": "needs_review"
@@ -694,8 +707,8 @@
        "id": "intro",
        "type": "text",
        "body": {
-        "fr": "Les gens paient pour ce qui leur simplifie la vie. Si tu pars d'un vrai problème, tu as déjà des clients qui t'attendent.",
-        "en": "People pay for what makes their life easier. If you start from a real problem, customers are already waiting for you.",
+        "fr": "Les gens paient pour ce qui leur simplifie la vie, mais aussi pour ce qui leur fait plaisir. Tu peux partir d'un problème à résoudre, ou d'une envie à satisfaire.",
+        "en": "People pay for what makes their life easier, but also for what gives them pleasure. You can start from a problem to solve, or from a desire to satisfy.",
         "status": {
          "fr": "needs_review",
          "en": "needs_review"
@@ -743,11 +756,23 @@
        }
       },
       {
+       "id": "example_desire",
+       "type": "example",
+       "body": {
+        "fr": "À Antsirabe, Mialy voit que les familles veulent un beau gâteau pour chaque fête, mais qu'on n'en trouve qu'en ville. L'envie : fêter avec quelque chose de beau et de bon.",
+        "en": "In Antsirabe, Mialy sees that families want a beautiful cake for every celebration, but can only find one in town. The desire: celebrating with something beautiful and tasty.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
        "id": "tip",
        "type": "tip",
        "body": {
-        "fr": "Regarde ce qui fait râler les gens autour de toi : la file d'attente, le prix, la distance, la qualité.",
-        "en": "Look at what makes people around you complain: queues, prices, distance, quality.",
+        "fr": "Regarde ce qui fait râler les gens autour de toi (la file d'attente, le prix, la distance), mais aussi ce pour quoi ils dépensent avec plaisir (les fêtes, la beauté, les sorties).",
+        "en": "Look at what makes people around you complain (queues, prices, distance), but also what they happily spend on (celebrations, beauty, outings).",
         "status": {
          "fr": "needs_review",
          "en": "needs_review"
@@ -757,8 +782,118 @@
      ]
     },
     {
+     "id": "q01.s05",
+     "type": "reflect",
+     "title": {
+      "fr": "Ton point de départ",
+      "en": "Your starting point",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "origin",
+       "type": "question",
+       "prompt": {
+        "fr": "Ton idée part plutôt…",
+        "en": "Your idea starts rather from…",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "choice",
+        "options": [
+         {
+          "value": "problem",
+          "label": {
+           "fr": "D'un problème à résoudre",
+           "en": "A problem to solve",
+           "status": {
+            "fr": "needs_review",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "desire",
+          "label": {
+           "fr": "D'une envie à satisfaire",
+           "en": "A desire to satisfy",
+           "status": {
+            "fr": "needs_review",
+            "en": "needs_review"
+           }
+          }
+         }
+        ]
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Tes clients ont-ils une difficulté, ou ont-ils envie de se faire plaisir ?",
+          "en": "Do your customers have a difficulty, or do they want to treat themselves?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "Réparer des téléphones : un problème. Vendre de beaux gâteaux de fête : une envie.",
+         "en": "Repairing phones: a problem. Selling beautiful party cakes: a desire.",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Si les deux te parlent, choisis ce que tes clients diraient en premier.",
+          "en": "If both fit, choose what your customers would say first.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "C'est noté. La suite de la quête s'adapte à ton point de départ.",
+        "en": "Noted. The rest of the quest adapts to your starting point.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "origin"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "origin",
+       "fact": "idea.origin"
+      }
+     ]
+    },
+    {
      "id": "q01.s02",
      "type": "reflect",
+     "applies_when": {
+      "not": {
+       "fact": "idea.origin",
+       "eq": "desire"
+      }
+     },
      "title": {
       "fr": "Le problème que tu vois",
       "en": "The problem you see",
@@ -957,6 +1092,110 @@
        }
       },
       {
+       "id": "causes",
+       "type": "question",
+       "prompt": {
+        "fr": "Pourquoi ce problème arrive-t-il ?",
+        "en": "Why does this problem happen?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce qui cause cette difficulté ?",
+          "en": "What causes this difficulty?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« La seule boutique est en ville, et aucun vendeur ne passe dans le quartier. »",
+         "en": "\"The only shop is in town, and no seller comes through the neighbourhood.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Demande-toi « pourquoi ? » deux ou trois fois de suite.",
+          "en": "Ask yourself \"why?\" two or three times in a row.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "effects",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce que ce problème leur coûte ?",
+        "en": "What does this problem cost them?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Que perdent-ils à cause de ce problème : du temps, de l'argent, de la fatigue ?",
+          "en": "What do they lose because of it: time, money, energy?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Une heure de marche, et parfois une matinée de vente perdue au marché. »",
+         "en": "\"An hour's walk, and sometimes a morning of sales lost at the market.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Plus le problème coûte cher, plus une solution a de la valeur.",
+          "en": "The more the problem costs, the more a solution is worth.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Ce que tu viens de faire, relier un problème à ses causes et à ses conséquences, s'appelle un arbre à problèmes. Les partenaires et les financeurs connaissent ce mot.",
+        "en": "What you just did, linking a problem to its causes and consequences, is called a problem tree. Partners and funders know this term.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
        "id": "recap",
        "type": "synthesis",
        "intro": {
@@ -970,7 +1209,9 @@
        "shows": [
         "problem",
         "who",
-        "frequency"
+        "frequency",
+        "causes",
+        "effects"
        ]
       }
      ],
@@ -990,12 +1231,341 @@
       {
        "from": "frequency",
        "fact": "problem.frequency"
+      },
+      {
+       "from": "causes",
+       "section": "problem",
+       "field": "causes",
+       "tracked": true
+      },
+      {
+       "from": "effects",
+       "section": "problem",
+       "field": "effects",
+       "tracked": true
+      }
+     ]
+    },
+    {
+     "id": "q01.s06",
+     "type": "reflect",
+     "applies_when": {
+      "fact": "idea.origin",
+      "eq": "desire"
+     },
+     "title": {
+      "fr": "L'envie que tu vois",
+      "en": "The desire you see",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "desire",
+       "type": "question",
+       "prompt": {
+        "fr": "Quelle envie veux-tu satisfaire ?",
+        "en": "What desire do you want to satisfy?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce que des gens aiment s'offrir, ou offrir aux autres ?",
+          "en": "What do people love to buy for themselves, or to give to others?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Les familles veulent un beau gâteau pour fêter un anniversaire ou une communion. »",
+         "en": "\"Families want a beautiful cake to celebrate a birthday or a communion.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Pense à ce qui rend les gens fiers, heureux ou beaux.",
+          "en": "Think of what makes people proud, happy or beautiful.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "who",
+       "type": "question",
+       "prompt": {
+        "fr": "Qui a cette envie ?",
+        "en": "Who has this desire?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quelles personnes seraient contentes de payer pour cela ?",
+          "en": "Which people would be glad to pay for it?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Les familles du quartier qui organisent des fêtes, surtout les mères. »",
+         "en": "\"Neighbourhood families who hold celebrations, especially mothers.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Décris un groupe de personnes, sans donner de nom.",
+          "en": "Describe a group of people, without giving names.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "occasion",
+       "type": "question",
+       "prompt": {
+        "fr": "À quelle occasion en ont-ils envie ?",
+        "en": "On what occasion do they want it?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quand achètent-ils : pour une fête, un cadeau, le week-end, tous les jours ?",
+          "en": "When do they buy: for a celebration, a gift, the weekend, every day?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Les anniversaires, les communions et les fêtes de fin d'année. »",
+         "en": "\"Birthdays, communions and end-of-year celebrations.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Une occasion qui revient souvent fait des clients réguliers.",
+          "en": "An occasion that comes back often makes regular customers.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "special",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui rendrait ton offre spéciale à leurs yeux ?",
+        "en": "What would make your offer special in their eyes?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Pourquoi te choisiraient-ils : le goût, la beauté, la fierté, le prix ?",
+          "en": "Why would they choose you: taste, beauty, pride, price?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Des gâteaux décorés au prénom de l'enfant, livrés à la maison. »",
+         "en": "\"Cakes decorated with the child's name, delivered at home.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Une seule chose spéciale suffit, si elle compte pour eux.",
+          "en": "One special thing is enough, if it matters to them.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "today",
+       "type": "question",
+       "prompt": {
+        "fr": "Que font-ils ou qu'achètent-ils déjà pour se faire ce plaisir ?",
+        "en": "What do they already do or buy for this treat?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Où trouvent-ils cela aujourd'hui, et à quel prix ?",
+          "en": "Where do they find it today, and at what price?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Ils vont à la pâtisserie du centre-ville, ou font un gâteau simple à la maison. »",
+         "en": "\"They go to the town-centre pastry shop, or bake a simple cake at home.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "S'ils dépensent déjà pour ce plaisir, l'envie est réelle.",
+          "en": "If they already spend on this treat, the desire is real.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Toutes les entreprises ne résolvent pas un problème : beaucoup naissent d'une envie. Les partenaires parlent alors de besoins de plaisir, ou d'« envies » plutôt que de « problèmes ».",
+        "en": "Not every business solves a problem: many are born from a desire. Partners then speak of wants rather than problems.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici l'envie que tu as décrite. Elle est enregistrée dans ton projet.",
+        "en": "Here is the desire you described. It is saved in your project.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "desire",
+        "who",
+        "occasion",
+        "special",
+        "today"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "desire",
+       "section": "desire",
+       "field": "what",
+       "tracked": true
+      },
+      {
+       "from": "who",
+       "section": "customers",
+       "field": "first_guess",
+       "tracked": true
+      },
+      {
+       "from": "occasion",
+       "section": "desire",
+       "field": "occasion",
+       "tracked": true
+      },
+      {
+       "from": "special",
+       "section": "desire",
+       "field": "special",
+       "tracked": true
+      },
+      {
+       "from": "today",
+       "section": "desire",
+       "field": "today",
+       "tracked": true
       }
      ]
     },
     {
      "id": "q01.s03",
      "type": "act",
+     "applies_when": {
+      "not": {
+       "fact": "idea.origin",
+       "eq": "desire"
+      }
+     },
      "title": {
       "fr": "Va voir le problème de tes yeux",
       "en": "Go and see the problem yourself",
@@ -1027,6 +1597,45 @@
       "mission": "m.observe_problem",
       "is": "completed"
      }
+    },
+    {
+     "id": "q01.s07",
+     "type": "act",
+     "applies_when": {
+      "fact": "idea.origin",
+      "eq": "desire"
+     },
+     "title": {
+      "fr": "Va voir l'envie de tes yeux",
+      "en": "Go and see the desire yourself",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "why",
+       "type": "text",
+       "body": {
+        "fr": "Les gens montrent ce qu'ils aiment par ce qu'ils achètent. Une courte observation là où ils se font plaisir t'en apprend beaucoup.",
+        "en": "People show what they love by what they buy. A short look where they treat themselves teaches you a lot.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "go",
+       "type": "mission",
+       "mission": "m.observe_desire"
+      }
+     ],
+     "complete_when": {
+      "mission": "m.observe_desire",
+      "is": "completed"
+     }
     }
    ]
   },
@@ -1052,10 +1661,21 @@
     }
    },
    "available_when": {
-    "step": "q01.s02",
-    "is": [
-     "completed",
-     "fast_tracked"
+    "any": [
+     {
+      "step": "q01.s02",
+      "is": [
+       "completed",
+       "fast_tracked"
+      ]
+     },
+     {
+      "step": "q01.s06",
+      "is": [
+       "completed",
+       "fast_tracked"
+      ]
+     }
     ]
    },
    "steps": [
@@ -1450,8 +2070,8 @@
        "id": "confirmed",
        "type": "question",
        "prompt": {
-        "fr": "Le problème est-il confirmé ?",
-        "en": "Is the problem confirmed?",
+        "fr": "Tes rencontres confirment-elles ton idée de départ ?",
+        "en": "Do your conversations confirm your starting idea?",
         "status": {
          "fr": "needs_review",
          "en": "needs_review"
@@ -1498,8 +2118,8 @@
        "help": {
         "rephrase": [
          {
-          "fr": "Les personnes rencontrées vivent-elles vraiment ce problème ?",
-          "en": "Do the people you met really have this problem?",
+          "fr": "Les personnes rencontrées vivent-elles vraiment ce problème, ou ont-elles vraiment cette envie ?",
+          "en": "Do the people you met really have this problem, or really have this desire?",
           "status": {
            "fr": "needs_review",
            "en": "needs_review"
@@ -1553,6 +2173,260 @@
       {
        "from": "confirmed",
        "fact": "customers.problem_confirmed"
+      }
+     ]
+    },
+    {
+     "id": "q02.s05",
+     "type": "reflect",
+     "title": {
+      "fr": "À la place de tes clients",
+      "en": "In your customers' shoes",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "says",
+       "type": "question",
+       "prompt": {
+        "fr": "Que disent-ils quand ils en parlent ?",
+        "en": "What do they say when they talk about it?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quelle phrase as-tu entendue plusieurs fois pendant tes rencontres ?",
+          "en": "Which sentence did you hear several times during your conversations?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Le savon, on y pense toujours trop tard. »",
+         "en": "\"Soap, we always think of it too late.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Reprends leurs mots, pas les tiens.",
+          "en": "Use their words, not yours.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "does",
+       "type": "question",
+       "prompt": {
+        "fr": "Que font-ils aujourd'hui ?",
+        "en": "What do they do today?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Comment s'organisent-ils, concrètement ?",
+          "en": "How do they manage, concretely?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Elles empruntent du savon aux voisines et achètent un gros lot une fois par mois. »",
+         "en": "\"They borrow soap from neighbours and buy a big batch once a month.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Décris ce que tu as vu ou entendu, pas ce que tu supposes.",
+          "en": "Describe what you saw or heard, not what you suppose.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "feels",
+       "type": "question",
+       "prompt": {
+        "fr": "Que ressentent-ils ?",
+        "en": "How do they feel?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Sont-ils agacés, fatigués, fiers, pressés, inquiets ?",
+          "en": "Are they annoyed, tired, proud, rushed, worried?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« De la gêne de toujours demander aux voisines. »",
+         "en": "\"Embarrassed to always ask the neighbours.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Un sentiment fort, c'est souvent une bonne raison d'acheter.",
+          "en": "A strong feeling is often a good reason to buy.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "lacks",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui les gêne ou leur manque le plus ?",
+        "en": "What bothers them or is missing the most?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "S'ils pouvaient changer une seule chose, laquelle serait-ce ?",
+          "en": "If they could change one thing only, what would it be?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Avoir du savon sous la main sans faire le trajet. »",
+         "en": "\"Having soap at hand without the trip.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "C'est souvent là que se cache ta future offre.",
+          "en": "That is often where your future offer hides.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Ce que tu viens de faire, te mettre à la place de tes clients, s'appelle une carte d'empathie. Les partenaires et les financeurs connaissent ce mot.",
+        "en": "What you just did, putting yourself in your customers' shoes, is called an empathy map. Partners and funders know this term.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici tes clients vus de l'intérieur. C'est enregistré dans ton projet.",
+        "en": "Here are your customers seen from the inside. It is saved in your project.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "says",
+        "does",
+        "feels",
+        "lacks"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "says",
+       "section": "customers",
+       "field": "says",
+       "tracked": true
+      },
+      {
+       "from": "does",
+       "section": "customers",
+       "field": "does",
+       "tracked": true
+      },
+      {
+       "from": "feels",
+       "section": "customers",
+       "field": "feels",
+       "tracked": true
+      },
+      {
+       "from": "lacks",
+       "section": "customers",
+       "field": "lacks",
+       "tracked": true
       }
      ]
     }
@@ -1878,6 +2752,154 @@
        "fact": "solution.kind"
       }
      ]
+    },
+    {
+     "id": "q03.s03",
+     "type": "reflect",
+     "title": {
+      "fr": "Ce que ton client y gagne",
+      "en": "What your customer gains",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "gains",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce que ton client y gagne ?",
+        "en": "What does your customer gain?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce qui sera plus facile, plus beau ou plus agréable pour lui ?",
+          "en": "What will be easier, more beautiful or more pleasant for them?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Du temps pour vendre, et la tranquillité d'avoir toujours du savon. »",
+         "en": "\"Time to sell, and the peace of mind of always having soap.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Pense au temps, à l'argent, au plaisir et à la fierté.",
+          "en": "Think of time, money, pleasure and pride.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "relieves",
+       "type": "question",
+       "prompt": {
+        "fr": "Quelle gêne ou quel manque ta solution enlève-t-elle ?",
+        "en": "What trouble or lack does your solution remove?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Reprends ce qui les gêne le plus : ta solution y répond-elle ?",
+          "en": "Take what bothers them most: does your solution answer it?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Plus besoin de marcher une heure ni de demander aux voisines. »",
+         "en": "\"No more walking an hour or asking the neighbours.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Si ta solution n'enlève rien d'important, modifie-la avant de la tester.",
+          "en": "If your solution removes nothing important, change it before testing it.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Ce que tu viens de faire, relier ton offre à ce que tes clients gagnent et à ce qui les gêne, s'appelle une proposition de valeur. Les partenaires et les financeurs connaissent ce mot.",
+        "en": "What you just did, linking your offer to what customers gain and what bothers them, is called a value proposition. Partners and funders know this term.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ce que ta solution apporte. C'est enregistré dans ton projet.",
+        "en": "Here is what your solution brings. It is saved in your project.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "gains",
+        "relieves"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "gains",
+       "section": "solution",
+       "field": "gains",
+       "tracked": true
+      },
+      {
+       "from": "relieves",
+       "section": "solution",
+       "field": "relieves",
+       "tracked": true
+      }
+     ]
     }
    ]
   },
@@ -2033,6 +3055,30 @@
        "body": {
         "fr": "Dans ton hypothèse, choisis « Préparer un test ». Écris ce que tu vas faire et quand ce sera réussi, puis commence le test.",
         "en": "In your hypothesis, choose \"Plan a test\". Write what you will do and when it succeeds, then start the test.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "questions",
+       "type": "tip",
+       "body": {
+        "fr": "Quatre questions suffisent : qu'est-ce que je crois ? Comment le vérifier ? Qu'est-ce que je vais compter ? À partir de combien c'est gagné ? Si ton idée part d'une envie, teste avec une dégustation, une prévente ou des photos montrées à des clients.",
+        "en": "Four questions are enough: what do I believe? How do I check it? What will I count? From how many is it a win? If your idea starts from a desire, test with a tasting, a pre-sale or photos shown to customers.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Ce que tu prépares s'appelle une fiche de test (« Test Card »). Les partenaires et les financeurs connaissent ce mot.",
+        "en": "What you are preparing is called a Test Card. Partners and funders know this term.",
         "status": {
          "fr": "needs_review",
          "en": "needs_review"
@@ -2554,6 +3600,260 @@
        "from": "how_known",
        "section": "market",
        "field": "how_known",
+       "tracked": true
+      }
+     ]
+    },
+    {
+     "id": "q05.s05",
+     "type": "reflect",
+     "title": {
+      "fr": "Tes forces et tes risques",
+      "en": "Your strengths and risks",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "strengths",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce que tu fais mieux que les autres ?",
+        "en": "What do you do better than others?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Pourquoi un client te choisirait-il plutôt qu'un concurrent ?",
+          "en": "Why would a customer choose you over a competitor?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Je livre au marché, la boutique ne livre pas. »",
+         "en": "\"I deliver to the market, the shop doesn't.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Relis ce qui manque chez tes concurrents.",
+          "en": "Read again what your competitors lack.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "weaknesses",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui te manque ?",
+        "en": "What do you lack?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce que tes concurrents ont et que tu n'as pas encore ?",
+          "en": "What do your competitors have that you don't have yet?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Pas de stock d'avance, et pas de vélo pour livrer loin. »",
+         "en": "\"No stock in advance, and no bicycle to deliver far.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Être honnête ici t'évite des surprises plus tard.",
+          "en": "Being honest here avoids surprises later.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "opportunities",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui pourrait t'aider ?",
+        "en": "What could help you?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quelle personne, quel lieu ou quel moment pourrait t'apporter des clients ?",
+          "en": "Which person, place or moment could bring you customers?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« La rentrée scolaire, quand les familles achètent en grande quantité. »",
+         "en": "\"The start of the school year, when families buy in bulk.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Pense aux fêtes, aux saisons, aux associations et aux voisins.",
+          "en": "Think of celebrations, seasons, associations and neighbours.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "threats",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui pourrait te gêner ?",
+        "en": "What could get in your way?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Que se passerait-il si un prix montait ou si un concurrent copiait ton idée ?",
+          "en": "What would happen if a price went up or a competitor copied your idea?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Le prix de l'huile peut monter, et la boutique pourrait se mettre à livrer. »",
+         "en": "\"The price of oil may rise, and the shop could start delivering.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Pour chaque risque, pense à ce que tu ferais.",
+          "en": "For each risk, think of what you would do.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Ce que tu viens de faire, lister tes forces, tes manques, ce qui peut t'aider et ce qui peut te gêner, s'appelle une analyse SWOT. Les partenaires et les financeurs connaissent ce mot.",
+        "en": "What you just did, listing your strengths, gaps, what can help and what can get in the way, is called a SWOT analysis. Partners and funders know this term.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici tes forces et tes risques. Ils complètent le chapitre « Le marché » de ton dossier.",
+        "en": "Here are your strengths and risks. They complete the \"Market\" chapter of your file.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "strengths",
+        "weaknesses",
+        "opportunities",
+        "threats"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "strengths",
+       "section": "swot",
+       "field": "strengths",
+       "tracked": true
+      },
+      {
+       "from": "weaknesses",
+       "section": "swot",
+       "field": "weaknesses",
+       "tracked": true
+      },
+      {
+       "from": "opportunities",
+       "section": "swot",
+       "field": "opportunities",
+       "tracked": true
+      },
+      {
+       "from": "threats",
+       "section": "swot",
+       "field": "threats",
        "tracked": true
       }
      ]
@@ -4288,6 +5588,207 @@
        "tracked": true
       }
      ]
+    },
+    {
+     "id": "q10.s04",
+     "type": "reflect",
+     "title": {
+      "fr": "Ton objectif du premier mois",
+      "en": "Your first month's goal",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "goal",
+       "type": "question",
+       "prompt": {
+        "fr": "Que veux-tu avoir réussi à la fin du premier mois ?",
+        "en": "What do you want to have achieved by the end of the first month?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quel résultat te rendrait fier dans un mois ?",
+          "en": "What result would make you proud in a month?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Avoir des clientes régulières au marché du lundi. »",
+         "en": "\"Having regular customers at the Monday market.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Un seul objectif, précis, vaut mieux que plusieurs flous.",
+          "en": "One precise goal beats several vague ones.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "goal_measure",
+       "type": "question",
+       "prompt": {
+        "fr": "Combien ? Comment sauras-tu que c'est atteint ?",
+        "en": "How many? How will you know it is reached?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quel chiffre vas-tu compter pour vérifier ?",
+          "en": "What number will you count to check?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« 15 clientes qui commandent au moins deux lundis de suite. »",
+         "en": "\"15 customers who order at least two Mondays in a row.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Choisis un chiffre que tu peux atteindre avec tes moyens d'aujourd'hui.",
+          "en": "Choose a number you can reach with what you have today.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "goal_who",
+       "type": "question",
+       "prompt": {
+        "fr": "Qui s'en occupe ?",
+        "en": "Who takes care of it?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Est-ce toi, ou quelqu'un qui t'aide ?",
+          "en": "Is it you, or someone who helps you?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Moi pour les ventes, ma sœur pour les livraisons. »",
+         "en": "\"Me for sales, my sister for deliveries.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Un objectif sans responsable n'avance pas.",
+          "en": "A goal without someone in charge doesn't move.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Un objectif précis, chiffré, confié à quelqu'un, réaliste et daté s'appelle un objectif SMART. Les partenaires et les financeurs connaissent ce mot.",
+        "en": "A goal that is precise, measured, assigned, realistic and dated is called a SMART goal. Partners and funders know this term.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ton objectif. Il est enregistré dans ton plan de lancement.",
+        "en": "Here is your goal. It is saved in your launch plan.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "goal",
+        "goal_measure",
+        "goal_who"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "goal",
+       "section": "launch",
+       "field": "goal",
+       "tracked": true
+      },
+      {
+       "from": "goal_measure",
+       "section": "launch",
+       "field": "goal_measure",
+       "tracked": true
+      },
+      {
+       "from": "goal_who",
+       "section": "launch",
+       "field": "goal_who",
+       "tracked": true
+      }
+     ]
     }
    ]
   },
@@ -5018,6 +6519,110 @@
        }
       },
       {
+       "id": "network",
+       "type": "question",
+       "prompt": {
+        "fr": "Qui connais-tu qui pourrait t'aider ?",
+        "en": "Who do you know who could help you?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quelles personnes pourraient te conseiller, te prêter du matériel ou devenir tes premiers clients ?",
+          "en": "Which people could advise you, lend you equipment or become your first customers?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Ma tante qui vend au marché, et le groupe de jeunes de l'église. »",
+         "en": "\"My aunt who sells at the market, and the church youth group.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Ne note pas de nom : un rôle suffit (« ma voisine commerçante »).",
+          "en": "Don't write names: a role is enough (\"my shopkeeper neighbour\").",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "affordable",
+       "type": "question",
+       "prompt": {
+        "fr": "Combien peux-tu risquer sans te mettre en difficulté ?",
+        "en": "How much can you risk without getting into trouble?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quelle somme ou quel temps pourrais-tu perdre sans que ce soit grave ?",
+          "en": "What amount or time could you lose without it being serious?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« 20 000 ariary et mes samedis matin. »",
+         "en": "\"20,000 ariary and my Saturday mornings.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Commence avec ce que tu peux te permettre de perdre : c'est ce qui permet d'essayer sans peur.",
+          "en": "Start with what you can afford to lose: it lets you try without fear.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Partir de ce que tu es, de ce que tu sais, de qui tu connais, et ne risquer que ce que tu peux perdre : c'est l'effectuation, une méthode tirée de l'étude d'entrepreneurs expérimentés. Les partenaires et les financeurs connaissent ce mot.",
+        "en": "Starting from who you are, what you know and who you know, and risking only what you can lose: that is effectuation, a method drawn from studying experienced entrepreneurs. Partners and funders know this term.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
        "id": "recap",
        "type": "synthesis",
        "intro": {
@@ -5030,7 +6635,9 @@
        },
        "shows": [
         "skills",
-        "means"
+        "means",
+        "network",
+        "affordable"
        ]
       }
      ]
@@ -5490,8 +7097,8 @@
        "id": "recap",
        "type": "synthesis",
        "intro": {
-        "fr": "Voici l'opportunité que tu as choisie. La quête « Trouver un problème qui compte » t'aide maintenant à la décrire précisément.",
-        "en": "Here is the opportunity you chose. The quest \"Find a problem that matters\" now helps you describe it precisely.",
+        "fr": "Voici l'opportunité que tu as choisie. La quête « Trouver ce qui compte pour tes clients » t'aide maintenant à la décrire précisément.",
+        "en": "Here is the opportunity you chose. The quest \"Find what matters to your customers\" now helps you describe it precisely.",
         "status": {
          "fr": "needs_review",
          "en": "needs_review"
@@ -5573,6 +7180,69 @@
    }
   },
   {
+   "id": "m.observe_desire",
+   "title": {
+    "fr": "Observer l'envie en vrai",
+    "en": "Observe the desire for real",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "objective": {
+    "fr": "Voir où et comment les gens se font ce plaisir aujourd'hui.",
+    "en": "See where and how people treat themselves today.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "instructions": [
+    {
+     "fr": "Va là où les gens achètent ce plaisir (pâtisserie, marché, salon de coiffure, boutique…).",
+     "en": "Go where people buy this treat (pastry shop, market, hair salon, shop…).",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Observe pendant 20 minutes, sans rien vendre.",
+     "en": "Watch for 20 minutes without selling anything.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Note ce qu'ils choisissent, combien ils paient, ce qui les fait sourire ou hésiter. Pas de nom, pas de numéro de téléphone.",
+     "en": "Note what they choose, how much they pay, what makes them smile or hesitate. No names, no phone numbers.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    }
+   ],
+   "deliverable": {
+    "fr": "Ce que tu as vu, en deux ou trois phrases.",
+    "en": "What you saw, in two or three sentences.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "duration_minutes": 30,
+   "difficulty": 1,
+   "example": {
+    "fr": "« À la pâtisserie, 8 clients sur 10 achètent pour une fête ; les gâteaux décorés partent en premier. » (Exemple inventé.)",
+    "en": "\"At the pastry shop, 8 customers out of 10 buy for a celebration; decorated cakes go first.\" (Invented example.)",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   }
+  },
+  {
    "id": "m.talk_three",
    "title": {
     "fr": "Parler à trois personnes concernées",
@@ -5583,8 +7253,8 @@
     }
    },
    "objective": {
-    "fr": "Comprendre comment trois personnes vivent le problème, sans leur vendre ton idée.",
-    "en": "Understand how three people live with the problem, without selling them your idea.",
+    "fr": "Comprendre comment trois personnes vivent le problème ou l'envie, sans leur vendre ton idée.",
+    "en": "Understand how three people live with the problem or the desire, without selling them your idea.",
     "status": {
      "fr": "needs_review",
      "en": "needs_review"
@@ -6037,6 +7707,91 @@
       }
      },
      "max_length": 280
+    },
+    {
+     "key": "causes",
+     "label": {
+      "fr": "Pourquoi il arrive",
+      "en": "Why it happens",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 300
+    },
+    {
+     "key": "effects",
+     "label": {
+      "fr": "Ce qu'il coûte aux gens",
+      "en": "What it costs people",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 300
+    }
+   ]
+  },
+  {
+   "key": "desire",
+   "title": {
+    "fr": "L'envie",
+    "en": "The desire",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "fields": [
+    {
+     "key": "what",
+     "label": {
+      "fr": "L'envie que tu satisfais",
+      "en": "The desire you meet",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 280
+    },
+    {
+     "key": "occasion",
+     "label": {
+      "fr": "À quelle occasion",
+      "en": "On what occasion",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 200
+    },
+    {
+     "key": "special",
+     "label": {
+      "fr": "Ce qui rend ton offre spéciale",
+      "en": "What makes your offer special",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 280
+    },
+    {
+     "key": "today",
+     "label": {
+      "fr": "Ce qu'ils achètent déjà pour se faire plaisir",
+      "en": "What they already buy to treat themselves",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 280
     }
    ]
   },
@@ -6098,6 +7853,54 @@
       }
      },
      "max_length": 400
+    },
+    {
+     "key": "says",
+     "label": {
+      "fr": "Ce qu'ils disent",
+      "en": "What they say",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 300
+    },
+    {
+     "key": "does",
+     "label": {
+      "fr": "Ce qu'ils font aujourd'hui",
+      "en": "What they do today",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 300
+    },
+    {
+     "key": "feels",
+     "label": {
+      "fr": "Ce qu'ils ressentent",
+      "en": "What they feel",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 300
+    },
+    {
+     "key": "lacks",
+     "label": {
+      "fr": "Ce qui les gêne ou leur manque",
+      "en": "What bothers them or is missing",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 300
     }
    ]
   },
@@ -6135,6 +7938,30 @@
       }
      },
      "max_length": 200
+    },
+    {
+     "key": "gains",
+     "label": {
+      "fr": "Ce que le client y gagne",
+      "en": "What the customer gains",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 300
+    },
+    {
+     "key": "relieves",
+     "label": {
+      "fr": "La gêne ou le manque que tu enlèves",
+      "en": "The trouble or lack you remove",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 300
     }
    ]
   },
@@ -6190,6 +8017,67 @@
      "label": {
       "fr": "Comment tu le sais",
       "en": "How you know",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 300
+    }
+   ]
+  },
+  {
+   "key": "swot",
+   "title": {
+    "fr": "Tes forces et tes risques",
+    "en": "Your strengths and risks",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "fields": [
+    {
+     "key": "strengths",
+     "label": {
+      "fr": "Ce que tu fais mieux que les autres",
+      "en": "What you do better than others",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 300
+    },
+    {
+     "key": "weaknesses",
+     "label": {
+      "fr": "Ce qui te manque",
+      "en": "What you lack",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 300
+    },
+    {
+     "key": "opportunities",
+     "label": {
+      "fr": "Ce qui pourrait t'aider",
+      "en": "What could help you",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 300
+    },
+    {
+     "key": "threats",
+     "label": {
+      "fr": "Ce qui pourrait te gêner",
+      "en": "What could get in your way",
       "status": {
        "fr": "needs_review",
        "en": "needs_review"
@@ -6531,6 +8419,42 @@
       }
      },
      "max_length": 100
+    },
+    {
+     "key": "goal",
+     "label": {
+      "fr": "L'objectif du premier mois",
+      "en": "The first month's goal",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 200
+    },
+    {
+     "key": "goal_measure",
+     "label": {
+      "fr": "Comment tu sauras qu'il est atteint",
+      "en": "How you will know it is reached",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 200
+    },
+    {
+     "key": "goal_who",
+     "label": {
+      "fr": "Qui s'en occupe",
+      "en": "Who takes care of it",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 200
     }
    ]
   },
@@ -6897,8 +8821,8 @@
     "is": "completed"
    },
    "unlock_hint": {
-    "fr": "Se débloque à la fin de « Trouver un problème qui compte ».",
-    "en": "Unlocks at the end of \"Find a problem that matters\".",
+    "fr": "Se débloque à la fin de « Trouver ce qui compte pour tes clients ».",
+    "en": "Unlocks at the end of \"Find what matters to your customers\".",
     "status": {
      "fr": "needs_review",
      "en": "needs_review"

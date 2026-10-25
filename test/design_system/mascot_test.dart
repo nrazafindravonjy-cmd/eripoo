@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:eripoo/design_system/design_system.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,5 +46,30 @@ void main() {
     );
     expect(find.byType(EripooMascot), findsOneWidget);
     expect(find.byIcon(Icons.inbox), findsNothing);
+  });
+
+  testWidgets('the celebration title emphasis stays readable on yellow', (
+    tester,
+  ) async {
+    await tester.pumpWidget(_host(false, const SizedBox()));
+    final context = tester.element(find.byType(Scaffold));
+    unawaited(
+      showEripooCelebration(
+        context,
+        title: 'Quête *terminée*',
+        message: 'm',
+        actionLabel: 'a',
+      ),
+    );
+    await tester.pumpAndSettle();
+    final rich = tester.widget<Text>(
+      find.descendant(
+        of: find.byType(EripooHeadline),
+        matching: find.byType(Text),
+      ),
+    );
+    final spans = (rich.textSpan! as TextSpan).children!.cast<TextSpan>();
+    final sheet = Theme.of(context).extension<EripooColors>()!.brand;
+    expect(spans.last.style!.color, sheet.onBase);
   });
 }

@@ -76,8 +76,8 @@
       en: "Write them as \"I think that…\", then test first the one your project depends on most."
   unlock: {quest: q01, is: completed}
   unlock_hint:
-    fr: "Se débloque à la fin de « Trouver un problème qui compte »."
-    en: "Unlocks at the end of \"Find a problem that matters\"."
+    fr: "Se débloque à la fin de « Trouver ce qui compte pour tes clients »."
+    en: "Unlocks at the end of \"Find what matters to your customers\"."
 - id: tool.experiments
   kind: experiments
   title: {fr: "Expériences", en: "Experiments"}

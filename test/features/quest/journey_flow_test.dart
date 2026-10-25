@@ -148,16 +148,23 @@ void main() {
     // scrolled up by the previous slide).
     expect(find.text('Savon du quartier', skipOffstage: false), findsOneWidget);
     expect(find.text('Ta quête en cours'), findsOneWidget);
-    expect(find.text('Trouver un problème qui compte'), findsOneWidget);
+    expect(find.text('Trouver ce qui compte pour tes clients'), findsOneWidget);
 
-    // ---- quest 1, step 1 (learn): four screens
+    // ---- quest 1, step 1 (learn): five screens
     await tapText(tester, 'Commencer');
-    expect(find.text("Pourquoi partir d'un problème ?"), findsWidgets);
+    expect(find.text('Deux façons de commencer'), findsWidgets);
     // The "step finished" message of the previous step is gone.
     expect(find.byType(SnackBar), findsNothing);
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 4; i++) {
       await next(tester);
     }
+    await finish(tester);
+
+    // ---- the starting point: a problem (the "desire" steps then
+    // never appear)
+    await tapText(tester, 'Commencer');
+    await tapText(tester, "D'un problème à résoudre");
+    await next(tester);
     await finish(tester);
 
     // ---- quest 1, step 2 (reflect): answers, help, synthesis
@@ -173,6 +180,12 @@ void main() {
     await type(tester, 'Les mères qui travaillent au marché.');
     await next(tester);
     await tapText(tester, 'Chaque semaine');
+    await next(tester);
+    await type(tester, 'La boutique est loin du marché.');
+    await next(tester);
+    await type(tester, 'Une heure de marche.');
+    await next(tester);
+    expect(find.textContaining('arbre à problèmes'), findsOneWidget);
     await next(tester);
     // Synthesis: what was written is shown back.
     expect(
@@ -220,6 +233,7 @@ void main() {
     expect(facts['diag.sector'], 'unknown');
     expect(facts['diag.goal'], 'extra_income');
     expect(facts['problem.frequency'], 'weekly');
+    expect(facts['idea.origin'], 'problem');
     expect(project.title, 'Savon du quartier');
     expect(
       problem!.fields['statement'],
@@ -229,6 +243,7 @@ void main() {
       'diag.s01',
       'diag.s02',
       'q01.s01',
+      'q01.s05',
       'q01.s02',
       'q01.s03',
     ]) {

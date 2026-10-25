@@ -89,9 +89,50 @@ steps:
           hints:
             - fr: "Les personnes que tu connais comptent aussi : clients, conseils, aide."
               en: "The people you know count too: customers, advice, help."
+      - id: network
+        type: question
+        prompt:
+          fr: "Qui connais-tu qui pourrait t'aider ?"
+          en: "Who do you know who could help you?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Quelles personnes pourraient te conseiller, te prêter du matériel ou devenir tes premiers clients ?"
+              en: "Which people could advise you, lend you equipment or become your first customers?"
+          example:
+            fr: "« Ma tante qui vend au marché, et le groupe de jeunes de l'église. »"
+            en: "\"My aunt who sells at the market, and the church youth group.\""
+          hints:
+            - fr: "Ne note pas de nom : un rôle suffit (« ma voisine commerçante »)."
+              en: "Don't write names: a role is enough (\"my shopkeeper neighbour\")."
+      - id: affordable
+        type: question
+        prompt:
+          fr: "Combien peux-tu risquer sans te mettre en difficulté ?"
+          en: "How much can you risk without getting into trouble?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Quelle somme ou quel temps pourrais-tu perdre sans que ce soit grave ?"
+              en: "What amount or time could you lose without it being serious?"
+          example:
+            fr: "« 20 000 ariary et mes samedis matin. »"
+            en: "\"20,000 ariary and my Saturday mornings.\""
+          hints:
+            - fr: "Commence avec ce que tu peux te permettre de perdre : c'est ce qui permet d'essayer sans peur."
+              en: "Start with what you can afford to lose: it lets you try without fear."
+      - id: framework
+        type: tip
+        body:
+          fr: "Partir de ce que tu es, de ce que tu sais, de qui tu connais, et ne risquer que ce que tu peux perdre : c'est l'effectuation, une méthode tirée de l'étude d'entrepreneurs expérimentés. Les partenaires et les financeurs connaissent ce mot."
+          en: "Starting from who you are, what you know and who you know, and risking only what you can lose: that is effectuation, a method drawn from studying experienced entrepreneurs. Partners and funders know this term."
       - id: recap
         type: synthesis
         intro:
           fr: "Voici tes atouts. Garde-les en tête : ils t'aideront à repérer une bonne opportunité."
           en: "Here are your assets. Keep them in mind: they will help you spot a good opportunity."
-        shows: [skills, means]
+        shows: [skills, means, network, affordable]

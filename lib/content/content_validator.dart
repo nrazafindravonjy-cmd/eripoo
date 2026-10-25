@@ -140,6 +140,7 @@ ValidationReport validatePack(ContentPack pack) {
     }
     for (final step in quest.steps) {
       final where = step.id;
+      checkRule('$where.applies_when', step.appliesWhen);
       checkRule('$where.available_when', step.availableWhen);
       checkRule('$where.complete_when', step.completeWhen);
       checkRule('$where.fast_track_when', step.fastTrackWhen);

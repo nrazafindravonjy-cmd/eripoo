@@ -24,10 +24,12 @@ enum AnswerKind { choice, multiChoice, text, number, money }
 const projectSections = {
   'vision',
   'problem',
+  'desire',
   'customers',
   'solution',
   'offer',
   'market',
+  'swot',
   'competition',
   'business_model',
   'pricing',
@@ -333,6 +335,7 @@ class Step {
     required this.type,
     required this.title,
     required this.blocks,
+    this.appliesWhen,
     this.availableWhen,
     this.completeWhen,
     this.fastTrackWhen,
@@ -345,6 +348,11 @@ class Step {
   final StepType type;
   final LocalizedText title;
   final List<Block> blocks;
+
+  /// False: the step is not part of this user's journey (e.g. the
+  /// "problem" steps when the idea starts from a desire). Not shown, not
+  /// counted, never blocks the quest. Default: always applies.
+  final Rule? appliesWhen;
 
   /// Default: the previous step of the quest is done.
   final Rule? availableWhen;
@@ -377,6 +385,7 @@ class Step {
       'type',
       'title',
       'blocks',
+      'applies_when',
       'available_when',
       'complete_when',
       'fast_track_when',
@@ -390,6 +399,7 @@ class Step {
       type: json['type'].oneOf(StepType.values),
       title: LocalizedText.read(json['title']),
       blocks: [for (final b in json['blocks'].list) Block.read(b)],
+      appliesWhen: rule('applies_when'),
       availableWhen: rule('available_when'),
       completeWhen: rule('complete_when'),
       fastTrackWhen: rule('fast_track_when'),

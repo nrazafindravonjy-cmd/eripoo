@@ -174,4 +174,27 @@ void main() {
     final report = validatePack(ContentPack.parse(jsonEncode(json)));
     expect(report.errors, contains(contains('cannot test locked')));
   });
+
+  test('a step that does not apply is hidden and never blocks', () {
+    final json = fixturePack();
+    final quests = json['quests']! as List;
+    final q01 = quests.cast<Map<String, Object?>>().firstWhere(
+      (q) => q['id'] == 'q01',
+    );
+    final steps = (q01['steps']! as List).cast<Map<String, Object?>>();
+    steps[1]['applies_when'] = {'fact': 'idea.origin', 'eq': 'problem'};
+    final skipped = steps[1]['id'];
+    final p = plan(
+      PlannerInput(
+        pack: ContentPack.parse(jsonEncode(json)),
+        now: now,
+        facts: {'idea.origin': 'desire'},
+        steps: {...diagDone, 'q01.s01': done},
+      ),
+    );
+    final planned = p.quests.firstWhere((q) => q.quest.id == 'q01');
+    expect(planned.steps.map((s) => s.step.id), isNot(contains(skipped)));
+    expect(planned.total, steps.length - 1);
+    expect(planned.steps[1].status, StepStatus.available);
+  });
 }

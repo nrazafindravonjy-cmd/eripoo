@@ -1,30 +1,36 @@
-# Quest 1: find a problem worth solving. Advanced profiles only confirm
-# the deliverable (the problem statement), they never skip it.
+# Quest 1: find what matters to customers. Two doors: a problem to solve,
+# or a desire to satisfy (pleasure, pride, a celebration). Only the steps of
+# the chosen door apply. Advanced profiles only confirm the deliverable;
+# people without an idea come here after quest 15.
 id: q01
 order: 4
 maturity: exploration
 priority: 30
 title:
-  fr: "Trouver un problème qui compte"
-  en: "Find a problem that matters"
+  fr: "Trouver ce qui compte pour tes clients"
+  en: "Find what matters to your customers"
 summary:
-  fr: "Une entreprise commence par un problème que des gens veulent voir résolu."
-  en: "A business starts with a problem people want solved."
+  fr: "Une entreprise commence par un problème que des gens veulent voir résolu, ou par une envie qu'ils veulent satisfaire."
+  en: "A business starts with a problem people want solved, or a desire they want to satisfy."
+available_when:
+  any:
+    - {fact: diag.entry_profile, ne: no_idea}
+    - {quest: q15, is: completed}
 fast_track_when:
   fact: diag.entry_profile
-  in: [problem_identified, existing_activity, existing_customers]
+  in: [no_idea, problem_identified, existing_activity, existing_customers]
 steps:
   - id: q01.s01
     type: learn
     title:
-      fr: "Pourquoi partir d'un problème ?"
-      en: "Why start from a problem?"
+      fr: "Deux façons de commencer"
+      en: "Two ways to start"
     blocks:
       - id: intro
         type: text
         body:
-          fr: "Les gens paient pour ce qui leur simplifie la vie. Si tu pars d'un vrai problème, tu as déjà des clients qui t'attendent."
-          en: "People pay for what makes their life easier. If you start from a real problem, customers are already waiting for you."
+          fr: "Les gens paient pour ce qui leur simplifie la vie, mais aussi pour ce qui leur fait plaisir. Tu peux partir d'un problème à résoudre, ou d'une envie à satisfaire."
+          en: "People pay for what makes their life easier, but also for what gives them pleasure. You can start from a problem to solve, or from a desire to satisfy."
       - id: term
         type: term
         plain:
@@ -41,13 +47,55 @@ steps:
         body:
           fr: "À Toamasina, Fara remarque que les mères de son quartier marchent trente minutes pour acheter du savon. Le problème : la distance et le temps perdu."
           en: "In Toamasina, Fara notices that mothers in her neighbourhood walk thirty minutes to buy soap. The problem: the distance and the time lost."
+      - id: example_desire
+        type: example
+        body:
+          fr: "À Antsirabe, Mialy voit que les familles veulent un beau gâteau pour chaque fête, mais qu'on n'en trouve qu'en ville. L'envie : fêter avec quelque chose de beau et de bon."
+          en: "In Antsirabe, Mialy sees that families want a beautiful cake for every celebration, but can only find one in town. The desire: celebrating with something beautiful and tasty."
       - id: tip
         type: tip
         body:
-          fr: "Regarde ce qui fait râler les gens autour de toi : la file d'attente, le prix, la distance, la qualité."
-          en: "Look at what makes people around you complain: queues, prices, distance, quality."
+          fr: "Regarde ce qui fait râler les gens autour de toi (la file d'attente, le prix, la distance), mais aussi ce pour quoi ils dépensent avec plaisir (les fêtes, la beauté, les sorties)."
+          en: "Look at what makes people around you complain (queues, prices, distance), but also what they happily spend on (celebrations, beauty, outings)."
+  - id: q01.s05
+    type: reflect
+    title:
+      fr: "Ton point de départ"
+      en: "Your starting point"
+    blocks:
+      - id: origin
+        type: question
+        prompt:
+          fr: "Ton idée part plutôt…"
+          en: "Your idea starts rather from…"
+        answer:
+          kind: choice
+          options:
+            - value: problem
+              label: {fr: "D'un problème à résoudre", en: "A problem to solve"}
+            - value: desire
+              label: {fr: "D'une envie à satisfaire", en: "A desire to satisfy"}
+        help:
+          rephrase:
+            - fr: "Tes clients ont-ils une difficulté, ou ont-ils envie de se faire plaisir ?"
+              en: "Do your customers have a difficulty, or do they want to treat themselves?"
+          example:
+            fr: "Réparer des téléphones : un problème. Vendre de beaux gâteaux de fête : une envie."
+            en: "Repairing phones: a problem. Selling beautiful party cakes: a desire."
+          hints:
+            - fr: "Si les deux te parlent, choisis ce que tes clients diraient en premier."
+              en: "If both fit, choose what your customers would say first."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "C'est noté. La suite de la quête s'adapte à ton point de départ."
+          en: "Noted. The rest of the quest adapts to your starting point."
+        shows: [origin]
+    outputs:
+      - {from: origin, fact: idea.origin}
   - id: q01.s02
     type: reflect
+    applies_when: {not: {fact: idea.origin, eq: desire}}
     title:
       fr: "Le problème que tu vois"
       en: "The problem you see"
@@ -116,18 +164,176 @@ steps:
           hints:
             - fr: "Plus un problème revient souvent, plus les gens sont prêts à payer."
               en: "The more often a problem comes back, the more people are ready to pay."
+      - id: causes
+        type: question
+        prompt:
+          fr: "Pourquoi ce problème arrive-t-il ?"
+          en: "Why does this problem happen?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Qu'est-ce qui cause cette difficulté ?"
+              en: "What causes this difficulty?"
+          example:
+            fr: "« La seule boutique est en ville, et aucun vendeur ne passe dans le quartier. »"
+            en: "\"The only shop is in town, and no seller comes through the neighbourhood.\""
+          hints:
+            - fr: "Demande-toi « pourquoi ? » deux ou trois fois de suite."
+              en: "Ask yourself \"why?\" two or three times in a row."
+      - id: effects
+        type: question
+        prompt:
+          fr: "Qu'est-ce que ce problème leur coûte ?"
+          en: "What does this problem cost them?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Que perdent-ils à cause de ce problème : du temps, de l'argent, de la fatigue ?"
+              en: "What do they lose because of it: time, money, energy?"
+          example:
+            fr: "« Une heure de marche, et parfois une matinée de vente perdue au marché. »"
+            en: "\"An hour's walk, and sometimes a morning of sales lost at the market.\""
+          hints:
+            - fr: "Plus le problème coûte cher, plus une solution a de la valeur."
+              en: "The more the problem costs, the more a solution is worth."
+      - id: framework
+        type: tip
+        body:
+          fr: "Ce que tu viens de faire, relier un problème à ses causes et à ses conséquences, s'appelle un arbre à problèmes. Les partenaires et les financeurs connaissent ce mot."
+          en: "What you just did, linking a problem to its causes and consequences, is called a problem tree. Partners and funders know this term."
       - id: recap
         type: synthesis
         intro:
           fr: "Voici le problème que tu as décrit. Il est enregistré dans ton projet."
           en: "Here is the problem you described. It is saved in your project."
-        shows: [problem, who, frequency]
+        shows: [problem, who, frequency, causes, effects]
     outputs:
       - {from: problem, section: problem, field: statement, tracked: true}
       - {from: who, section: customers, field: first_guess, tracked: true}
       - {from: frequency, fact: problem.frequency}
+      - {from: causes, section: problem, field: causes, tracked: true}
+      - {from: effects, section: problem, field: effects, tracked: true}
+  - id: q01.s06
+    type: reflect
+    applies_when: {fact: idea.origin, eq: desire}
+    title:
+      fr: "L'envie que tu vois"
+      en: "The desire you see"
+    blocks:
+      - id: desire
+        type: question
+        prompt:
+          fr: "Quelle envie veux-tu satisfaire ?"
+          en: "What desire do you want to satisfy?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Qu'est-ce que des gens aiment s'offrir, ou offrir aux autres ?"
+              en: "What do people love to buy for themselves, or to give to others?"
+          example:
+            fr: "« Les familles veulent un beau gâteau pour fêter un anniversaire ou une communion. »"
+            en: "\"Families want a beautiful cake to celebrate a birthday or a communion.\""
+          hints:
+            - fr: "Pense à ce qui rend les gens fiers, heureux ou beaux."
+              en: "Think of what makes people proud, happy or beautiful."
+      - id: who
+        type: question
+        prompt:
+          fr: "Qui a cette envie ?"
+          en: "Who has this desire?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Quelles personnes seraient contentes de payer pour cela ?"
+              en: "Which people would be glad to pay for it?"
+          example:
+            fr: "« Les familles du quartier qui organisent des fêtes, surtout les mères. »"
+            en: "\"Neighbourhood families who hold celebrations, especially mothers.\""
+          hints:
+            - fr: "Décris un groupe de personnes, sans donner de nom."
+              en: "Describe a group of people, without giving names."
+      - id: occasion
+        type: question
+        prompt:
+          fr: "À quelle occasion en ont-ils envie ?"
+          en: "On what occasion do they want it?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Quand achètent-ils : pour une fête, un cadeau, le week-end, tous les jours ?"
+              en: "When do they buy: for a celebration, a gift, the weekend, every day?"
+          example:
+            fr: "« Les anniversaires, les communions et les fêtes de fin d'année. »"
+            en: "\"Birthdays, communions and end-of-year celebrations.\""
+          hints:
+            - fr: "Une occasion qui revient souvent fait des clients réguliers."
+              en: "An occasion that comes back often makes regular customers."
+      - id: special
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui rendrait ton offre spéciale à leurs yeux ?"
+          en: "What would make your offer special in their eyes?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Pourquoi te choisiraient-ils : le goût, la beauté, la fierté, le prix ?"
+              en: "Why would they choose you: taste, beauty, pride, price?"
+          example:
+            fr: "« Des gâteaux décorés au prénom de l'enfant, livrés à la maison. »"
+            en: "\"Cakes decorated with the child's name, delivered at home.\""
+          hints:
+            - fr: "Une seule chose spéciale suffit, si elle compte pour eux."
+              en: "One special thing is enough, if it matters to them."
+      - id: today
+        type: question
+        prompt:
+          fr: "Que font-ils ou qu'achètent-ils déjà pour se faire ce plaisir ?"
+          en: "What do they already do or buy for this treat?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Où trouvent-ils cela aujourd'hui, et à quel prix ?"
+              en: "Where do they find it today, and at what price?"
+          example:
+            fr: "« Ils vont à la pâtisserie du centre-ville, ou font un gâteau simple à la maison. »"
+            en: "\"They go to the town-centre pastry shop, or bake a simple cake at home.\""
+          hints:
+            - fr: "S'ils dépensent déjà pour ce plaisir, l'envie est réelle."
+              en: "If they already spend on this treat, the desire is real."
+      - id: framework
+        type: tip
+        body:
+          fr: "Toutes les entreprises ne résolvent pas un problème : beaucoup naissent d'une envie. Les partenaires parlent alors de besoins de plaisir, ou d'« envies » plutôt que de « problèmes »."
+          en: "Not every business solves a problem: many are born from a desire. Partners then speak of wants rather than problems."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici l'envie que tu as décrite. Elle est enregistrée dans ton projet."
+          en: "Here is the desire you described. It is saved in your project."
+        shows: [desire, who, occasion, special, today]
+    outputs:
+      - {from: desire, section: desire, field: what, tracked: true}
+      - {from: who, section: customers, field: first_guess, tracked: true}
+      - {from: occasion, section: desire, field: occasion, tracked: true}
+      - {from: special, section: desire, field: special, tracked: true}
+      - {from: today, section: desire, field: today, tracked: true}
   - id: q01.s03
     type: act
+    applies_when: {not: {fact: idea.origin, eq: desire}}
     title:
       fr: "Va voir le problème de tes yeux"
       en: "Go and see the problem yourself"
@@ -141,3 +347,19 @@ steps:
         type: mission
         mission: m.observe_problem
     complete_when: {mission: m.observe_problem, is: completed}
+  - id: q01.s07
+    type: act
+    applies_when: {fact: idea.origin, eq: desire}
+    title:
+      fr: "Va voir l'envie de tes yeux"
+      en: "Go and see the desire yourself"
+    blocks:
+      - id: why
+        type: text
+        body:
+          fr: "Les gens montrent ce qu'ils aiment par ce qu'ils achètent. Une courte observation là où ils se font plaisir t'en apprend beaucoup."
+          en: "People show what they love by what they buy. A short look where they treat themselves teaches you a lot."
+      - id: go
+        type: mission
+        mission: m.observe_desire
+    complete_when: {mission: m.observe_desire, is: completed}
