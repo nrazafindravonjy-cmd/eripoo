@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Aperçu web d'Eripoo, pour les tests du porteur du projet.">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <title>Eripoo aperçu</title>
+  <style>
+    :root { --bg: #232123; --ink: #f4efe6; --muted: #b9b2a6; --brand: #fdcb20; }
+    html, body { margin: 0; height: 100%; background: var(--bg); color: var(--ink);
+      font-family: system-ui, sans-serif; }
+    body { display: flex; flex-direction: column; align-items: center; }
+    .note { box-sizing: border-box; width: 100%; max-width: 420px; padding: 8px 16px;
+      font-size: 12px; line-height: 1.4; color: var(--muted); text-align: center; }
+    .note strong { color: var(--brand); font-weight: 600; }
+    #app { position: relative; width: 100%; max-width: 420px; flex: 1; min-height: 0;
+      overflow: hidden; border-left: 1px solid #3a373a; border-right: 1px solid #3a373a; }
+  </style>
+</head>
+<body>
+  <p class="note"><strong>Aperçu de test.</strong> Pas de compte, pas de serveur, pas de voix.
+    Base non chiffrée, effacée quand la page se ferme : n'y mets que des données fictives.</p>
+  <div id="app"></div>
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
