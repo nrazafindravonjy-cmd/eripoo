@@ -87,7 +87,10 @@ Pack ─► Quête (16 grandes quêtes minimum) ─► Étape ─► Blocs
   Une étape peut porter `applies_when` : si la règle est fausse, l'étape
   ne fait pas partie du parcours de l'utilisateur (ni affichée, ni
   comptée, ni bloquante). Exemple : porte « problème » ou « envie » de la
-  quête 1 selon le fait `idea.origin`.
+  quête 1 selon le fait `idea.origin`. Une quête peut aussi porter
+  `applies_when` : le parcours C (« Développer mon activité », q16 à q23)
+  ne concerne que les profils qui vendent déjà, et les quêtes q01 à q12
+  (sauf q11, partagée) ne les concernent pas.
 - **Étape** : type (`learn`, `reflect`, `act`, `checkpoint`, `tool`), blocs,
   règle de complétion, **sorties** (quels champs du projet ou quels faits elle
   écrit), éventuelles missions.

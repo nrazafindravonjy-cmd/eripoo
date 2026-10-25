@@ -1,0 +1,104 @@
+# Quest 22 (journey C, ILO IYB "marketing"): marketing plan fields, then one action tested in the field.
+id: q22
+order: 22
+maturity: preparation
+priority: 8
+title:
+  fr: "Attirer plus de clients"
+  en: "Attract more customers"
+summary:
+  fr: "Choisis un message, un lieu, et teste une action pendant une semaine."
+  en: "Choose a message, a place, and test one action for a week."
+applies_when: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}
+available_when: {quest: q18, is: completed}
+steps:
+  - id: q22.s01
+    type: reflect
+    title:
+      fr: "Ton message"
+      en: "Your message"
+    blocks:
+      - id: target
+        type: question
+        prompt:
+          fr: "Quels nouveaux clients veux-tu attirer ?"
+          en: "Which new customers do you want to attract?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Qui ressemble à tes meilleurs clients, mais n'achète pas encore chez toi ?"
+              en: "Who looks like your best customers but doesn't buy from you yet?"
+          example:
+            fr: "« Les élèves de l'autre lycée du quartier. »"
+            en: "\"Students at the other high school nearby.\""
+          hints:
+            - fr: "Un seul groupe à la fois."
+              en: "One group at a time."
+      - id: message
+        type: question
+        prompt:
+          fr: "Que veux-tu leur dire ?"
+          en: "What do you want to tell them?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Quelle phrase leur donnerait envie d'essayer ?"
+              en: "Which sentence would make them want to try?"
+          example:
+            fr: "« Du jus pressé le matin même, à 500 Ar la petite bouteille. »"
+            en: "\"Juice pressed that morning, 500 Ar a small bottle.\""
+          hints:
+            - fr: "Reprends ce que tes clients aiment chez toi."
+              en: "Use what your customers like about you."
+      - id: channels
+        type: question
+        prompt:
+          fr: "Où entendront-ils parler de toi ?"
+          en: "Where will they hear about you?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Par quels lieux ou moyens ton message leur arrivera-t-il ?"
+              en: "Through which places or means will your message reach them?"
+          example:
+            fr: "« Devant le portail du lycée, et le groupe Facebook des parents. »"
+            en: "\"At the school gate, and the parents' Facebook group.\""
+          hints:
+            - fr: "Deux ou trois endroits où ils sont déjà."
+              en: "Two or three places where they already are."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ton message. Il est enregistré dans ton plan marketing."
+          en: "Here is your message. It is saved in your marketing plan."
+        shows: [target, message, channels]
+    outputs:
+      - {from: target, section: marketing, field: target, tracked: true}
+      - {from: message, section: marketing, field: message, tracked: true}
+      - {from: channels, section: marketing, field: channels, tracked: true}
+  - id: q22.s02
+    type: act
+    title:
+      fr: "Teste une action"
+      en: "Test one action"
+    blocks:
+      - id: why
+        type: text
+        body:
+          fr: "Avant de dépenser plus, vérifie qu'une action t'apporte vraiment des clients. Quatre questions suffisent : qu'est-ce que je crois ? Comment le vérifier ? Qu'est-ce que je vais compter ? À partir de combien c'est gagné ?"
+          en: "Before spending more, check that an action really brings customers. Four questions are enough: what do I believe? How do I check it? What will I count? From how many is it a win?"
+      - id: framework
+        type: tip
+        body:
+          fr: "Ces quatre questions forment une fiche de test (« Test Card »). Les partenaires et les financeurs connaissent ce mot."
+          en: "These four questions make a Test Card. Partners and funders know this term."
+      - id: go
+        type: mission
+        mission: m.try_promotion
+    complete_when: {mission: m.try_promotion, is: completed}

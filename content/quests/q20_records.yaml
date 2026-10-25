@@ -1,0 +1,67 @@
+# Quest 20 (journey C, ILO IYB "record keeping"): two weeks of records (real field delay), then a short review.
+id: q20
+order: 20
+maturity: construction
+priority: 12
+title:
+  fr: "Tenir mes comptes"
+  en: "Keep my accounts"
+summary:
+  fr: "Deux semaines à tout noter pour savoir ce qui entre et ce qui sort vraiment."
+  en: "Two weeks of writing everything down to know what really comes in and goes out."
+applies_when: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}
+available_when: {quest: q19, is: completed}
+steps:
+  - id: q20.s01
+    type: learn
+    title:
+      fr: "Ce qui ne s'écrit pas s'oublie"
+      en: "What isn't written is forgotten"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Sans cahier, on ne sait pas si l'activité gagne de l'argent. Et quand l'argent de la maison et celui de l'activité se mélangent, on croit gagner alors qu'on perd."
+          en: "Without a notebook, you don't know if the activity makes money. And when household and activity money mix, you think you earn while you lose."
+      - id: example
+        type: example
+        body:
+          fr: "En notant tout, Voahangy voit que le transport lui coûte 40 000 Ar par semaine. Elle s'associe avec une voisine pour partager le taxi."
+          en: "By writing everything down, Voahangy sees that transport costs her 40,000 Ar a week. She teams up with a neighbour to share the taxi."
+      - id: tip
+        type: tip
+        body:
+          fr: "Deux enveloppes suffisent pour commencer : une pour l'activité, une pour la maison."
+          en: "Two envelopes are enough to start: one for the activity, one for the household."
+  - id: q20.s02
+    type: act
+    title:
+      fr: "Deux semaines à tout noter"
+      en: "Two weeks of writing everything down"
+    blocks:
+      - id: why
+        type: text
+        body:
+          fr: "Note chaque vente et chaque dépense pendant deux semaines. L'étape se termine au bout de quatorze jours."
+          en: "Write down every sale and cost for two weeks. The step ends after fourteen days."
+      - id: go
+        type: mission
+        mission: m.keep_records
+    complete_when: {all: [{mission: m.keep_records, is: completed}, {days_since: {mission_accepted: m.keep_records}, gte: 14}]}
+  - id: q20.s03
+    type: act
+    title:
+      fr: "Mets tes chiffres dans l'app"
+      en: "Put your figures in the app"
+    blocks:
+      - id: how
+        type: text
+        body:
+          fr: "Ouvre l'onglet Projet, puis « Mes chiffres ». Note au moins une dépense qui revient chaque mois. Le plan de trésorerie se remplit tout seul."
+          en: "Open the Project tab, then \"My numbers\". Note at least one cost that comes back every month. The cash plan fills itself."
+      - id: framework
+        type: tip
+        body:
+          fr: "Noter ses ventes et ses dépenses s'appelle la tenue des comptes : c'est un des modules du programme « Gérez mieux votre entreprise » de l'Organisation internationale du travail."
+          en: "Writing down sales and costs is called record keeping: one of the modules of the International Labour Organization's \"Improve Your Business\" programme."
+    complete_when: {count: finance_items, where: {kind: fixed_cost}, gte: 1}

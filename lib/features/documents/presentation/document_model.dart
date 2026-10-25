@@ -197,7 +197,7 @@ class DocumentBuilder {
 
   /// The entrepreneur's file (CLAUDE.md §15), chapter by chapter.
   List<DocPart> dossier() => [
-    _part('summary', _section('vision')),
+    _part('summary', [..._section('vision'), ..._section('activity')]),
     _part('problem', [
       ..._section('problem'),
       ..._section('desire'),
@@ -205,7 +205,11 @@ class DocumentBuilder {
     ]),
     _part('customers', _section('customers')),
     _part('solution', _section('solution')),
-    _part('offer', _section('offer')),
+    _part('offer', [
+      ..._section('offer'),
+      ..._section('pricing'),
+      ..._section('stock'),
+    ]),
     _part('validation', [
       if (_s.concluded.isNotEmpty || _s.observations + _s.interviews > 0)
         _groundwork(),
@@ -216,7 +220,7 @@ class DocumentBuilder {
     _part('businessModel', _canvas()),
     _part('finance', _finance()),
     _part('marketing', _section('marketing')),
-    _part('launch', _section('launch')),
+    _part('launch', [..._section('launch'), ..._section('plan')]),
     _part('formalization', [
       ..._section('formalization'),
       if (_preparationReady() case final ready?) DocParagraph(ready),

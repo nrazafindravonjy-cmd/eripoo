@@ -12,6 +12,7 @@ title:
 summary:
   fr: "Une entreprise commence par un problème que des gens veulent voir résolu, ou par une envie qu'ils veulent satisfaire."
   en: "A business starts with a problem people want solved, or a desire they want to satisfy."
+applies_when: {not: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}}
 available_when:
   any:
     - {fact: diag.entry_profile, ne: no_idea}

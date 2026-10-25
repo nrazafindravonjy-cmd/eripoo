@@ -1,7 +1,7 @@
 {
  "format": 1,
  "pack_id": "base",
- "version": "2026.10.8",
+ "version": "2026.10.9",
  "min_app_version": 1,
  "block_types": [
   "example",
@@ -667,6 +667,15 @@
     "status": {
      "fr": "needs_review",
      "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "not": {
+     "fact": "diag.entry_profile",
+     "in": [
+      "existing_activity",
+      "existing_customers"
+     ]
     }
    },
    "available_when": {
@@ -1660,6 +1669,15 @@
      "en": "needs_review"
     }
    },
+   "applies_when": {
+    "not": {
+     "fact": "diag.entry_profile",
+     "in": [
+      "existing_activity",
+      "existing_customers"
+     ]
+    }
+   },
    "available_when": {
     "any": [
      {
@@ -2453,6 +2471,15 @@
      "en": "needs_review"
     }
    },
+   "applies_when": {
+    "not": {
+     "fact": "diag.entry_profile",
+     "in": [
+      "existing_activity",
+      "existing_customers"
+     ]
+    }
+   },
    "available_when": {
     "quest": "q02",
     "is": "completed"
@@ -2924,6 +2951,15 @@
      "en": "needs_review"
     }
    },
+   "applies_when": {
+    "not": {
+     "fact": "diag.entry_profile",
+     "in": [
+      "existing_activity",
+      "existing_customers"
+     ]
+    }
+   },
    "available_when": {
     "quest": "q02",
     "is": "completed"
@@ -3177,6 +3213,15 @@
     "status": {
      "fr": "needs_review",
      "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "not": {
+     "fact": "diag.entry_profile",
+     "in": [
+      "existing_activity",
+      "existing_customers"
+     ]
     }
    },
    "available_when": {
@@ -3881,6 +3926,15 @@
      "en": "needs_review"
     }
    },
+   "applies_when": {
+    "not": {
+     "fact": "diag.entry_profile",
+     "in": [
+      "existing_activity",
+      "existing_customers"
+     ]
+    }
+   },
    "available_when": {
     "all": [
      {
@@ -4278,6 +4332,15 @@
     "status": {
      "fr": "needs_review",
      "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "not": {
+     "fact": "diag.entry_profile",
+     "in": [
+      "existing_activity",
+      "existing_customers"
+     ]
     }
    },
    "available_when": {
@@ -4722,6 +4785,15 @@
      "en": "needs_review"
     }
    },
+   "applies_when": {
+    "not": {
+     "fact": "diag.entry_profile",
+     "in": [
+      "existing_activity",
+      "existing_customers"
+     ]
+    }
+   },
    "available_when": {
     "quest": "q06",
     "is": "completed"
@@ -4939,6 +5011,15 @@
     "status": {
      "fr": "needs_review",
      "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "not": {
+     "fact": "diag.entry_profile",
+     "in": [
+      "existing_activity",
+      "existing_customers"
+     ]
     }
    },
    "available_when": {
@@ -5199,6 +5280,15 @@
     "status": {
      "fr": "needs_review",
      "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "not": {
+     "fact": "diag.entry_profile",
+     "in": [
+      "existing_activity",
+      "existing_customers"
+     ]
     }
    },
    "available_when": {
@@ -5814,13 +5904,21 @@
     }
    },
    "available_when": {
-    "all": [
+    "any": [
      {
-      "quest": "q04",
-      "is": "completed"
+      "all": [
+       {
+        "quest": "q04",
+        "is": "completed"
+       },
+       {
+        "quest": "q06",
+        "is": "completed"
+       }
+      ]
      },
      {
-      "quest": "q06",
+      "quest": "q19",
       "is": "completed"
      }
     ]
@@ -6086,6 +6184,15 @@
     "status": {
      "fr": "needs_review",
      "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "not": {
+     "fact": "diag.entry_profile",
+     "in": [
+      "existing_activity",
+      "existing_customers"
+     ]
     }
    },
    "available_when": {
@@ -7113,6 +7220,2720 @@
      ]
     }
    ]
+  },
+  {
+   "id": "q16",
+   "order": 16,
+   "maturity": "construction",
+   "priority": 30,
+   "title": {
+    "fr": "Faire le point sur mon activité",
+    "en": "Take stock of my activity",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Tu vends déjà : commence par regarder ton activité telle qu'elle est aujourd'hui.",
+    "en": "You already sell: start by looking at your activity as it is today.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "fact": "diag.entry_profile",
+    "in": [
+     "existing_activity",
+     "existing_customers"
+    ]
+   },
+   "fast_track_when": {
+    "fact": "diag.entry_profile",
+    "eq": "existing_customers"
+   },
+   "steps": [
+    {
+     "id": "q16.s01",
+     "type": "learn",
+     "title": {
+      "fr": "Regarder avant d'agir",
+      "en": "Look before acting",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Tu as déjà des clients : c'est la meilleure preuve que ton idée marche. Pour grandir, il faut d'abord voir clairement ce qui marche et ce qui coince.",
+        "en": "You already have customers: the best proof your idea works. To grow, first see clearly what works and what gets stuck.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "example",
+       "type": "example",
+       "body": {
+        "fr": "À Mahajanga, Voahangy vend des jus de fruits depuis un an. En faisant le point, elle découvre que le jus de baobab représente la moitié de ses ventes.",
+        "en": "In Mahajanga, Voahangy has sold fruit juice for a year. Taking stock, she finds that baobab juice makes up half her sales.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "tip",
+       "type": "tip",
+       "body": {
+        "fr": "Réponds avec tes vrais chiffres, même approximatifs : personne d'autre ne les voit.",
+        "en": "Answer with your real figures, even rough ones: nobody else sees them.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q16.s02",
+     "type": "reflect",
+     "title": {
+      "fr": "Ton activité aujourd'hui",
+      "en": "Your activity today",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "what",
+       "type": "question",
+       "prompt": {
+        "fr": "Que vends-tu ?",
+        "en": "What do you sell?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quels produits ou services proposes-tu ?",
+          "en": "What products or services do you offer?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Des jus de fruits frais, en bouteille, au bord de la route. »",
+         "en": "\"Fresh fruit juice, bottled, by the roadside.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Cite d'abord ce que tu vends le plus.",
+          "en": "Name first what you sell most.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "customers",
+       "type": "question",
+       "prompt": {
+        "fr": "À qui vends-tu surtout ?",
+        "en": "Who do you mainly sell to?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qui sont tes clients les plus fidèles ?",
+          "en": "Who are your most loyal customers?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Les élèves du lycée et les chauffeurs de taxi-brousse. »",
+         "en": "\"High-school students and bush-taxi drivers.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Décris des groupes, sans donner de nom.",
+          "en": "Describe groups, without names.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "volume",
+       "type": "question",
+       "prompt": {
+        "fr": "Combien vends-tu par semaine, à peu près ?",
+        "en": "About how much do you sell per week?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "En nombre ou en ariary, sur une semaine normale ?",
+          "en": "In units or ariary, over a normal week?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Environ 150 bouteilles, soit 150 000 Ar. » (Exemple inventé.)",
+         "en": "\"About 150 bottles, so 150,000 Ar.\" (Invented example.)",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Si tu ne sais pas, réponds « Je ne sais pas » : la quête « Tenir mes comptes » t'aidera.",
+          "en": "If you don't know, answer \"I don't know\": the \"Keep my accounts\" quest will help.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "works",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui marche le mieux ?",
+        "en": "What works best?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce que tes clients redemandent ?",
+          "en": "What do your customers ask for again?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Le jus de baobab, et la livraison au lycée. »",
+         "en": "\"Baobab juice, and delivery to the high school.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Pense aux produits, aux lieux et aux moments.",
+          "en": "Think of products, places and times.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "hard",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui est le plus difficile ?",
+        "en": "What is hardest?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce qui te fait perdre du temps ou de l'argent ?",
+          "en": "What makes you lose time or money?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Les fruits qui pourrissent quand il pleut et que je vends moins. »",
+         "en": "\"Fruit that rots when it rains and I sell less.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Une seule difficulté suffit, la plus importante.",
+          "en": "One difficulty is enough, the most important.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ton activité aujourd'hui. Elle ouvre le résumé de ton dossier.",
+        "en": "Here is your activity today. It opens the summary of your file.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "what",
+        "customers",
+        "volume",
+        "works",
+        "hard"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "what",
+       "section": "activity",
+       "field": "what",
+       "tracked": true
+      },
+      {
+       "from": "customers",
+       "section": "activity",
+       "field": "customers",
+       "tracked": true
+      },
+      {
+       "from": "volume",
+       "section": "activity",
+       "field": "volume",
+       "tracked": true
+      },
+      {
+       "from": "works",
+       "section": "activity",
+       "field": "works",
+       "tracked": true
+      },
+      {
+       "from": "hard",
+       "section": "activity",
+       "field": "hard",
+       "tracked": true
+      }
+     ]
+    },
+    {
+     "id": "q16.s03",
+     "type": "reflect",
+     "title": {
+      "fr": "Ce qui a fait naître ton activité",
+      "en": "What gave birth to your activity",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "origin",
+       "type": "question",
+       "prompt": {
+        "fr": "Ton activité répond plutôt…",
+        "en": "Your activity rather answers…",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "choice",
+        "options": [
+         {
+          "value": "problem",
+          "label": {
+           "fr": "À un problème",
+           "en": "A problem",
+           "status": {
+            "fr": "needs_review",
+            "en": "needs_review"
+           }
+          }
+         },
+         {
+          "value": "desire",
+          "label": {
+           "fr": "À une envie",
+           "en": "A desire",
+           "status": {
+            "fr": "needs_review",
+            "en": "needs_review"
+           }
+          }
+         }
+        ]
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Tes clients viennent-ils pour régler une difficulté, ou pour se faire plaisir ?",
+          "en": "Do customers come to solve a difficulty, or to treat themselves?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "Réparer des téléphones : un problème. Des gâteaux de fête : une envie.",
+         "en": "Repairing phones: a problem. Party cakes: a desire.",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Si les deux, choisis ce que tes clients diraient en premier.",
+          "en": "If both, choose what customers would say first.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "C'est noté : la suite de ton parcours en tient compte.",
+        "en": "Noted: the rest of your journey takes it into account.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "origin"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "origin",
+       "fact": "idea.origin"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "q17",
+   "order": 17,
+   "maturity": "validation",
+   "priority": 25,
+   "title": {
+    "fr": "Mieux connaître mes clients",
+    "en": "Know my customers better",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Tes clients savent pourquoi ils t'achètent. Va leur demander.",
+    "en": "Your customers know why they buy from you. Go and ask them.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "fact": "diag.entry_profile",
+    "in": [
+     "existing_activity",
+     "existing_customers"
+    ]
+   },
+   "available_when": {
+    "quest": "q16",
+    "is": "completed"
+   },
+   "steps": [
+    {
+     "id": "q17.s01",
+     "type": "learn",
+     "title": {
+      "fr": "Écouter ceux qui achètent déjà",
+      "en": "Listen to those who already buy",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Tes clients actuels sont ta meilleure source d'idées : ils savent ce qu'ils aiment chez toi et ce qui leur manque.",
+        "en": "Your current customers are your best source of ideas: they know what they like about you and what they miss.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "example",
+       "type": "example",
+       "body": {
+        "fr": "Voahangy demande à trois clients pourquoi ils viennent. Tous disent : « parce que c'est frais ». Elle garde ce mot sur son affiche.",
+        "en": "Voahangy asks three customers why they come. All say: \"because it's fresh\". She keeps that word on her poster.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "tip",
+       "type": "tip",
+       "body": {
+        "fr": "Demande ce qu'ils ont fait la dernière fois, pas ce qu'ils feraient. Et écoute plus que tu ne parles.",
+        "en": "Ask what they did last time, not what they would do. And listen more than you talk.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q17.s02",
+     "type": "act",
+     "title": {
+      "fr": "Va parler à tes clients",
+      "en": "Go and talk to your customers",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "why",
+       "type": "text",
+       "body": {
+        "fr": "Trois conversations de cinq minutes t'apprendront plus que des semaines de suppositions.",
+        "en": "Three five-minute conversations will teach you more than weeks of guessing.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "go",
+       "type": "mission",
+       "mission": "m.talk_customers"
+      }
+     ],
+     "complete_when": {
+      "mission": "m.talk_customers",
+      "is": "completed"
+     }
+    },
+    {
+     "id": "q17.s03",
+     "type": "reflect",
+     "title": {
+      "fr": "À la place de tes clients",
+      "en": "In your customers' shoes",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "says",
+       "type": "question",
+       "prompt": {
+        "fr": "Que disent-ils de ton activité ?",
+        "en": "What do they say about your activity?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quelle phrase as-tu entendue plusieurs fois ?",
+          "en": "Which sentence did you hear several times?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« C'est frais, et c'est sur mon chemin. »",
+         "en": "\"It's fresh, and it's on my way.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Reprends leurs mots, pas les tiens.",
+          "en": "Use their words, not yours.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "does",
+       "type": "question",
+       "prompt": {
+        "fr": "Que font-ils quand ils n'achètent pas chez toi ?",
+        "en": "What do they do when they don't buy from you?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Où vont-ils, ou de quoi se passent-ils ?",
+          "en": "Where do they go, or what do they do without?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Ils achètent un soda à l'épicerie. »",
+         "en": "\"They buy a soda at the grocery.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Décris ce que tu as entendu, pas ce que tu supposes.",
+          "en": "Describe what you heard, not what you suppose.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "feels",
+       "type": "question",
+       "prompt": {
+        "fr": "Que ressentent-ils en achetant chez toi ?",
+        "en": "How do they feel buying from you?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Sont-ils contents, pressés, fiers, rassurés ?",
+          "en": "Are they happy, rushed, proud, reassured?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Rassurés : ils savent que c'est propre. »",
+         "en": "\"Reassured: they know it's clean.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Un sentiment fort fait revenir les clients.",
+          "en": "A strong feeling brings customers back.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "lacks",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui leur manque ?",
+        "en": "What do they miss?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "S'ils pouvaient changer une chose chez toi, laquelle ?",
+          "en": "If they could change one thing about you, what?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Des petites bouteilles moins chères pour les élèves. »",
+         "en": "\"Smaller, cheaper bottles for students.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "C'est souvent là que se cache ta prochaine vente.",
+          "en": "That's often where your next sale hides.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Ce que tu viens de faire, te mettre à la place de tes clients, s'appelle une carte d'empathie. Les partenaires et les financeurs connaissent ce mot.",
+        "en": "What you just did, putting yourself in your customers' shoes, is called an empathy map. Partners and funders know this term.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici tes clients vus de l'intérieur. C'est enregistré dans ton projet.",
+        "en": "Here are your customers seen from the inside. It is saved in your project.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "says",
+        "does",
+        "feels",
+        "lacks"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "says",
+       "section": "customers",
+       "field": "says",
+       "tracked": true
+      },
+      {
+       "from": "does",
+       "section": "customers",
+       "field": "does",
+       "tracked": true
+      },
+      {
+       "from": "feels",
+       "section": "customers",
+       "field": "feels",
+       "tracked": true
+      },
+      {
+       "from": "lacks",
+       "section": "customers",
+       "field": "lacks",
+       "tracked": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "q18",
+   "order": 18,
+   "maturity": "validation",
+   "priority": 20,
+   "title": {
+    "fr": "Ce que mes clients apprécient",
+    "en": "What my customers value",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Comprends ce qui fait ta force, et ce qui pourrait te gêner.",
+    "en": "Understand what makes your strength, and what could get in your way.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "fact": "diag.entry_profile",
+    "in": [
+     "existing_activity",
+     "existing_customers"
+    ]
+   },
+   "available_when": {
+    "quest": "q17",
+    "is": "completed"
+   },
+   "steps": [
+    {
+     "id": "q18.s01",
+     "type": "reflect",
+     "title": {
+      "fr": "Ce que ton client y gagne",
+      "en": "What your customer gains",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "gains",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce que tes clients gagnent en achetant chez toi ?",
+        "en": "What do your customers gain by buying from you?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce qui est plus facile, plus agréable ou plus beau grâce à toi ?",
+          "en": "What is easier, more pleasant or more beautiful thanks to you?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Un jus frais sur le chemin, sans détour. »",
+         "en": "\"A fresh juice on the way, no detour.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Pense au temps, à l'argent, au plaisir et à la fierté.",
+          "en": "Think of time, money, pleasure and pride.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "relieves",
+       "type": "question",
+       "prompt": {
+        "fr": "Quelle gêne ou quel manque leur enlèves-tu ?",
+        "en": "What trouble or lack do you remove for them?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Sans toi, qu'est-ce qui serait plus difficile pour eux ?",
+          "en": "Without you, what would be harder for them?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Plus besoin de boire un soda trop sucré. »",
+         "en": "\"No more drinking an over-sweet soda.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Reprends ce qu'ils t'ont dit pendant la mission.",
+          "en": "Use what they told you during the mission.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Ce que tu viens de faire, relier ton offre à ce que tes clients gagnent et à ce qui les gêne, s'appelle une proposition de valeur. Les partenaires et les financeurs connaissent ce mot.",
+        "en": "What you just did, linking your offer to what customers gain and what bothers them, is called a value proposition. Partners and funders know this term.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ce que ton activité apporte. C'est enregistré dans ton projet.",
+        "en": "Here is what your activity brings. It is saved in your project.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "gains",
+        "relieves"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "gains",
+       "section": "solution",
+       "field": "gains",
+       "tracked": true
+      },
+      {
+       "from": "relieves",
+       "section": "solution",
+       "field": "relieves",
+       "tracked": true
+      }
+     ]
+    },
+    {
+     "id": "q18.s02",
+     "type": "reflect",
+     "title": {
+      "fr": "Tes forces et tes risques",
+      "en": "Your strengths and risks",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "strengths",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce que tu fais mieux que les autres ?",
+        "en": "What do you do better than others?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Pourquoi te choisit-on plutôt qu'un autre vendeur ?",
+          "en": "Why do people choose you over another seller?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Mes jus sont pressés le matin même. »",
+         "en": "\"My juices are pressed that very morning.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Relis ce que tes clients t'ont dit.",
+          "en": "Read again what your customers told you.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "weaknesses",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui te manque ?",
+        "en": "What do you lack?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce que d'autres ont et que tu n'as pas ?",
+          "en": "What do others have that you don't?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Pas de glacière : je ne peux pas vendre l'après-midi. »",
+         "en": "\"No cool box: I can't sell in the afternoon.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Être honnête ici t'évite des surprises.",
+          "en": "Being honest here avoids surprises.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "opportunities",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui pourrait t'aider à grandir ?",
+        "en": "What could help you grow?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quel lieu, quel moment ou quelle personne pourrait t'apporter des clients ?",
+          "en": "Which place, time or person could bring you customers?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« La saison chaude et le nouveau marché du samedi. »",
+         "en": "\"The hot season and the new Saturday market.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Pense aux fêtes, aux saisons, aux associations.",
+          "en": "Think of celebrations, seasons, associations.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "threats",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui pourrait te gêner ?",
+        "en": "What could get in your way?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 300
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Que se passerait-il si un prix montait ou si un concurrent s'installait à côté ?",
+          "en": "What if a price rose or a competitor set up next door?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Le prix du sucre monte, et un vendeur de sodas s'installe en face. »",
+         "en": "\"Sugar prices are rising, and a soda seller is setting up opposite.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Pour chaque risque, pense à ce que tu ferais.",
+          "en": "For each risk, think of what you would do.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Ce que tu viens de faire s'appelle une analyse SWOT : forces, faiblesses, opportunités, menaces. Les partenaires et les financeurs connaissent ce mot.",
+        "en": "What you just did is called a SWOT analysis: strengths, weaknesses, opportunities, threats. Partners and funders know this term.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici tes forces et tes risques. Ils complètent ton dossier.",
+        "en": "Here are your strengths and risks. They complete your file.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "strengths",
+        "weaknesses",
+        "opportunities",
+        "threats"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "strengths",
+       "section": "swot",
+       "field": "strengths",
+       "tracked": true
+      },
+      {
+       "from": "weaknesses",
+       "section": "swot",
+       "field": "weaknesses",
+       "tracked": true
+      },
+      {
+       "from": "opportunities",
+       "section": "swot",
+       "field": "opportunities",
+       "tracked": true
+      },
+      {
+       "from": "threats",
+       "section": "swot",
+       "field": "threats",
+       "tracked": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "q19",
+   "order": 19,
+   "maturity": "construction",
+   "priority": 15,
+   "title": {
+    "fr": "Calculer mes coûts et fixer mes prix",
+    "en": "Work out my costs and set my prices",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Vérifie que chaque vente te rapporte vraiment de l'argent.",
+    "en": "Check that each sale really earns you money.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "fact": "diag.entry_profile",
+    "in": [
+     "existing_activity",
+     "existing_customers"
+    ]
+   },
+   "available_when": {
+    "quest": "q16",
+    "is": "completed"
+   },
+   "steps": [
+    {
+     "id": "q19.s01",
+     "type": "learn",
+     "title": {
+      "fr": "Vendre beaucoup ne suffit pas",
+      "en": "Selling a lot is not enough",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Beaucoup d'activités vendent bien mais gagnent peu, parce que le prix ne couvre pas tous les coûts : la matière, le transport, l'emballage, et ton propre temps.",
+        "en": "Many activities sell well but earn little, because the price doesn't cover all costs: materials, transport, packaging, and your own time.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "term",
+       "type": "term",
+       "plain": {
+        "fr": "Ce qui reste sur chaque vente",
+        "en": "What is left on each sale",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "term": {
+        "fr": "Marge",
+        "en": "Margin",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "definition": {
+        "fr": "Le prix de vente moins tout ce que le produit t'a coûté.",
+        "en": "The selling price minus everything the product cost you.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "example",
+       "type": "example",
+       "body": {
+        "fr": "Voahangy vend sa bouteille 1 000 Ar. Fruits, sucre, bouteille et transport lui coûtent 800 Ar : il lui reste 200 Ar, pas 1 000.",
+        "en": "Voahangy sells her bottle for 1,000 Ar. Fruit, sugar, bottle and transport cost her 800 Ar: she keeps 200 Ar, not 1,000.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "tip",
+       "type": "tip",
+       "body": {
+        "fr": "Les calculateurs de prix et de marge (onglet Outils) font les calculs pour toi.",
+        "en": "The price and margin calculators (Tools tab) do the sums for you.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q19.s02",
+     "type": "reflect",
+     "title": {
+      "fr": "Le coût d'un produit",
+      "en": "The cost of one product",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "product",
+       "type": "question",
+       "prompt": {
+        "fr": "Quel produit veux-tu étudier ?",
+        "en": "Which product do you want to study?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Lequel vends-tu le plus ?",
+          "en": "Which one do you sell most?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« La bouteille de jus de baobab. »",
+         "en": "\"The bottle of baobab juice.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Commence par ton produit le plus vendu.",
+          "en": "Start with your best-selling product.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "unit_cost",
+       "type": "question",
+       "prompt": {
+        "fr": "Combien te coûte-t-il, tout compris ?",
+        "en": "How much does it cost you, all in?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Additionne la matière, l'emballage et le transport pour un produit.",
+          "en": "Add materials, packaging and transport for one product.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Fruits 450 Ar, sucre 100 Ar, bouteille 150 Ar, transport 100 Ar : 800 Ar. » (Exemple inventé.)",
+         "en": "\"Fruit 450 Ar, sugar 100 Ar, bottle 150 Ar, transport 100 Ar: 800 Ar.\" (Invented example.)",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "N'oublie pas le transport et les pertes.",
+          "en": "Don't forget transport and losses.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "price",
+       "type": "question",
+       "prompt": {
+        "fr": "À quel prix le vends-tu ?",
+        "en": "At what price do you sell it?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 100
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Combien le client paie-t-il ?",
+          "en": "How much does the customer pay?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« 1 000 Ar. »",
+         "en": "\"1,000 Ar.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Le prix réel, pas celui que tu voudrais.",
+          "en": "The real price, not the one you'd like.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "decision",
+       "type": "question",
+       "prompt": {
+        "fr": "Après ce calcul, que décides-tu ?",
+        "en": "After this calculation, what do you decide?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Garder le prix, l'augmenter, ou réduire un coût ?",
+          "en": "Keep the price, raise it, or cut a cost?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Acheter le sucre en gros pour payer moins cher. »",
+         "en": "\"Buy sugar in bulk to pay less.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Une petite décision vaut mieux qu'aucune.",
+          "en": "A small decision beats none.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ton calcul. Il est enregistré dans ton projet.",
+        "en": "Here is your calculation. It is saved in your project.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "product",
+        "unit_cost",
+        "price",
+        "decision"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "product",
+       "section": "pricing",
+       "field": "product",
+       "tracked": true
+      },
+      {
+       "from": "unit_cost",
+       "section": "pricing",
+       "field": "unit_cost",
+       "tracked": true
+      },
+      {
+       "from": "price",
+       "section": "pricing",
+       "field": "price",
+       "tracked": true
+      },
+      {
+       "from": "decision",
+       "section": "pricing",
+       "field": "decision",
+       "tracked": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "q20",
+   "order": 20,
+   "maturity": "construction",
+   "priority": 12,
+   "title": {
+    "fr": "Tenir mes comptes",
+    "en": "Keep my accounts",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Deux semaines à tout noter pour savoir ce qui entre et ce qui sort vraiment.",
+    "en": "Two weeks of writing everything down to know what really comes in and goes out.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "fact": "diag.entry_profile",
+    "in": [
+     "existing_activity",
+     "existing_customers"
+    ]
+   },
+   "available_when": {
+    "quest": "q19",
+    "is": "completed"
+   },
+   "steps": [
+    {
+     "id": "q20.s01",
+     "type": "learn",
+     "title": {
+      "fr": "Ce qui ne s'écrit pas s'oublie",
+      "en": "What isn't written is forgotten",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Sans cahier, on ne sait pas si l'activité gagne de l'argent. Et quand l'argent de la maison et celui de l'activité se mélangent, on croit gagner alors qu'on perd.",
+        "en": "Without a notebook, you don't know if the activity makes money. And when household and activity money mix, you think you earn while you lose.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "example",
+       "type": "example",
+       "body": {
+        "fr": "En notant tout, Voahangy voit que le transport lui coûte 40 000 Ar par semaine. Elle s'associe avec une voisine pour partager le taxi.",
+        "en": "By writing everything down, Voahangy sees that transport costs her 40,000 Ar a week. She teams up with a neighbour to share the taxi.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "tip",
+       "type": "tip",
+       "body": {
+        "fr": "Deux enveloppes suffisent pour commencer : une pour l'activité, une pour la maison.",
+        "en": "Two envelopes are enough to start: one for the activity, one for the household.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q20.s02",
+     "type": "act",
+     "title": {
+      "fr": "Deux semaines à tout noter",
+      "en": "Two weeks of writing everything down",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "why",
+       "type": "text",
+       "body": {
+        "fr": "Note chaque vente et chaque dépense pendant deux semaines. L'étape se termine au bout de quatorze jours.",
+        "en": "Write down every sale and cost for two weeks. The step ends after fourteen days.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "go",
+       "type": "mission",
+       "mission": "m.keep_records"
+      }
+     ],
+     "complete_when": {
+      "all": [
+       {
+        "mission": "m.keep_records",
+        "is": "completed"
+       },
+       {
+        "days_since": {
+         "mission_accepted": "m.keep_records"
+        },
+        "gte": 14
+       }
+      ]
+     }
+    },
+    {
+     "id": "q20.s03",
+     "type": "act",
+     "title": {
+      "fr": "Mets tes chiffres dans l'app",
+      "en": "Put your figures in the app",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "how",
+       "type": "text",
+       "body": {
+        "fr": "Ouvre l'onglet Projet, puis « Mes chiffres ». Note au moins une dépense qui revient chaque mois. Le plan de trésorerie se remplit tout seul.",
+        "en": "Open the Project tab, then \"My numbers\". Note at least one cost that comes back every month. The cash plan fills itself.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Noter ses ventes et ses dépenses s'appelle la tenue des comptes : c'est un des modules du programme « Gérez mieux votre entreprise » de l'Organisation internationale du travail.",
+        "en": "Writing down sales and costs is called record keeping: one of the modules of the International Labour Organization's \"Improve Your Business\" programme.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      }
+     ],
+     "complete_when": {
+      "count": "finance_items",
+      "where": {
+       "kind": "fixed_cost"
+      },
+      "gte": 1
+     }
+    }
+   ]
+  },
+  {
+   "id": "q21",
+   "order": 21,
+   "maturity": "construction",
+   "priority": 10,
+   "title": {
+    "fr": "Achats et stock",
+    "en": "Purchases and stock",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Achète ce qui se vend, et ne laisse pas ton argent dormir dans le stock.",
+    "en": "Buy what sells, and don't let your money sleep in stock.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "all": [
+     {
+      "fact": "diag.entry_profile",
+      "in": [
+       "existing_activity",
+       "existing_customers"
+      ]
+     },
+     {
+      "fact": "diag.sector",
+      "in": [
+       "trade",
+       "food",
+       "crafts"
+      ]
+     }
+    ]
+   },
+   "available_when": {
+    "quest": "q19",
+    "is": "completed"
+   },
+   "steps": [
+    {
+     "id": "q21.s01",
+     "type": "learn",
+     "title": {
+      "fr": "De l'argent qui dort",
+      "en": "Money that sleeps",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "intro",
+       "type": "text",
+       "body": {
+        "fr": "Un produit qui reste sur l'étagère, c'est de l'argent bloqué. Il vaut mieux surveiller de près les quelques produits qui rapportent le plus, et acheter le reste en petites quantités.",
+        "en": "A product left on the shelf is blocked money. Better watch closely the few products that earn the most, and buy the rest in small quantities.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "example",
+       "type": "example",
+       "body": {
+        "fr": "En comptant son stock, une épicière voit que trois produits font l'essentiel de ses gains, et que 12 bougies dorment depuis deux mois.",
+        "en": "Counting her stock, a grocer sees that three products make most of her earnings, and that 12 candles have slept for two months.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "q21.s02",
+     "type": "act",
+     "title": {
+      "fr": "Compte ton stock",
+      "en": "Count your stock",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "why",
+       "type": "text",
+       "body": {
+        "fr": "Une heure à compter vaut mieux que des mois à deviner.",
+        "en": "One hour of counting beats months of guessing.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "go",
+       "type": "mission",
+       "mission": "m.count_stock"
+      }
+     ],
+     "complete_when": {
+      "mission": "m.count_stock",
+      "is": "completed"
+     }
+    },
+    {
+     "id": "q21.s03",
+     "type": "reflect",
+     "title": {
+      "fr": "Ce que tu rachètes, et quand",
+      "en": "What you buy again, and when",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "best",
+       "type": "question",
+       "prompt": {
+        "fr": "Quels produits te rapportent le plus ?",
+        "en": "Which products earn you the most?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Lesquels ne doivent jamais manquer ?",
+          "en": "Which must never run out?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Savon, huile, riz. »",
+         "en": "\"Soap, oil, rice.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Trois produits suffisent.",
+          "en": "Three products are enough.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "slow",
+       "type": "question",
+       "prompt": {
+        "fr": "Qu'est-ce qui dort dans ton stock ?",
+        "en": "What sleeps in your stock?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qu'est-ce qui n'a pas bougé depuis un mois ?",
+          "en": "What hasn't moved for a month?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« 12 bougies, depuis deux mois. »",
+         "en": "\"12 candles, for two months.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Pense à le vendre en promotion, puis à en racheter moins.",
+          "en": "Think of selling it on offer, then buying less.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "rule",
+       "type": "question",
+       "prompt": {
+        "fr": "Quand rachètes-tu tes produits les plus importants ?",
+        "en": "When do you buy your most important products again?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "À partir de combien d'unités restantes passes-tu commande ?",
+          "en": "From how many units left do you reorder?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Quand il reste 10 savons, j'en rachète 40. »",
+         "en": "\"When 10 soaps are left, I buy 40.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Une règle simple évite les ruptures et le surstock.",
+          "en": "A simple rule avoids running out and overstock.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Surveiller de près les quelques produits qui rapportent le plus s'appelle la méthode ABC. Les partenaires et les financeurs connaissent ce mot.",
+        "en": "Watching closely the few products that earn the most is called the ABC method. Partners and funders know this term.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici tes règles d'achat. Elles sont enregistrées dans ton projet.",
+        "en": "Here are your buying rules. They are saved in your project.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "best",
+        "slow",
+        "rule"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "best",
+       "section": "stock",
+       "field": "best",
+       "tracked": true
+      },
+      {
+       "from": "slow",
+       "section": "stock",
+       "field": "slow",
+       "tracked": true
+      },
+      {
+       "from": "rule",
+       "section": "stock",
+       "field": "rule",
+       "tracked": true
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "q22",
+   "order": 22,
+   "maturity": "preparation",
+   "priority": 8,
+   "title": {
+    "fr": "Attirer plus de clients",
+    "en": "Attract more customers",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Choisis un message, un lieu, et teste une action pendant une semaine.",
+    "en": "Choose a message, a place, and test one action for a week.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "fact": "diag.entry_profile",
+    "in": [
+     "existing_activity",
+     "existing_customers"
+    ]
+   },
+   "available_when": {
+    "quest": "q18",
+    "is": "completed"
+   },
+   "steps": [
+    {
+     "id": "q22.s01",
+     "type": "reflect",
+     "title": {
+      "fr": "Ton message",
+      "en": "Your message",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "target",
+       "type": "question",
+       "prompt": {
+        "fr": "Quels nouveaux clients veux-tu attirer ?",
+        "en": "Which new customers do you want to attract?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Qui ressemble à tes meilleurs clients, mais n'achète pas encore chez toi ?",
+          "en": "Who looks like your best customers but doesn't buy from you yet?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Les élèves de l'autre lycée du quartier. »",
+         "en": "\"Students at the other high school nearby.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Un seul groupe à la fois.",
+          "en": "One group at a time.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "message",
+       "type": "question",
+       "prompt": {
+        "fr": "Que veux-tu leur dire ?",
+        "en": "What do you want to tell them?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quelle phrase leur donnerait envie d'essayer ?",
+          "en": "Which sentence would make them want to try?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Du jus pressé le matin même, à 500 Ar la petite bouteille. »",
+         "en": "\"Juice pressed that morning, 500 Ar a small bottle.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Reprends ce que tes clients aiment chez toi.",
+          "en": "Use what your customers like about you.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "channels",
+       "type": "question",
+       "prompt": {
+        "fr": "Où entendront-ils parler de toi ?",
+        "en": "Where will they hear about you?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 280
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Par quels lieux ou moyens ton message leur arrivera-t-il ?",
+          "en": "Through which places or means will your message reach them?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Devant le portail du lycée, et le groupe Facebook des parents. »",
+         "en": "\"At the school gate, and the parents' Facebook group.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Deux ou trois endroits où ils sont déjà.",
+          "en": "Two or three places where they already are.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ton message. Il est enregistré dans ton plan marketing.",
+        "en": "Here is your message. It is saved in your marketing plan.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "target",
+        "message",
+        "channels"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "target",
+       "section": "marketing",
+       "field": "target",
+       "tracked": true
+      },
+      {
+       "from": "message",
+       "section": "marketing",
+       "field": "message",
+       "tracked": true
+      },
+      {
+       "from": "channels",
+       "section": "marketing",
+       "field": "channels",
+       "tracked": true
+      }
+     ]
+    },
+    {
+     "id": "q22.s02",
+     "type": "act",
+     "title": {
+      "fr": "Teste une action",
+      "en": "Test one action",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "why",
+       "type": "text",
+       "body": {
+        "fr": "Avant de dépenser plus, vérifie qu'une action t'apporte vraiment des clients. Quatre questions suffisent : qu'est-ce que je crois ? Comment le vérifier ? Qu'est-ce que je vais compter ? À partir de combien c'est gagné ?",
+        "en": "Before spending more, check that an action really brings customers. Four questions are enough: what do I believe? How do I check it? What will I count? From how many is it a win?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Ces quatre questions forment une fiche de test (« Test Card »). Les partenaires et les financeurs connaissent ce mot.",
+        "en": "These four questions make a Test Card. Partners and funders know this term.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "go",
+       "type": "mission",
+       "mission": "m.try_promotion"
+      }
+     ],
+     "complete_when": {
+      "mission": "m.try_promotion",
+      "is": "completed"
+     }
+    }
+   ]
+  },
+  {
+   "id": "q23",
+   "order": 24,
+   "maturity": "preparation",
+   "priority": 4,
+   "title": {
+    "fr": "Planifier la suite",
+    "en": "Plan what comes next",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "summary": {
+    "fr": "Fixe un objectif à six mois et les trois actions qui y mènent.",
+    "en": "Set a six-month goal and the three actions that lead to it.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "applies_when": {
+    "fact": "diag.entry_profile",
+    "in": [
+     "existing_activity",
+     "existing_customers"
+    ]
+   },
+   "available_when": {
+    "all": [
+     {
+      "quest": "q20",
+      "is": "completed"
+     },
+     {
+      "quest": "q22",
+      "is": "completed"
+     }
+    ]
+   },
+   "steps": [
+    {
+     "id": "q23.s01",
+     "type": "reflect",
+     "title": {
+      "fr": "Ton objectif à six mois",
+      "en": "Your six-month goal",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "blocks": [
+      {
+       "id": "goal",
+       "type": "question",
+       "prompt": {
+        "fr": "Que veux-tu avoir réussi dans six mois ?",
+        "en": "What do you want to have achieved in six months?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quel résultat te rendrait fier ?",
+          "en": "What result would make you proud?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Vendre aussi au marché du samedi. »",
+         "en": "\"Selling at the Saturday market too.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Un seul objectif, précis.",
+          "en": "One precise goal.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "measure",
+       "type": "question",
+       "prompt": {
+        "fr": "Combien ? Comment sauras-tu que c'est atteint ?",
+        "en": "How many? How will you know it is reached?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Quel chiffre vas-tu suivre ?",
+          "en": "What number will you track?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« 250 bouteilles par semaine au lieu de 150. »",
+         "en": "\"250 bottles a week instead of 150.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Un chiffre que tu peux atteindre avec tes moyens.",
+          "en": "A number you can reach with your means.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "who",
+       "type": "question",
+       "prompt": {
+        "fr": "Qui s'en occupe ?",
+        "en": "Who takes care of it?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 200
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Toi, ou quelqu'un qui t'aide ?",
+          "en": "You, or someone who helps you?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« Moi le samedi, mon cousin en semaine. »",
+         "en": "\"Me on Saturdays, my cousin during the week.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Un objectif sans responsable n'avance pas.",
+          "en": "A goal without someone in charge doesn't move.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "priorities",
+       "type": "question",
+       "prompt": {
+        "fr": "Quelles sont tes trois actions prioritaires ?",
+        "en": "What are your three priority actions?",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "answer": {
+        "kind": "text",
+        "max_length": 400
+       },
+       "help": {
+        "rephrase": [
+         {
+          "fr": "Que feras-tu en premier, puis ensuite ?",
+          "en": "What will you do first, then next?",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ],
+        "example": {
+         "fr": "« 1. Acheter une glacière. 2. Réserver une place au marché. 3. Faire une affiche. »",
+         "en": "\"1. Buy a cool box. 2. Book a market spot. 3. Make a poster.\"",
+         "status": {
+          "fr": "needs_review",
+          "en": "needs_review"
+         }
+        },
+        "hints": [
+         {
+          "fr": "Commence par ce qui coûte le moins.",
+          "en": "Start with what costs least.",
+          "status": {
+           "fr": "needs_review",
+           "en": "needs_review"
+          }
+         }
+        ]
+       }
+      },
+      {
+       "id": "framework",
+       "type": "tip",
+       "body": {
+        "fr": "Un objectif précis, chiffré, confié à quelqu'un, réaliste et daté s'appelle un objectif SMART. Tu peux aussi mettre à jour ton Business Model Canvas (onglet Outils).",
+        "en": "A goal that is precise, measured, assigned, realistic and dated is called a SMART goal. You can also update your Business Model Canvas (Tools tab).",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       }
+      },
+      {
+       "id": "recap",
+       "type": "synthesis",
+       "intro": {
+        "fr": "Voici ton plan pour les six prochains mois. Il termine ton dossier.",
+        "en": "Here is your plan for the next six months. It completes your file.",
+        "status": {
+         "fr": "needs_review",
+         "en": "needs_review"
+        }
+       },
+       "shows": [
+        "goal",
+        "measure",
+        "who",
+        "priorities"
+       ]
+      }
+     ],
+     "outputs": [
+      {
+       "from": "goal",
+       "section": "plan",
+       "field": "goal",
+       "tracked": true
+      },
+      {
+       "from": "measure",
+       "section": "plan",
+       "field": "measure",
+       "tracked": true
+      },
+      {
+       "from": "who",
+       "section": "plan",
+       "field": "who",
+       "tracked": true
+      },
+      {
+       "from": "priorities",
+       "section": "plan",
+       "field": "priorities",
+       "tracked": true
+      }
+     ]
+    }
+   ]
   }
  ],
  "missions": [
@@ -7682,6 +10503,258 @@
      "en": "needs_review"
     }
    }
+  },
+  {
+   "id": "m.talk_customers",
+   "title": {
+    "fr": "Parler à trois de tes clients",
+    "en": "Talk to three of your customers",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "objective": {
+    "fr": "Comprendre pourquoi tes clients achètent chez toi, et ce qu'ils aimeraient de plus.",
+    "en": "Understand why your customers buy from you, and what they would like more of.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "instructions": [
+    {
+     "fr": "Choisis trois clients réguliers. Demande-leur s'ils acceptent de parler cinq minutes.",
+     "en": "Pick three regular customers. Ask if they agree to talk for five minutes.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Demande : « Raconte-moi la dernière fois que tu as acheté chez moi. Pourquoi moi ? » Puis écoute.",
+     "en": "Ask: \"Tell me about the last time you bought from me. Why me?\" Then listen.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Demande ce qui leur manque ou ce qui les gêne. N'enregistre personne et ne note ni nom ni numéro.",
+     "en": "Ask what they miss or what bothers them. Don't record anyone and don't note names or numbers.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    }
+   ],
+   "deliverable": {
+    "fr": "Pour chaque client, une phrase sur pourquoi il achète et ce qui lui manque.",
+    "en": "For each customer, one sentence on why they buy and what they miss.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "duration_minutes": 60,
+   "difficulty": 2,
+   "example": {
+    "fr": "« Client 1 : achète le lundi car je livre ; aimerait aussi du riz. » (Exemple inventé.)",
+    "en": "\"Customer 1: buys on Mondays because I deliver; would also like rice.\" (Invented example.)",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   }
+  },
+  {
+   "id": "m.keep_records",
+   "title": {
+    "fr": "Noter tes ventes et tes dépenses pendant deux semaines",
+    "en": "Write down your sales and costs for two weeks",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "objective": {
+    "fr": "Savoir enfin ce qui entre et ce qui sort vraiment, jour après jour.",
+    "en": "Finally know what really comes in and goes out, day after day.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "instructions": [
+    {
+     "fr": "Chaque soir, note dans un cahier chaque vente (quoi, combien) et chaque dépense de l'activité.",
+     "en": "Every evening, write in a notebook each sale (what, how much) and each cost of the activity.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Sépare l'argent de l'activité de l'argent de la maison, même avec deux enveloppes.",
+     "en": "Keep the activity's money apart from the household's, even with two envelopes.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Au bout de deux semaines, fais le total des ventes et des dépenses.",
+     "en": "After two weeks, add up sales and costs.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    }
+   ],
+   "deliverable": {
+    "fr": "Le total des ventes, le total des dépenses, et ce qui t'a surpris.",
+    "en": "Total sales, total costs, and what surprised you.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "duration_minutes": 140,
+   "difficulty": 2,
+   "example": {
+    "fr": "« Ventes : 310 000 Ar. Dépenses : 240 000 Ar. Surprise : le transport me coûte plus que prévu. » (Exemple inventé.)",
+    "en": "\"Sales: 310,000 Ar. Costs: 240,000 Ar. Surprise: transport costs me more than I thought.\" (Invented example.)",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   }
+  },
+  {
+   "id": "m.count_stock",
+   "title": {
+    "fr": "Compter ton stock",
+    "en": "Count your stock",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "objective": {
+    "fr": "Voir ce que tu as vraiment en réserve, et ce qui ne part pas.",
+    "en": "See what you really have in store, and what doesn't sell.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "instructions": [
+    {
+     "fr": "Compte chaque produit que tu as en réserve, et note depuis quand il est là.",
+     "en": "Count each product you have in store, and note how long it has been there.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Repère les trois produits qui te rapportent le plus d'argent.",
+     "en": "Spot the three products that earn you the most money.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Repère ce qui n'a pas bougé depuis un mois.",
+     "en": "Spot what hasn't moved for a month.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    }
+   ],
+   "deliverable": {
+    "fr": "Tes trois produits qui rapportent le plus, et ce qui dort.",
+    "en": "Your three top-earning products, and what sleeps.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "duration_minutes": 60,
+   "difficulty": 1,
+   "example": {
+    "fr": "« Ce qui rapporte : savon, huile, riz. Ce qui dort : 12 bougies depuis deux mois. » (Exemple inventé.)",
+    "en": "\"Top earners: soap, oil, rice. Sleeping: 12 candles for two months.\" (Invented example.)",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   }
+  },
+  {
+   "id": "m.try_promotion",
+   "title": {
+    "fr": "Essayer une action pour attirer des clients",
+    "en": "Try one action to attract customers",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "objective": {
+    "fr": "Vérifier sur le terrain qu'une action t'apporte vraiment de nouveaux clients.",
+    "en": "Check in the field that an action really brings you new customers.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "instructions": [
+    {
+     "fr": "Choisis une seule action simple : une affiche, un message dans un groupe, une dégustation, une offre de bienvenue.",
+     "en": "Choose one simple action: a poster, a message in a group, a tasting, a welcome offer.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Fais-la pendant une semaine, et compte chaque nouveau client qui en parle.",
+     "en": "Do it for a week, and count each new customer who mentions it.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    },
+    {
+     "fr": "Ne note ni nom ni numéro : un trait par client suffit.",
+     "en": "Don't note names or numbers: one mark per customer is enough.",
+     "status": {
+      "fr": "needs_review",
+      "en": "needs_review"
+     }
+    }
+   ],
+   "deliverable": {
+    "fr": "L'action, ce qu'elle t'a coûté, et le nombre de nouveaux clients.",
+    "en": "The action, what it cost you, and the number of new customers.",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "duration_minutes": 120,
+   "difficulty": 2,
+   "example": {
+    "fr": "« Affiche à l'épicerie, 2 000 Ar, 6 nouveaux clients en une semaine. » (Exemple inventé.)",
+    "en": "\"Poster at the grocery, 2,000 Ar, 6 new customers in a week.\" (Invented example.)",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   }
   }
  ],
  "sections": [
@@ -7731,6 +10804,79 @@
       }
      },
      "max_length": 300
+    }
+   ]
+  },
+  {
+   "key": "activity",
+   "title": {
+    "fr": "Mon activité aujourd'hui",
+    "en": "My activity today",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "fields": [
+    {
+     "key": "what",
+     "label": {
+      "fr": "Ce que je vends",
+      "en": "What I sell",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 280
+    },
+    {
+     "key": "customers",
+     "label": {
+      "fr": "À qui",
+      "en": "To whom",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 200
+    },
+    {
+     "key": "volume",
+     "label": {
+      "fr": "Combien par semaine",
+      "en": "How much per week",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 200
+    },
+    {
+     "key": "works",
+     "label": {
+      "fr": "Ce qui marche le mieux",
+      "en": "What works best",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 280
+    },
+    {
+     "key": "hard",
+     "label": {
+      "fr": "Ce qui est le plus difficile",
+      "en": "What is hardest",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 280
     }
    ]
   },
@@ -8084,6 +11230,177 @@
       }
      },
      "max_length": 300
+    }
+   ]
+  },
+  {
+   "key": "pricing",
+   "title": {
+    "fr": "Mes coûts et mes prix",
+    "en": "My costs and prices",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "fields": [
+    {
+     "key": "product",
+     "label": {
+      "fr": "Le produit étudié",
+      "en": "The product studied",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 200
+    },
+    {
+     "key": "unit_cost",
+     "label": {
+      "fr": "Ce qu'il me coûte",
+      "en": "What it costs me",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 200
+    },
+    {
+     "key": "price",
+     "label": {
+      "fr": "Mon prix de vente",
+      "en": "My selling price",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 100
+    },
+    {
+     "key": "decision",
+     "label": {
+      "fr": "Ce que je décide",
+      "en": "What I decide",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 280
+    }
+   ]
+  },
+  {
+   "key": "stock",
+   "title": {
+    "fr": "Mes achats et mon stock",
+    "en": "My purchases and stock",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "fields": [
+    {
+     "key": "best",
+     "label": {
+      "fr": "Ce qui rapporte le plus",
+      "en": "What earns the most",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 280
+    },
+    {
+     "key": "slow",
+     "label": {
+      "fr": "Ce qui dort dans le stock",
+      "en": "What sleeps in stock",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 280
+    },
+    {
+     "key": "rule",
+     "label": {
+      "fr": "Quand je rachète",
+      "en": "When I buy again",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 280
+    }
+   ]
+  },
+  {
+   "key": "plan",
+   "title": {
+    "fr": "Mon plan pour la suite",
+    "en": "My plan for what comes next",
+    "status": {
+     "fr": "needs_review",
+     "en": "needs_review"
+    }
+   },
+   "fields": [
+    {
+     "key": "goal",
+     "label": {
+      "fr": "Mon objectif à six mois",
+      "en": "My six-month goal",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 200
+    },
+    {
+     "key": "measure",
+     "label": {
+      "fr": "Comment je saurai qu'il est atteint",
+      "en": "How I will know it is reached",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 200
+    },
+    {
+     "key": "who",
+     "label": {
+      "fr": "Qui s'en occupe",
+      "en": "Who takes care of it",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 200
+    },
+    {
+     "key": "priorities",
+     "label": {
+      "fr": "Mes trois actions prioritaires",
+      "en": "My three priority actions",
+      "status": {
+       "fr": "needs_review",
+       "en": "needs_review"
+      }
+     },
+     "max_length": 400
     }
    ]
   },
@@ -8645,6 +11962,13 @@
        "in_progress",
        "completed"
       ]
+     },
+     {
+      "quest": "q17",
+      "is": [
+       "in_progress",
+       "completed"
+      ]
      }
     ]
    },
@@ -8817,8 +12141,16 @@
     }
    ],
    "unlock": {
-    "quest": "q01",
-    "is": "completed"
+    "any": [
+     {
+      "quest": "q01",
+      "is": "completed"
+     },
+     {
+      "quest": "q16",
+      "is": "completed"
+     }
+    ]
    },
    "unlock_hint": {
     "fr": "Se débloque à la fin de « Trouver ce qui compte pour tes clients ».",
@@ -8920,6 +12252,13 @@
        "in_progress",
        "completed"
       ]
+     },
+     {
+      "quest": "q18",
+      "is": [
+       "in_progress",
+       "completed"
+      ]
      }
     ]
    },
@@ -8962,11 +12301,19 @@
     }
    ],
    "unlock": {
-    "count": "experiments",
-    "where": {
-     "status": "done"
-    },
-    "gte": 1
+    "any": [
+     {
+      "count": "experiments",
+      "where": {
+       "status": "done"
+      },
+      "gte": 1
+     },
+     {
+      "quest": "q18",
+      "is": "completed"
+     }
+    ]
    },
    "unlock_hint": {
     "fr": "Se débloque quand tu as terminé un premier test.",
@@ -9007,8 +12354,19 @@
     }
    ],
    "unlock": {
-    "count": "competitors",
-    "gte": 1
+    "any": [
+     {
+      "count": "competitors",
+      "gte": 1
+     },
+     {
+      "quest": "q19",
+      "is": [
+       "in_progress",
+       "completed"
+      ]
+     }
+    ]
    },
    "unlock_hint": {
     "fr": "Se débloque avec un premier concurrent noté.",
@@ -9049,11 +12407,22 @@
     }
    ],
    "unlock": {
-    "count": "hypotheses",
-    "where": {
-     "status": "validated"
-    },
-    "gte": 1
+    "any": [
+     {
+      "count": "hypotheses",
+      "where": {
+       "status": "validated"
+      },
+      "gte": 1
+     },
+     {
+      "quest": "q19",
+      "is": [
+       "in_progress",
+       "completed"
+      ]
+     }
+    ]
    },
    "unlock_hint": {
     "fr": "Se débloque quand une hypothèse est confirmée.",
@@ -9094,17 +12463,25 @@
     }
    ],
    "unlock": {
-    "all": [
+    "any": [
      {
-      "count": "hypotheses",
-      "where": {
-       "status": "validated"
-      },
-      "gte": 1
+      "all": [
+       {
+        "count": "hypotheses",
+        "where": {
+         "status": "validated"
+        },
+        "gte": 1
+       },
+       {
+        "count": "competitors",
+        "gte": 1
+       }
+      ]
      },
      {
-      "count": "competitors",
-      "gte": 1
+      "quest": "q19",
+      "is": "completed"
      }
     ]
    },
@@ -9147,8 +12524,19 @@
     }
    ],
    "unlock": {
-    "count": "interviews",
-    "gte": 5
+    "any": [
+     {
+      "count": "interviews",
+      "gte": 5
+     },
+     {
+      "quest": "q22",
+      "is": [
+       "in_progress",
+       "completed"
+      ]
+     }
+    ]
    },
    "unlock_hint": {
     "fr": "Se débloque après cinq rencontres.",
@@ -9189,8 +12577,16 @@
     }
    ],
    "unlock": {
-    "quest": "q04",
-    "is": "completed"
+    "any": [
+     {
+      "quest": "q04",
+      "is": "completed"
+     },
+     {
+      "quest": "q16",
+      "is": "completed"
+     }
+    ]
    },
    "unlock_hint": {
     "fr": "Se débloque à la fin de « Tester ta première hypothèse ».",
@@ -9231,11 +12627,19 @@
     }
    ],
    "unlock": {
-    "count": "hypotheses",
-    "where": {
-     "status": "validated"
-    },
-    "gte": 1
+    "any": [
+     {
+      "count": "hypotheses",
+      "where": {
+       "status": "validated"
+      },
+      "gte": 1
+     },
+     {
+      "quest": "q18",
+      "is": "completed"
+     }
+    ]
    },
    "unlock_hint": {
     "fr": "Se débloque quand une hypothèse est confirmée.",
@@ -9276,17 +12680,25 @@
     }
    ],
    "unlock": {
-    "all": [
+    "any": [
      {
-      "quest": "q04",
-      "is": "completed"
+      "all": [
+       {
+        "quest": "q04",
+        "is": "completed"
+       },
+       {
+        "count": "hypotheses",
+        "where": {
+         "status": "validated"
+        },
+        "gte": 1
+       }
+      ]
      },
      {
-      "count": "hypotheses",
-      "where": {
-       "status": "validated"
-      },
-      "gte": 1
+      "quest": "q18",
+      "is": "completed"
      }
     ]
    },
@@ -9329,8 +12741,16 @@
     }
    ],
    "unlock": {
-    "quest": "q04",
-    "is": "completed"
+    "any": [
+     {
+      "quest": "q04",
+      "is": "completed"
+     },
+     {
+      "quest": "q19",
+      "is": "completed"
+     }
+    ]
    },
    "unlock_hint": {
     "fr": "Se débloque à la fin de « Tester ta première hypothèse ».",

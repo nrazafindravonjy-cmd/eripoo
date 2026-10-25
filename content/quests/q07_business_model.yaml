@@ -11,6 +11,7 @@ title:
 summary:
   fr: "Décris comment tu trouves tes clients, ce qu'il te faut pour produire et qui t'aide."
   en: "Describe how you find customers, what you need to produce and who helps you."
+applies_when: {not: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}}
 # The Business Model Canvas tool opens with a finished test (tools.yaml).
 available_when:
   all:

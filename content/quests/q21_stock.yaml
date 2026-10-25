@@ -1,0 +1,120 @@
+# Quest 21 (journey C, ILO IYB "buying and stock control"): only for trade, food and crafts.
+id: q21
+order: 21
+maturity: construction
+priority: 10
+title:
+  fr: "Achats et stock"
+  en: "Purchases and stock"
+summary:
+  fr: "Achète ce qui se vend, et ne laisse pas ton argent dormir dans le stock."
+  en: "Buy what sells, and don't let your money sleep in stock."
+applies_when: {all: [{fact: diag.entry_profile, in: [existing_activity, existing_customers]}, {fact: diag.sector, in: [trade, food, crafts]}]}
+available_when: {quest: q19, is: completed}
+steps:
+  - id: q21.s01
+    type: learn
+    title:
+      fr: "De l'argent qui dort"
+      en: "Money that sleeps"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Un produit qui reste sur l'étagère, c'est de l'argent bloqué. Il vaut mieux surveiller de près les quelques produits qui rapportent le plus, et acheter le reste en petites quantités."
+          en: "A product left on the shelf is blocked money. Better watch closely the few products that earn the most, and buy the rest in small quantities."
+      - id: example
+        type: example
+        body:
+          fr: "En comptant son stock, une épicière voit que trois produits font l'essentiel de ses gains, et que 12 bougies dorment depuis deux mois."
+          en: "Counting her stock, a grocer sees that three products make most of her earnings, and that 12 candles have slept for two months."
+  - id: q21.s02
+    type: act
+    title:
+      fr: "Compte ton stock"
+      en: "Count your stock"
+    blocks:
+      - id: why
+        type: text
+        body:
+          fr: "Une heure à compter vaut mieux que des mois à deviner."
+          en: "One hour of counting beats months of guessing."
+      - id: go
+        type: mission
+        mission: m.count_stock
+    complete_when: {mission: m.count_stock, is: completed}
+  - id: q21.s03
+    type: reflect
+    title:
+      fr: "Ce que tu rachètes, et quand"
+      en: "What you buy again, and when"
+    blocks:
+      - id: best
+        type: question
+        prompt:
+          fr: "Quels produits te rapportent le plus ?"
+          en: "Which products earn you the most?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Lesquels ne doivent jamais manquer ?"
+              en: "Which must never run out?"
+          example:
+            fr: "« Savon, huile, riz. »"
+            en: "\"Soap, oil, rice.\""
+          hints:
+            - fr: "Trois produits suffisent."
+              en: "Three products are enough."
+      - id: slow
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui dort dans ton stock ?"
+          en: "What sleeps in your stock?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Qu'est-ce qui n'a pas bougé depuis un mois ?"
+              en: "What hasn't moved for a month?"
+          example:
+            fr: "« 12 bougies, depuis deux mois. »"
+            en: "\"12 candles, for two months.\""
+          hints:
+            - fr: "Pense à le vendre en promotion, puis à en racheter moins."
+              en: "Think of selling it on offer, then buying less."
+      - id: rule
+        type: question
+        prompt:
+          fr: "Quand rachètes-tu tes produits les plus importants ?"
+          en: "When do you buy your most important products again?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "À partir de combien d'unités restantes passes-tu commande ?"
+              en: "From how many units left do you reorder?"
+          example:
+            fr: "« Quand il reste 10 savons, j'en rachète 40. »"
+            en: "\"When 10 soaps are left, I buy 40.\""
+          hints:
+            - fr: "Une règle simple évite les ruptures et le surstock."
+              en: "A simple rule avoids running out and overstock."
+      - id: framework
+        type: tip
+        body:
+          fr: "Surveiller de près les quelques produits qui rapportent le plus s'appelle la méthode ABC. Les partenaires et les financeurs connaissent ce mot."
+          en: "Watching closely the few products that earn the most is called the ABC method. Partners and funders know this term."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici tes règles d'achat. Elles sont enregistrées dans ton projet."
+          en: "Here are your buying rules. They are saved in your project."
+        shows: [best, slow, rule]
+    outputs:
+      - {from: best, section: stock, field: best, tracked: true}
+      - {from: slow, section: stock, field: slow, tracked: true}
+      - {from: rule, section: stock, field: rule, tracked: true}

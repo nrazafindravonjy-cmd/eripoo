@@ -133,6 +133,7 @@ ValidationReport validatePack(ContentPack pack) {
   final usedMissions = <String>{};
   final usedTypes = <BlockType>{};
   for (final quest in pack.quests) {
+    checkRule('${quest.id}.applies_when', quest.appliesWhen);
     checkRule('${quest.id}.available_when', quest.availableWhen);
     checkRule('${quest.id}.fast_track_when', quest.fastTrackWhen);
     if (!maturityStages.contains(quest.maturity)) {

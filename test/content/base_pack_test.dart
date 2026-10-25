@@ -162,4 +162,31 @@ void main() {
     expect(p.quests.firstWhere((q) => q.quest.id == 'q01').available, isFalse);
     expect(p.quests.firstWhere((q) => q.quest.id == 'q13').available, isTrue);
   });
+
+  test('people who already sell get the "grow my activity" journey', () {
+    List<String> questsOf(String profile, String sector) => [
+      for (final q in plan(
+        PlannerInput(
+          pack: pack,
+          now: DateTime.utc(2026, 10, 25),
+          facts: {'diag.entry_profile': profile, 'diag.sector': sector},
+          steps: {
+            for (final s in pack.diagnostic!.steps)
+              s.id: const StepRecord(StepStatus.completed),
+          },
+        ),
+      ).quests)
+        if (!q.quest.hideWhenLocked || q.available) q.quest.id,
+    ];
+
+    final grow = questsOf('existing_customers', 'trade');
+    expect(grow, containsAll(['q11', 'q16', 'q21', 'q23']));
+    expect(grow, isNot(contains('q01')));
+    expect(grow, isNot(contains('q12')));
+    // Stock only matters for trade, food and crafts.
+    expect(questsOf('existing_activity', 'services'), isNot(contains('q21')));
+    // The other journeys never see journey C.
+    expect(questsOf('vague_idea', 'trade'), isNot(contains('q16')));
+    expect(questsOf('vague_idea', 'trade'), contains('q01'));
+  });
 }

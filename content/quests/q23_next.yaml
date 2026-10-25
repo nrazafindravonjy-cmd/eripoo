@@ -1,0 +1,108 @@
+# Quest 23 (journey C, last; ILO IYB "planning"): a SMART six-month goal and three priorities.
+id: q23
+order: 24
+maturity: preparation
+priority: 4
+title:
+  fr: "Planifier la suite"
+  en: "Plan what comes next"
+summary:
+  fr: "Fixe un objectif à six mois et les trois actions qui y mènent."
+  en: "Set a six-month goal and the three actions that lead to it."
+applies_when: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}
+available_when: {all: [{quest: q20, is: completed}, {quest: q22, is: completed}]}
+steps:
+  - id: q23.s01
+    type: reflect
+    title:
+      fr: "Ton objectif à six mois"
+      en: "Your six-month goal"
+    blocks:
+      - id: goal
+        type: question
+        prompt:
+          fr: "Que veux-tu avoir réussi dans six mois ?"
+          en: "What do you want to have achieved in six months?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Quel résultat te rendrait fier ?"
+              en: "What result would make you proud?"
+          example:
+            fr: "« Vendre aussi au marché du samedi. »"
+            en: "\"Selling at the Saturday market too.\""
+          hints:
+            - fr: "Un seul objectif, précis."
+              en: "One precise goal."
+      - id: measure
+        type: question
+        prompt:
+          fr: "Combien ? Comment sauras-tu que c'est atteint ?"
+          en: "How many? How will you know it is reached?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Quel chiffre vas-tu suivre ?"
+              en: "What number will you track?"
+          example:
+            fr: "« 250 bouteilles par semaine au lieu de 150. »"
+            en: "\"250 bottles a week instead of 150.\""
+          hints:
+            - fr: "Un chiffre que tu peux atteindre avec tes moyens."
+              en: "A number you can reach with your means."
+      - id: who
+        type: question
+        prompt:
+          fr: "Qui s'en occupe ?"
+          en: "Who takes care of it?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Toi, ou quelqu'un qui t'aide ?"
+              en: "You, or someone who helps you?"
+          example:
+            fr: "« Moi le samedi, mon cousin en semaine. »"
+            en: "\"Me on Saturdays, my cousin during the week.\""
+          hints:
+            - fr: "Un objectif sans responsable n'avance pas."
+              en: "A goal without someone in charge doesn't move."
+      - id: priorities
+        type: question
+        prompt:
+          fr: "Quelles sont tes trois actions prioritaires ?"
+          en: "What are your three priority actions?"
+        answer:
+          kind: text
+          max_length: 400
+        help:
+          rephrase:
+            - fr: "Que feras-tu en premier, puis ensuite ?"
+              en: "What will you do first, then next?"
+          example:
+            fr: "« 1. Acheter une glacière. 2. Réserver une place au marché. 3. Faire une affiche. »"
+            en: "\"1. Buy a cool box. 2. Book a market spot. 3. Make a poster.\""
+          hints:
+            - fr: "Commence par ce qui coûte le moins."
+              en: "Start with what costs least."
+      - id: framework
+        type: tip
+        body:
+          fr: "Un objectif précis, chiffré, confié à quelqu'un, réaliste et daté s'appelle un objectif SMART. Tu peux aussi mettre à jour ton Business Model Canvas (onglet Outils)."
+          en: "A goal that is precise, measured, assigned, realistic and dated is called a SMART goal. You can also update your Business Model Canvas (Tools tab)."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ton plan pour les six prochains mois. Il termine ton dossier."
+          en: "Here is your plan for the next six months. It completes your file."
+        shows: [goal, measure, who, priorities]
+    outputs:
+      - {from: goal, section: plan, field: goal, tracked: true}
+      - {from: measure, section: plan, field: measure, tracked: true}
+      - {from: who, section: plan, field: who, tracked: true}
+      - {from: priorities, section: plan, field: priorities, tracked: true}

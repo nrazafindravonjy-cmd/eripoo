@@ -10,6 +10,7 @@ title:
 summary:
   fr: "Note ce que coûte ton projet chaque mois et ce qu'il faut acheter pour commencer."
   en: "Note what your project costs each month and what you must buy to start."
+applies_when: {not: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}}
 available_when: {quest: q06, is: completed}
 steps:
   - id: q08.s01

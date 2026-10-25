@@ -14,9 +14,11 @@ summary:
   en: "Gather what you need before going to the counter."
 # The administrative preparation tool opens when q04 is completed.
 available_when:
-  all:
-    - {quest: q04, is: completed}
-    - {quest: q06, is: completed}
+  any:
+    - all:
+        - {quest: q04, is: completed}
+        - {quest: q06, is: completed}
+    - {quest: q19, is: completed}
 steps:
   - id: q11.s01
     type: learn

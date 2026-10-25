@@ -33,6 +33,7 @@
     any:
       - {count: observations, gte: 1}
       - {quest: q02, is: [in_progress, completed]}
+      - {quest: q17, is: [in_progress, completed]}
   unlock_hint:
     fr: "Se débloque avec ta première observation, ou en commençant « Comprendre tes futurs clients »."
     en: "Unlocks with your first observation, or when you start \"Understand your future customers\"."
@@ -74,7 +75,10 @@
   help:
     - fr: "Écris-les sous la forme « Je pense que… », puis teste d'abord celle dont le projet dépend le plus."
       en: "Write them as \"I think that…\", then test first the one your project depends on most."
-  unlock: {quest: q01, is: completed}
+  unlock:
+    any:
+      - {quest: q01, is: completed}
+      - {quest: q16, is: completed}
   unlock_hint:
     fr: "Se débloque à la fin de « Trouver ce qui compte pour tes clients »."
     en: "Unlocks at the end of \"Find what matters to your customers\"."
@@ -106,6 +110,7 @@
     any:
       - {count: interviews, gte: 2}
       - {quest: q03, is: [in_progress, completed]}
+      - {quest: q18, is: [in_progress, completed]}
   unlock_hint:
     fr: "Se débloque après deux rencontres, ou en commençant « Imaginer ta solution »."
     en: "Unlocks after two conversations, or when you start \"Imagine your solution\"."
@@ -118,7 +123,10 @@
   help:
     - fr: "Il se remplit au fil des quêtes : aucune case n'est inventée pour toi."
       en: "It fills in as you go through the quests: no box is invented for you."
-  unlock: {count: experiments, where: {status: done}, gte: 1}
+  unlock:
+    any:
+      - {count: experiments, where: {status: done}, gte: 1}
+      - {quest: q18, is: completed}
   unlock_hint:
     fr: "Se débloque quand tu as terminé un premier test."
     en: "Unlocks when you have finished a first test."
@@ -131,7 +139,10 @@
   help:
     - fr: "Pars de ce que tu paies vraiment et des prix que tu as observés."
       en: "Start from what you really pay and the prices you have observed."
-  unlock: {count: competitors, gte: 1}
+  unlock:
+    any:
+      - {count: competitors, gte: 1}
+      - {quest: q19, is: [in_progress, completed]}
   unlock_hint:
     fr: "Se débloque avec un premier concurrent noté."
     en: "Unlocks with a first competitor noted."
@@ -144,7 +155,10 @@
   help:
     - fr: "Marge = prix de vente − ce que te coûte ce que tu vends."
       en: "Margin = selling price − what what you sell costs you."
-  unlock: {count: hypotheses, where: {status: validated}, gte: 1}
+  unlock:
+    any:
+      - {count: hypotheses, where: {status: validated}, gte: 1}
+      - {quest: q19, is: [in_progress, completed]}
   unlock_hint:
     fr: "Se débloque quand une hypothèse est confirmée."
     en: "Unlocks when a hypothesis is confirmed."
@@ -158,9 +172,11 @@
     - fr: "Il faut d'abord connaître ta marge et tes charges du mois."
       en: "You first need your margin and your monthly costs."
   unlock:
-    all:
-      - {count: hypotheses, where: {status: validated}, gte: 1}
-      - {count: competitors, gte: 1}
+    any:
+      - all:
+          - {count: hypotheses, where: {status: validated}, gte: 1}
+          - {count: competitors, gte: 1}
+      - {quest: q19, is: completed}
   unlock_hint:
     fr: "Se débloque avec une hypothèse confirmée et un concurrent noté."
     en: "Unlocks with a confirmed hypothesis and a competitor noted."
@@ -173,7 +189,10 @@
   help:
     - fr: "Il part de ce que tes rencontres t'ont appris : où sont tes clients, à qui ils font confiance."
       en: "It starts from what your conversations taught you: where your customers are, whom they trust."
-  unlock: {count: interviews, gte: 5}
+  unlock:
+    any:
+      - {count: interviews, gte: 5}
+      - {quest: q22, is: [in_progress, completed]}
   unlock_hint:
     fr: "Se débloque après cinq rencontres."
     en: "Unlocks after five conversations."
@@ -186,7 +205,10 @@
   help:
     - fr: "Aucun bouton ne l'écrit à ta place : une partie vide renvoie à l'étape qui la construit."
       en: "No button writes it for you: an empty part points to the step that builds it."
-  unlock: {quest: q04, is: completed}
+  unlock:
+    any:
+      - {quest: q04, is: completed}
+      - {quest: q16, is: completed}
   unlock_hint:
     fr: "Se débloque à la fin de « Tester ta première hypothèse »."
     en: "Unlocks at the end of \"Test your first hypothesis\"."
@@ -199,7 +221,10 @@
   help:
     - fr: "Problème, client, solution, preuve : dans cet ordre."
       en: "Problem, customer, solution, evidence: in that order."
-  unlock: {count: hypotheses, where: {status: validated}, gte: 1}
+  unlock:
+    any:
+      - {count: hypotheses, where: {status: validated}, gte: 1}
+      - {quest: q18, is: completed}
   unlock_hint:
     fr: "Se débloque quand une hypothèse est confirmée."
     en: "Unlocks when a hypothesis is confirmed."
@@ -213,9 +238,11 @@
     - fr: "Elles reprennent ton pitch et tes chiffres ; rien n'y est inventé."
       en: "They reuse your pitch and figures; nothing is invented."
   unlock:
-    all:
-      - {quest: q04, is: completed}
-      - {count: hypotheses, where: {status: validated}, gte: 1}
+    any:
+      - all:
+          - {quest: q04, is: completed}
+          - {count: hypotheses, where: {status: validated}, gte: 1}
+      - {quest: q18, is: completed}
   unlock_hint:
     fr: "Se débloque après « Tester ta première hypothèse », avec une hypothèse confirmée."
     en: "Unlocks after \"Test your first hypothesis\", with a confirmed hypothesis."
@@ -228,7 +255,10 @@
   help:
     - fr: "Chaque information sera datée et donnée avec sa source officielle."
       en: "Every piece of information will be dated and given with its official source."
-  unlock: {quest: q04, is: completed}
+  unlock:
+    any:
+      - {quest: q04, is: completed}
+      - {quest: q19, is: completed}
   unlock_hint:
     fr: "Se débloque à la fin de « Tester ta première hypothèse »."
     en: "Unlocks at the end of \"Test your first hypothesis\"."

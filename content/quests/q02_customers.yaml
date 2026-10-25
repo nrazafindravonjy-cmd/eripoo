@@ -9,6 +9,7 @@ title:
 summary:
   fr: "Découvre qui vit le problème et ce qu'ils font aujourd'hui pour s'en sortir."
   en: "Find out who has the problem and what they do about it today."
+applies_when: {not: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}}
 available_when:
   any:
     - {step: q01.s02, is: [completed, fast_tracked]}

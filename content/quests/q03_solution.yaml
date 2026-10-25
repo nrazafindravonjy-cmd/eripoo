@@ -9,6 +9,7 @@ title:
 summary:
   fr: "À partir de ce que tu as appris, imagine une première réponse simple."
   en: "Based on what you learned, imagine a first simple answer."
+applies_when: {not: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}}
 available_when: {quest: q02, is: completed}
 steps:
   - id: q03.s01
