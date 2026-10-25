@@ -902,7 +902,13 @@ parental conçu après analyse juridique (D12).
 
 ## 15. Intégrité du contenu pédagogique
 
-Packs signés Ed25519 par une clé de publication conservée **hors ligne** ;
+**État (vérifié le 2026-10-25) : non implémenté.** Aujourd'hui, le seul
+pack est intégré à l'APK (`assets/content/base_pack.json`) ; l'app ne
+télécharge aucun contenu, donc l'intégrité du contenu repose sur la
+signature de l'APK. La signature des packs ci-dessous est **obligatoire
+avant** toute mise à jour du contenu sans nouvelle APK (NEXT_STEPS, C-14).
+
+Conception : packs signés Ed25519 par une clé de publication conservée **hors ligne** ;
 clé publique intégrée à l'app ; pack à signature invalide refusé. Même une
 compromission de Supabase ne permet pas de pousser du contenu trompeur
 (ex. demander le code de récupération). Le langage de règles n'exécute

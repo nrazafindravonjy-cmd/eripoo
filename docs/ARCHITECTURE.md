@@ -22,7 +22,7 @@ Documents liés :
 │                                                        │                 │
 │                                       Domaine (services purs, règles)    │
 │                                                        │                 │
-│  Moteur de contenu ◄── packs signés ─┐    Repositories (interfaces)      │
+│  Moteur de contenu ◄── pack embarqué ┐    Repositories (interfaces)      │
 │  (règles, parcours, textes fr/mg/en) │               │                   │
 │                                      │   Drift / SQLite chiffré (sqlite3mc)  ◄ source de vérité
 │                                      │               │                   │
@@ -31,7 +31,7 @@ Documents liés :
 └──────────────────────────────────────┼───────────────────┼───────────────┘
                                        │ HTTPS             │ HTTPS (2 RPC)
 ┌─────────────────────────────── Supabase ────────────────────────────────┐
-│  Storage `content` (packs signés)     Postgres : sync_records (chiffré), │
+│  Storage `content` (packs : à venir) Postgres : sync_records (chiffré), │
 │  Storage `user-media` (chiffré)       sync_heads, devices, user_keys     │
 │  Auth (e-mail, Google, téléphone)     (UMK enveloppée), profiles,        │
 │  Edge Functions (suppression de       consents, contenu publié,          │
