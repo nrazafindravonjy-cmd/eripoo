@@ -71,6 +71,10 @@ void main() {
       for (final t
           in pack.formalization?.topics ?? const <FormalizationTopic>[])
         for (final f in t.facts) f.text,
+      // The publisher's own contact, required in the legal texts (law
+      // 2014-038 art. 27, law 2015-014 art. 31).
+      for (final d in pack.legal?.documents ?? const <LegalDocument>[])
+        ...d.body,
     };
     for (final text in allTexts(pack)) {
       if (sourced.contains(text)) continue;

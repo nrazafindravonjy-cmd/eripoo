@@ -1,20 +1,106 @@
-# Privacy policy and terms of use (NEXT_STEPS C-12). The texts are
-# written by a lawyer qualified in Malagasy law (P-3); NOTHING here may be
-# drafted by the team. While status is "pending", the app shows these
-# placeholders as such and asks for NO acceptance (no consent is collected
-# on a text that does not exist). Once the lawyer's texts are in: paste
-# them (fr/en), set status to "validated", bump version: every user is
-# then asked to accept, again at each new version.
-version: "0"
+# Privacy policy and terms of use (NEXT_STEPS C-12). Owner's decision
+# (2026-10-24): no lawyer; drafted from the texts the owner provided (law
+# 2014-038, 2014-024, 2015-014, 2014-006, 94-036), the GDPR and Google Play
+# rules; article map in docs/LEGAL.md. While status is "pending", the app
+# shows them with a "being validated" note and asks for NO acceptance. Once
+# the owner validates: set status to "validated" (and bump version at each
+# later change): every user is then asked to accept.
+version: "1"
 status: pending
 documents:
   - id: privacy
     title: {fr: "Politique de confidentialité", en: "Privacy policy"}
     body:
-      - fr: "Ce texte est en attente de rédaction par un juriste. Il sera publié ici avant l'ouverture d'Eripoo au public."
-        en: "This text is waiting to be written by a lawyer. It will be published here before Eripoo opens to the public."
+      - fr: "Version 1, projet du 27 octobre 2026. Ce texte applique la loi malagasy n° 2014-038 du 9 janvier 2015 sur la protection des données à caractère personnel et, pour les personnes situées dans l'Union européenne, le Règlement général sur la protection des données (RGPD, règlement (UE) 2016/679)."
+        en: "Version 1, draft of 27 October 2026. This text applies Malagasy law no. 2014-038 of 9 January 2015 on the protection of personal data and, for people located in the European Union, the General Data Protection Regulation (GDPR, Regulation (EU) 2016/679)."
+      - fr: "1. Qui est responsable de tes données"
+        en: "1. Who is responsible for your data"
+      - fr: "Le responsable du traitement est Nirintsoa Patrick Razafindravonjy, éditeur d'Eripoo (loi 2014-038, art. 9). Contact pour toute question ou demande : n.razafindravonjy@gmail.com. Adresse postale : à compléter."
+        en: "The data controller is Nirintsoa Patrick Razafindravonjy, publisher of Eripoo (law 2014-038, art. 9). Contact for any question or request: n.razafindravonjy@gmail.com. Postal address: to be completed."
+      - fr: "2. Ce qu'Eripoo ne peut pas lire"
+        en: "2. What Eripoo cannot read"
+      - fr: "Tout ce que tu écris ou enregistres dans ton projet (réponses, notes de terrain, photos, réponses orales, chiffres, documents) est chiffré sur ton téléphone avant tout envoi. Eripoo ne détient pas la clé : ni l'éditeur, ni l'hébergeur ne peuvent lire ce contenu, et Eripoo ne peut donc pas le remettre à qui que ce soit. Il n'est jamais envoyé à une intelligence artificielle."
+        en: "Everything you write or record in your project (answers, field notes, photos, spoken answers, figures, documents) is encrypted on your phone before anything is sent. Eripoo does not hold the key: neither the publisher nor the host can read this content, so Eripoo cannot hand it to anyone. It is never sent to an artificial intelligence."
+      - fr: "3. Les données traitées et pourquoi"
+        en: "3. The data processed and why"
+      - fr: "Ton compte : adresse e-mail et identifiant technique, pour te connecter et synchroniser tes appareils. Base : l'exécution du service que tu demandes (loi 2014-038, art. 17-4 ; RGPD, art. 6.1.b)."
+        en: "Your account: email address and technical identifier, to sign you in and sync your devices. Basis: performing the service you ask for (law 2014-038, art. 17-4; GDPR, art. 6.1.b)."
+      - fr: "Tes appareils et la synchronisation : identifiant aléatoire, nom que tu choisis, dates, version de l'application, taille arrondie des éléments chiffrés. Base : l'exécution du service et la sécurité du compte (art. 15 et 17)."
+        en: "Your devices and sync: random identifier, name you choose, dates, app version, rounded size of encrypted items. Basis: performing the service and account security (art. 15 and 17)."
+      - fr: "Ton profil minimal : langue, préférences, acceptation de ces textes et date. Base : l'exécution du service et la preuve de ton acceptation."
+        en: "Your minimal profile: language, preferences, acceptance of these texts and date. Basis: performing the service and proof of your acceptance."
+      - fr: "Les journaux de sécurité : adresse IP et horodatage enregistrés par l'hébergeur, demandes de récupération du compte. Base : l'intérêt légitime de protéger ton compte (art. 17-5 ; RGPD, art. 6.1.f)."
+        en: "Security logs: IP address and timestamp recorded by the host, account recovery requests. Basis: the legitimate interest of protecting your account (art. 17-5; GDPR, art. 6.1.f)."
+      - fr: "Les statistiques d'usage, seulement si tu les actives : événements anonymes et regroupés, sans identifiant ni contenu. Base : ton consentement, que tu peux retirer à tout moment dans le Profil (art. 13 et 17 ; RGPD, art. 6.1.a)."
+        en: "Usage statistics, only if you turn them on: anonymous, grouped events, with no identifier or content. Basis: your consent, which you can withdraw at any time in Profile (art. 13 and 17; GDPR, art. 6.1.a)."
+      - fr: "Eripoo ne traite aucune donnée sensible au sens de l'article 18 (santé, religion, opinions…) en dehors de ce que tu choisis d'écrire dans ton projet chiffré, qu'Eripoo ne peut pas lire. Le déverrouillage par empreinte reste dans ton téléphone : Eripoo ne reçoit aucune donnée biométrique."
+        en: "Eripoo processes no sensitive data within the meaning of article 18 (health, religion, opinions…) beyond what you choose to write in your encrypted project, which Eripoo cannot read. Fingerprint unlocking stays in your phone: Eripoo receives no biometric data."
+      - fr: "Les champs obligatoires sont l'adresse e-mail (sans elle, pas de compte) ; tout le reste est facultatif. Eripoo fonctionne aussi sans compte, sur ton seul téléphone."
+        en: "The only required field is the email address (without it, no account); everything else is optional. Eripoo also works without an account, on your phone only."
+      - fr: "4. Qui reçoit ces données"
+        en: "4. Who receives this data"
+      - fr: "Le sous-traitant d'hébergement Supabase (base de données, authentification, stockage des fichiers chiffrés), sur des serveurs Amazon Web Services situés à Paris, en France (région eu-west-3). Il agit sur instruction de l'éditeur (loi 2014-038, art. 16 ; RGPD, art. 28). Aucune donnée n'est vendue, louée ni utilisée pour de la publicité."
+        en: "The hosting processor Supabase (database, authentication, storage of encrypted files), on Amazon Web Services servers in Paris, France (eu-west-3 region). It acts on the publisher's instructions (law 2014-038, art. 16; GDPR, art. 28). No data is sold, rented or used for advertising."
+      - fr: "5. Transfert hors de Madagascar"
+        en: "5. Transfer outside Madagascar"
+      - fr: "Les serveurs étant en France, tes données de compte quittent Madagascar. La France applique le RGPD, que l'éditeur considère comme un niveau de protection similaire au sens de l'article 20 de la loi 2014-038 ; ce transfert est aussi nécessaire à l'exécution du service que tu demandes (art. 20-b). Le contenu de ton projet n'est transféré que chiffré."
+        en: "As the servers are in France, your account data leaves Madagascar. France applies the GDPR, which the publisher considers a similar level of protection within the meaning of article 20 of law 2014-038; this transfer is also necessary to perform the service you ask for (art. 20-b). Your project content is only transferred encrypted."
+      - fr: "6. Combien de temps"
+        en: "6. How long"
+      - fr: "Les données du compte sont gardées tant que le compte existe. Un élément mis à la corbeille est effacé définitivement après 30 jours. Les statistiques brutes sont effacées après 90 jours, seuls des totaux anonymes restent. À la suppression du compte, tout est effacé du service ; les sauvegardes de l'hébergeur peuvent garder du contenu chiffré, illisible, pendant leur durée de rétention (durée exacte : non vérifiée)."
+        en: "Account data is kept as long as the account exists. An item moved to the trash is deleted for good after 30 days. Raw statistics are deleted after 90 days; only anonymous totals remain. When the account is deleted, everything is erased from the service; the host's backups may keep encrypted, unreadable content during their retention period (exact period: not verified)."
+      - fr: "7. Tes droits"
+        en: "7. Your rights"
+      - fr: "Tu peux à tout moment, gratuitement : savoir quelles données te concernent et en obtenir une copie (art. 23), les faire rectifier ou effacer (art. 25), t'opposer à leur traitement pour un motif légitime (art. 22), retirer ton consentement aux statistiques. Dans l'Union européenne, tu as aussi le droit à la limitation et à la portabilité (RGPD, art. 18 et 20). L'app te permet d'exporter ton projet et de supprimer ton compte toi-même ; pour le reste, écris à n.razafindravonjy@gmail.com."
+        en: "At any time and free of charge, you can: know which data concerns you and get a copy (art. 23), have it corrected or erased (art. 25), object to its processing on legitimate grounds (art. 22), withdraw your consent to statistics. In the European Union you also have the rights to restriction and portability (GDPR, art. 18 and 20). The app lets you export your project and delete your account yourself; for anything else, write to n.razafindravonjy@gmail.com."
+      - fr: "Tu peux aussi saisir la Commission Malagasy de l'Informatique et des Libertés (CMIL), ou, dans l'Union européenne, l'autorité de protection des données de ton pays."
+        en: "You can also complain to the Malagasy Commission on Information Technology and Freedoms (CMIL) or, in the European Union, to your country's data protection authority."
+      - fr: "8. Sécurité"
+        en: "8. Security"
+      - fr: "Chiffrement de bout en bout sur l'appareil, base locale chiffrée, clés gardées dans le coffre sécurisé d'Android, connexions chiffrées (HTTPS), accès au serveur limité et protégé par une double authentification (loi 2014-038, art. 15 ; RGPD, art. 32). Si tu perds ton téléphone et ton code de récupération, Eripoo ne peut pas récupérer ton projet : c'est la contrepartie de cette protection."
+        en: "End-to-end encryption on the device, encrypted local database, keys kept in Android's secure vault, encrypted connections (HTTPS), server access limited and protected by two-factor authentication (law 2014-038, art. 15; GDPR, art. 32). If you lose your phone and your recovery code, Eripoo cannot recover your project: that is the price of this protection."
+      - fr: "9. Âge minimum et changements"
+        en: "9. Minimum age and changes"
+      - fr: "Eripoo est réservé aux personnes de 18 ans et plus. Si ce texte change, la nouvelle version te sera présentée dans l'app et ton accord sera demandé de nouveau."
+        en: "Eripoo is for people aged 18 and over. If this text changes, the new version will be shown to you in the app and your agreement will be asked again."
   - id: terms
     title: {fr: "Conditions d'utilisation", en: "Terms of use"}
     body:
-      - fr: "Ce texte est en attente de rédaction par un juriste. Il sera publié ici avant l'ouverture d'Eripoo au public."
-        en: "This text is waiting to be written by a lawyer. It will be published here before Eripoo opens to the public."
+      - fr: "Version 1, projet du 27 octobre 2026. Ces conditions sont mises à disposition dans l'application conformément à l'article 16 de la loi n° 2014-024 sur les transactions électroniques."
+        en: "Version 1, draft of 27 October 2026. These terms are made available in the app in accordance with article 16 of law no. 2014-024 on electronic transactions."
+      - fr: "1. Éditeur"
+        en: "1. Publisher"
+      - fr: "Eripoo est édité par Nirintsoa Patrick Razafindravonjy. Contact : n.razafindravonjy@gmail.com. Adresse postale : à compléter (loi n° 2015-014 sur la protection des consommateurs, art. 31)."
+        en: "Eripoo is published by Nirintsoa Patrick Razafindravonjy. Contact: n.razafindravonjy@gmail.com. Postal address: to be completed (law no. 2015-014 on consumer protection, art. 31)."
+      - fr: "2. Le service"
+        en: "2. The service"
+      - fr: "Eripoo accompagne la création et le développement d'un projet d'entreprise : quêtes, missions de terrain, outils de calcul et dossier de projet. Eripoo est un outil d'apprentissage : il ne remplace ni un conseil juridique, fiscal ou financier, ni les démarches officielles, qu'il ne fait pas à ta place."
+        en: "Eripoo supports creating and growing a business project: quests, field missions, calculation tools and a project file. Eripoo is a learning tool: it replaces neither legal, tax or financial advice nor official procedures, which it does not carry out for you."
+      - fr: "3. Accès"
+        en: "3. Access"
+      - fr: "Eripoo est réservé aux personnes de 18 ans et plus. Il peut s'utiliser sans compte, sur un seul téléphone ; un compte permet la synchronisation et la récupération. Tu acceptes ces conditions en touchant « J'accepte » dans l'app (loi 2014-024, art. 13 et 17)."
+        en: "Eripoo is for people aged 18 and over. It can be used without an account, on one phone; an account enables sync and recovery. You accept these terms by tapping \"I accept\" in the app (law 2014-024, art. 13 and 17)."
+      - fr: "4. Ton projet t'appartient"
+        en: "4. Your project belongs to you"
+      - fr: "Tout ce que tu crées dans Eripoo reste ta propriété (loi n° 94-036 sur la propriété littéraire et artistique, art. 1). Eripoo ne peut pas le lire et n'en revendique aucun droit. Le contenu pédagogique, les textes, la marque, la mascotte et le logiciel d'Eripoo restent la propriété de l'éditeur ou de leurs auteurs."
+        en: "Everything you create in Eripoo remains your property (law no. 94-036 on literary and artistic property, art. 1). Eripoo cannot read it and claims no right over it. Eripoo's learning content, texts, brand, mascot and software remain the property of the publisher or their authors."
+      - fr: "5. Tes engagements"
+        en: "5. Your commitments"
+      - fr: "Tu t'engages à utiliser Eripoo de façon licite, à ne pas tenter d'accéder sans droit au service ni de le perturber (loi n° 2014-006 sur la cybercriminalité), et à respecter les personnes que tu rencontres pendant les missions : pas d'enregistrement sans accord, pas de nom ni de numéro de téléphone dans tes notes."
+        en: "You agree to use Eripoo lawfully, not to try to access or disrupt the service without right (law no. 2014-006 on cybercrime), and to respect the people you meet during missions: no recording without consent, no names or phone numbers in your notes."
+      - fr: "6. Ton code de récupération"
+        en: "6. Your recovery code"
+      - fr: "Tu es seul à détenir ton code de récupération. Garde-le en lieu sûr et ne le donne à personne : Eripoo ne te le demandera jamais en dehors de l'écran de récupération. Sans tes appareils ni ce code, ton projet en ligne ne peut pas être récupéré."
+        en: "You alone hold your recovery code. Keep it safe and give it to no one: Eripoo will never ask for it outside the recovery screen. Without your devices or this code, your online project cannot be recovered."
+      - fr: "7. Disponibilité et responsabilité"
+        en: "7. Availability and liability"
+      - fr: "Eripoo fonctionne sans connexion ; la synchronisation dépend du réseau et de l'hébergeur, et peut être interrompue pour maintenance. L'éditeur fait ses meilleurs efforts pour la sécurité et la disponibilité du service. Les décisions que tu prends pour ton entreprise restent les tiennes. Rien dans ces conditions ne limite les droits que la loi te garantit en tant que consommateur."
+        en: "Eripoo works offline; sync depends on the network and the host, and may be interrupted for maintenance. The publisher makes its best efforts for the security and availability of the service. The decisions you make for your business remain yours. Nothing in these terms limits the rights the law guarantees you as a consumer."
+      - fr: "8. Fin de l'utilisation"
+        en: "8. Ending your use"
+      - fr: "Tu peux supprimer ton compte à tout moment dans le Profil, ou en écrivant à l'adresse de contact. L'éditeur peut suspendre un compte utilisé pour enfreindre la loi ou ces conditions, après t'en avoir informé sauf urgence."
+        en: "You can delete your account at any time in Profile, or by writing to the contact address. The publisher may suspend an account used to break the law or these terms, after informing you except in an emergency."
+      - fr: "9. Droit applicable"
+        en: "9. Applicable law"
+      - fr: "Ces conditions sont régies par le droit malagasy. En cas de désaccord, une solution amiable est recherchée d'abord ; à défaut, les juridictions compétentes de Madagascar sont saisies, sans priver une personne résidant dans l'Union européenne des protections de la loi de son pays."
+        en: "These terms are governed by Malagasy law. In case of disagreement, an amicable solution is sought first; failing that, the competent courts of Madagascar have jurisdiction, without depriving a person living in the European Union of the protection of their country's law."

@@ -3134,7 +3134,7 @@
   "@legalTitle": {
     "description": "Titre de l'écran des textes juridiques et entrée du Profil."
   },
-  "legalPending": "Ces textes sont en attente de rédaction par un juriste. Rien ne t'est demandé tant qu'ils ne sont pas prêts.",
+  "legalPending": "Ces textes sont en cours de validation. Rien ne t'est demandé tant qu'ils ne sont pas validés.",
   "@legalPending": {
     "description": "Bandeau tant que les textes juridiques ne sont pas validés."
   },
