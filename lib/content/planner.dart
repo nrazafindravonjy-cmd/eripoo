@@ -349,7 +349,9 @@ JourneyPlan plan(PlannerInput input) {
   final journeyOpen =
       diagnostic == null || diagnostic.state == QuestState.completed;
   final quests = [
-    for (final q in input.pack.journey) planQuest(q, open: journeyOpen),
+    for (final q in input.pack.journey)
+      if (q.appliesWhen?.evaluate(context) ?? true)
+        planQuest(q, open: journeyOpen),
   ];
 
   PlannedStep? next;

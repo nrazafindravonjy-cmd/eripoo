@@ -10,6 +10,7 @@ title:
 summary:
   fr: "Vends pendant une semaine, note chaque vente et regarde ce que tu as appris."
   en: "Sell for a week, record every sale and look at what you learned."
+applies_when: {not: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}}
 available_when: {quest: q10, is: completed}
 steps:
   - id: q12.s01

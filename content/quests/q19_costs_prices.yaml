@@ -1,0 +1,135 @@
+# Quest 19 (journey C, ILO IYB "costing"): cost of one product, price, decision. The calculators do the sums.
+id: q19
+order: 19
+maturity: construction
+priority: 15
+title:
+  fr: "Calculer mes coûts et fixer mes prix"
+  en: "Work out my costs and set my prices"
+summary:
+  fr: "Vérifie que chaque vente te rapporte vraiment de l'argent."
+  en: "Check that each sale really earns you money."
+applies_when: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}
+available_when: {quest: q16, is: completed}
+steps:
+  - id: q19.s01
+    type: learn
+    title:
+      fr: "Vendre beaucoup ne suffit pas"
+      en: "Selling a lot is not enough"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Beaucoup d'activités vendent bien mais gagnent peu, parce que le prix ne couvre pas tous les coûts : la matière, le transport, l'emballage, et ton propre temps."
+          en: "Many activities sell well but earn little, because the price doesn't cover all costs: materials, transport, packaging, and your own time."
+      - id: term
+        type: term
+        plain:
+          fr: "Ce qui reste sur chaque vente"
+          en: "What is left on each sale"
+        term:
+          fr: "Marge"
+          en: "Margin"
+        definition:
+          fr: "Le prix de vente moins tout ce que le produit t'a coûté."
+          en: "The selling price minus everything the product cost you."
+      - id: example
+        type: example
+        body:
+          fr: "Voahangy vend sa bouteille 1 000 Ar. Fruits, sucre, bouteille et transport lui coûtent 800 Ar : il lui reste 200 Ar, pas 1 000."
+          en: "Voahangy sells her bottle for 1,000 Ar. Fruit, sugar, bottle and transport cost her 800 Ar: she keeps 200 Ar, not 1,000."
+      - id: tip
+        type: tip
+        body:
+          fr: "Les calculateurs de prix et de marge (onglet Outils) font les calculs pour toi."
+          en: "The price and margin calculators (Tools tab) do the sums for you."
+  - id: q19.s02
+    type: reflect
+    title:
+      fr: "Le coût d'un produit"
+      en: "The cost of one product"
+    blocks:
+      - id: product
+        type: question
+        prompt:
+          fr: "Quel produit veux-tu étudier ?"
+          en: "Which product do you want to study?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Lequel vends-tu le plus ?"
+              en: "Which one do you sell most?"
+          example:
+            fr: "« La bouteille de jus de baobab. »"
+            en: "\"The bottle of baobab juice.\""
+          hints:
+            - fr: "Commence par ton produit le plus vendu."
+              en: "Start with your best-selling product."
+      - id: unit_cost
+        type: question
+        prompt:
+          fr: "Combien te coûte-t-il, tout compris ?"
+          en: "How much does it cost you, all in?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Additionne la matière, l'emballage et le transport pour un produit."
+              en: "Add materials, packaging and transport for one product."
+          example:
+            fr: "« Fruits 450 Ar, sucre 100 Ar, bouteille 150 Ar, transport 100 Ar : 800 Ar. » (Exemple inventé.)"
+            en: "\"Fruit 450 Ar, sugar 100 Ar, bottle 150 Ar, transport 100 Ar: 800 Ar.\" (Invented example.)"
+          hints:
+            - fr: "N'oublie pas le transport et les pertes."
+              en: "Don't forget transport and losses."
+      - id: price
+        type: question
+        prompt:
+          fr: "À quel prix le vends-tu ?"
+          en: "At what price do you sell it?"
+        answer:
+          kind: text
+          max_length: 100
+        help:
+          rephrase:
+            - fr: "Combien le client paie-t-il ?"
+              en: "How much does the customer pay?"
+          example:
+            fr: "« 1 000 Ar. »"
+            en: "\"1,000 Ar.\""
+          hints:
+            - fr: "Le prix réel, pas celui que tu voudrais."
+              en: "The real price, not the one you'd like."
+      - id: decision
+        type: question
+        prompt:
+          fr: "Après ce calcul, que décides-tu ?"
+          en: "After this calculation, what do you decide?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Garder le prix, l'augmenter, ou réduire un coût ?"
+              en: "Keep the price, raise it, or cut a cost?"
+          example:
+            fr: "« Acheter le sucre en gros pour payer moins cher. »"
+            en: "\"Buy sugar in bulk to pay less.\""
+          hints:
+            - fr: "Une petite décision vaut mieux qu'aucune."
+              en: "A small decision beats none."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ton calcul. Il est enregistré dans ton projet."
+          en: "Here is your calculation. It is saved in your project."
+        shows: [product, unit_cost, price, decision]
+    outputs:
+      - {from: product, section: pricing, field: product, tracked: true}
+      - {from: unit_cost, section: pricing, field: unit_cost, tracked: true}
+      - {from: price, section: pricing, field: price, tracked: true}
+      - {from: decision, section: pricing, field: decision, tracked: true}

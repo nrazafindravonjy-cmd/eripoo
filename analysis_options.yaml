@@ -11,6 +11,7 @@ analyzer:
     - android/**
     - lib/l10n/generated/**
     - "**/*.g.dart"
+    - web/**
 
 linter:
   rules:

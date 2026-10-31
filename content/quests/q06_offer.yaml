@@ -10,6 +10,7 @@ title:
 summary:
   fr: "Dis clairement ce que tu vends, à qui, et à quel prix."
   en: "Say clearly what you sell, to whom, and at what price."
+applies_when: {not: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}}
 available_when:
   all:
     - {quest: q04, is: completed}

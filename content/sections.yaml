@@ -12,6 +12,26 @@
     - key: effects
       label: {fr: "Ce qu'il coûte aux gens", en: "What it costs people"}
       max_length: 300
+# The activity as it is today (journey C, quest q16): for people who
+# already sell. Their own figures, never computed by Eripoo.
+- key: activity
+  title: {fr: "Mon activité aujourd'hui", en: "My activity today"}
+  fields:
+    - key: what
+      label: {fr: "Ce que je vends", en: "What I sell"}
+      max_length: 280
+    - key: customers
+      label: {fr: "À qui", en: "To whom"}
+      max_length: 200
+    - key: volume
+      label: {fr: "Combien par semaine", en: "How much per week"}
+      max_length: 200
+    - key: works
+      label: {fr: "Ce qui marche le mieux", en: "What works best"}
+      max_length: 280
+    - key: hard
+      label: {fr: "Ce qui est le plus difficile", en: "What is hardest"}
+      max_length: 280
 # The desire (quest q01, "desire" door): a business can start from what
 # people want for pleasure, pride or a celebration, not only from a problem.
 - key: desire
@@ -104,6 +124,51 @@
     - key: threats
       label: {fr: "Ce qui pourrait te gêner", en: "What could get in your way"}
       max_length: 300
+# Costs and prices of an existing activity (quest q19).
+- key: pricing
+  title: {fr: "Mes coûts et mes prix", en: "My costs and prices"}
+  fields:
+    - key: product
+      label: {fr: "Le produit étudié", en: "The product studied"}
+      max_length: 200
+    - key: unit_cost
+      label: {fr: "Ce qu'il me coûte", en: "What it costs me"}
+      max_length: 200
+    - key: price
+      label: {fr: "Mon prix de vente", en: "My selling price"}
+      max_length: 100
+    - key: decision
+      label: {fr: "Ce que je décide", en: "What I decide"}
+      max_length: 280
+# Stock (quest q21): what sells most, what sleeps, when to buy again.
+- key: stock
+  title: {fr: "Mes achats et mon stock", en: "My purchases and stock"}
+  fields:
+    - key: best
+      label: {fr: "Ce qui rapporte le plus", en: "What earns the most"}
+      max_length: 280
+    - key: slow
+      label: {fr: "Ce qui dort dans le stock", en: "What sleeps in stock"}
+      max_length: 280
+    - key: rule
+      label: {fr: "Quand je rachète", en: "When I buy again"}
+      max_length: 280
+# The next six months (quest q23).
+- key: plan
+  title: {fr: "Mon plan pour la suite", en: "My plan for what comes next"}
+  fields:
+    - key: goal
+      label: {fr: "Mon objectif à six mois", en: "My six-month goal"}
+      max_length: 200
+    - key: measure
+      label: {fr: "Comment je saurai qu'il est atteint", en: "How I will know it is reached"}
+      max_length: 200
+    - key: who
+      label: {fr: "Qui s'en occupe", en: "Who takes care of it"}
+      max_length: 200
+    - key: priorities
+      label: {fr: "Mes trois actions prioritaires", en: "My three priority actions"}
+      max_length: 400
 # The offer (quest q06): what is sold, how it is received, at what price.
 - key: offer
   title: {fr: "L'offre", en: "The offer"}

@@ -11,6 +11,7 @@ title:
 summary:
   fr: "Tes clients font déjà quelque chose aujourd'hui. Découvre quoi, où et à quel prix."
   en: "Your customers already do something today. Find out what, where and at what price."
+applies_when: {not: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}}
 available_when: {quest: q03, is: completed}
 steps:
   - id: q05.s01

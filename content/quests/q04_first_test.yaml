@@ -10,6 +10,7 @@ title:
 summary:
   fr: "Transforme une idée en question, et vérifie-la sur le terrain."
   en: "Turn an idea into a question and check it in the field."
+applies_when: {not: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}}
 available_when: {quest: q02, is: completed}
 steps:
   - id: q04.s01

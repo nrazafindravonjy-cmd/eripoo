@@ -1,0 +1,144 @@
+# Quest 17 (journey C): talk to current customers, then an empathy map.
+id: q17
+order: 17
+maturity: validation
+priority: 25
+title:
+  fr: "Mieux connaître mes clients"
+  en: "Know my customers better"
+summary:
+  fr: "Tes clients savent pourquoi ils t'achètent. Va leur demander."
+  en: "Your customers know why they buy from you. Go and ask them."
+applies_when: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}
+available_when: {quest: q16, is: completed}
+steps:
+  - id: q17.s01
+    type: learn
+    title:
+      fr: "Écouter ceux qui achètent déjà"
+      en: "Listen to those who already buy"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Tes clients actuels sont ta meilleure source d'idées : ils savent ce qu'ils aiment chez toi et ce qui leur manque."
+          en: "Your current customers are your best source of ideas: they know what they like about you and what they miss."
+      - id: example
+        type: example
+        body:
+          fr: "Voahangy demande à trois clients pourquoi ils viennent. Tous disent : « parce que c'est frais ». Elle garde ce mot sur son affiche."
+          en: "Voahangy asks three customers why they come. All say: \"because it's fresh\". She keeps that word on her poster."
+      - id: tip
+        type: tip
+        body:
+          fr: "Demande ce qu'ils ont fait la dernière fois, pas ce qu'ils feraient. Et écoute plus que tu ne parles."
+          en: "Ask what they did last time, not what they would do. And listen more than you talk."
+  - id: q17.s02
+    type: act
+    title:
+      fr: "Va parler à tes clients"
+      en: "Go and talk to your customers"
+    blocks:
+      - id: why
+        type: text
+        body:
+          fr: "Trois conversations de cinq minutes t'apprendront plus que des semaines de suppositions."
+          en: "Three five-minute conversations will teach you more than weeks of guessing."
+      - id: go
+        type: mission
+        mission: m.talk_customers
+    complete_when: {mission: m.talk_customers, is: completed}
+  - id: q17.s03
+    type: reflect
+    title:
+      fr: "À la place de tes clients"
+      en: "In your customers' shoes"
+    blocks:
+      - id: says
+        type: question
+        prompt:
+          fr: "Que disent-ils de ton activité ?"
+          en: "What do they say about your activity?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Quelle phrase as-tu entendue plusieurs fois ?"
+              en: "Which sentence did you hear several times?"
+          example:
+            fr: "« C'est frais, et c'est sur mon chemin. »"
+            en: "\"It's fresh, and it's on my way.\""
+          hints:
+            - fr: "Reprends leurs mots, pas les tiens."
+              en: "Use their words, not yours."
+      - id: does
+        type: question
+        prompt:
+          fr: "Que font-ils quand ils n'achètent pas chez toi ?"
+          en: "What do they do when they don't buy from you?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Où vont-ils, ou de quoi se passent-ils ?"
+              en: "Where do they go, or what do they do without?"
+          example:
+            fr: "« Ils achètent un soda à l'épicerie. »"
+            en: "\"They buy a soda at the grocery.\""
+          hints:
+            - fr: "Décris ce que tu as entendu, pas ce que tu supposes."
+              en: "Describe what you heard, not what you suppose."
+      - id: feels
+        type: question
+        prompt:
+          fr: "Que ressentent-ils en achetant chez toi ?"
+          en: "How do they feel buying from you?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Sont-ils contents, pressés, fiers, rassurés ?"
+              en: "Are they happy, rushed, proud, reassured?"
+          example:
+            fr: "« Rassurés : ils savent que c'est propre. »"
+            en: "\"Reassured: they know it's clean.\""
+          hints:
+            - fr: "Un sentiment fort fait revenir les clients."
+              en: "A strong feeling brings customers back."
+      - id: lacks
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui leur manque ?"
+          en: "What do they miss?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "S'ils pouvaient changer une chose chez toi, laquelle ?"
+              en: "If they could change one thing about you, what?"
+          example:
+            fr: "« Des petites bouteilles moins chères pour les élèves. »"
+            en: "\"Smaller, cheaper bottles for students.\""
+          hints:
+            - fr: "C'est souvent là que se cache ta prochaine vente."
+              en: "That's often where your next sale hides."
+      - id: framework
+        type: tip
+        body:
+          fr: "Ce que tu viens de faire, te mettre à la place de tes clients, s'appelle une carte d'empathie. Les partenaires et les financeurs connaissent ce mot."
+          en: "What you just did, putting yourself in your customers' shoes, is called an empathy map. Partners and funders know this term."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici tes clients vus de l'intérieur. C'est enregistré dans ton projet."
+          en: "Here are your customers seen from the inside. It is saved in your project."
+        shows: [says, does, feels, lacks]
+    outputs:
+      - {from: says, section: customers, field: says, tracked: true}
+      - {from: does, section: customers, field: does, tracked: true}
+      - {from: feels, section: customers, field: feels, tracked: true}
+      - {from: lacks, section: customers, field: lacks, tracked: true}

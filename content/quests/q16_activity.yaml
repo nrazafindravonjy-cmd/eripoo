@@ -1,0 +1,179 @@
+# Quest 16 (journey C, first): the activity as it is. People with regular customers skip the learning step.
+id: q16
+order: 16
+maturity: construction
+priority: 30
+title:
+  fr: "Faire le point sur mon activité"
+  en: "Take stock of my activity"
+summary:
+  fr: "Tu vends déjà : commence par regarder ton activité telle qu'elle est aujourd'hui."
+  en: "You already sell: start by looking at your activity as it is today."
+applies_when: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}
+fast_track_when: {fact: diag.entry_profile, eq: existing_customers}
+steps:
+  - id: q16.s01
+    type: learn
+    title:
+      fr: "Regarder avant d'agir"
+      en: "Look before acting"
+    blocks:
+      - id: intro
+        type: text
+        body:
+          fr: "Tu as déjà des clients : c'est la meilleure preuve que ton idée marche. Pour grandir, il faut d'abord voir clairement ce qui marche et ce qui coince."
+          en: "You already have customers: the best proof your idea works. To grow, first see clearly what works and what gets stuck."
+      - id: example
+        type: example
+        body:
+          fr: "À Mahajanga, Voahangy vend des jus de fruits depuis un an. En faisant le point, elle découvre que le jus de baobab représente la moitié de ses ventes."
+          en: "In Mahajanga, Voahangy has sold fruit juice for a year. Taking stock, she finds that baobab juice makes up half her sales."
+      - id: tip
+        type: tip
+        body:
+          fr: "Réponds avec tes vrais chiffres, même approximatifs : personne d'autre ne les voit."
+          en: "Answer with your real figures, even rough ones: nobody else sees them."
+  - id: q16.s02
+    type: reflect
+    title:
+      fr: "Ton activité aujourd'hui"
+      en: "Your activity today"
+    blocks:
+      - id: what
+        type: question
+        prompt:
+          fr: "Que vends-tu ?"
+          en: "What do you sell?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Quels produits ou services proposes-tu ?"
+              en: "What products or services do you offer?"
+          example:
+            fr: "« Des jus de fruits frais, en bouteille, au bord de la route. »"
+            en: "\"Fresh fruit juice, bottled, by the roadside.\""
+          hints:
+            - fr: "Cite d'abord ce que tu vends le plus."
+              en: "Name first what you sell most."
+      - id: customers
+        type: question
+        prompt:
+          fr: "À qui vends-tu surtout ?"
+          en: "Who do you mainly sell to?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "Qui sont tes clients les plus fidèles ?"
+              en: "Who are your most loyal customers?"
+          example:
+            fr: "« Les élèves du lycée et les chauffeurs de taxi-brousse. »"
+            en: "\"High-school students and bush-taxi drivers.\""
+          hints:
+            - fr: "Décris des groupes, sans donner de nom."
+              en: "Describe groups, without names."
+      - id: volume
+        type: question
+        prompt:
+          fr: "Combien vends-tu par semaine, à peu près ?"
+          en: "About how much do you sell per week?"
+        answer:
+          kind: text
+          max_length: 200
+        help:
+          rephrase:
+            - fr: "En nombre ou en ariary, sur une semaine normale ?"
+              en: "In units or ariary, over a normal week?"
+          example:
+            fr: "« Environ 150 bouteilles, soit 150 000 Ar. » (Exemple inventé.)"
+            en: "\"About 150 bottles, so 150,000 Ar.\" (Invented example.)"
+          hints:
+            - fr: "Si tu ne sais pas, réponds « Je ne sais pas » : la quête « Tenir mes comptes » t'aidera."
+              en: "If you don't know, answer \"I don't know\": the \"Keep my accounts\" quest will help."
+      - id: works
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui marche le mieux ?"
+          en: "What works best?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Qu'est-ce que tes clients redemandent ?"
+              en: "What do your customers ask for again?"
+          example:
+            fr: "« Le jus de baobab, et la livraison au lycée. »"
+            en: "\"Baobab juice, and delivery to the high school.\""
+          hints:
+            - fr: "Pense aux produits, aux lieux et aux moments."
+              en: "Think of products, places and times."
+      - id: hard
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui est le plus difficile ?"
+          en: "What is hardest?"
+        answer:
+          kind: text
+          max_length: 280
+        help:
+          rephrase:
+            - fr: "Qu'est-ce qui te fait perdre du temps ou de l'argent ?"
+              en: "What makes you lose time or money?"
+          example:
+            fr: "« Les fruits qui pourrissent quand il pleut et que je vends moins. »"
+            en: "\"Fruit that rots when it rains and I sell less.\""
+          hints:
+            - fr: "Une seule difficulté suffit, la plus importante."
+              en: "One difficulty is enough, the most important."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ton activité aujourd'hui. Elle ouvre le résumé de ton dossier."
+          en: "Here is your activity today. It opens the summary of your file."
+        shows: [what, customers, volume, works, hard]
+    outputs:
+      - {from: what, section: activity, field: what, tracked: true}
+      - {from: customers, section: activity, field: customers, tracked: true}
+      - {from: volume, section: activity, field: volume, tracked: true}
+      - {from: works, section: activity, field: works, tracked: true}
+      - {from: hard, section: activity, field: hard, tracked: true}
+  - id: q16.s03
+    type: reflect
+    title:
+      fr: "Ce qui a fait naître ton activité"
+      en: "What gave birth to your activity"
+    blocks:
+      - id: origin
+        type: question
+        prompt:
+          fr: "Ton activité répond plutôt…"
+          en: "Your activity rather answers…"
+        answer:
+          kind: choice
+          options:
+            - value: problem
+              label: {fr: "À un problème", en: "A problem"}
+            - value: desire
+              label: {fr: "À une envie", en: "A desire"}
+        help:
+          rephrase:
+            - fr: "Tes clients viennent-ils pour régler une difficulté, ou pour se faire plaisir ?"
+              en: "Do customers come to solve a difficulty, or to treat themselves?"
+          example:
+            fr: "Réparer des téléphones : un problème. Des gâteaux de fête : une envie."
+            en: "Repairing phones: a problem. Party cakes: a desire."
+          hints:
+            - fr: "Si les deux, choisis ce que tes clients diraient en premier."
+              en: "If both, choose what customers would say first."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "C'est noté : la suite de ton parcours en tient compte."
+          en: "Noted: the rest of your journey takes it into account."
+        shows: [origin]
+    outputs:
+      - {from: origin, fact: idea.origin}

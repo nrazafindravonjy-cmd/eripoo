@@ -1,0 +1,164 @@
+# Quest 18 (journey C): value proposition of the existing offer, then strengths and risks.
+id: q18
+order: 18
+maturity: validation
+priority: 20
+title:
+  fr: "Ce que mes clients apprécient"
+  en: "What my customers value"
+summary:
+  fr: "Comprends ce qui fait ta force, et ce qui pourrait te gêner."
+  en: "Understand what makes your strength, and what could get in your way."
+applies_when: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}
+available_when: {quest: q17, is: completed}
+steps:
+  - id: q18.s01
+    type: reflect
+    title:
+      fr: "Ce que ton client y gagne"
+      en: "What your customer gains"
+    blocks:
+      - id: gains
+        type: question
+        prompt:
+          fr: "Qu'est-ce que tes clients gagnent en achetant chez toi ?"
+          en: "What do your customers gain by buying from you?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Qu'est-ce qui est plus facile, plus agréable ou plus beau grâce à toi ?"
+              en: "What is easier, more pleasant or more beautiful thanks to you?"
+          example:
+            fr: "« Un jus frais sur le chemin, sans détour. »"
+            en: "\"A fresh juice on the way, no detour.\""
+          hints:
+            - fr: "Pense au temps, à l'argent, au plaisir et à la fierté."
+              en: "Think of time, money, pleasure and pride."
+      - id: relieves
+        type: question
+        prompt:
+          fr: "Quelle gêne ou quel manque leur enlèves-tu ?"
+          en: "What trouble or lack do you remove for them?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Sans toi, qu'est-ce qui serait plus difficile pour eux ?"
+              en: "Without you, what would be harder for them?"
+          example:
+            fr: "« Plus besoin de boire un soda trop sucré. »"
+            en: "\"No more drinking an over-sweet soda.\""
+          hints:
+            - fr: "Reprends ce qu'ils t'ont dit pendant la mission."
+              en: "Use what they told you during the mission."
+      - id: framework
+        type: tip
+        body:
+          fr: "Ce que tu viens de faire, relier ton offre à ce que tes clients gagnent et à ce qui les gêne, s'appelle une proposition de valeur. Les partenaires et les financeurs connaissent ce mot."
+          en: "What you just did, linking your offer to what customers gain and what bothers them, is called a value proposition. Partners and funders know this term."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici ce que ton activité apporte. C'est enregistré dans ton projet."
+          en: "Here is what your activity brings. It is saved in your project."
+        shows: [gains, relieves]
+    outputs:
+      - {from: gains, section: solution, field: gains, tracked: true}
+      - {from: relieves, section: solution, field: relieves, tracked: true}
+  - id: q18.s02
+    type: reflect
+    title:
+      fr: "Tes forces et tes risques"
+      en: "Your strengths and risks"
+    blocks:
+      - id: strengths
+        type: question
+        prompt:
+          fr: "Qu'est-ce que tu fais mieux que les autres ?"
+          en: "What do you do better than others?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Pourquoi te choisit-on plutôt qu'un autre vendeur ?"
+              en: "Why do people choose you over another seller?"
+          example:
+            fr: "« Mes jus sont pressés le matin même. »"
+            en: "\"My juices are pressed that very morning.\""
+          hints:
+            - fr: "Relis ce que tes clients t'ont dit."
+              en: "Read again what your customers told you."
+      - id: weaknesses
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui te manque ?"
+          en: "What do you lack?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Qu'est-ce que d'autres ont et que tu n'as pas ?"
+              en: "What do others have that you don't?"
+          example:
+            fr: "« Pas de glacière : je ne peux pas vendre l'après-midi. »"
+            en: "\"No cool box: I can't sell in the afternoon.\""
+          hints:
+            - fr: "Être honnête ici t'évite des surprises."
+              en: "Being honest here avoids surprises."
+      - id: opportunities
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui pourrait t'aider à grandir ?"
+          en: "What could help you grow?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Quel lieu, quel moment ou quelle personne pourrait t'apporter des clients ?"
+              en: "Which place, time or person could bring you customers?"
+          example:
+            fr: "« La saison chaude et le nouveau marché du samedi. »"
+            en: "\"The hot season and the new Saturday market.\""
+          hints:
+            - fr: "Pense aux fêtes, aux saisons, aux associations."
+              en: "Think of celebrations, seasons, associations."
+      - id: threats
+        type: question
+        prompt:
+          fr: "Qu'est-ce qui pourrait te gêner ?"
+          en: "What could get in your way?"
+        answer:
+          kind: text
+          max_length: 300
+        help:
+          rephrase:
+            - fr: "Que se passerait-il si un prix montait ou si un concurrent s'installait à côté ?"
+              en: "What if a price rose or a competitor set up next door?"
+          example:
+            fr: "« Le prix du sucre monte, et un vendeur de sodas s'installe en face. »"
+            en: "\"Sugar prices are rising, and a soda seller is setting up opposite.\""
+          hints:
+            - fr: "Pour chaque risque, pense à ce que tu ferais."
+              en: "For each risk, think of what you would do."
+      - id: framework
+        type: tip
+        body:
+          fr: "Ce que tu viens de faire s'appelle une analyse SWOT : forces, faiblesses, opportunités, menaces. Les partenaires et les financeurs connaissent ce mot."
+          en: "What you just did is called a SWOT analysis: strengths, weaknesses, opportunities, threats. Partners and funders know this term."
+      - id: recap
+        type: synthesis
+        intro:
+          fr: "Voici tes forces et tes risques. Ils complètent ton dossier."
+          en: "Here are your strengths and risks. They complete your file."
+        shows: [strengths, weaknesses, opportunities, threats]
+    outputs:
+      - {from: strengths, section: swot, field: strengths, tracked: true}
+      - {from: weaknesses, section: swot, field: weaknesses, tracked: true}
+      - {from: opportunities, section: swot, field: opportunities, tracked: true}
+      - {from: threats, section: swot, field: threats, tracked: true}

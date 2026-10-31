@@ -10,6 +10,7 @@ title:
 summary:
   fr: "Décide comment les clients entendront parler de toi et ce que tu feras en premier."
   en: "Decide how customers will hear about you and what you will do first."
+applies_when: {not: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}}
 available_when:
   all:
     - {quest: q07, is: completed}

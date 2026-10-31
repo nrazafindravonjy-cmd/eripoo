@@ -23,6 +23,7 @@ enum AnswerKind { choice, multiChoice, text, number, money }
 /// Project sections that steps may fill (docs/PRODUCT_ARCHITECTURE.md §7).
 const projectSections = {
   'vision',
+  'activity',
   'problem',
   'desire',
   'customers',
@@ -33,6 +34,8 @@ const projectSections = {
   'competition',
   'business_model',
   'pricing',
+  'stock',
+  'plan',
   'finances',
   'marketing',
   'launch',
@@ -426,6 +429,7 @@ class Quest {
     required this.summary,
     required this.steps,
     this.priority = 0,
+    this.appliesWhen,
     this.availableWhen,
     this.fastTrackWhen,
     this.hideWhenLocked = false,
@@ -441,6 +445,10 @@ class Quest {
 
   /// Higher first when several quests are available.
   final int priority;
+
+  /// False: the quest belongs to another journey (e.g. "grow my activity"
+  /// for people who already sell). Not planned at all. Default: applies.
+  final Rule? appliesWhen;
   final Rule? availableWhen;
 
   /// Applies to every step without its own `fast_track_when`.
@@ -459,6 +467,7 @@ class Quest {
       'summary',
       'steps',
       'priority',
+      'applies_when',
       'available_when',
       'fast_track_when',
       'hide_when_locked',
@@ -478,6 +487,9 @@ class Quest {
       summary: LocalizedText.read(json['summary']),
       steps: [for (final s in json['steps'].list) Step.read(s)],
       priority: json['priority'].intOrNull ?? 0,
+      appliesWhen: json.has('applies_when')
+          ? Rule.read(json['applies_when'])
+          : null,
       availableWhen: json.has('available_when')
           ? Rule.read(json['available_when'])
           : null,

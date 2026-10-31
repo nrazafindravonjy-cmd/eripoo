@@ -16,7 +16,12 @@ cadre (« Ce que tu viens de faire s'appelle… »).
   valeur (q03.s03), fiche de test (q04.s03, sur l'outil Expériences
   existant), SWOT (q05.s05), objectif SMART (q10.s04), effectuation
   (q13.s02).
-- Livraison 2 (à faire) : parcours C.
+- Livraison 2 (faite, pack 2026.10.9) : parcours C, quêtes q16 à q23
+  (`applies_when` sur les quêtes) plus q11 partagée ; missions
+  `m.talk_customers`, `m.keep_records` (14 jours réels), `m.count_stock`,
+  `m.try_promotion` ; sections `activity`, `pricing`, `stock`, `plan` ;
+  outils débloqués aussi par les quêtes du parcours C. La quête C3 regroupe
+  proposition de valeur et SWOT ; « Planifier la suite » est q23.
 
 ## Aiguillage
 

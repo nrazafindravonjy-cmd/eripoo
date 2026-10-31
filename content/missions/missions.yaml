@@ -198,3 +198,92 @@
   example:
     fr: "« Arrêt de taxi-be : 20 minutes d'attente sous la pluie, aucun abri. » (Exemple inventé.)"
     en: "\"Minibus stop: 20 minutes waiting in the rain, no shelter.\" (Invented example.)"
+# Journey C (people who already sell).
+- id: m.talk_customers
+  title:
+    fr: "Parler à trois de tes clients"
+    en: "Talk to three of your customers"
+  objective:
+    fr: "Comprendre pourquoi tes clients achètent chez toi, et ce qu'ils aimeraient de plus."
+    en: "Understand why your customers buy from you, and what they would like more of."
+  instructions:
+    - fr: "Choisis trois clients réguliers. Demande-leur s'ils acceptent de parler cinq minutes."
+      en: "Pick three regular customers. Ask if they agree to talk for five minutes."
+    - fr: "Demande : « Raconte-moi la dernière fois que tu as acheté chez moi. Pourquoi moi ? » Puis écoute."
+      en: "Ask: \"Tell me about the last time you bought from me. Why me?\" Then listen."
+    - fr: "Demande ce qui leur manque ou ce qui les gêne. N'enregistre personne et ne note ni nom ni numéro."
+      en: "Ask what they miss or what bothers them. Don't record anyone and don't note names or numbers."
+  deliverable:
+    fr: "Pour chaque client, une phrase sur pourquoi il achète et ce qui lui manque."
+    en: "For each customer, one sentence on why they buy and what they miss."
+  duration_minutes: 60
+  difficulty: 2
+  example:
+    fr: "« Client 1 : achète le lundi car je livre ; aimerait aussi du riz. » (Exemple inventé.)"
+    en: "\"Customer 1: buys on Mondays because I deliver; would also like rice.\" (Invented example.)"
+- id: m.keep_records
+  title:
+    fr: "Noter tes ventes et tes dépenses pendant deux semaines"
+    en: "Write down your sales and costs for two weeks"
+  objective:
+    fr: "Savoir enfin ce qui entre et ce qui sort vraiment, jour après jour."
+    en: "Finally know what really comes in and goes out, day after day."
+  instructions:
+    - fr: "Chaque soir, note dans un cahier chaque vente (quoi, combien) et chaque dépense de l'activité."
+      en: "Every evening, write in a notebook each sale (what, how much) and each cost of the activity."
+    - fr: "Sépare l'argent de l'activité de l'argent de la maison, même avec deux enveloppes."
+      en: "Keep the activity's money apart from the household's, even with two envelopes."
+    - fr: "Au bout de deux semaines, fais le total des ventes et des dépenses."
+      en: "After two weeks, add up sales and costs."
+  deliverable:
+    fr: "Le total des ventes, le total des dépenses, et ce qui t'a surpris."
+    en: "Total sales, total costs, and what surprised you."
+  duration_minutes: 140
+  difficulty: 2
+  example:
+    fr: "« Ventes : 310 000 Ar. Dépenses : 240 000 Ar. Surprise : le transport me coûte plus que prévu. » (Exemple inventé.)"
+    en: "\"Sales: 310,000 Ar. Costs: 240,000 Ar. Surprise: transport costs me more than I thought.\" (Invented example.)"
+- id: m.count_stock
+  title:
+    fr: "Compter ton stock"
+    en: "Count your stock"
+  objective:
+    fr: "Voir ce que tu as vraiment en réserve, et ce qui ne part pas."
+    en: "See what you really have in store, and what doesn't sell."
+  instructions:
+    - fr: "Compte chaque produit que tu as en réserve, et note depuis quand il est là."
+      en: "Count each product you have in store, and note how long it has been there."
+    - fr: "Repère les trois produits qui te rapportent le plus d'argent."
+      en: "Spot the three products that earn you the most money."
+    - fr: "Repère ce qui n'a pas bougé depuis un mois."
+      en: "Spot what hasn't moved for a month."
+  deliverable:
+    fr: "Tes trois produits qui rapportent le plus, et ce qui dort."
+    en: "Your three top-earning products, and what sleeps."
+  duration_minutes: 60
+  difficulty: 1
+  example:
+    fr: "« Ce qui rapporte : savon, huile, riz. Ce qui dort : 12 bougies depuis deux mois. » (Exemple inventé.)"
+    en: "\"Top earners: soap, oil, rice. Sleeping: 12 candles for two months.\" (Invented example.)"
+- id: m.try_promotion
+  title:
+    fr: "Essayer une action pour attirer des clients"
+    en: "Try one action to attract customers"
+  objective:
+    fr: "Vérifier sur le terrain qu'une action t'apporte vraiment de nouveaux clients."
+    en: "Check in the field that an action really brings you new customers."
+  instructions:
+    - fr: "Choisis une seule action simple : une affiche, un message dans un groupe, une dégustation, une offre de bienvenue."
+      en: "Choose one simple action: a poster, a message in a group, a tasting, a welcome offer."
+    - fr: "Fais-la pendant une semaine, et compte chaque nouveau client qui en parle."
+      en: "Do it for a week, and count each new customer who mentions it."
+    - fr: "Ne note ni nom ni numéro : un trait par client suffit."
+      en: "Don't note names or numbers: one mark per customer is enough."
+  deliverable:
+    fr: "L'action, ce qu'elle t'a coûté, et le nombre de nouveaux clients."
+    en: "The action, what it cost you, and the number of new customers."
+  duration_minutes: 120
+  difficulty: 2
+  example:
+    fr: "« Affiche à l'épicerie, 2 000 Ar, 6 nouveaux clients en une semaine. » (Exemple inventé.)"
+    en: "\"Poster at the grocery, 2,000 Ar, 6 new customers in a week.\" (Invented example.)"

@@ -10,6 +10,7 @@ title:
 summary:
   fr: "Vérifie que des clients paient vraiment ton offre, à ton prix."
   en: "Check that customers really pay for your offer, at your price."
+applies_when: {not: {fact: diag.entry_profile, in: [existing_activity, existing_customers]}}
 available_when: {quest: q06, is: completed}
 steps:
   - id: q09.s01
