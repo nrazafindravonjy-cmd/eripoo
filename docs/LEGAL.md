@@ -22,8 +22,8 @@ Majorité : 18 ans (information du porteur) ; âge minimum choisi : 18 ans.
 
 ## À faire par le porteur avant l'ouverture au public
 
-1. **Adresse postale** de l'éditeur (loi 2015-014, art. 31) : à ajouter
-   aux deux textes.
+1. ~~Adresse postale~~ : ajoutée aux deux textes le 2026-10-31 (loi
+   2015-014, art. 31).
 2. **CMIL** : déclarer le traitement avant sa mise en œuvre (loi 2014-038,
    art. 43 et 45), sauf désignation d'un délégué à la protection des
    données (art. 52). L'article 51 prévoit que tout responsable en désigne
